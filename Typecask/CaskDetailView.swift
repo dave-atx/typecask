@@ -2,27 +2,36 @@ import SwiftUI
 
 struct CaskDetailView: View {
     let cask: Cask
-    let sampleText: String
+    let catalog: Catalog
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(sampleText)
-                    .font(.custom(cask.previewFontName, size: 40, relativeTo: .largeTitle))
-                Text(sampleText)
-                    .font(.custom(cask.previewFontName, size: 17, relativeTo: .body))
-                InstallButton(cask: cask)
+            VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 16) {
+                    CaskSpecimen(cask: cask, catalog: catalog, size: 40, relativeTo: .largeTitle, lineLimit: nil)
+                    CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil)
+                }
+                CaskActions(cask: cask)
+                if let description = cask.description {
+                    CaskDescription(markdown: description)
+                }
                 VStack(spacing: 8) {
+                    if let version = cask.version {
+                        LabeledContent("Version", value: version)
+                    }
                     LabeledContent("Fonts", value: cask.fonts, format: .number)
+                    LabeledContent("Design Style") { Text(cask.style.name) }
                     LabeledContent("Download", value: cask.bytes, format: .byteCount(style: .file))
                     LabeledContent("Installs, last 365 days", value: cask.installs, format: .number)
                 }
-                Link("Homepage", destination: cask.homepage)
                 if let license = cask.license {
                     DisclosureGroup("License") {
                         Text(license)
-                            .font(.caption.monospaced())
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
                             .textSelection(.enabled)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 8)
                     }
                 }
             }
@@ -33,49 +42,101 @@ struct CaskDetailView: View {
     }
 }
 
-private struct InstallButton: View {
+/// Google Fonts' description, which comes as paragraphs of Markdown with links.
+private struct CaskDescription: View {
+    let markdown: String
+
+    var body: some View {
+        // Inline-only parsing keeps the blank lines between paragraphs, which full parsing would merge.
+        let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+        Text((try? AttributedString(markdown: markdown, options: options)) ?? AttributedString(markdown))
+            .font(.callout)
+            .textSelection(.enabled)
+    }
+}
+
+/// Install or Uninstall, and the homepage, as glass buttons. Not in a GlassEffectContainer: inside one,
+/// the buttons dropped out of the accessibility tree once the cask was installed, Uninstall included.
+private struct CaskActions: View {
     let cask: Cask
     @Environment(FontInstaller.self) private var installer
 
     var body: some View {
-        if cask.isBundled {
-            status
-        } else {
-            // Built with scripts/build-catalog.py --fonts, which writes font assets for a few casks only.
-            // There is no On-Demand Resources tag to download, so offering Install would just fail.
+        HStack(spacing: 12) {
+            // An installed cask can be removed even when this build no longer ships it.
+            if cask.isBundled || installer.status(of: cask).isInstalled {
+                InstallControl(cask: cask)
+            }
+            Link(destination: cask.homepage) {
+                Label("Homepage", systemImage: "safari")
+            }
+            .buttonStyle(.glass)
+        }
+        if !cask.isBundled {
+            // The release left this cask's fonts out (see README), so there is no On-Demand Resources
+            // tag to download, and offering Install would just fail.
             Label("Fonts not included in this build", systemImage: "arrow.down.circle.dotted")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        if case .failed(let message) = installer.status(of: cask) {
+            Text(message)
+                .font(.footnote)
+                .foregroundStyle(.red)
+        }
     }
+}
 
-    @ViewBuilder
-    private var status: some View {
+private struct InstallControl: View {
+    let cask: Cask
+    @Environment(FontInstaller.self) private var installer
+
+    var body: some View {
         switch installer.status(of: cask) {
         case .available:
-            button("Install")
+            installButton("Install")
+        case .failed:
+            installButton("Try Again")
         case .downloading(let fractionCompleted):
             ProgressView("Downloading…", value: fractionCompleted)
+                .frame(maxWidth: 220)
         case .installing:
             ProgressView("Installing…")
+        case .uninstalling:
+            ProgressView("Uninstalling…")
+        case .updating:
+            ProgressView("Updating…")
+        case .updateAvailable:
+            Button("Update", systemImage: "arrow.down.circle") {
+                Task { await installer.update(cask) }
+            }
+            .buttonStyle(.glassProminent)
+            .disabled(!cask.isBundled)
+            .accessibilityIdentifier("update")
+            uninstallButton
+        case .builtIn:
+            Label("Built into iOS", systemImage: "checkmark.seal")
+                .foregroundStyle(.secondary)
         case .installed:
             Label("Installed", systemImage: "checkmark.circle.fill")
                 .foregroundStyle(.green)
-        case .failed(let message):
-            VStack(alignment: .leading) {
-                button("Try Again")
-                Text(message)
-                    .font(.footnote)
-                    .foregroundStyle(.red)
-            }
+            uninstallButton
         }
     }
 
-    private func button(_ title: LocalizedStringKey) -> some View {
-        Button(title) {
+    private var uninstallButton: some View {
+        Button("Uninstall", systemImage: "trash", role: .destructive) {
+            Task { await installer.uninstall(cask) }
+        }
+        .buttonStyle(.glass)
+        .accessibilityIdentifier("uninstall")
+    }
+
+    private func installButton(_ title: LocalizedStringKey) -> some View {
+        Button(title, systemImage: "arrow.down.circle") {
             Task { await installer.install(cask) }
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(.glassProminent)
         .accessibilityIdentifier("install")
     }
 }

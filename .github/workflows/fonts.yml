@@ -1,0 +1,205 @@
+# Builds the fonts a release ships, tries them in the simulator, and publishes them for review.
+#
+# build    re-resolves the line-up into fonts.lock.json (unless told not to), then builds the catalog,
+#          previews, licences and Fonts.xcassets from it. Each cask's build is cached by its locked
+#          source, so a run only downloads and subsets the casks that changed.
+# verify   installs a spread of casks from the new fonts in the iOS simulator, and uninstalls and
+#          updates them, before anything is published.
+# publish  attaches the archive to a GitHub release, writes the pin to Typecask/FontsAsset.json, and
+#          opens a pull request with everything the build regenerated. Merging it is the release.
+name: Fonts
+
+on:
+  workflow_dispatch:
+    inputs:
+      lock:
+        description: Re-resolve the line-up and its sources before building
+        type: boolean
+        default: true
+      publish:
+        description: Publish a release and open a pull request once verified
+        type: boolean
+        default: true
+  schedule:
+    # Mondays, after Homebrew's weekly analytics and most google/fonts merges have landed.
+    - cron: "0 9 * * 1"
+  # Temporary, to try the workflow before it's on the default branch, which workflow_dispatch needs.
+  # Locks, builds and verifies, but doesn't publish. Remove before merging.
+  push:
+    branches: [fonts-pipeline]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fonts
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 300
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - id: tag
+        run: echo "tag=fonts-$(date -u +%Y%m%d)-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      # The runner's root disk has about 14 GB free; its temporary disk has several times that. The
+      # cache, clone, built casks and archive all live under .cache, so it goes there.
+      - name: Put .cache on the larger disk
+        run: |
+          sudo mkdir -p /mnt/typecask
+          sudo chown "$USER" /mnt/typecask
+          ln -s /mnt/typecask .cache
+
+      - name: Install 7-Zip
+        run: sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends p7zip-full
+
+      - uses: astral-sh/setup-uv@v10
+
+      - name: Lock
+        if: github.event_name != 'workflow_dispatch' || inputs.lock
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: uv run --script scripts/build-catalog.py lock
+
+      # Keyed by the lock and the build script; a miss falls back to the newest cache, whose casks
+      # are reused wherever their locked source is unchanged.
+      - name: Restore built casks
+        id: cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .cache/built
+          key: built-${{ hashFiles('fonts.lock.json', 'scripts/build-catalog.py') }}
+          restore-keys: built-
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: scripts/publish-fonts.sh build "${{ steps.tag.outputs.tag }}"
+
+      - name: Save built casks
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: .cache/built
+          key: built-${{ hashFiles('fonts.lock.json', 'scripts/build-catalog.py') }}
+
+      - name: Check the archive against the catalog
+        run: |
+          tar --zstd -tf ".cache/${{ steps.tag.outputs.tag }}.tar.zst" | awk -F/ 'NF > 2 { print $2 }' | sort -u > groups.txt
+          python3 - <<'PY'
+          import json, pathlib, sys
+          catalog = json.loads(pathlib.Path("Typecask/Catalog.json").read_text())
+          expected = {cask["token"] for cask in catalog["casks"] if cask["assets"]}
+          found = set(pathlib.Path("groups.txt").read_text().split())
+          if expected != found:
+              sys.exit(f"archive and Catalog.json disagree: {sorted(expected ^ found)[:20]}")
+          print(f"{len(found)} casks of fonts, matching Catalog.json")
+          PY
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: fonts
+          retention-days: 7
+          # The archive and its manifest are under .cache, which is hidden.
+          include-hidden-files: true
+          # The archive is already zstd; zipping it again only costs time.
+          compression-level: 0
+          path: |
+            fonts.lock.json
+            Typecask/Catalog.json
+            Typecask/AppleFonts.json
+            Typecask/Previews/
+            Typecask/Licenses/
+            .cache/${{ steps.tag.outputs.tag }}.tar.zst
+            .cache/${{ steps.tag.outputs.tag }}.assets.json
+
+  verify:
+    needs: build
+    runs-on: xcode-27
+    timeout-minutes: 90
+    env:
+      TAG: ${{ needs.build.outputs.tag }}
+      DESTINATION: platform=iOS Simulator,name=iPad Pro 11-inch (M5)
+      # One of each kind: a google/fonts family, a Nerd Font from a GitHub release, a CJK family, and
+      # a coding font. The uninstall and update tests take the last two.
+      INSTALL: font-roboto font-jetbrains-mono-nerd-font font-noto-sans-cjk-sc font-fira-code
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: fonts
+
+      # A whole line-up is several GB once Xcode has copied it into the app twice, more than the
+      # runner has to spare, so the test build carries only the casks the tests install. The full
+      # archive was checked against the catalog in the build job.
+      - name: Unpack the casks under test
+        run: |
+          groups=""
+          for token in $INSTALL; do groups="$groups Fonts.xcassets/$token"; done
+          # shellcheck disable=SC2086 -- a deliberately word-split list of paths.
+          tar --zstd -xf ".cache/$TAG.tar.zst" -C Typecask Fonts.xcassets/Contents.json $groups
+
+      - name: Build for testing
+        run: |
+          xcodebuild build-for-testing -project Typecask.xcodeproj -scheme Typecask \
+            -destination "$DESTINATION" -derivedDataPath DerivedData | tail -5
+
+      - name: Install, uninstall and update
+        run: |
+          run_test() {
+            TEST_RUNNER_TYPECASK_CASK="$2" xcodebuild test-without-building -project Typecask.xcodeproj \
+              -scheme Typecask -destination "$DESTINATION" -derivedDataPath DerivedData \
+              -only-testing:"TypecaskUITests/InstallTests/$1" > "test-$1-$2.log" 2>&1 \
+              && echo "passed: $1 $2" || { echo "FAILED: $1 $2"; tail -40 "test-$1-$2.log"; return 1; }
+          }
+          status=0
+          for token in $INSTALL; do
+            run_test testInstalledCaskStaysInstalledAfterRelaunch "$token" || status=1
+          done
+          run_test testUninstalledCaskStaysUninstalledAfterRelaunch font-fira-code || status=1
+          run_test testOutdatedCaskUpdates font-noto-sans-cjk-sc || status=1
+          run_test testCaskBuiltIntoIOSOffersNoInstall font-noto-sans-armenian || status=1
+          exit $status
+
+  publish:
+    needs: [build, verify]
+    if: github.event_name == 'schedule' || inputs.publish
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      TAG: ${{ needs.build.outputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: fonts
+
+      - name: Release the archive and write the pin
+        run: scripts/publish-fonts.sh upload "$TAG"
+
+      - name: Open a pull request
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Not named after the tag the release created, which would make the name ambiguous to git.
+          git switch -c "update-fonts/$TAG"
+          git add fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
+            Typecask/Licenses Typecask/FontsAsset.json
+          git commit -q -m "Update fonts to $TAG"
+          git push -q origin "update-fonts/$TAG"
+          gh pr create --title "Update fonts to $TAG" --body "$(cat <<EOF
+          Built and verified by [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID).
+          The archive is attached to the [$TAG release]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$TAG)
+          and pinned in Typecask/FontsAsset.json. Merge to ship it in the next TestFlight build.
+          EOF
+          )"

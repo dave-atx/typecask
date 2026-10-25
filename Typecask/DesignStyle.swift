@@ -1,7 +1,8 @@
 import Foundation
 
-/// How a cask's primary face is drawn, classified from PANOSE and the OS/2 family class by
-/// scripts/build-catalog.py. Drives the sidebar's collections, like Font Book's.
+/// How a font is drawn: from Google's category for Google Fonts families, and otherwise classified from
+/// PANOSE and the OS/2 family class by scripts/build-catalog.py. Drives the sidebar's collections, like
+/// Font Book's.
 enum DesignStyle: String, CaseIterable, Hashable, Sendable {
     case monospaced
     case serif
@@ -43,11 +44,44 @@ extension DesignStyle: Decodable {
 /// selected", so an All Fonts row tagged `nil` can never become the selection.
 enum FontCollection: Hashable, Identifiable, Sendable {
     case allFonts
+    /// Casks this app has installed.
+    case installed
     case style(DesignStyle)
+    /// Casks patched with Nerd Fonts' icons.
+    case nerdFonts
+    /// Apple's built-in and downloadable fonts rather than casks.
+    case appleFonts
 
     var id: Self { self }
 
-    var style: DesignStyle? {
-        if case .style(let style) = self { style } else { nil }
+    var name: LocalizedStringResource {
+        switch self {
+        case .allFonts: "All Fonts"
+        case .installed: "Installed"
+        case .style(let style): style.name
+        case .nerdFonts: "Nerd Fonts"
+        case .appleFonts: "Apple Fonts"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .allFonts: "square.grid.2x2"
+        case .installed: "checkmark.circle"
+        case .style(let style): style.symbol
+        case .nerdFonts: "terminal"
+        case .appleFonts: "applelogo"
+        }
+    }
+
+    func contains(_ item: GalleryItem, installed: Set<Cask.ID>) -> Bool {
+        switch (self, item) {
+        case (.allFonts, _): true
+        case (.style(let style), _): item.style == style
+        case (.installed, .cask(let cask)): installed.contains(cask.id)
+        case (.nerdFonts, .cask(let cask)): cask.glyphs
+        case (.appleFonts, .apple): true
+        default: false
+        }
     }
 }

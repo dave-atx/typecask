@@ -3,9 +3,9 @@ import Observation
 
 /// Owns the gallery's browsing state and the filtered list it produces.
 ///
-/// `visibleCasks` is recomputed only when the search text or the collection changes, so a body
-/// evaluation triggered by anything else — an install finishing, a rotation, a split-view resize —
-/// just reads a prepared array.
+/// `visibleItems` is recomputed only when the search text, the collection or the installed casks
+/// change, so a body evaluation triggered by anything else — an install's progress, a rotation, a
+/// split-view resize — just reads a prepared array.
 @MainActor
 @Observable
 final class GalleryModel {
@@ -15,8 +15,9 @@ final class GalleryModel {
     }
 
     let catalog: Catalog
-    /// The styles present in this catalog, in `DesignStyle`'s own order, with how many casks each holds.
-    let collections: [(style: DesignStyle, count: Int)]
+    /// The styles present in the gallery, in `DesignStyle`'s own order, with how many fonts each holds.
+    let styles: [(style: DesignStyle, count: Int)]
+    let nerdFontCount: Int
 
     var searchText: String = "" {
         didSet { if searchText != oldValue { recompute() } }
@@ -33,32 +34,50 @@ final class GalleryModel {
         set { collection = newValue ?? .allFonts }
     }
 
+    /// Mirrors FontInstaller's, which the gallery view passes in as it changes.
+    var installed: Set<Cask.ID> = [] {
+        didSet { if installed != oldValue && collection == .installed { recompute() } }
+    }
+
     var viewMode: ViewMode = .grid
 
-    private(set) var visibleCasks: [Cask] = []
+    private(set) var visibleItems: [GalleryItem] = []
 
-    private let sortedCasks: [Cask]
+    private let sortedItems: [GalleryItem]
 
     init(catalog: Catalog) {
         self.catalog = catalog
-        let counts = Dictionary(grouping: catalog.casks, by: \.style).mapValues(\.count)
-        collections = DesignStyle.allCases.compactMap { style in
+        let items = catalog.casks.map(GalleryItem.cask) + catalog.appleFonts.map(GalleryItem.apple)
+        let counts = Dictionary(grouping: items, by: \.style).mapValues(\.count)
+        styles = DesignStyle.allCases.compactMap { style in
             counts[style].map { (style, $0) }
         }
+        nerdFontCount = catalog.casks.count(where: \.glyphs)
         // Sorted once here, so every later filter preserves the order instead of re-sorting.
-        sortedCasks = catalog.casks.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-        visibleCasks = sortedCasks
+        sortedItems = items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        visibleItems = sortedItems
+    }
+
+    func count(of collection: FontCollection) -> Int {
+        switch collection {
+        case .allFonts: sortedItems.count
+        case .installed: installed.count
+        case .style(let style): styles.first { $0.style == style }?.count ?? 0
+        case .nerdFonts: nerdFontCount
+        case .appleFonts: catalog.appleFonts.count
+        }
     }
 
     private func recompute() {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        let style = collection.style
-        visibleCasks = sortedCasks.filter { cask in
-            guard style == nil || cask.style == style else { return false }
+        visibleItems = sortedItems.filter { item in
+            guard collection.contains(item, installed: installed) else { return false }
             guard !query.isEmpty else { return true }
-            // The token is worth matching too: it is what the Homebrew user already knows the cask by.
-            return cask.name.localizedCaseInsensitiveContains(query)
-                || cask.token.localizedCaseInsensitiveContains(query)
+            // A cask's token is worth matching too: it is what a Homebrew user already knows it by.
+            if case .cask(let cask) = item, cask.token.localizedCaseInsensitiveContains(query) {
+                return true
+            }
+            return item.name.localizedCaseInsensitiveContains(query)
         }
     }
 }

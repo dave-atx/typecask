@@ -1,9 +1,10 @@
 import SwiftUI
 
-/// The gallery. On iPad the style collections live in a sidebar, as in Font Book; where the layout is
+/// The gallery. On iPad the collections live in a sidebar, as in Font Book; where the layout is
 /// compact they move into a toolbar menu so the fonts themselves stay the root view.
 struct GalleryView: View {
     @State private var model: GalleryModel
+    @Environment(FontInstaller.self) private var installer
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     init(catalog: Catalog) {
@@ -13,82 +14,106 @@ struct GalleryView: View {
     var body: some View {
         // Both branches read the same model, so switching between them — rotating, resizing a Split View
         // — keeps the search text, the collection and the view mode.
-        if horizontalSizeClass == .regular {
-            NavigationSplitView {
-                StyleSidebar(model: model)
-            } detail: {
+        Group {
+            if horizontalSizeClass == .regular {
+                NavigationSplitView {
+                    CollectionSidebar(model: model)
+                } detail: {
+                    NavigationStack {
+                        GalleryBrowser(model: model, showsCollectionMenu: false)
+                    }
+                }
+            } else {
                 NavigationStack {
-                    CaskBrowser(model: model, showsStyleMenu: false)
+                    GalleryBrowser(model: model, showsCollectionMenu: true)
                 }
             }
-        } else {
-            NavigationStack {
-                CaskBrowser(model: model, showsStyleMenu: true)
-            }
+        }
+        .onChange(of: installer.installed, initial: true) { _, installed in
+            model.installed = installed
         }
     }
 }
 
-/// Font Book's collections: All Fonts, then one row per style present in the catalog.
-private struct StyleSidebar: View {
+/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts and Apple's.
+private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
 
     var body: some View {
         List(selection: $model.selectedCollection) {
-            Label("All Fonts", systemImage: "square.grid.2x2")
-                .badge(model.catalog.casks.count)
-                .tag(FontCollection.allFonts)
+            row(.allFonts)
+            row(.installed)
             Section("Design Style") {
-                ForEach(model.collections, id: \.style) { collection in
-                    Label {
-                        Text(collection.style.name)
-                    } icon: {
-                        Image(systemName: collection.style.symbol)
-                    }
-                    .badge(collection.count)
-                    .tag(FontCollection.style(collection.style))
+                ForEach(model.styles, id: \.style) { entry in
+                    row(.style(entry.style))
                 }
+            }
+            Section("Collections") {
+                row(.nerdFonts)
+                row(.appleFonts)
             }
         }
         .navigationTitle("Typecask")
     }
+
+    private func row(_ collection: FontCollection) -> some View {
+        Label {
+            Text(collection.name)
+        } icon: {
+            Image(systemName: collection.symbol)
+        }
+        .badge(model.count(of: collection))
+        .tag(collection)
+    }
 }
 
-private struct CaskBrowser: View {
+private struct GalleryBrowser: View {
     @Bindable var model: GalleryModel
-    let showsStyleMenu: Bool
+    let showsCollectionMenu: Bool
 
     var body: some View {
         ScrollView {
-            if model.visibleCasks.isEmpty {
-                ContentUnavailableView.search(text: model.searchText)
-                    .padding(.top, 60)
+            if model.visibleItems.isEmpty {
+                if model.searchText.isEmpty {
+                    ContentUnavailableView("No Fonts", systemImage: model.collection.symbol,
+                                           description: Text(emptyDescription))
+                        .padding(.top, 60)
+                } else {
+                    ContentUnavailableView.search(text: model.searchText)
+                        .padding(.top, 60)
+                }
             } else if model.viewMode == .grid {
-                CaskGrid(casks: model.visibleCasks, sampleText: model.catalog.sampleText)
+                GalleryGrid(items: model.visibleItems, catalog: model.catalog)
             } else {
-                CaskSampleList(casks: model.visibleCasks, sampleText: model.catalog.sampleText)
+                GallerySampleList(items: model.visibleItems, catalog: model.catalog)
             }
         }
-        .navigationTitle(title)
+        .navigationTitle(Text(model.collection.name))
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $model.searchText, prompt: Text("Search Fonts"))
         .toolbar {
-            if showsStyleMenu {
+            if showsCollectionMenu {
                 ToolbarItem(placement: .topBarLeading) {
-                    StyleMenu(model: model)
+                    CollectionMenu(model: model)
                 }
             }
             ToolbarItem(placement: .primaryAction) {
                 ViewModePicker(model: model)
             }
+            .visibilityPriority(.high)
         }
-        .navigationDestination(for: Cask.self) { cask in
-            CaskDetailView(cask: cask, sampleText: model.catalog.sampleText)
+        .navigationDestination(for: GalleryItem.self) { item in
+            switch item {
+            case .cask(let cask):
+                CaskDetailView(cask: cask, catalog: model.catalog)
+            case .apple(let family):
+                AppleFontDetailView(family: family, sampleText: model.catalog.sampleText)
+            }
         }
     }
 
-    private var title: Text {
-        model.collection.style.map { Text($0.name) } ?? Text("All Fonts")
+    private var emptyDescription: LocalizedStringKey {
+        model.collection == .installed ? "Fonts you install appear here." : "Nothing in this collection."
     }
 }
 
@@ -109,19 +134,26 @@ private struct ViewModePicker: View {
 }
 
 /// The compact-width stand-in for the sidebar.
-private struct StyleMenu: View {
+private struct CollectionMenu: View {
     @Bindable var model: GalleryModel
 
     var body: some View {
         Menu {
-            Picker("Design Style", selection: $model.collection) {
-                Text("All Fonts").tag(FontCollection.allFonts)
-                ForEach(model.collections, id: \.style) { collection in
-                    Text(collection.style.name).tag(FontCollection.style(collection.style))
+            Picker("Collection", selection: $model.collection) {
+                Text(FontCollection.allFonts.name).tag(FontCollection.allFonts)
+                Text(FontCollection.installed.name).tag(FontCollection.installed)
+                Section("Design Style") {
+                    ForEach(model.styles, id: \.style) { entry in
+                        Text(entry.style.name).tag(FontCollection.style(entry.style))
+                    }
+                }
+                Section("Collections") {
+                    Text(FontCollection.nerdFonts.name).tag(FontCollection.nerdFonts)
+                    Text(FontCollection.appleFonts.name).tag(FontCollection.appleFonts)
                 }
             }
         } label: {
-            Label("Design Style", systemImage: model.collection == .allFonts
+            Label("Collection", systemImage: model.collection == .allFonts
                 ? "line.3.horizontal.decrease.circle"
                 : "line.3.horizontal.decrease.circle.fill")
         }

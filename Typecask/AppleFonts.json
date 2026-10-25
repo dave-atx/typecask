@@ -1,0 +1,3329 @@
+[
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Academy Engraved LET",
+    "previewFace": "AcademyEngravedLetPlain",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 7,
+    "name": "Adelle Sans Devanagari",
+    "previewFace": "AdelleSansDevanagari-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-adelle-sans-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "AkayaKanadaka",
+    "previewFace": "AkayaKanadaka-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-akayakanadaka.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "AkayaTelivigala",
+    "previewFace": "AkayaTelivigala-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-akayatelivigala.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Al Bayan",
+    "preview": "ApplePreview-Al-Bayan",
+    "previewFace": "AlBayan",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Al Firat",
+    "preview": "ApplePreview-Al-Firat",
+    "previewFace": "Al-Firat",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Al Khalil",
+    "preview": "ApplePreview-Al-Khalil",
+    "previewFace": "Al-Khalil",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Al Nile",
+    "previewFace": "AlNile",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Al Rafidain",
+    "preview": "ApplePreview-Al-Rafidain",
+    "previewFace": "Al-Rafidain",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Al Rafidain Al Fanni",
+    "preview": "ApplePreview-Al-Rafidain-Al-Fanni",
+    "previewFace": "AlRafidainAlFanni",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Al Tarikh",
+    "preview": "ApplePreview-Al-Tarikh",
+    "previewFace": "AlTarikh",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Algiers",
+    "preview": "ApplePreview-Algiers",
+    "previewFace": "Algiers",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 7,
+    "name": "American Typewriter",
+    "previewFace": "AmericanTypewriter",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Andale Mono",
+    "previewFace": "AndaleMono",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-andale-mono.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Annai MN",
+    "previewFace": "AnnaiMN-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-annai-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Apple Braille",
+    "previewFace": "AppleBraille",
+    "sample": "⠃⠗⠁⠊⠇⠇⠑",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-apple-braille.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Apple Chancery",
+    "previewFace": "Apple-Chancery",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-apple-chancery.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Apple Color Emoji",
+    "previewFace": "AppleColorEmoji",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Apple LiGothic",
+    "previewFace": "LiGothicMed",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-apple-ligothic.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Apple LiSung",
+    "previewFace": "LiSungLight",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-apple-lisung.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Apple SD Gothic Neo",
+    "previewFace": "AppleSDGothicNeo-Heavy",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-apple-sd-gothic-neo.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Apple Symbols",
+    "previewFace": "AppleSymbols",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "AppleMyungjo",
+    "preview": "ApplePreview-AppleMyungjo",
+    "previewFace": "AppleMyungjo",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Arial",
+    "previewFace": "ArialMT",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Arial Black",
+    "previewFace": "Arial-Black",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arial-black.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Arial Hebrew",
+    "previewFace": "ArialHebrew",
+    "sample": "דג סקרן שט בים מאוכזב",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Arial Hebrew Scholar",
+    "previewFace": "ArialHebrewScholar",
+    "sample": "דג סקרן שט בים מאוכזב",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arial-hebrew-scholar.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Arial Narrow",
+    "previewFace": "ArialNarrow",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arial-narrow.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Arial Rounded MT Bold",
+    "previewFace": "ArialRoundedMTBold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Arial Unicode MS",
+    "previewFace": "ArialUnicodeMS",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arial-unicode-ms.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "Arima Koshi",
+    "previewFace": "ArimaKoshi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arima-koshi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "Arima Madurai",
+    "previewFace": "ArimaMadurai-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-arima-madurai.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 12,
+    "name": "Avenir",
+    "previewFace": "Avenir-Book",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 12,
+    "name": "Avenir Next",
+    "previewFace": "AvenirNext-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 12,
+    "name": "Avenir Next Condensed",
+    "previewFace": "AvenirNextCondensed-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Ayuthaya",
+    "preview": "ApplePreview-Ayuthaya",
+    "previewFace": "Ayuthaya",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Baghdad",
+    "preview": "ApplePreview-Baghdad",
+    "previewFace": "Baghdad",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Bai Jamjuree",
+    "previewFace": "BaiJamjuree-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bai-jamjuree.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo 2",
+    "previewFace": "Baloo2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Bhai 2",
+    "previewFace": "BalooBhai2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-bhai-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Baloo Bhaijaan",
+    "previewFace": "BalooBhaijaan-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-bhaijaan.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Bhaina 2",
+    "previewFace": "BalooBhaina2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-bhaina-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Chettan 2",
+    "previewFace": "BalooChettan2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-chettan-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Da 2",
+    "previewFace": "BalooDa2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-da-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Paaji 2",
+    "previewFace": "BalooPaaji2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-paaji-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Tamma 2",
+    "previewFace": "BalooTamma2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-tamma-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Tammudu 2",
+    "previewFace": "BalooTammudu2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-tammudu-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Baloo Thambi 2",
+    "previewFace": "BalooThambi2-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-baloo-thambi-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Bangla MN",
+    "previewFace": "BanglaMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bangla-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Bangla Sangam MN",
+    "previewFace": "BanglaSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bangla-sangam-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Bank Gothic",
+    "previewFace": "BankGothic-Light",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bank-gothic.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Baoli SC",
+    "previewFace": "STBaoliSC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-baoli-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Baoli TC",
+    "previewFace": "STBaoliTC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-baoli-tc.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 6,
+    "name": "Baskerville",
+    "previewFace": "Baskerville",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Basra",
+    "preview": "ApplePreview-Basra",
+    "previewFace": "Basra",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Beirut",
+    "preview": "ApplePreview-Beirut",
+    "previewFace": "Beirut",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BiauKaiHK",
+    "previewFace": "BiauKaiHK-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-biaukaihk.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BiauKaiTC",
+    "previewFace": "BiauKaiTC-Regular",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-biaukaitc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Big Caslon",
+    "previewFace": "BigCaslon-Medium",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-big-caslon.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "BIZ UDGothic",
+    "previewFace": "BIZUDGothic-Regular",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-biz-udgothic.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BIZ UDMincho",
+    "previewFace": "BIZUDMincho-Regular",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-biz-udmincho.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Blackmoor LET",
+    "previewFace": "BlackmoorLetPlain",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-blackmoor-let.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BlairMdITC TT",
+    "previewFace": "BlairMdITCTT-Medium",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-blairmditc-tt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Dohyeon",
+    "previewFace": "BMDoHyeon-OTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-dohyeon.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Hanna 11yrs Old",
+    "previewFace": "BMHANNA11yrsoldOTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-hanna-11yrs-old.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Hanna Air",
+    "previewFace": "BMHANNAAirOTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-hanna-air.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Hanna Pro",
+    "previewFace": "BMHANNAProOTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-hanna-pro.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Jua",
+    "previewFace": "BMJUAOTF",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-bm-jua.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Kirang Haerang",
+    "previewFace": "BMKIRANGHAERANG-OTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-kirang-haerang.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "BM Yeonsung",
+    "previewFace": "BMYEONSUNG-OTF",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-bm-yeonsung.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Bodoni 72",
+    "previewFace": "BodoniSvtyTwoITCTT-Book",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Bodoni 72 Oldstyle",
+    "previewFace": "BodoniSvtyTwoOSITCTT-Bold",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Bodoni 72 Smallcaps",
+    "previewFace": "BodoniSvtyTwoSCITCTT-Book",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Bodoni Ornaments",
+    "previewFace": "BodoniOrnamentsITCTT",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Bodoni Ornaments ITC TT",
+    "preview": "ApplePreview-Bodoni-Ornaments-ITC-TT",
+    "previewFace": "BodoniOrnamentsITCTT",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Bodoni SvtyTwo ITC TT",
+    "preview": "ApplePreview-Bodoni-SvtyTwo-ITC-TT",
+    "previewFace": "BodoniSvtyTwoITCTT-Book",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Bodoni SvtyTwo OS ITC TT",
+    "preview": "ApplePreview-Bodoni-SvtyTwo-OS-ITC-TT",
+    "previewFace": "BodoniSvtyTwoOSITCTT-Book",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Bodoni SvtyTwo SC ITC TT",
+    "preview": "ApplePreview-Bodoni-SvtyTwo-SC-ITC-TT",
+    "previewFace": "BodoniSvtyTwoSCITCTT-Book",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Book Antiqua",
+    "previewFace": "BookAntiqua",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-book-antiqua.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Bookman Old Style",
+    "previewFace": "BookmanOldStyle",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-bookman-old-style.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Bordeaux Roman Bold LET",
+    "previewFace": "BordeauxRomanBoldLetPlain",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-bordeaux-roman-bold-let.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Bradley Hand",
+    "previewFace": "BradleyHandITCTT-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Braganza",
+    "previewFace": "BraganzaITCTT",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-braganza.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "Brill",
+    "preview": "ApplePreview-Brill",
+    "previewFace": "Brill-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Brush Script MT",
+    "preview": "ApplePreview-Brush-Script-MT",
+    "previewFace": "BrushScriptMT",
+    "style": "handwriting"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Cambay Devanagari",
+    "previewFace": "CambayDevanagari-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-cambay-devanagari.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Canela",
+    "previewFace": "Canela-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-canela.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Canela Deck",
+    "previewFace": "CanelaDeck-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-canela-deck.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Canela Text",
+    "previewFace": "CanelaText-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-canela-text.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Capitals",
+    "previewFace": "CapitalsRegular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-capitals.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "Catamaran",
+    "previewFace": "Catamaran-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-catamaran.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Century Gothic",
+    "previewFace": "CenturyGothic",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-century-gothic.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Century Schoolbook",
+    "previewFace": "CenturySchoolbook",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-century-schoolbook.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Chakra Petch",
+    "previewFace": "ChakraPetch-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-chakra-petch.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Chalkboard",
+    "previewFace": "Chalkboard",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-chalkboard.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Chalkboard SE",
+    "previewFace": "ChalkboardSE-Regular",
+    "style": "handwriting"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Chalkduster",
+    "previewFace": "Chalkduster",
+    "style": "handwriting"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Charcoal CY",
+    "previewFace": "CharcoalCY",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-charcoal-cy.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Charm",
+    "previewFace": "Charm-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-charm.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Charmonman",
+    "previewFace": "Charmonman-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-charmonman.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 6,
+    "name": "Charter",
+    "previewFace": "Charter-Bold",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Cochin",
+    "previewFace": "Cochin",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Comic Sans MS",
+    "previewFace": "ComicSansMS",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-comic-sans-ms.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Copperplate",
+    "previewFace": "Copperplate",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Corsiva Hebrew",
+    "preview": "ApplePreview-Corsiva-Hebrew",
+    "previewFace": "CorsivaHebrew",
+    "sample": "דג סקרן שט בים מאוכזב",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Courier New",
+    "previewFace": "CourierNewPSMT",
+    "style": "monospaced"
+  },
+  {
+    "builtIn": true,
+    "faces": 5,
+    "name": "Damascus",
+    "previewFace": "Damascus",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Dash",
+    "previewFace": "Dash-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-dash.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Dear Joe Four",
+    "previewFace": "DearJoeFour-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-dear-joe-four.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "DecoType Naskh",
+    "preview": "ApplePreview-DecoType-Naskh",
+    "previewFace": "DecoTypeNaskh",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Devanagari MT",
+    "preview": "ApplePreview-Devanagari-MT",
+    "previewFace": "DevanagariMT",
+    "sample": "नमस्ते दुनिया",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Devanagari Sangam MN",
+    "previewFace": "DevanagariSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Didot",
+    "previewFace": "Didot",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Dijla",
+    "preview": "ApplePreview-Dijla",
+    "previewFace": "Dijla",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "DIN Alternate",
+    "previewFace": "DINAlternate-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "DIN Condensed",
+    "previewFace": "DINCondensed-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Diwan Kufi",
+    "preview": "ApplePreview-Diwan-Kufi",
+    "previewFace": "DiwanKufi",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Diwan Thuluth",
+    "preview": "ApplePreview-Diwan-Thuluth",
+    "previewFace": "DiwanThuluth",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Domaine Display",
+    "previewFace": "DomaineDisplay-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-domaine-display.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Euphemia UCAS",
+    "previewFace": "EuphemiaUCAS",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Fahkwang",
+    "previewFace": "Fahkwang-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-fahkwang.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Farah",
+    "previewFace": "Farah",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Farisi",
+    "preview": "ApplePreview-Farisi",
+    "previewFace": "Farisi",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Forgotten Futurist",
+    "previewFace": "ForgottenFuturist-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-forgotten-futurist.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 10,
+    "name": "Founders Grotesk",
+    "previewFace": "FoundersGrotesk-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-founders-grotesk.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Founders Grotesk Condensed",
+    "previewFace": "FoundersGroteskCond-Reg",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-founders-grotesk-condensed.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Founders Grotesk Text",
+    "previewFace": "FoundersGroteskText-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-founders-grotesk-text.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 5,
+    "name": "Futura",
+    "previewFace": "Futura-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Galvji",
+    "previewFace": "Galvji-Oblique",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-galvji.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Garamond",
+    "previewFace": "Garamond",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-garamond.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Geeza Pro",
+    "previewFace": "GeezaPro",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Geneva",
+    "previewFace": "Geneva",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-geneva.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Geneva CY",
+    "previewFace": "GenevaCyr",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-geneva-cy.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Georgia",
+    "previewFace": "Georgia",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 9,
+    "name": "Gill Sans",
+    "previewFace": "GillSans",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Gotu",
+    "previewFace": "Gotu",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-gotu.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Grantha Sangam MN",
+    "previewFace": "GranthaSangamMN-Black",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-grantha-sangam-mn.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 10,
+    "name": "Graphik",
+    "previewFace": "Graphik-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-graphik.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "Graphik Compact",
+    "previewFace": "GraphikCompact-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-graphik-compact.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Gujarati MT",
+    "preview": "ApplePreview-Gujarati-MT",
+    "previewFace": "GujaratiMT",
+    "sample": "ગુજરાતી લિપિ",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Gujarati Sangam MN",
+    "previewFace": "GujaratiSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-gujarati-sangam-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "GungSeo",
+    "previewFace": "JCkg",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-gungseo.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Gurmukhi MN",
+    "previewFace": "GurmukhiMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-gurmukhi-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Gurmukhi MT",
+    "preview": "ApplePreview-Gurmukhi-MT",
+    "previewFace": "MonotypeGurmukhi",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Gurmukhi Sangam MN",
+    "previewFace": "GurmukhiSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-gurmukhi-sangam-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Hannotate SC",
+    "previewFace": "HannotateSC-W5",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-hannotate-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Hannotate TC",
+    "previewFace": "HannotateTC-W5",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-hannotate-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "HanziPen SC",
+    "previewFace": "HanziPenSC-W3",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-hanzipen-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "HanziPen TC",
+    "previewFace": "HanziPenTC-W3",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-hanzipen-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "HeadLineA",
+    "previewFace": "JCHEadA",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-headlinea.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Hei",
+    "previewFace": "SIL-Hei-Med-Jian",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hei.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Heiti SC",
+    "previewFace": "STHeitiSC-Light",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-heiti-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Heiti TC",
+    "previewFace": "STHeitiTC-Light",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-heiti-tc.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 6,
+    "name": "Helvetica",
+    "previewFace": "Helvetica",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Helvetica CY",
+    "previewFace": "HelveticaCY-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-helvetica-cy.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 14,
+    "name": "Helvetica Neue",
+    "previewFace": "HelveticaNeue",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Herculanum",
+    "previewFace": "Herculanum",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-herculanum.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Hiragino Maru Gothic ProN",
+    "previewFace": "HiraMaruProN-W4",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Hiragino Mincho ProN",
+    "previewFace": "HiraMinProN-W3",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Hiragino Sans",
+    "preview": "ApplePreview-Hiragino-Sans",
+    "previewFace": "HiraginoSans-W4",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Hiragino Sans GB",
+    "previewFace": "HiraginoSansGB-W3",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hiragino-sans-gb.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Hiragino Sans TC",
+    "previewFace": "HiraginoSansTC-W3",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hiragino-sans-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Hoefler Text",
+    "previewFace": "HoeflerText-Ornaments",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hoefler-text.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Hopper Script",
+    "previewFace": "HopperScript-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hopper-script.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Hubballi",
+    "previewFace": "Hubballi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-hubballi.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Impact",
+    "previewFace": "Impact",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "InaiMathi",
+    "previewFace": "InaiMathi",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-inaimathi.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Iowan Old Style",
+    "previewFace": "IowanOldStyle-Black",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-iowan-old-style.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "ITF Devanagari",
+    "previewFace": "ITFDevanagari-Book",
+    "sample": "नमस्ते दुनिया",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-itf-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "ITF Devanagari Marathi",
+    "previewFace": "ITFDevanagariMarathi-Book",
+    "sample": "नमस्ते दुनिया",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-itf-devanagari-marathi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Jaini",
+    "previewFace": "Jaini",
+    "sample": "नमस्ते दुनिया",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-jaini.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Jaini Purva",
+    "previewFace": "JainiPurva",
+    "sample": "नमस्ते दुनिया",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-jaini-purva.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Jazz LET",
+    "previewFace": "JazzLetPlain",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-jazz-let.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 16,
+    "name": "K2D",
+    "previewFace": "K2D-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-k2d.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Kai",
+    "previewFace": "SIL-Kai-Reg-Jian",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-kai.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Kailasa",
+    "previewFace": "Kailasa",
+    "sample": "བོད་ཡིག",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Kaiti SC",
+    "previewFace": "STKaitiSC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-kaiti-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Kaiti TC",
+    "previewFace": "STKaitiTC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-kaiti-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kannada MN",
+    "previewFace": "KannadaMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-kannada-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kannada Sangam MN",
+    "previewFace": "KannadaSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kannada-sangam-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "Katari",
+    "previewFace": "Katari-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-katari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Kavivanar",
+    "previewFace": "Kavivanar-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kavivanar.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kefa",
+    "previewFace": "Kefa-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kefa.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Kefa III",
+    "previewFace": "KefaIII-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Khmer MN",
+    "previewFace": "KhmerMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-khmer-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Khmer Sangam MN",
+    "previewFace": "KhmerSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 10,
+    "name": "Kigelia",
+    "previewFace": "Kigelia-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kigelia.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Kigelia Arabic",
+    "previewFace": "KigeliaArabic-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kigelia-arabic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Klee",
+    "previewFace": "Klee-Medium",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-klee.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Kodchasan",
+    "previewFace": "Kodchasan-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kodchasan.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kohinoor Bangla",
+    "previewFace": "KohinoorBangla-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kohinoor-bangla.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kohinoor Devanagari",
+    "previewFace": "KohinoorDevanagari-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kohinoor-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kohinoor Gujarati",
+    "previewFace": "KohinoorGujarati-Medium",
+    "sample": "ગુજરાતી લિપિ",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kohinoor-gujarati.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Kohinoor Telugu",
+    "previewFace": "KohinoorTelugu-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-kohinoor-telugu.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "KoHo",
+    "previewFace": "KoHo-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-koho.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Kokonor",
+    "preview": "ApplePreview-Kokonor",
+    "previewFace": "Kokonor",
+    "sample": "བོད་ཡིག",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Koufi Abjadi",
+    "preview": "ApplePreview-Koufi-Abjadi",
+    "previewFace": "KoufiAbjadi",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Krub",
+    "previewFace": "Krub-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-krub.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Krungthep",
+    "previewFace": "Krungthep",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-krungthep.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "KufiStandardGK",
+    "preview": "ApplePreview-KufiStandardGK",
+    "previewFace": "KufiStandardGK",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 5,
+    "name": "Lahore Gurmukhi",
+    "previewFace": "LahoreGurmukhi-Regular",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lahore-gurmukhi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Laimoon",
+    "preview": "ApplePreview-Laimoon",
+    "previewFace": "Laimoon",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Lantinghei SC",
+    "previewFace": "FZLTZHK--GBK1-0",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-lantinghei-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Lantinghei TC",
+    "previewFace": "FZLTZHB--B51-0",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-lantinghei-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Lao MN",
+    "previewFace": "LaoMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-lao-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Lao Sangam MN",
+    "previewFace": "LaoSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Lava Devanagari",
+    "previewFace": "LavaDevanagari-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lava-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Lava Kannada",
+    "previewFace": "LavaKannada-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lava-kannada.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Lava Telugu",
+    "previewFace": "LavaTelugu-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lava-telugu.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Libian SC",
+    "previewFace": "STLibianSC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-libian-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Libian TC",
+    "previewFace": "STLibianTC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-libian-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "LiHei Pro",
+    "previewFace": "LiHeiPro",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lihei-pro.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "LingWai SC",
+    "previewFace": "MLingWaiMedium-SC",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-lingwai-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "LingWai TC",
+    "previewFace": "MLingWaiMedium-TC",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-lingwai-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "LiSong Pro",
+    "previewFace": "LiSongPro",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-lisong-pro.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Lucida Grande",
+    "previewFace": "LucidaGrande",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-lucida-grande.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Luminari",
+    "previewFace": "Luminari-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-luminari.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Maku",
+    "previewFace": "Maku-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-maku.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Malayalam MN",
+    "previewFace": "MalayalamMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-malayalam-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Malayalam Sangam MN",
+    "previewFace": "MalayalamSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Mali",
+    "previewFace": "Mali-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-mali.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Marker Felt",
+    "previewFace": "MarkerFelt-Thin",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Menlo",
+    "previewFace": "Menlo-Regular",
+    "style": "monospaced"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Microsoft Sans Serif",
+    "previewFace": "MicrosoftSansSerif",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-microsoft-sans-serif.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Mishafi",
+    "previewFace": "DiwanMishafi",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Mishafi Gold",
+    "preview": "ApplePreview-Mishafi-Gold",
+    "previewFace": "DiwanMishafiGold",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Modak",
+    "previewFace": "Modak",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-modak.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Mona Lisa Solid ITC TT",
+    "previewFace": "MonaLisaSolidITCTT",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-mona-lisa-solid-itc-tt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Monaco",
+    "previewFace": "Monaco",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-monaco.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Mshtakan",
+    "preview": "ApplePreview-Mshtakan",
+    "previewFace": "Mshtakan",
+    "sample": "Հայերեն այբուբեն",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 7,
+    "name": "Mukta",
+    "previewFace": "Mukta-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-mukta.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Mukta Mahee",
+    "previewFace": "MuktaMahee-Medium",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-mukta-mahee.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 7,
+    "name": "Mukta Malar",
+    "previewFace": "MuktaMalar-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-mukta-malar.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 7,
+    "name": "Mukta Vaani",
+    "previewFace": "MuktaVaani-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-mukta-vaani.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Muna",
+    "preview": "ApplePreview-Muna",
+    "previewFace": "Muna",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Myanmar MN",
+    "previewFace": "MyanmarMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-myanmar-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Myanmar Sangam MN",
+    "previewFace": "MyanmarSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 10,
+    "name": "Myriad Arabic",
+    "previewFace": "MyriadArabic-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-myriad-arabic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Nadeem",
+    "preview": "ApplePreview-Nadeem",
+    "previewFace": "Nadeem",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Nanum Brush Script",
+    "previewFace": "NanumBrush",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-nanum-brush-script.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Nanum Gothic",
+    "previewFace": "NanumGothic",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-nanum-gothic.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Nanum Myeongjo",
+    "previewFace": "NanumMyeongjo",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-nanum-myeongjo.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Nanum Pen Script",
+    "previewFace": "NanumPen",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-nanum-pen-script.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "New Peninim MT",
+    "preview": "ApplePreview-New-Peninim-MT",
+    "previewFace": "NewPeninimMT",
+    "sample": "דג סקרן שט בים מאוכזב",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Niramit",
+    "previewFace": "Niramit-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-niramit.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Nisan",
+    "preview": "ApplePreview-Nisan",
+    "previewFace": "Nisan",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Nom Na Tong",
+    "previewFace": "NomNaTong-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-nom-na-tong.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Noteworthy",
+    "previewFace": "Noteworthy-Bold",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Noto Nastaliq Urdu",
+    "previewFace": "NotoNastaliqUrdu",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Noto Sans Kannada",
+    "previewFace": "NotoSansKannada-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Noto Sans Oriya",
+    "previewFace": "NotoSansOriya",
+    "sample": "ଓଡ଼ିଆ ଲିପି",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Noto Sans Sunuwar",
+    "previewFace": "NotoSansSunuwar-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "Noto Serif Kannada",
+    "previewFace": "NotoSerifKannada-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-noto-serif-kannada.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Noto Serif Myanmar",
+    "previewFace": "NotoSerifMyanmar-Regular",
+    "sample": "မင်္ဂလာပါ",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 27,
+    "name": "November Bangla Traditional",
+    "previewFace": "NovemberBanglaTraditional-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-november-bangla-traditional.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Devanagari",
+    "previewFace": "OctoberCompressedDL-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Gujarati",
+    "previewFace": "OctoberCompressedGujarati-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-gujarati.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Gurmukhi",
+    "previewFace": "OctoberCompressedGurmukhi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-gurmukhi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Kannada",
+    "previewFace": "OctoberCompressedKannada-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-kannada.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Meetei Mayek",
+    "previewFace": "OctoberCompressedMeeteiMayek-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-meetei-mayek.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Odia",
+    "previewFace": "OctoberCompressedOdia-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-odia.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Ol Chiki",
+    "previewFace": "OctoberCompressedOlChiki-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-ol-chiki.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Tamil",
+    "previewFace": "OctoberCompressedTL-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-tamil.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Compressed Telugu",
+    "previewFace": "OctoberCompressedTelugu-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-compressed-telugu.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Devanagari",
+    "previewFace": "OctoberCondensedDL-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Gujarati",
+    "previewFace": "OctoberCondensedGujarati-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-gujarati.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Gurmukhi",
+    "previewFace": "OctoberCondensedGurmukhi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-gurmukhi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Kannada",
+    "previewFace": "OctoberCondensedKannada-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-kannada.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Meetei Mayek",
+    "previewFace": "OctoberCondensedMeeteiMayek-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-meetei-mayek.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Odia",
+    "previewFace": "OctoberCondensedOdia-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-odia.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Ol Chiki",
+    "previewFace": "OctoberCondensedOlChiki-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-ol-chiki.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Tamil",
+    "previewFace": "OctoberCondensedTLRegular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-tamil.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Condensed Telugu",
+    "previewFace": "OctoberCondensedTelugu-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-condensed-telugu.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Devanagari",
+    "previewFace": "OctoberDL-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-devanagari.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Gujarati",
+    "previewFace": "OctoberGujarati-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-gujarati.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Gurmukhi",
+    "previewFace": "OctoberGurmukhi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-gurmukhi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Kannada",
+    "previewFace": "OctoberKannada-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-kannada.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Meetei Mayek",
+    "previewFace": "OctoberMeeteiMayek-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-meetei-mayek.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Odia",
+    "previewFace": "OctoberOdia-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-odia.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Ol Chiki",
+    "previewFace": "OctoberOlChiki-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-ol-chiki.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Tamil",
+    "previewFace": "OctoberTL-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-tamil.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 9,
+    "name": "October Telugu",
+    "previewFace": "OctoberTelugu-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-october-telugu.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 5,
+    "name": "Optima",
+    "previewFace": "Optima-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Oriya MN",
+    "previewFace": "OriyaMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-oriya-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Oriya Sangam MN",
+    "previewFace": "OriyaSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-oriya-sangam-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Osaka",
+    "previewFace": "Osaka",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-osaka.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Padyakke Expanded One",
+    "previewFace": "PadyakkeExpandedOne-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-padyakke-expanded-one.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Palatino",
+    "previewFace": "Palatino-Roman",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Papyrus",
+    "previewFace": "Papyrus",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Party LET",
+    "previewFace": "PartyLetPlain",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "PCMyungjo",
+    "previewFace": "JCsmPC",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-pcmyungjo.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Phosphate",
+    "previewFace": "Phosphate-Solid",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-phosphate.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "PilGi",
+    "previewFace": "JCfg",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-pilgi.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "PingFang HK",
+    "preview": "ApplePreview-PingFang-HK",
+    "previewFace": "PingFangHK-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "PingFang MO",
+    "preview": "ApplePreview-PingFang-MO",
+    "previewFace": "PingFangMO-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "PingFang SC",
+    "preview": "ApplePreview-PingFang-SC",
+    "previewFace": "PingFangSC-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "PingFang TC",
+    "preview": "ApplePreview-PingFang-TC",
+    "previewFace": "PingFangTC-Regular",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Plantagenet Cherokee",
+    "previewFace": "PlantagenetCherokee",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-plantagenet-cherokee.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "PortagoITC TT",
+    "previewFace": "PortagoITCTT",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-portagoitc-tt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Princetown LET",
+    "previewFace": "PrincetownLET",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-princetown-let.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 18,
+    "name": "Produkt",
+    "previewFace": "Produkt-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-produkt.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 12,
+    "name": "Proxima Nova",
+    "previewFace": "ProximaNova-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-proxima-nova.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 8,
+    "name": "PSL Ornanong Pro",
+    "previewFace": "PSLOrnanongPro-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-psl-ornanong-pro.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "PT Mono",
+    "previewFace": "PTMono-Regular",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-pt-mono.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "PT Sans",
+    "previewFace": "PTSans-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-pt-sans.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "PT Sans Caption",
+    "previewFace": "PTSans-Caption",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-pt-sans-caption.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "PT Sans Narrow",
+    "previewFace": "PTSans-Narrow",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-pt-sans-narrow.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "PT Serif",
+    "previewFace": "PTSerif-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-pt-serif.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "PT Serif Caption",
+    "previewFace": "PTSerif-Caption",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-pt-serif-caption.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Publico Headline",
+    "previewFace": "PublicoHeadline-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-publico-headline.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Publico Text",
+    "previewFace": "PublicoText-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-publico-text.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Quotes Caps",
+    "previewFace": "QuotesCaps-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-quotes-caps.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Quotes Script",
+    "previewFace": "QuotesScript-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-quotes-script.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Raanana",
+    "preview": "ApplePreview-Raanana",
+    "previewFace": "Raanana",
+    "sample": "דג סקרן שט בים מאוכזב",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Raya",
+    "preview": "ApplePreview-Raya",
+    "previewFace": "Raya",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Rockwell",
+    "previewFace": "Rockwell-Regular",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Devanagari",
+    "previewFace": "SamaDevanagari-Regular",
+    "sample": "नमस्ते दुनिया",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sama-devanagari.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Gujarati",
+    "previewFace": "SamaGujarati-Regular",
+    "sample": "ગુજરાતી લિપિ",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sama-gujarati.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Gurmukhi",
+    "previewFace": "SamaGurmukhi-Regular",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sama-gurmukhi.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Kannada",
+    "previewFace": "SamaKannada-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sama-kannada.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Malayalam",
+    "previewFace": "SamaMalayalam-Regular",
+    "sample": "മലയാളം ലിപി",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sama-malayalam.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 6,
+    "name": "Sama Tamil",
+    "previewFace": "SamaTamil-Regular",
+    "sample": "தமிழ் எழுத்து",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-sama-tamil.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Sana",
+    "preview": "ApplePreview-Sana",
+    "previewFace": "Sana",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Santa Fe LET",
+    "previewFace": "SantaFeLetPlain",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-santa-fe-let.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 16,
+    "name": "Sarabun",
+    "previewFace": "Sarabun-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sarabun.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Sathu",
+    "previewFace": "Sathu",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-sathu.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Sauber Script",
+    "previewFace": "SauberScript",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-sauber-script.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Savoye LET",
+    "previewFace": "SavoyeLetPlain",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "SchoolHouse Cursive B",
+    "previewFace": "SchoolHouseCursiveB",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-schoolhouse-cursive-b.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "SchoolHouse Printed A",
+    "previewFace": "SchoolHousePrintedA",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-schoolhouse-printed-a.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Shobhika",
+    "previewFace": "Shobhika-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-shobhika.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Shree Devanagari 714",
+    "previewFace": "ShreeDev0714",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-shree-devanagari-714.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "SignPainter",
+    "previewFace": "SignPainter-HouseScript",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-signpainter.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Silom",
+    "previewFace": "Silom",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-silom.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "SimSong",
+    "previewFace": "SimSong-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-simsong.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Sinhala MN",
+    "previewFace": "SinhalaMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-sinhala-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 2,
+    "name": "Sinhala Sangam MN",
+    "previewFace": "SinhalaSangamMN",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 10,
+    "name": "Skia",
+    "previewFace": "Skia-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-skia.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Snell Roundhand",
+    "previewFace": "SnellRoundhand",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Somer",
+    "preview": "ApplePreview-Somer",
+    "previewFace": "Somer",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Songti SC",
+    "previewFace": "STSongti-SC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-songti-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Songti TC",
+    "previewFace": "STSongti-TC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-songti-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Spot Mono",
+    "previewFace": "SpotMono-Regular",
+    "style": "monospaced",
+    "previewFile": "TypecaskPreview-apple-spot-mono.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Srisakdi",
+    "previewFace": "Srisakdi-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-srisakdi.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "STFangsong",
+    "preview": "ApplePreview-STFangsong",
+    "previewFace": "STFangsong",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STHeiti",
+    "previewFace": "STHeiti",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-stheiti.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "STIX Two Math",
+    "previewFace": "STIXTwoMath-Regular",
+    "style": "serif"
+  },
+  {
+    "builtIn": true,
+    "faces": 8,
+    "name": "STIX Two Text",
+    "previewFace": "STIXTwoText",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXIntegralsD",
+    "previewFace": "STIXIntegralsD-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixintegralsd.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXIntegralsSm",
+    "previewFace": "STIXIntegralsSm-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixintegralssm.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXIntegralsUp",
+    "previewFace": "STIXIntegralsUp-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixintegralsup.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXIntegralsUpD",
+    "previewFace": "STIXIntegralsUpD-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixintegralsupd.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXIntegralsUpSm",
+    "previewFace": "STIXIntegralsUpSm-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixintegralsupsm.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "STIXNonUnicode",
+    "previewFace": "STIXNonUnicode-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixnonunicode.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "STIXSizeFiveSym",
+    "previewFace": "STIXSizeFiveSym-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixsizefivesym.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXSizeFourSym",
+    "previewFace": "STIXSizeFourSym-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixsizefoursym.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXSizeOneSym",
+    "previewFace": "STIXSizeOneSym-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixsizeonesym.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXSizeThreeSym",
+    "previewFace": "STIXSizeThreeSym-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixsizethreesym.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXSizeTwoSym",
+    "previewFace": "STIXSizeTwoSym-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixsizetwosym.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "STIXVariants",
+    "previewFace": "STIXVariants-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stixvariants.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "STKaiti",
+    "previewFace": "STKaiti",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-stkaiti.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Stone Sans ITC TT",
+    "previewFace": "StoneSansITCTT-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stone-sans-itc-tt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Stone Sans Sem ITC TT",
+    "previewFace": "StoneSansITCTT-Semi",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-stone-sans-sem-itc-tt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "STSong",
+    "previewFace": "STSong",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-stsong.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Symbol",
+    "previewFace": "Symbol",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Synchro LET",
+    "previewFace": "SynchroLET",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-synchro-let.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tahoma",
+    "previewFace": "Tahoma",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-tahoma.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tamil MN",
+    "previewFace": "TamilMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tamil-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Tamil Sangam MN",
+    "previewFace": "TamilSangamMN-Black",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-tamil-sangam-mn.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Telugu MN",
+    "previewFace": "TeluguMN",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-telugu-mn.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Telugu Sangam MN",
+    "previewFace": "TeluguSangamMN",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-telugu-sangam-mn.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 3,
+    "name": "Thonburi",
+    "previewFace": "Thonburi",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Times",
+    "previewFace": "Times-Roman",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-times.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Times New Roman",
+    "previewFace": "TimesNewRomanPSMT",
+    "style": "serif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Bangla",
+    "previewFace": "TiroBangla",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-bangla.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Devanagari Hindi",
+    "previewFace": "TiroDevaHindi",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-devanagari-hindi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Devanagari Marathi",
+    "previewFace": "TiroDevaMarathi",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-devanagari-marathi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Devanagari Sanskrit",
+    "previewFace": "TiroDevaSanskrit",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-devanagari-sanskrit.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Gurmukhi",
+    "previewFace": "TiroGurmukhi",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-gurmukhi.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Kannada",
+    "previewFace": "TiroKannada",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-kannada.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Tamil",
+    "previewFace": "TiroTamil",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-tamil.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tiro Telugu",
+    "previewFace": "TiroTelugu",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tiro-telugu.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Toppan Bunkyu Gothic",
+    "previewFace": "ToppanBunkyuGothicPr6N-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-toppan-bunkyu-gothic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Toppan Bunkyu Midashi Gothic",
+    "previewFace": "ToppanBunkyuMidashiGothicStdN-ExtraBold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-toppan-bunkyu-midashi-gothic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Toppan Bunkyu Midashi Mincho",
+    "previewFace": "ToppanBunkyuMidashiMinchoStdN-ExtraBold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-toppan-bunkyu-midashi-mincho.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Toppan Bunkyu Mincho",
+    "previewFace": "ToppanBunkyuMinchoPr6N-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-toppan-bunkyu-mincho.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Trattatello",
+    "previewFace": "Trattatello",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-trattatello.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Trebuchet MS",
+    "previewFace": "TrebuchetMS",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tsukushi A Round Gothic",
+    "previewFace": "TsukuARdGothic-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tsukushi-a-round-gothic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Tsukushi B Round Gothic",
+    "previewFace": "TsukuBRdGothic-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-tsukushi-b-round-gothic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 4,
+    "name": "Tw Cen MT",
+    "previewFace": "TwCenMT-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-tw-cen-mt.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Type Embellishments One LET",
+    "previewFace": "TypeEmbellishmentsOneLetPlain",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-type-embellishments-one-let.ttf"
+  },
+  {
+    "builtIn": true,
+    "faces": 4,
+    "name": "Verdana",
+    "previewFace": "Verdana",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Waseem",
+    "preview": "ApplePreview-Waseem",
+    "previewFace": "Waseem",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Wawati SC",
+    "previewFace": "DFWaWaSC-W5",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-wawati-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Wawati TC",
+    "previewFace": "DFWaWaTC-W5",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-wawati-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Webdings",
+    "previewFace": "Webdings",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-webdings.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Weibei SC",
+    "previewFace": "WeibeiSC-Bold",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-weibei-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Weibei TC",
+    "previewFace": "WeibeiTC-Bold",
+    "style": "handwriting",
+    "previewFile": "TypecaskPreview-apple-weibei-tc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Wingdings",
+    "previewFace": "Wingdings-Regular",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-wingdings.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Wingdings 2",
+    "previewFace": "Wingdings2",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-wingdings-2.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Wingdings 3",
+    "previewFace": "Wingdings3",
+    "style": "display",
+    "previewFile": "TypecaskPreview-apple-wingdings-3.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Xingkai SC",
+    "previewFace": "STXingkaiSC-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-xingkai-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Xingkai TC",
+    "previewFace": "STXingkaiTC-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-xingkai-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Yaziji",
+    "preview": "ApplePreview-Yaziji",
+    "previewFace": "Yaziji",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Yuanti SC",
+    "previewFace": "STYuanti-SC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yuanti-sc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "Yuanti TC",
+    "previewFace": "STYuanti-TC-Regular",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yuanti-tc.ttf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "YuGothic",
+    "previewFace": "YuGo-Bold",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-yugothic.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "YuKyokasho",
+    "previewFace": "YuKyo-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yukyokasho.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "YuKyokasho Yoko",
+    "previewFace": "YuKyo_Yoko-Bold",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yukyokasho-yoko.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "YuMincho",
+    "previewFace": "YuMin-Medium",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yumincho.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 3,
+    "name": "YuMincho +36p Kana",
+    "previewFace": "YuMin_36pKn-Medium",
+    "style": "serif",
+    "previewFile": "TypecaskPreview-apple-yumincho-36p-kana.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Yuppy SC",
+    "previewFace": "YuppySC-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-yuppy-sc.otf"
+  },
+  {
+    "builtIn": false,
+    "faces": 1,
+    "name": "Yuppy TC",
+    "previewFace": "YuppyTC-Regular",
+    "style": "sansSerif",
+    "previewFile": "TypecaskPreview-apple-yuppy-tc.otf"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Zapf Dingbats",
+    "previewFace": "ZapfDingbatsITC",
+    "style": "display"
+  },
+  {
+    "builtIn": true,
+    "faces": 1,
+    "name": "Zapfino",
+    "previewFace": "Zapfino",
+    "style": "handwriting"
+  },
+  {
+    "builtIn": false,
+    "faces": 2,
+    "name": "Zawra",
+    "preview": "ApplePreview-Zawra",
+    "previewFace": "Zawra-Bold",
+    "sample": "أبجد هوز حطي كلمن",
+    "style": "sansSerif"
+  }
+]

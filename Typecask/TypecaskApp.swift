@@ -8,7 +8,7 @@ struct TypecaskApp: App {
         WindowGroup {
             GalleryView(catalog: .bundled)
                 .environment(installer)
-                .task { installer.refresh(Catalog.bundled.casks) }
+                .task { await installer.refresh(Catalog.bundled.casks) }
         }
     }
 }
