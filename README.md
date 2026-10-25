@@ -11,6 +11,12 @@ already ships under the same PostScript name, like Noto Sans Armenian, reads as 
 fails with a duplicated-name error, and every app has the font anyway. Apart from the design styles
 there's a Nerd Fonts collection, whose previews include a row of the icons.
 
+The gallery sorts by name, popularity or trend. Homebrew and Google measure different crowds,
+Homebrew's installs dominated by Nerd Fonts and coding faces, so each cask is placed by percentile in
+each source that has it, Homebrew's yearly installs and Google Fonts' yearly views from
+`fonts.google.com/metadata/stats`, and ranked by the better. Trending is the last 30 days against the
+yearly rate, among the busiest quarter of each source, since growth in the long tail is noise.
+
 Each cask records its Homebrew version, and its primary face's own version string (`fontVersion`, name
 ID 5). At launch the app compares that with the installed copy's and offers Update when they differ,
 which removes the old fonts and installs this build's. A font installed by an earlier build stays

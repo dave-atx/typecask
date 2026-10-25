@@ -58,6 +58,11 @@ struct Cask: Decodable, Identifiable, Hashable {
     let description: String?
     /// The family's designers, per Google Fonts, who often wrote its description.
     let designers: [String]?
+    /// Rank by popularity across Homebrew's installs and Google Fonts' views, 1 first.
+    let popularity: Int?
+    /// Rank by the last month's installs or views against the year's, among the busier casks; nil
+    /// for the long tail, where growth is noise.
+    let trending: Int?
     /// Homebrew's version of the cask, or the font's own where the cask always takes the latest.
     let version: String?
     /// The primary face's version string, which an installed copy's is compared with to offer an update.

@@ -53,6 +53,13 @@ from fontTools.varLib.instancer import instantiateVariableFont
 logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 ANALYTICS_URL = "https://formulae.brew.sh/api/analytics/cask-install/365d.json"
+# The last month's installs, against the year's, for which casks are trending.
+RECENT_ANALYTICS_URL = "https://formulae.brew.sh/api/analytics/cask-install/30d.json"
+# Below this many installs in a month, a cask's trend is noise: two installs up from one isn't rising.
+TRENDING_MIN_INSTALLS = 20
+# Growth is noise for the long tail, where a small spike doubles a family's views, so a source's
+# trend only counts for casks in this top share of it by yearly installs or views.
+TRENDING_TOP_SHARE = 0.25
 CASKS_URL = "https://formulae.brew.sh/api/cask.json"
 DEFAULT_CATALOG_SIZE = 1000
 EXCLUDED = {
@@ -87,6 +94,9 @@ VARIABLE_NAME = re.compile(r"\[|variable|-vf$", re.IGNORECASE)
 CORE_STYLES = ("regular", "italic", "bold", "bolditalic")
 # Public, no API key. The leading characters before the first brace are XSSI padding.
 GOOGLE_METADATA_URL = "https://fonts.google.com/metadata/fonts"
+# Each family's views on Google Fonts, by year and by the last 30 days. The metadata's own
+# `popularity` and `trending` are coarse buckets: Roboto, Open Sans and Lato all share popularity 2.
+GOOGLE_STATS_URL = "https://fonts.google.com/metadata/stats"
 GOOGLE_SPECIMEN = re.compile(r"fonts\.google\.com/specimen/([^/?#]+)")
 # Casks that pull a single file out of google/fonts, rather than checking out the family directory.
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
@@ -349,6 +359,9 @@ def lock(count, google_top):
         if len(parts) == 2 and parts[0] in ("ofl", "apache", "ufl"):
             family_directories.setdefault(parts[1], path)
 
+    with urllib.request.urlopen(GOOGLE_STATS_URL) as response:
+        raw = response.read().decode()
+    views = {stats["family"]: stats["viewsByDateRange"] for stats in json.loads(raw[raw.index("["):])}
     google_by_token = {token: family for family, token in families if token}
     # A family matches one cask, but several can install it: Hind's specimen page belongs to another
     # cask, and font-hind downloads from upstream with no license, which google/fonts then supplies.
@@ -367,6 +380,7 @@ def lock(count, google_top):
     required += ALWAYS_INCLUDED
     # Homebrew's analytics leave out casks nobody installed in a year; required ones go on the end.
     installs = {cask["token"]: count for cask, count in ranked}
+    recent = {item["cask"]: int(item["count"].replace(",", "")) for item in fetch_json(RECENT_ANALYTICS_URL)["items"]}
     tokens = list(dict.fromkeys([cask["token"] for cask, _ in ranked[:count]] + required))
     exempt = set(required)
 
@@ -393,13 +407,16 @@ def lock(count, google_top):
             "homepage": cask["homepage"],
             "version": str(cask.get("version") or ""),
             "installs": installs.get(token, 0),
+            "recentInstalls": recent.get(token, 0),
             "exempt": token in exempt,
             "artifacts": artifacts,
             "source": source,
         }
         if family:
             google = {"family": family["family"], "category": family["category"],
-                      "designers": family.get("designers") or []}
+                      "designers": family.get("designers") or [],
+                      "views": views.get(family["family"], {}).get("year", {}).get("views", 0),
+                      "recentViews": views.get(family["family"], {}).get("30day", {}).get("views", 0)}
             if directory in trees:
                 google |= {"directory": directory, "tree": trees[directory]}
             entry["google"] = google
@@ -930,6 +947,45 @@ def restyle_apple_fonts(categories):
     print(f"{len(kept)} Apple font families")
 
 
+def rank_popularity(catalog, entries):
+    """Ranks the catalog by popularity and by trend, 1 first, into each record's `popularity` and
+    `trending`.
+
+    Homebrew and Google measure different crowds: Homebrew's installs are dominated by Nerd Fonts
+    and coding faces, and undercount Google families most people get from Google. So each cask is
+    placed by percentile within each source that has it, Homebrew's yearly installs and Google's
+    yearly views, and ranked by the better of the two. Trending is the same with the last 30 days
+    against the yearly rate, among the top TRENDING_TOP_SHARE of each source.
+    """
+    locked = {entry["token"]: entry for entry in entries}
+    by_token = {record["token"]: locked[record["token"]] for record in catalog}
+    records = {record["token"]: record for record in catalog}
+    sources = {
+        "homebrew": lambda entry: (entry["installs"], entry.get("recentInstalls", 0)),
+        "google": lambda entry: ((entry.get("google") or {}).get("views", 0),
+                                 (entry.get("google") or {}).get("recentViews", 0)),
+    }
+
+    def percentiles(scores):
+        """Each token's share of the others it beats, from 1 for the highest score down toward 0."""
+        ordered = sorted(scores, key=scores.get, reverse=True)
+        return {token: 1 - index / len(ordered) for index, token in enumerate(ordered)}
+
+    popular, trending = {}, {}
+    for measure in sources.values():
+        yearly = {token: measure(entry)[0] for token, entry in by_token.items() if measure(entry)[0]}
+        ranked = percentiles(yearly)
+        busy = {token for token, share in ranked.items() if share > 1 - TRENDING_TOP_SHARE}
+        growth = percentiles({token: measure(by_token[token])[1] * 12 / yearly[token] for token in busy})
+        for token, share in ranked.items():
+            popular[token] = max(popular.get(token, 0), share)
+        for token, share in growth.items():
+            trending[token] = max(trending.get(token, 0), share)
+    for key, scores in (("popularity", popular), ("trending", trending)):
+        for rank, token in enumerate(sorted(scores, key=lambda token: -scores[token]), 1):
+            records[token][key] = rank
+
+
 def report(title, items):
     """A summary line and its items, one to a line: folded into a collapsible group in a GitHub
     Actions log, where hundreds of casks on one line wrapped into an unreadable block."""
@@ -1066,6 +1122,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
                 record["designers"] = designers
         catalog.append(record)
 
+    rank_popularity(catalog, entries)
     packs = assign_packs(weights)
     for record in catalog:
         if pack := packs.get(record["token"]):

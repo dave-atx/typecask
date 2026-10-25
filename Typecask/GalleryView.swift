@@ -98,6 +98,9 @@ private struct GalleryBrowser: View {
                 }
             }
             ToolbarItem(placement: .primaryAction) {
+                SortMenu(model: model)
+            }
+            ToolbarItem(placement: .primaryAction) {
                 ViewModePicker(model: model)
             }
             .visibilityPriority(.high)
@@ -130,6 +133,23 @@ private struct ViewModePicker: View {
         .pickerStyle(.segmented)
         .labelStyle(.iconOnly)
         .accessibilityIdentifier("viewMode")
+    }
+}
+
+private struct SortMenu: View {
+    @Bindable var model: GalleryModel
+
+    var body: some View {
+        Menu {
+            Picker("Sort By", selection: $model.sortOrder) {
+                ForEach(GalleryModel.SortOrder.allCases, id: \.self) { order in
+                    Text(order.title).tag(order)
+                }
+            }
+        } label: {
+            Label("Sort By", systemImage: "arrow.up.arrow.down")
+        }
+        .accessibilityIdentifier("sortOrder")
     }
 }
 

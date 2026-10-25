@@ -14,6 +14,20 @@ final class GalleryModel {
         case sample
     }
 
+    enum SortOrder: String, CaseIterable, Hashable {
+        case name
+        case popularity
+        case trending
+
+        var title: LocalizedStringResource {
+            switch self {
+            case .name: "Name"
+            case .popularity: "Popularity"
+            case .trending: "Trending"
+            }
+        }
+    }
+
     let catalog: Catalog
     /// The styles present in the gallery, in `DesignStyle`'s own order, with how many fonts each holds.
     let styles: [(style: DesignStyle, count: Int)]
@@ -41,12 +55,19 @@ final class GalleryModel {
 
     var viewMode: ViewMode = .grid
 
+    var sortOrder: SortOrder = .name {
+        didSet { if sortOrder != oldValue { recompute() } }
+    }
+
     private(set) var visibleItems: [GalleryItem] = []
 
     private let sortedItems: [GalleryItem]
     /// Each item's name and token, and its description, folded once here rather than on every keystroke:
     /// two thousand descriptions are a couple of MB of text.
     private let searchKeys: [(names: String, description: String)]
+    /// `sortedItems`' indices in each sort order, worked out once: unranked items, Apple's fonts among
+    /// them, follow the ranked ones by name.
+    private let orders: [SortOrder: [Int]]
 
     init(catalog: Catalog) {
         self.catalog = catalog
@@ -67,6 +88,16 @@ final class GalleryModel {
                 (Self.fold(family.name), "")
             }
         }
+        var orders: [SortOrder: [Int]] = [.name: Array(sortedItems.indices)]
+        for order in [SortOrder.popularity, .trending] {
+            let ranks = sortedItems.map { item -> Int in
+                guard case .cask(let cask) = item else { return .max }
+                return (order == .popularity ? cask.popularity : cask.trending) ?? .max
+            }
+            // Stable on the name order, so ties and unranked items stay alphabetical.
+            orders[order] = sortedItems.indices.sorted { ranks[$0] < ranks[$1] || (ranks[$0] == ranks[$1] && $0 < $1) }
+        }
+        self.orders = orders
         visibleItems = sortedItems
     }
 
@@ -85,7 +116,9 @@ final class GalleryModel {
     private func recompute() {
         let query = Self.fold(searchText.trimmingCharacters(in: .whitespacesAndNewlines))
         var byName: [GalleryItem] = [], byDescription: [GalleryItem] = []
-        for (item, keys) in zip(sortedItems, searchKeys) where collection.contains(item, installed: installed) {
+        for index in orders[sortOrder] ?? [] {
+            let item = sortedItems[index], keys = searchKeys[index]
+            guard collection.contains(item, installed: installed) else { continue }
             if query.isEmpty || keys.names.contains(query) {
                 byName.append(item)
             } else if keys.description.contains(query) {
