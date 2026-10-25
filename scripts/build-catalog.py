@@ -282,12 +282,61 @@ def add_cask(cask, installs, root, license, owners, with_fonts):
     }
 
 
+def write_assets_only(tokens, casks_by_token):
+    """Rebuilds Fonts.xcassets for `tokens` alone, from the Catalog.json already in the repo.
+
+    A full run downloads every cask to regenerate the catalog, which takes hours and tens of GB — far
+    more than a CI build can do. The catalog, previews and licenses are committed, so a release only
+    needs the font assets for the casks it actually ships.
+    """
+    catalog_path = APP / "Catalog.json"
+    catalog = json.loads(catalog_path.read_text())
+    known = {entry["token"] for entry in catalog["casks"]}
+    if unknown := [token for token in tokens if token not in known]:
+        sys.exit(f"not in {catalog_path.name}: {', '.join(unknown)}")
+
+    shutil.rmtree(FONTS, ignore_errors=True)
+    FONTS.mkdir(parents=True)
+    write_json(FONTS / "Contents.json", CATALOG_INFO)
+
+    downloads = fetch_downloads(list(tokens))
+    owners, assets_by_token = {}, {}
+    for token in tokens:
+        if token not in downloads:
+            sys.exit(f"{token}: download failed")
+        root = stage(casks_by_token[token], downloads[token])
+        assets = []
+        for artifact in casks_by_token[token]["artifacts"]:
+            if "font" not in artifact:
+                continue
+            path = root / artifact["font"][0]
+            asset = read_faces(path)[0].postscript_name
+            if asset in owners:
+                print(f"warning: {token}: skipping {path.name}, {asset!r} already comes from {owners[asset]}")
+                continue
+            owners[asset] = token
+            write_dataset(path, asset, token)
+            assets.append(asset)
+        assets_by_token[token] = assets
+        print(f"{token}: {len(assets)} fonts")
+        shutil.rmtree(WORK / token, ignore_errors=True)
+
+    # Keep Catalog.json honest about what this build can install.
+    for entry in catalog["casks"]:
+        entry["assets"] = assets_by_token.get(entry["token"], [])
+    write_json(catalog_path, catalog)
+    print(f"{sum(len(a) for a in assets_by_token.values())} fonts in {len(tokens)} casks")
+
+
 def main():
     sys.stdout.reconfigure(line_buffering=True)
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--fonts", nargs="+", metavar="TOKEN", help="write font assets only for these casks")
     parser.add_argument("--count", type=int, default=DEFAULT_CATALOG_SIZE, metavar="N",
                         help=f"how many casks to put in the catalog (default {DEFAULT_CATALOG_SIZE})")
+    parser.add_argument("--assets-only", action="store_true",
+                        help="rebuild Fonts.xcassets for the --fonts casks from the committed Catalog.json, "
+                             "without re-downloading every cask; for CI release builds")
     parser.add_argument("--scratch", metavar="DIR",
                         help="stage casks and Homebrew's download cache here, for a run that needs more "
                              "room than the boot disk has")
@@ -300,6 +349,11 @@ def main():
         BREW_ENV = BREW_ENV | {"HOMEBREW_CACHE": str(scratch / "homebrew")}
         (scratch / "homebrew").mkdir(parents=True, exist_ok=True)
     count = arguments.count
+    if arguments.assets_only:
+        if not arguments.fonts:
+            sys.exit("--assets-only needs --fonts to say which casks to build")
+        write_assets_only(arguments.fonts, {cask["token"]: cask for cask in fetch_json(CASKS_URL)})
+        return
     ranked = rank_casks(fetch_json(ANALYTICS_URL), {cask["token"]: cask for cask in fetch_json(CASKS_URL)})
     # Fetched together so Homebrew downloads them concurrently; casks replacing unlicensed ones are fetched later.
     downloads = fetch_downloads([cask["token"] for cask, _ in ranked[:count]] + ALWAYS_INCLUDED)

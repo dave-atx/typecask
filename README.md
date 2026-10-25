@@ -33,6 +33,40 @@ installing then fails with "could not be found in an asset catalog".
 Casks whose download contains no license, and whose GitHub repository has none either, are skipped: the fonts can't be
 redistributed without one.
 
+## TestFlight
+
+Xcode Cloud builds are triggered by pushing a `testflight-N` tag. `N` becomes the build number, so
+`testflight-4` uploads build 4 and TestFlight won't reject it as a duplicate.
+
+The workflow itself lives in App Store Connect rather than this repo — Xcode Cloud has no
+workflow-as-code format — so it has to be created once by hand, in Xcode under Product > Xcode Cloud >
+Create Workflow, or in App Store Connect under the app's Xcode Cloud tab:
+
+1. **Start Condition:** delete the default branch condition and add *Tag Changes*, with the tag pattern
+   `testflight-*`.
+2. **Environment:** Xcode 27.2, and set `TYPECASK_CASKS` if the build should ship a line-up other than
+   the default in `ci_scripts/ci_post_clone.sh`.
+3. **Action:** *Archive* for iOS, with the Deployment Preparation set to *TestFlight (Internal Testing
+   Only)* or *TestFlight and App Store*.
+4. **Post-Action:** *TestFlight Internal Testing*, pointed at a tester group.
+
+It needs an Apple Developer Program membership, an App Store Connect record for
+`org.marquard.Typecask`, `DEVELOPMENT_TEAM` set in the project, and the repository pushed to a host
+Xcode Cloud can reach (GitHub, GitLab or Bitbucket).
+
+Both scripts in `ci_scripts/` run automatically. `ci_post_clone.sh` builds `Fonts.xcassets` with
+`--assets-only`, because it's generated rather than committed and a full run would download tens of GB;
+`ci_pre_xcodebuild.sh` sets the build number from the tag.
+
+### How many fonts a release can ship
+
+Apple caps an app at [1000 asset packs](https://developer.apple.com/help/app-store-connect/reference/app-uploads/on-demand-resources-size-limits)
+and 70 GB of hosted On-Demand Resources on iOS 18 and later. One tag can produce several packs once
+Xcode slices them, so a release can't ship fonts for all 1000 casks in the catalog — `TYPECASK_CASKS`
+decides which ones it carries, and the rest show "Fonts not included in this build". Note also that
+On-Demand Resources are deprecated as of iOS 27; Background Assets is the replacement, but fonts
+delivered through it can't be installed system-wide, which is why this app still uses ODR.
+
 ## Checks
 
 ```sh
