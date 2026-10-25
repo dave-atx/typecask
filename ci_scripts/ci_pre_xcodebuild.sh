@@ -10,16 +10,19 @@ cd "$CI_PRIMARY_REPOSITORY_PATH"
 
 TAG="${CI_TAG:-}"
 case "$TAG" in
-    testflight-*) BUILD="${TAG#testflight-}" ;;
-    *)            BUILD="${CI_BUILD_NUMBER:-1}" ;;
+testflight-*) BUILD="${TAG#testflight-}" ;;
+*) BUILD="${CI_BUILD_NUMBER:-1}" ;;
 esac
 
 case "$BUILD" in
-    ''|*[!0-9]*) echo "error: build number '$BUILD' from tag '$TAG' is not a number" >&2; exit 1 ;;
+'' | *[!0-9]*)
+    echo "error: build number '$BUILD' from tag '$TAG' is not a number" >&2
+    exit 1
+    ;;
 esac
 
 echo "Setting CURRENT_PROJECT_VERSION to $BUILD (tag: ${TAG:-none})"
-BUILD="$BUILD" python3 - <<'PY'
+BUILD="$BUILD" python3 - << 'PY'
 import os
 import re
 from pathlib import Path
