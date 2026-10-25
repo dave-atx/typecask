@@ -79,6 +79,9 @@ jobs:
       - name: Build
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          # Downloading is much of a cask's build, so more than one per core pays off; four keeps the
+          # largest CJK subsets inside the runner's 16 GB.
+          JOBS: 4
         run: scripts/publish-fonts.sh build "${{ steps.tag.outputs.tag }}"
 
       # Even when a later step fails, so the next run doesn't redo the casks this one built.
@@ -88,6 +91,9 @@ jobs:
         with:
           path: .cache/built
           key: built-${{ hashFiles('fonts.lock.json', 'scripts/build-catalog.py') }}
+
+      - name: Archive
+        run: scripts/publish-fonts.sh archive "${{ steps.tag.outputs.tag }}"
 
       - name: Check the archive against the catalog
         run: |

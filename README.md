@@ -125,7 +125,8 @@ On-Demand Resources only host fonts that are in the archive, so every app build 
 They're built once, published as a GitHub release asset, and pinned, by the **Fonts** workflow in
 `.github/workflows/fonts.yml`. It runs on Mondays, or from the Actions tab:
 
-1. **build** (Ubuntu) runs `lock`, unless told not to, then `scripts/publish-fonts.sh build`. The
+1. **build** (Ubuntu) runs `lock`, unless told not to, then `scripts/publish-fonts.sh build` and
+   `archive`, as separate steps. The
    built casks are kept in the Actions cache, keyed by the lock and the build script; a run restores the
    newest one, so only casks whose source changed are downloaded and subset. It checks the archive
    against `Catalog.json`, and keeps `.cache` on the runner's larger temporary disk.
@@ -140,9 +141,10 @@ They're built once, published as a GitHub release asset, and pinned, by the **Fo
 Locally, the same two steps:
 
 ```sh
-scripts/publish-fonts.sh build    # everything from fonts.lock.json, and .cache/fonts-YYYYMMDD.tar.zst
+scripts/publish-fonts.sh build     # everything from fonts.lock.json
+scripts/publish-fonts.sh archive   # .cache/fonts-YYYYMMDD.tar.zst
 # build the app and try installs in the simulator, then:
-scripts/publish-fonts.sh upload   # attach that same archive to a release and write the pin
+scripts/publish-fonts.sh upload    # attach that same archive to a release and write the pin
 ```
 
 `upload` refuses if any cask's `assets` or `pack` in `Catalog.json` differ from what `build` recorded

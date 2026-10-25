@@ -895,27 +895,6 @@ def retag_datasets(token, tag):
         write_json(contents, manifest)
 
 
-def archive_assets(path):
-    """Tars and compresses Fonts.xcassets for a release to carry.
-
-    Fonts are not internally compressed the way WOFF2 is, so this is worth doing: zstd takes a tree of
-    TTFs to roughly 40% of its size, which keeps a full line-up inside GitHub's 2 GiB ceiling for a
-    single release asset, and it decompresses several times faster than xz for a few points of ratio.
-
-    `tar --zstd` reads these anywhere macOS does, since libarchive carries zstd itself — nothing to
-    install in CI. The standalone binary is only used here, for its higher compression level.
-    """
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = sum(f.stat().st_size for f in FONTS.rglob("*") if f.is_file())
-    tar = subprocess.Popen(["tar", "-cf", "-", "-C", FONTS.parent, FONTS.name], stdout=subprocess.PIPE)
-    subprocess.run(["zstd", "-19", "-T0", "-q", "-f", "-o", path], stdin=tar.stdout, check=True)
-    tar.stdout.close()
-    if tar.wait():
-        sys.exit("tar failed while writing the archive")
-    print(f"{path} is {path.stat().st_size / 1e9:.2f} GB, from {raw / 1e9:.2f} GB "
-          f"({path.stat().st_size / raw:.0%})")
-
-
 def restyle_apple_fonts(categories):
     """Corrects the styles in AppleFonts.json, which ApplePreviewRenderer classified from the fonts
     alone, and drops the math layout fonts and their previews."""
@@ -940,7 +919,18 @@ def restyle_apple_fonts(categories):
     print(f"{len(kept)} Apple font families")
 
 
-def build(only=None, max_mb_per_install=None, archive=None, jobs=1):
+def report(title, items):
+    """A summary line and its items, one to a line: folded into a collapsible group in a GitHub
+    Actions log, where hundreds of casks on one line wrapped into an unreadable block."""
+    if os.environ.get("GITHUB_ACTIONS"):
+        print(f"::group::{title} ({len(items)})")
+        print("\n".join(items) or "-")
+        print("::endgroup::")
+    else:
+        print(f"{title} ({len(items)}): {', '.join(items) or '-'}")
+
+
+def build(only=None, max_mb_per_install=None, jobs=1):
     """`build`: builds the catalog, previews, licences and font assets from fonts.lock.json.
 
     Every cask builds into .cache/built/<token>/<key>, keyed by its locked source, so a cask whose
@@ -979,11 +969,13 @@ def build(only=None, max_mb_per_install=None, archive=None, jobs=1):
                     pool.map(build_job, [(entry, destinations[entry["token"]]) for entry in pending]), 1):
                 if error:
                     failures.append(token)
-                    print(f"warning: {token}: {error}")
+                    # An annotation in GitHub Actions, so it shows on the run's summary page.
+                    prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
+                    print(f"{prefix}{token}: {error}")
                 if done % 100 == 0:
                     print(f"built {done} of {len(pending)}")
         if failures:
-            print(f"{len(failures)} casks failed to build and will be retried next run: {', '.join(failures)}")
+            report("failed to build, retried next run", failures)
 
     # Only what this lock uses stays, so the Actions cache doesn't grow without bound.
     for directory in BUILT.glob("*/*"):
@@ -1011,7 +1003,9 @@ def build(only=None, max_mb_per_install=None, archive=None, jobs=1):
         files = []
         for file in built["files"]:
             if file["asset"] in owners:
-                print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
+                # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
+                if owners[file["asset"]] != token:
+                    print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
                 continue
             owners[file["asset"]] = token
             files.append(file)
@@ -1073,12 +1067,10 @@ def build(only=None, max_mb_per_install=None, archive=None, jobs=1):
         "casks": catalog,
     })
     restyle_apple_fonts(locked["googleCategories"])
-    print(f"skipped {len(skipped)}: {', '.join(skipped) or '-'}")
-    print(f"trimmed {len(trimmed)} heavy niche casks: {', '.join(trimmed) or '-'}")
+    report("skipped", skipped)
+    report("trimmed heavy niche casks", trimmed)
     print(f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "
           f"in {len(set(packs.values()))} asset packs")
-    if archive:
-        archive_assets(archive)
 
 
 # MARK: - Apple's fonts
@@ -1166,8 +1158,6 @@ def main():
     build_command.add_argument("--max-mb-per-install", type=float, metavar="MB",
                                help="leave out casks over 10 MB that cost more than this per yearly install; "
                                     "Google families and ALWAYS_INCLUDED are never trimmed")
-    build_command.add_argument("--archive", metavar="PATH",
-                               help="write Fonts.xcassets to PATH as a tar.zst, for a release to carry")
     build_command.add_argument("--jobs", type=int, default=max(2, (os.cpu_count() or 2) // 2), metavar="N",
                                help="build this many casks at once (default: half the cores); subsetting "
                                     "a CJK collection takes over a GB")
@@ -1179,8 +1169,7 @@ def main():
         lock(arguments.count, arguments.google_top)
     elif arguments.command == "build":
         build(only=set(arguments.fonts) if arguments.fonts else None,
-              max_mb_per_install=arguments.max_mb_per_install,
-              archive=arguments.archive and Path(arguments.archive), jobs=arguments.jobs)
+              max_mb_per_install=arguments.max_mb_per_install, jobs=arguments.jobs)
     else:
         apple_previews()
 
