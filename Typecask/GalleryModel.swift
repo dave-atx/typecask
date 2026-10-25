@@ -44,6 +44,9 @@ final class GalleryModel {
     private(set) var visibleItems: [GalleryItem] = []
 
     private let sortedItems: [GalleryItem]
+    /// Each item's name and token, and its description, folded once here rather than on every keystroke:
+    /// two thousand descriptions are a couple of MB of text.
+    private let searchKeys: [(names: String, description: String)]
 
     init(catalog: Catalog) {
         self.catalog = catalog
@@ -55,6 +58,15 @@ final class GalleryModel {
         nerdFontCount = catalog.casks.count(where: \.glyphs)
         // Sorted once here, so every later filter preserves the order instead of re-sorting.
         sortedItems = items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        searchKeys = sortedItems.map { item in
+            switch item {
+            case .cask(let cask):
+                // The token is worth matching too: it is what a Homebrew user already knows the cask by.
+                (Self.fold("\(cask.name) \(cask.token)"), Self.fold(cask.description ?? ""))
+            case .apple(let family):
+                (Self.fold(family.name), "")
+            }
+        }
         visibleItems = sortedItems
     }
 
@@ -68,16 +80,22 @@ final class GalleryModel {
         }
     }
 
+    /// Fonts in the collection matching the search: those whose name matches first, then those whose
+    /// description does, so "mono" lists monospaced families ahead of prose that mentions the word.
     private func recompute() {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        visibleItems = sortedItems.filter { item in
-            guard collection.contains(item, installed: installed) else { return false }
-            guard !query.isEmpty else { return true }
-            // A cask's token is worth matching too: it is what a Homebrew user already knows it by.
-            if case .cask(let cask) = item, cask.token.localizedCaseInsensitiveContains(query) {
-                return true
+        let query = Self.fold(searchText.trimmingCharacters(in: .whitespacesAndNewlines))
+        var byName: [GalleryItem] = [], byDescription: [GalleryItem] = []
+        for (item, keys) in zip(sortedItems, searchKeys) where collection.contains(item, installed: installed) {
+            if query.isEmpty || keys.names.contains(query) {
+                byName.append(item)
+            } else if keys.description.contains(query) {
+                byDescription.append(item)
             }
-            return item.name.localizedCaseInsensitiveContains(query)
         }
+        visibleItems = byName + byDescription
+    }
+
+    nonisolated private static func fold(_ text: String) -> String {
+        text.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: nil)
     }
 }

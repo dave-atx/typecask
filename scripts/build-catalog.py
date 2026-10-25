@@ -398,7 +398,8 @@ def lock(count, google_top):
             "source": source,
         }
         if family:
-            google = {"family": family["family"], "category": family["category"]}
+            google = {"family": family["family"], "category": family["category"],
+                      "designers": family.get("designers") or []}
             if directory in trees:
                 google |= {"directory": directory, "tree": trees[directory]}
             entry["google"] = google
@@ -1060,6 +1061,9 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         }
         if "description" in built:
             record["description"] = built["description"]
+            # Google's descriptions are often the designer's own words, in the first person.
+            if designers := google.get("designers"):
+                record["designers"] = designers
         catalog.append(record)
 
     packs = assign_packs(weights)

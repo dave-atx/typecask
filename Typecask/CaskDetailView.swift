@@ -13,11 +13,14 @@ struct CaskDetailView: View {
                 }
                 CaskActions(cask: cask)
                 if let description = cask.description {
-                    CaskDescription(markdown: description)
+                    CaskDescription(markdown: description, designers: cask.designers ?? [])
                 }
                 VStack(spacing: 8) {
                     if let version = cask.version {
                         LabeledContent("Version", value: version)
+                    }
+                    if let designers = cask.designers, !designers.isEmpty {
+                        LabeledContent("Designer") { Text(designers, format: .list(type: .and)) }
                     }
                     LabeledContent("Fonts", value: cask.fonts, format: .number)
                     LabeledContent("Design Style") { Text(cask.style.name) }
@@ -42,16 +45,32 @@ struct CaskDetailView: View {
     }
 }
 
-/// Google Fonts' description, which comes as paragraphs of Markdown with links.
+/// Google Fonts' description, which comes as paragraphs of Markdown with links. Often the designer's
+/// own words, in the first person, so it reads as a quote attributed to them.
 private struct CaskDescription: View {
     let markdown: String
+    let designers: [String]
 
     var body: some View {
         // Inline-only parsing keeps the blank lines between paragraphs, which full parsing would merge.
         let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-        Text((try? AttributedString(markdown: markdown, options: options)) ?? AttributedString(markdown))
-            .font(.callout)
-            .textSelection(.enabled)
+        VStack(alignment: .leading, spacing: 10) {
+            Text((try? AttributedString(markdown: markdown, options: options)) ?? AttributedString(markdown))
+                .font(.callout)
+                .textSelection(.enabled)
+            if !designers.isEmpty {
+                Text("— \(designers.formatted(.list(type: .and))), on Google Fonts")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.leading, 14)
+        .overlay(alignment: .leading) {
+            Capsule()
+                .fill(.tint.opacity(0.6))
+                .frame(width: 3)
+        }
+        .accessibilityElement(children: .combine)
     }
 }
 

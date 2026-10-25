@@ -56,6 +56,8 @@ struct Cask: Decodable, Identifiable, Hashable {
     let glyphs: Bool
     /// Google Fonts' description of the family, as Markdown.
     let description: String?
+    /// The family's designers, per Google Fonts, who often wrote its description.
+    let designers: [String]?
     /// Homebrew's version of the cask, or the font's own where the cask always takes the latest.
     let version: String?
     /// The primary face's version string, which an installed copy's is compared with to offer an update.
