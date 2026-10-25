@@ -37,7 +37,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date
 from html.parser import HTMLParser
@@ -86,9 +86,12 @@ ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font"]
 MAX_FILE_BYTES = 100 * 1024**2
 # Below this a cask ships whatever its install count; it costs too little to be worth trimming.
 NICHE_MIN_BYTES = 10_000_000
-# Apple allows an app 1000 asset packs, and each On-Demand Resources tag is its own pack, so past that
-# small casks share one. 900 leaves room for the count to grow between releases.
+# Apple allows an app 1000 asset packs, and each On-Demand Resources tag is its own pack, so small casks
+# share one. 900 leaves room for the count to grow between releases.
 MAX_ASSET_PACKS = 900
+# How many packs small casks share, by a hash of their token, so a cask keeps its pack as the line-up
+# changes around it. Fixed so the hash doesn't reshuffle when the number of large casks changes.
+SHARED_PACKS = 450
 # Only casks under this are grouped, so installing a large font never drags others along with it.
 SMALL_CASK_BYTES = 1_000_000
 # Google's variable fonts are named Family[wght].ttf; a few, like Inter, spell it out instead.
@@ -206,7 +209,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 1
+PIPELINE_VERSION = 2
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -373,10 +376,10 @@ def homebrew_download(url):
     return next((path for path in (cache / "downloads").glob(prefix + "*") if path.is_file()), None)
 
 
-def download(url, destination, referer=None):
-    """Downloads `url` to `destination` with curl, or reuses Homebrew's copy."""
+def download(url, destination, referer=None, fresh=False):
+    """Downloads `url` to `destination` with curl, or reuses Homebrew's copy unless `fresh`."""
     destination.parent.mkdir(parents=True, exist_ok=True)
-    if (cached := homebrew_download(url)) is not None:
+    if not fresh and (cached := homebrew_download(url)) is not None:
         shutil.copy(cached, destination)
         return destination
     command = ["curl", "-fsSL", "--retry", "3", "--retry-delay", "2", "-A", USER_AGENT, "-o", destination, url]
@@ -384,6 +387,23 @@ def download(url, destination, referer=None):
         command[1:1] = ["-e", referer]
     subprocess.run(command, check=True)
     return destination
+
+
+def upstream_matches(source):
+    """Whether `source`'s URL serves the file its hash pins, downloaded fresh, as CI would: Homebrew's
+    cache can hold a copy from before the host changed it. A match is kept for the build to use."""
+    if (DOWNLOADS / source["sha256"]).is_file():
+        return True
+    DOWNLOADS.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=DOWNLOADS) as scratch:
+        try:
+            fetched = download(source["url"], Path(scratch) / "download", source.get("referer"), fresh=True)
+        except subprocess.CalledProcessError:
+            return False
+        if sha256_of(fetched) != source["sha256"]:
+            return False
+        fetched.replace(DOWNLOADS / source["sha256"])
+    return True
 
 
 def lock_source(cask, trees, commit):
@@ -460,23 +480,31 @@ def lock(count, google_top):
     tokens = list(dict.fromkeys([cask["token"] for cask, _ in ranked[:count]] + required))
     exempt = set(required)
 
-    entries, unpinned = [], []
+    planned = []
     for token in tokens:
         cask = casks_by_token[token]
         family = google_by_token.get(token)
         directory = family and google_directory_of(family, cask, family_directories)
+        planned.append((token, cask, family, directory, lock_source(cask, trees, commit)))
+    # A Google family is the same family in google/fonts, which serves when its upstream download can't
+    # be had (paratype.com refuses PT Sans and PT Serif to anything but a browser) or no longer matches
+    # Homebrew's hash (Atkinson Hyperlegible). The check downloads each of these 70-odd casks, eight at
+    # a time: GitHub serves archives at about 1 MB/s each, and Chiron Sung HK's is over a gigabyte.
+    checked = [source for *_, directory, source in planned if directory in trees and source and "url" in source]
+    with ThreadPoolExecutor(8) as pool:
+        matches = dict(zip((source["sha256"] for source in checked), pool.map(upstream_matches, checked)))
+
+    entries, unpinned = [], []
+    for token, cask, family, directory, source in planned:
         artifacts = [artifact["font"][0] for artifact in cask["artifacts"] if "font" in artifact]
-        source = lock_source(cask, trees, commit)
-        if source is None and directory in trees:
-            # A Google family whose upstream download can't be had — paratype.com refuses PT Sans and
-            # PT Serif to anything but a browser — is the same family in google/fonts.
+        if directory in trees and (source is None or ("url" in source and not matches[source["sha256"]])):
             source = {"google": directory, "tree": trees[directory]}
             artifacts = [
                 name.rsplit("/", 1)[-1]
                 for name in git("ls-tree", "--name-only", commit, f"{directory}/").splitlines()
                 if name.lower().endswith((".ttf", ".otf"))
             ]
-            print(f"{token}: upstream download can't be pinned; using google/fonts {directory}")
+            print(f"{token}: upstream download unavailable or changed; using google/fonts {directory}")
         if source is None:
             unpinned.append(token)
             continue
@@ -650,7 +678,9 @@ def write_preview(face, token, directory, text=SAMPLE_TEXT):
 
 def subset_preview(face, token, directory, text, drop):
     postscript_name = "TypecaskPreview-" + re.sub(r"[^A-Za-z0-9-]", "_", token)
-    with TTFont(face.path, fontNumber=face.number, lazy=True) as font:
+    # recalcTimestamp=False keeps the source's modified date. Otherwise every save stamps the time of the
+    # build into the head table, and every preview changes on every rebuild of the same font.
+    with TTFont(face.path, fontNumber=face.number, lazy=True, recalcTimestamp=False) as font:
         style = classify(font)
         glyphs = has_glyph_sample(font)
         font_version = font_version_of(font)
@@ -990,26 +1020,25 @@ def write_dataset(path, asset, token):
 def assign_packs(weights):
     """Maps each shipped cask to the On-Demand Resources tag its fonts download under.
 
-    A cask is normally its own tag. When that would mean more packs than MAX_ASSET_PACKS, small casks
-    are grouped, as few to a pack as gets under the limit: installing one downloads its pack-mates
-    too, but only registers its own fonts, so the cost is a few hundred KB of extra download.
-    `weights` is in catalog order, so pack-mates are neighbours in popularity.
+    A cask of SMALL_CASK_BYTES or more is its own tag. Smaller casks share SHARED_PACKS tags, a cask
+    going to the one its token hashes to: installing one downloads its pack-mates too, but only
+    registers its own fonts, so the cost is a few hundred KB of extra download. Assigning by hash
+    rather than position keeps a cask's pack, and the PR that ships a new line-up, unchanged when
+    casks are added or removed elsewhere.
     """
-    small = [token for token, weight in weights.items() if weight < SMALL_CASK_BYTES]
-    alone = len(weights) - len(small)
-    if alone >= MAX_ASSET_PACKS:
+    alone = sum(weight >= SMALL_CASK_BYTES for weight in weights.values())
+    if alone + SHARED_PACKS > MAX_ASSET_PACKS:
         sys.exit(
-            f"{alone} casks over {SMALL_CASK_BYTES / 1e6:.0f} MB need a pack each, "
-            f"past the {MAX_ASSET_PACKS} allowed; trim the line-up"
+            f"{alone} casks over {SMALL_CASK_BYTES / 1e6:.0f} MB need a pack each, which with "
+            f"{SHARED_PACKS} shared packs is past the {MAX_ASSET_PACKS} allowed; trim the line-up"
         )
-    per_pack = 1
-    while alone + -(-len(small) // per_pack) > MAX_ASSET_PACKS:
-        per_pack += 1
-    packs = {token: token for token in weights}
-    if per_pack > 1:
-        for start in range(0, len(small), per_pack):
-            for token in small[start : start + per_pack]:
-                packs[token] = f"pack-{start // per_pack + 1:03d}"
+    packs = {}
+    for token, weight in weights.items():
+        if weight >= SMALL_CASK_BYTES:
+            packs[token] = token
+        else:
+            bucket = int.from_bytes(hashlib.sha256(token.encode()).digest()[:8], "big") % SHARED_PACKS
+            packs[token] = f"pack-{bucket + 1:03d}"
     return packs
 
 

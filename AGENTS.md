@@ -32,9 +32,17 @@ uvx --from actionlint-py actionlint
   `PIPELINE_VERSION`. Bump `PIPELINE_VERSION` when a change alters what a cask builds into (preview
   text, file selection, subsetting); bump `SKIP_VERSION` when a change could rescue skipped casks (a
   new license source). Otherwise cached casks silently keep the old behavior.
-- A build must be reproducible from the lock: same lock, byte-identical `Catalog.json`. Sort with an
-  explicit tie-break and never iterate a set where order reaches the output (hash seeds vary per run).
-  Check with two builds under different `PYTHONHASHSEED` values.
+- A build must be reproducible from the lock: same lock, byte-identical `Catalog.json` and previews,
+  on macOS or Linux. Sort with an explicit tie-break, never iterate a set where order reaches the
+  output (hash seeds vary per run), open fonts with `recalcTimestamp=False` (fontTools otherwise
+  stamps the build time into every saved font), and use `hashlib`, not `hash()`. Check with two
+  builds under different `PYTHONHASHSEED` values.
+- Keep a fonts PR's diff to what changed: shared asset packs are assigned by a hash of the token, so
+  adding or removing a cask doesn't move the others.
+- `lock` decides everything that depends on the network: it downloads each Google family's upstream
+  release fresh, and falls back to google/fonts when it no longer matches Homebrew's hash. A build
+  never makes that choice, or a Mac with an old copy in Homebrew's cache would build differently from
+  CI.
 - A cask is shipped only with a license. Apple's fonts are never shipped; `apple-previews` subsets
   only what the font's fsType embedding bits permit (the least restrictive bit wins, as in Font Book).
 - `:no_check` downloads are hashed by `lock` and kept in `.cache/downloads/<sha256>`: some hosts
