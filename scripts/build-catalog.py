@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["fonttools==4.67.0"]
+# dependencies = ["fonttools==4.67.0", "lxml==6.1.3"]  # lxml subsets OpenType-SVG color fonts
 # ///
 """Builds Typecask's catalog and font assets from Homebrew's font casks and Google Fonts.
 
@@ -25,6 +25,7 @@ import argparse
 import base64
 import hashlib
 import json
+import logging
 import os
 import re
 import shutil
@@ -45,6 +46,11 @@ from pathlib import Path
 from fontTools.subset import Options, Subsetter
 from fontTools.ttLib import TTCollection, TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
+
+# fontTools logs every table it drops while subsetting (FontForge's FFTM and PfEd, Graphite's Silt,
+# ttfautohint's TTFA) and every quirk it reads past in a sloppy font: hundreds of lines a build, none
+# of them about a preview. Only errors are worth seeing among the build's own warnings.
+logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 ANALYTICS_URL = "https://formulae.brew.sh/api/analytics/cask-install/365d.json"
 CASKS_URL = "https://formulae.brew.sh/api/cask.json"
@@ -119,6 +125,9 @@ APPLE_STYLES = {
 # Fonts Core Text needs for laying out math, which no one would pick from a gallery.
 APPLE_HIDDEN = re.compile(r"^STIX(Integrals|Size|NonUnicode|Variants)")
 COLLECTION_SUFFIXES = (".ttc", ".otc")
+# What fontTools reads and Core Text registers from an asset catalog. A classic Mac .dfont is neither:
+# Cozette's was being picked as its shortest-named file.
+FONT_SUFFIXES = (".ttf", ".otf", *COLLECTION_SUFFIXES)
 LICENSE_NAME = re.compile(r"licen[cs]e|\bofl\b|copying|copyright", re.IGNORECASE)
 LICENSE_SUFFIXES = ("", ".txt", ".md")
 GITHUB_REPO = re.compile(r"github\.com/([^/]+)/([^/]+?)(?:\.git)?/")
@@ -513,6 +522,9 @@ def write_preview(face, token, directory, text=SAMPLE_TEXT):
         options = Options()
         options.layout_features = ["*"]
         options.name_IDs = ["*"]
+        # Baseline offsets for mixing scripts on a line, which a one-line sample doesn't need, and
+        # which fontTools can't parse in Google Sans Code Nerd Font.
+        options.drop_tables += ["BASE"]
         subsetter = Subsetter(options)
         subsetter.populate(text=text + (GLYPH_SAMPLE if glyphs else ""))
         subsetter.subset(font)
@@ -730,7 +742,8 @@ def build_cask(entry, destination):
         if not (license := find_license(root, url, google.get("directory"))):
             # Without a license to ship alongside the fonts, there's no basis for redistributing them.
             raise Skip("no license found")
-        selected = [root / artifact for artifact in select_files(entry["artifacts"]) if (root / artifact).is_file()]
+        fonts = [artifact for artifact in entry["artifacts"] if Path(artifact).suffix.lower() in FONT_SUFFIXES]
+        selected = [root / artifact for artifact in select_files(fonts) if (root / artifact).is_file()]
         if not selected:
             raise Skip("no usable font files")
         (destination / "fonts").mkdir(parents=True)

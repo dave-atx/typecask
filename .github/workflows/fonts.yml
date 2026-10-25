@@ -81,8 +81,9 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: scripts/publish-fonts.sh build "${{ steps.tag.outputs.tag }}"
 
+      # Even when a later step fails, so the next run doesn't redo the casks this one built.
       - name: Save built casks
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: always() && steps.cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: .cache/built
