@@ -53,7 +53,12 @@ list.
 
 ## Building
 
-Requires Xcode 27.2 and [uv](https://docs.astral.sh/uv/).
+Requires Xcode 27.2 and [uv](https://docs.astral.sh/uv/). Simulator builds need no signing team; to
+build for a device or archive, put yours in `Signing.local.xcconfig`, which git ignores:
+
+```sh
+echo 'DEVELOPMENT_TEAM = ABCDE12345' > Signing.local.xcconfig
+```
 
 ```sh
 # Builds Catalog.json, Previews/ and Licenses/ for every cask in fonts.lock.json, and Fonts.xcassets
@@ -119,8 +124,9 @@ Create Workflow, or in App Store Connect under the app's Xcode Cloud tab:
 4. **Post-Action:** *TestFlight Internal Testing*, pointed at a tester group.
 
 It needs an Apple Developer Program membership, an App Store Connect record for
-`org.marquard.Typecask`, `DEVELOPMENT_TEAM` set in the project, and the repository pushed to a host
-Xcode Cloud can reach (GitHub, GitLab or Bitbucket).
+`org.marquard.Typecask` whose App ID has the Fonts capability ("Install Fonts"), and the repository
+pushed to a host Xcode Cloud can reach (GitHub, GitLab or Bitbucket). The team comes from Xcode Cloud's
+`CI_TEAM_ID`, which `ci_post_clone.sh` writes into `Signing.local.xcconfig`.
 
 Both scripts in `ci_scripts/` run automatically. `ci_pre_xcodebuild.sh` sets the build number from
 the tag. `ci_post_clone.sh` supplies `Fonts.xcassets`, which is generated rather than committed.

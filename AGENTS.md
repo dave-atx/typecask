@@ -42,6 +42,12 @@ uvx --from actionlint-py actionlint
 - Apple allows 1000 On-Demand Resources packs; small casks share packs past 900. Every asset catalog
   group needs its own `Contents.json` or `actool` silently ships an empty pack.
 
+## Signing
+
+The project names no team: `Signing.xcconfig` includes an optional, gitignored
+`Signing.local.xcconfig`, and Xcode Cloud writes that from `CI_TEAM_ID`. Don't set a team in Xcode's
+Signing & Capabilities pane, which writes it into the project for everyone.
+
 ## Running heavy scripts
 
 - Run `build` and anything else that loads many fonts under the memory cap:

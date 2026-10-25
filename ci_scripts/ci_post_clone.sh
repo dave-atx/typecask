@@ -10,6 +10,11 @@
 set -eu
 
 cd "$CI_PRIMARY_REPOSITORY_PATH"
+
+# Signing.xcconfig leaves the team to a local file, which isn't committed; Xcode Cloud names its own.
+if [ -n "${CI_TEAM_ID:-}" ] && [ ! -f Signing.local.xcconfig ]; then
+    echo "DEVELOPMENT_TEAM = $CI_TEAM_ID" > Signing.local.xcconfig
+fi
 PIN=Typecask/FontsAsset.json
 
 if [ -f "$PIN" ]; then

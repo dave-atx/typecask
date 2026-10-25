@@ -7,3 +7,4 @@ xcuserdata/
 Typecask/Fonts.xcassets/
 __pycache__/
 .ruff_cache/
+Signing.local.xcconfig

@@ -1,8 +1,8 @@
 {
   "default-configuration": "Release",
   "configurations": [
-    "Debug",
-    "Release",
+    { "name": "Debug", "file": "Signing.xcconfig" },
+    { "name": "Release", "file": "Signing.xcconfig" },
   ],
   "localizations": {
     "development": "en",
@@ -11,6 +11,7 @@
     ],
   },
   "files": [
+    { "path": "Signing.xcconfig" },
     { "kind": "folder", "path": "Typecask", "target-membership": [ "Typecask" ] },
     { "kind": "folder", "path": "TypecaskUITests", "target-membership": [ "TypecaskUITests" ] },
     {
