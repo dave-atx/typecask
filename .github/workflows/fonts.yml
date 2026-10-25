@@ -131,7 +131,8 @@ jobs:
     timeout-minutes: 90
     env:
       TAG: ${{ needs.build.outputs.tag }}
-      DESTINATION: platform=iOS Simulator,name=iPad Pro 11-inch (M5)
+      # The image defaults to 27.1; 27.2 is what Xcode Cloud builds releases with.
+      DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
       # One of each kind: a google/fonts family, a Nerd Font from a GitHub release, a CJK family, and
       # a coding font. The uninstall and update tests take the last two.
       INSTALL: font-roboto font-jetbrains-mono-nerd-font font-noto-sans-cjk-sc font-fira-code
@@ -152,18 +153,52 @@ jobs:
           # shellcheck disable=SC2086 -- a deliberately word-split list of paths.
           tar --zstd -xf ".cache/$TAG.tar.zst" -C Typecask Fonts.xcassets/Contents.json $groups
 
+      # A simulator's first boot spends minutes setting itself up. Left to the first test, that ran past
+      # XCTest's patience and the runner died "never finished bootstrapping", so it boots here, while
+      # the app builds, and the tests wait until it's done.
+      - name: Boot the simulator
+        run: |
+          udid=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          import itertools
+          # com.apple.CoreSimulator.SimRuntime.iOS-27-2, or iOS-27-2-iPhone19-4 for a device-specific one.
+          version = lambda runtime: [int(part) for part in itertools.takewhile(
+              str.isdigit, runtime.rsplit("iOS-", 1)[1].split("-"))]
+          for runtime in sorted((r for r in devices if ".iOS-" in r), key=version, reverse=True):
+              for device in devices[runtime]:
+                  if device["name"] == "iPad Pro 11-inch (M5)":
+                      print(device["udid"])
+                      sys.exit()
+          sys.exit("no iPad Pro 11-inch (M5) simulator")')
+          xcrun simctl boot "$udid"
+          echo "SIMULATOR=$udid" >> "$GITHUB_ENV"
+          echo "DESTINATION=platform=iOS Simulator,id=$udid" >> "$GITHUB_ENV"
+
       - name: Build for testing
         run: |
           xcodebuild build-for-testing -project Typecask.xcodeproj -scheme Typecask \
             -destination "$DESTINATION" -derivedDataPath DerivedData | tail -5
 
+      - name: Wait for the simulator to finish booting
+        run: xcrun simctl bootstatus "$SIMULATOR" -b
+
       - name: Install, uninstall and update
         run: |
-          run_test() {
+          attempt() {
             TEST_RUNNER_TYPECASK_CASK="$2" xcodebuild test-without-building -project Typecask.xcodeproj \
               -scheme Typecask -destination "$DESTINATION" -derivedDataPath DerivedData \
-              -only-testing:"TypecaskUITests/InstallTests/$1" > "test-$1-$2.log" 2>&1 \
-              && echo "passed: $1 $2" || { echo "FAILED: $1 $2"; tail -40 "test-$1-$2.log"; return 1; }
+              -only-testing:"TypecaskUITests/InstallTests/$1" > "test-$1-$2.log" 2>&1
+          }
+          # A runner that dies before the test starts is the simulator, not the fonts: try once more.
+          run_test() {
+            if attempt "$1" "$2" || { grep -q "never finished bootstrapping" "test-$1-$2.log" && attempt "$1" "$2"; }; then
+              echo "passed: $1 $2"
+            else
+              echo "FAILED: $1 $2"
+              tail -40 "test-$1-$2.log"
+              return 1
+            fi
           }
           status=0
           for token in $INSTALL; do
