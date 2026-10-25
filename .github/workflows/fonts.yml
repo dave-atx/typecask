@@ -58,7 +58,7 @@ jobs:
       - name: Install 7-Zip
         run: sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends p7zip-full
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.2
 
       - name: Lock
         if: github.event_name != 'workflow_dispatch' || inputs.lock
