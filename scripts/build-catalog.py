@@ -156,6 +156,9 @@ CACHE = ROOT / ".cache"
 CLONE = CACHE / "google-fonts"
 # One directory per cask and cache key: the GitHub Actions cache keeps it between runs.
 BUILT = CACHE / "built"
+# Downloads the lock hashed itself, kept by hash for the build to use: some hosts, like djr.com for
+# Input, assemble a new zip for every request, so a second download would never match the lock.
+DOWNLOADS = CACHE / "downloads"
 WORK = CACHE / "work"
 
 
@@ -318,12 +321,15 @@ def lock_source(cask, trees, commit):
     sha256 = cask.get("sha256")
     if not sha256 or sha256 == "no_check":
         # Homebrew doesn't pin these, so the lock does: what was there when it was written is what a
-        # build will accept.
-        with tempfile.TemporaryDirectory() as scratch:
+        # build will accept, and the build uses this very file.
+        DOWNLOADS.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=DOWNLOADS) as scratch:
             try:
-                sha256 = sha256_of(download(url, Path(scratch) / "download", specs.get("referer")))
+                fetched = download(url, Path(scratch) / "download", specs.get("referer"))
             except subprocess.CalledProcessError:
                 return None
+            sha256 = sha256_of(fetched)
+            fetched.replace(DOWNLOADS / sha256)
     source = {"url": url, "sha256": sha256}
     if specs.get("referer"):
         source["referer"] = specs["referer"]
@@ -753,7 +759,11 @@ def stage(entry, work):
         subprocess.run(["git", "-C", repository, "checkout", "--quiet", "FETCH_HEAD"], check=True)
         return repository / source["path"]
     name = urllib.parse.unquote(urllib.parse.urlparse(source["url"]).path.rsplit("/", 1)[-1]) or "download"
-    archive = download(source["url"], work / "download" / name, source.get("referer"))
+    if (kept := DOWNLOADS / source["sha256"]).is_file():
+        (work / "download").mkdir()
+        archive = Path(shutil.copy(kept, work / "download" / name))
+    else:
+        archive = download(source["url"], work / "download" / name, source.get("referer"))
     if (actual := sha256_of(archive)) != source["sha256"]:
         raise ValueError(f"SHA-256 is {actual}, but the lock pins {source['sha256']}")
     staged = work / "staged"
