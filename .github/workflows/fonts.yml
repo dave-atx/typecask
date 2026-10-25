@@ -23,10 +23,6 @@ on:
   schedule:
     # Mondays, after Homebrew's weekly analytics and most google/fonts merges have landed.
     - cron: "0 9 * * 1"
-  # Temporary, to try the workflow before it's on the default branch, which workflow_dispatch needs.
-  # Locks, builds and verifies, but doesn't publish. Remove before merging.
-  push:
-    branches: [fonts-pipeline]
 
 permissions:
   contents: read
@@ -61,7 +57,7 @@ jobs:
       - uses: astral-sh/setup-uv@v10.3.2
 
       - name: Lock
-        if: github.event_name != 'workflow_dispatch' || inputs.lock
+        if: github.event_name == 'schedule' || inputs.lock
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: uv run --script scripts/build-catalog.py lock
