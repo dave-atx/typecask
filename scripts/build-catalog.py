@@ -66,6 +66,7 @@ EXCLUDED = {
     "font-fontawesome",
     "font-sketchybar-app-font",
     "font-noto-color-emoji",
+    "font-noto-color-emoji-compat-test",
     # Bundles the faces of font-noto-sans-cjk-{sc,jp,kr}, which would collide.
     "font-noto-sans-cjk",
 }
@@ -137,6 +138,10 @@ USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
 PIPELINE_VERSION = 1
+# A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
+# Bump this when a change might rescue some of them, such as a new place to find licenses: only the
+# skipped casks are retried, not the whole line-up.
+SKIP_VERSION = 2
 
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
@@ -145,6 +150,8 @@ PREVIEWS = APP / "Previews"
 LICENSES = APP / "Licenses"
 APPLE_PREVIEWS = APP / "ApplePreviews"
 LOCK = ROOT / "fonts.lock.json"
+# Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
+LICENSE_TEXTS = ROOT / "scripts" / "licenses"
 CACHE = ROOT / ".cache"
 CLONE = CACHE / "google-fonts"
 # One directory per cask and cache key: the GitHub Actions cache keeps it between runs.
@@ -337,12 +344,18 @@ def lock(count, google_top):
             family_directories.setdefault(parts[1], path)
 
     google_by_token = {token: family for family, token in families if token}
+    # A family matches one cask, but several can install it: Hind's specimen page belongs to another
+    # cask, and font-hind downloads from upstream with no license, which google/fonts then supplies.
+    for family, _ in families:
+        by_name = "font-" + re.sub(r"[^a-z0-9]+", "-", family["family"].lower()).strip("-")
+        if by_name in casks_by_token:
+            google_by_token.setdefault(by_name, family)
     if google_top != 0:
         top = families[:google_top]
         if missing := [family["family"] for family, token in top if not token]:
             print(f"no cask for {len(missing)} Google Fonts families, which have no files in google/fonts "
                   f"under those names either: {', '.join(missing)}")
-        required = [token for _, token in top if token]
+        required = [token for _, token in top if token and token not in EXCLUDED]
     else:
         required = []
     required += ALWAYS_INCLUDED
@@ -511,8 +524,21 @@ class Preview:
     font_version: str
 
 
+# Tables a preview can do without, dropped on a second attempt when a font's copy of one is too
+# malformed for fontTools to read: Dream Han Sans's variation store, for one.
+OPTIONAL_TABLES = ["BASE", "GDEF", "GPOS", "GSUB", "JSTF", "MATH", "HVAR", "VVAR", "MVAR"]
+
+
 def write_preview(face, token, directory, text=SAMPLE_TEXT):
     """Subsets the face to `text`, renamed so it can't clash with an installed font."""
+    try:
+        return subset_preview(face, token, directory, text, drop=["BASE"])
+    except Exception as error:  # noqa: BLE001 - any table fontTools chokes on
+        print(f"{token}: subsetting failed ({type(error).__name__}: {error}); trying without layout tables")
+        return subset_preview(face, token, directory, text, drop=OPTIONAL_TABLES)
+
+
+def subset_preview(face, token, directory, text, drop):
     postscript_name = "TypecaskPreview-" + re.sub(r"[^A-Za-z0-9-]", "_", token)
     with TTFont(face.path, fontNumber=face.number, lazy=True) as font:
         style = classify(font)
@@ -522,9 +548,9 @@ def write_preview(face, token, directory, text=SAMPLE_TEXT):
         options = Options()
         options.layout_features = ["*"]
         options.name_IDs = ["*"]
-        # Baseline offsets for mixing scripts on a line, which a one-line sample doesn't need, and
-        # which fontTools can't parse in Google Sans Code Nerd Font.
-        options.drop_tables += ["BASE"]
+        # BASE, baseline offsets for mixing scripts on a line, which a one-line sample doesn't need,
+        # is always dropped: fontTools can't parse Google Sans Code Nerd Font's.
+        options.drop_tables += drop
         subsetter = Subsetter(options)
         subsetter.populate(text=text + (GLYPH_SAMPLE if glyphs else ""))
         subsetter.subset(font)
@@ -594,7 +620,19 @@ def google_fonts_license(directory):
     for name in GOOGLE_LICENSE_NAMES:
         if (path := CLONE / directory / name).is_file():
             return f"License of github.com/google/fonts/{directory}:\n\n{path.read_text(errors='replace')}"
-    return None
+    # Ten families, Tinos and M PLUS Rounded 1c among them, have no license file and record it in
+    # METADATA.pb instead: the license's name, and the copyright of each font.
+    metadata = CLONE / directory / "METADATA.pb"
+    if not metadata.is_file():
+        return None
+    text = metadata.read_text(errors="replace")
+    license = re.search(r'^license: "(\w+)"', text, re.MULTILINE)
+    standard = license and LICENSE_TEXTS / f"{license.group(1)}.txt"
+    if not standard or not standard.is_file():
+        return None
+    copyrights = "\n".join(dict.fromkeys(re.findall(r'copyright: "(.*)"', text)))
+    return (f"License of github.com/google/fonts/{directory}, from its METADATA.pb:\n\n"
+            f"{copyrights}\n\n{standard.read_text()}")
 
 
 def find_license(root, url, google_directory=None):
@@ -793,7 +831,7 @@ def build_job(job):
     except Skip as reason:
         shutil.rmtree(partial)
         partial.mkdir()
-        write_json(partial / "entry.json", {"skip": str(reason)})
+        write_json(partial / "entry.json", {"skip": str(reason), "skipVersion": SKIP_VERSION})
     except Exception as error:  # noqa: BLE001 - a dead URL or bad file costs one cask, not the release
         shutil.rmtree(partial, ignore_errors=True)
         return entry["token"], f"{type(error).__name__}: {error}"
@@ -920,7 +958,14 @@ def build(only=None, max_mb_per_install=None, archive=None, jobs=1):
     entries = locked["casks"]
     keys = {entry["token"]: cache_key(entry) for entry in entries}
     destinations = {token: BUILT / token / key for token, key in keys.items()}
-    pending = [entry for entry in entries if not (destinations[entry["token"]] / "entry.json").is_file()]
+    def cached(token):
+        path = destinations[token] / "entry.json"
+        if not path.is_file():
+            return False
+        built = json.loads(path.read_text())
+        return "skip" not in built or built.get("skipVersion") == SKIP_VERSION
+
+    pending = [entry for entry in entries if not cached(entry["token"])]
     print(f"{len(entries) - len(pending)} of {len(entries)} casks cached; building {len(pending)}")
 
     if pending:
