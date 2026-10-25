@@ -4,7 +4,7 @@
 # Typecask/Fonts.xcassets is generated, not committed, and the fonts in it have to be in the archive
 # for On-Demand Resources to host them. scripts/publish-fonts.sh builds it once, attaches it to a
 # GitHub release and pins that release in Typecask/FontsAsset.json; this fetches exactly that file,
-# so CI pays for one download instead of hundreds of `brew fetch` calls.
+# so CI pays for one download instead of downloading and subsetting every cask.
 #
 # Without a pin, it falls back to building a few casks from fonts.lock.json. TYPECASK_CASKS picks them.
 set -eu
@@ -34,7 +34,7 @@ if [ -f "$PIN" ]; then
 
     # Catalog.json and the asset are published together. If they've drifted, casks would offer an
     # Install button for fonts the build doesn't carry, so stop here instead.
-    python3 - <<'PY'
+    python3 - << 'PY'
 import json, pathlib, sys
 catalog = json.loads(pathlib.Path("Typecask/Catalog.json").read_text())
 expected = {cask["token"] for cask in catalog["casks"] if cask["assets"]}
@@ -56,7 +56,7 @@ if ! command -v uv > /dev/null 2>&1; then
 fi
 
 echo "No $PIN; building font assets for: $CASKS"
-# shellcheck disable=SC2086 -- CASKS is a deliberately word-split list of tokens.
+# shellcheck disable=SC2086 # CASKS is a deliberately word-split list of tokens.
 uv run --script scripts/build-catalog.py build --fonts $CASKS
 
 echo "Fonts.xcassets groups:"

@@ -1,4 +1,4 @@
-License of github.com/mishamyrt/Lilex:
+License of github.com/google/fonts/ofl/lilex:
 
 Copyright 2019 The Lilex Project Authors (https://github.com/mishamyrt/Lilex)
 

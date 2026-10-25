@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/heptaslab:
-
 Copyright 2018 The Hepta Slab Project Authors (https://github.com/mjlagattuta/Hepta-Slab)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

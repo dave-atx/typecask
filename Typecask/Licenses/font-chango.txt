@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/chango:
-
 Copyright (c) 2011 Fontstage (info@fontstage.com), with Reserved Font Names, 'Chango'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

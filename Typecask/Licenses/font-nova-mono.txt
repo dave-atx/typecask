@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/novamono:
-
 Copyright (c) 2011, wmk69 (wmk69@o2.pl),
 with Reserved Font Name NovaMono.
 

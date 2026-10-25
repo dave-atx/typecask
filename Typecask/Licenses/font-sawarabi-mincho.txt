@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/sawarabimincho:
-
 Copyright 2024 The Sawarabi Mincho Project Authors (https://github.com/googlefonts/sawarabi-mincho/)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

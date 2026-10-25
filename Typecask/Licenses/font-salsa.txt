@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/salsa:
-
 Copyright (c) 2011 by John Vargas Beltrán (john.vargasbeltran@gmail.com), 
 with Reserved Font Name Salsa.
 

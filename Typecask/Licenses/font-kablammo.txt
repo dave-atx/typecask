@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/kablammo:
-
 Copyright 2023 The Kablammo Project Authors (https://github.com/Vectro-Type-Foundry/kablammo)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

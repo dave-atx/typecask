@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/bayon:
-
 Copyright 2019 The Bayon Project Authors (https://github.com/danhhong/Bayon)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

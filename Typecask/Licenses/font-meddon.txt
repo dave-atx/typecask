@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/meddon:
-
 Copyright (c) 2010, 2011 by vernon adams (vern@newtypography.co.uk),
 with Reserved Font Name Meddon.
 

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/encodesans:
-
 Copyright 2020 The Encode Project Authors (https://github.com/thundernixon/Encode-Sans), with Reserved Font Name "Encode Sans”.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

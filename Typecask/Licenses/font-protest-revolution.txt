@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/protestrevolution:
-
 Copyright 2013 The Protest Project Authors (https://github.com/octaviopardo/Protest)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

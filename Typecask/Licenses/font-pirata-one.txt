@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/pirataone:
-
 Copyright (c) 2012, Rodrigo Fuenzalida, Nicolas Massi (www.taip.com.ar / abc.taip.com.ar), with Reserved Font Name 'Pirata'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

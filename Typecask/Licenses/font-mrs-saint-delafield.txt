@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/mrssaintdelafield:
-
 Copyright (c) 2011 Alejandro Paul (sudtipos@sudtipos.com), 
 with Reserved Font Name "Mrs Saint Delafield"
 

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/fingerpaint:
-
 Copyright (c) 2011 by Ralph du Carrois, with Reserved Font Name 'Finger Paint'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

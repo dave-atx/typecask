@@ -1,0 +1,7 @@
+root = true
+
+# shfmt reads its settings from here: `uvx --from shfmt-py shfmt -d scripts ci_scripts`.
+[*.sh]
+indent_style = space
+indent_size = 4
+space_redirects = true

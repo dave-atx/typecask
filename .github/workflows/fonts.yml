@@ -150,7 +150,7 @@ jobs:
         run: |
           groups=""
           for token in $INSTALL; do groups="$groups Fonts.xcassets/$token"; done
-          # shellcheck disable=SC2086 -- a deliberately word-split list of paths.
+          # shellcheck disable=SC2086 # a deliberately word-split list of paths
           tar --zstd -xf ".cache/$TAG.tar.zst" -C Typecask Fonts.xcassets/Contents.json $groups
 
       # A simulator's first boot spends minutes setting itself up. Left to the first test, that ran past

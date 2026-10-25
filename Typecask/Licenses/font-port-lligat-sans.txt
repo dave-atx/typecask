@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/portlligatsans:
-
 Copyright (c) 2011, Tipo (http://www.tipo.net.ar),
 with Reserved Font Name "Port Lligat Sans"
 

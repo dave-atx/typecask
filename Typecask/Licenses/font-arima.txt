@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/arima:
-
 Copyright 2020 The Arima Project Authors (https://github.com/NDISCOVER/Arima-Font)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

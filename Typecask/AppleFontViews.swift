@@ -10,12 +10,14 @@ struct AppleFontSpecimen: View {
     let lineLimit: Int?
     @ScaledMetric private var size: CGFloat
 
-    init(family: AppleFontFamily, sampleText: String, kind: AppleFontFamily.PreviewKind, lineLimit: Int?) {
+    init(family: AppleFontFamily, sampleText: String, kind: AppleFontFamily.PreviewKind, lineLimit: Int?,
+         rowSize: CGFloat = 64) {
         self.family = family
         self.sampleText = sampleText
         self.kind = kind
         self.lineLimit = lineLimit
-        _size = ScaledMetric(wrappedValue: kind == .card ? 20 : 64, relativeTo: kind == .card ? .title3 : .largeTitle)
+        _size = ScaledMetric(wrappedValue: kind == .card ? 20 : rowSize,
+                             relativeTo: kind == .card ? .title3 : .largeTitle)
     }
 
     var body: some View {
@@ -64,13 +66,15 @@ struct AppleFontCard: View {
 struct AppleFontSampleRow: View {
     let family: AppleFontFamily
     let sampleText: String
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             SampleRowHeader(title: family.name) {
                 AppleFontSource(family: family)
             }
-            AppleFontSpecimen(family: family, sampleText: sampleText, kind: .row, lineLimit: 2)
+            AppleFontSpecimen(family: family, sampleText: sampleText, kind: .row, lineLimit: 2,
+                              rowSize: sampleSize(horizontalSizeClass))
         }
         .sampleRowLayout()
     }

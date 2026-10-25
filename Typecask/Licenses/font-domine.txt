@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/domine:
-
 Copyright 2020 The Domine Project Authors (https://github.com/googlefonts/domine)
 Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),
 Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),

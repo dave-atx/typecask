@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/varelaround:
-
 Copyright 2023 The Varela Round Project Authors (https://github.com/alefalefalef/Varela-Round-Hebrew/), with Reserved Font Names 'Varela' and ‘Varela Round’.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

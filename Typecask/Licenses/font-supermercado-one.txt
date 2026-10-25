@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/supermercadoone:
-
 Copyright (c) 2011-2012 by Sorkin Type Co (www.sorkintype.com),
 with Reserved Font Name "Supermercado".
 

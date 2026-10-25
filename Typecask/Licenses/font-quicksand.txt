@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/quicksand:
-
 Copyright 2011 The Quicksand Project Authors (https://github.com/andrew-paglinawan/QuicksandFamily), with Reserved Font Name “Quicksand”.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

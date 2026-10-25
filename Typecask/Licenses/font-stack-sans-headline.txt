@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/stacksansheadline:
-
 Copyright 2025 The Stack Sans Project Authors (https://github.com/DylanYoungKoto/Stack-Sans)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

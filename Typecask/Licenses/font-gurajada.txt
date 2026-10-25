@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/gurajada:
-
 Copyright (c) 2012 Silicon Andhra (fonts.siliconandhra.org). Copyright (c) 2013, Juan Pablo del Peral (juandelperal@htfonts.com), with Reserved Font Names 'Alegreya Sans'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

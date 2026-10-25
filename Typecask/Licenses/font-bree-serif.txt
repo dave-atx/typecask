@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/breeserif:
-
 Copyright (c) 2011, TypeTogether (www.type-together.com), 
 with Reserved Font Names "Bree" and "Bree Serif"
 

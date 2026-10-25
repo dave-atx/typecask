@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/telex:
-
 Copyright 2011 The Telex Project Authors (andres.torresi@htfonts.com), with Reserved Font Name Telex.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

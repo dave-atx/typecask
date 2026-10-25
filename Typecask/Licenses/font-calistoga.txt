@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/calistoga:
-
 Copyright 2019 The Calistoga Project Authors (https://github.com/SorkinType/Calistoga)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

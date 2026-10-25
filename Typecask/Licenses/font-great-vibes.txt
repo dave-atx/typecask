@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/greatvibes:
-
 Copyright 2015 The Great Vibes Pro Project Authors (https://github.com/googlefonts/great-vibes)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

@@ -1,4 +1,4 @@
-License of github.com/calcom/sans:
+License of github.com/google/fonts/ofl/calsans:
 
 Copyright 2021 The Cal Sans Project Authors (https://github.com/calcom/font)
 

@@ -1,4 +1,4 @@
-License of github.com/microsoft/cascadia-code:
+License of github.com/google/fonts/ofl/cascadiamono:
 
 Copyright (c) 2019 - Present, Microsoft Corporation,
 with Reserved Font Name Cascadia Code.

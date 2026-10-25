@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/pontanosans:
-
 Copyright 2012 The Pontano Sans Project Authors (https://github.com/googlefonts/PontanoSansFont)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

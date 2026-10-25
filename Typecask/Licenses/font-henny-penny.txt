@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/hennypenny:
-
 Copyright (c) 2011, BrownFox (gayaneh.b@gmail.com|www.brownfox.org), 
 with Reserved Font Names "Henny Penny"
 

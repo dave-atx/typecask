@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/astasans:
-
 ﻿Copyright 2024 The Asta Sans Project Authors (https://github.com/42dot/Asta-Sans).
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

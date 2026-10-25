@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/meiescript:
-
 Copyright (c) 2011, 2012 Johan Kallas (johankallas@gmail.com), Mihkel Virkus (mihkelvirkus@gmail.com), with Reserved Font Name 'Meie Script'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

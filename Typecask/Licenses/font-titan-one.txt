@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/titanone:
-
 Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com),
 with Reserved Font Name Titan.
 

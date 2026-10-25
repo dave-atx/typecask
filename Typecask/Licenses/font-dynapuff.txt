@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/dynapuff:
-
 Copyright 2021 The DynaPuff Project Authors (https://github.com/googlefonts/dynapuff)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

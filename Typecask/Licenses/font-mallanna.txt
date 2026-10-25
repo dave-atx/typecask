@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/mallanna:
-
 Copyright (c) 2012 Andhrapradesh Society for Knowledge Networks (fonts.siliconandhra.org). Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk), with Reserved Font Name Nunito
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

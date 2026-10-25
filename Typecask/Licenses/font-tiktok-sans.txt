@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/tiktoksans:
-
 Copyright 2024 TikTok Inc. (https://github.com/tiktok/TikTokSans)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

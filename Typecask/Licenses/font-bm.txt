@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/hanna:
-
 Copyright 2013 Woowa Brothers Corporation (help@woowahan.com), 
 with Reserved Font Name 'Hanna'
 

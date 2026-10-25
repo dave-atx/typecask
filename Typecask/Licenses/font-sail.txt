@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/sail:
-
 Copyright (c) 2011 by LatinoType Limitada (luciano@latinotype.com), 
 with Reserved Font Names "Sail"
 

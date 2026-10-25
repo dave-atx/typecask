@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/bungeeshade:
-
 Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

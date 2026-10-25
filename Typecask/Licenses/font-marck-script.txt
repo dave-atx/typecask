@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/marckscript:
-
 Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com> & Marck Fogel,
 with Reserved Font Name "Marck Script".
 

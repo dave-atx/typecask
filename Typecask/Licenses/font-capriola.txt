@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/capriola:
-
 Copyright 2025 The Capriola Project Authors (https://github.com/SorkinType/Capriola-VF)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

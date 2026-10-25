@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/montaguslab:
-
 Copyright 2020 The Montagu Slab Project Authors (https://github.com/floriankarsten/montagu-slab)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

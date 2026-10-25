@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/prostoone:
-
 Copyright (c) 2012, Jovanny Lemonad (http://www.jovanny.ru),
 Copyright (c) 2012, Pavel Emelyanov (zakachka2006@mail.ru), 
 with Reserved Font Name "Prosto" and "Prosto One". 

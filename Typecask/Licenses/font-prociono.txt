@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/prociono:
-
 Copyright (c) 2011, Barry Schwartz (chemoelectric@chemoelectric.org)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

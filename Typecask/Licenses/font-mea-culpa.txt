@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/meaculpa:
-
 Copyright 2003-2021 The Mea Culpa Project Authors (https://github.com/googlefonts/mea-culpa)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

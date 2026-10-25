@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/copse:
-
 Copyright (c) 2010, Daniel Rhatigan (sparky@ultrasparky.org)
 with Reserved Font Name Copse.
 

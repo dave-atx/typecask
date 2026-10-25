@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/arizonia:
-
 Copyright 2007-2021 The Arizonia Project Authors (https://github.com/googlefonts/arizonia)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

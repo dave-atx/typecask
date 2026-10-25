@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/parkinsans:
-
 Copyright 2024 The Parkinsans Project Authors (https://github.com/redstonedesign/parkinsans)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

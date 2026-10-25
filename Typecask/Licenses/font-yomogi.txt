@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/yomogi:
-
 Copyright 2020 The Yomogi Project Authors (https://github.com/satsuyako/YomogiFont), all rights reserved.
 
 This Font Software is licensed under the SIL Open Font License,

@@ -1,4 +1,4 @@
-License of github.com/evilmartians/mono:
+License of github.com/google/fonts/ofl/martianmono:
 
 Copyright 2021 The Martian Mono Project Authors (https://github.com/evilmartians/mono)
 

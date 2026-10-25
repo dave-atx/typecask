@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/pixelifysans:
-
 Copyright 2021 The Pixelify Sans Project Authors (https://github.com/eifetx/Pixelify-Sans)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

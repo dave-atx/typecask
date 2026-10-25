@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/ledger:
-
 Copyright (c) 2012, Denis Masharov <denis.masharov@gmail.com>,
 with Reserved Font Name "Ledger".
 

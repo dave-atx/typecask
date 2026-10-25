@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/redditmono:
-
 Reddit Sans
 Copyright © 2020-23, Reddit, Inc. (https://github.com/reddit/redditsans)
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

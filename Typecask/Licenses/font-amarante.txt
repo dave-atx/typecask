@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/amarante:
-
 Copyright (c) 2012 by Sorkin Type Co (www.sorkintype.com), with Reserved Font Name "Amarante".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

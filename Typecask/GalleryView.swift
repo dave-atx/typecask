@@ -132,6 +132,9 @@ private struct ViewModePicker: View {
         }
         .pickerStyle(.segmented)
         .labelStyle(.iconOnly)
+        // Its natural width. Otherwise it stretches to fill the toolbar at first, then shrinks inside
+        // its glass capsule after a detail page is popped, leaving a dead gap on iPhone.
+        .fixedSize()
         .accessibilityIdentifier("viewMode")
     }
 }

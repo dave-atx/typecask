@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/zcoolxiaowei:
-
 Copyright 2018 The ZCOOL XiaoWei Project Authors (https://github.com/googlefonts/zcool-xiaowei/)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

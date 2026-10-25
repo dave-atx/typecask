@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/pollerone:
-
 Copyright (c) 2011 by Sorkin Type Co (www.sorkintype.com),
 with Reserved Font Names "Poller" and "Poller One".
 

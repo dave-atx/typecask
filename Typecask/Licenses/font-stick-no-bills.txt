@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/sticknobills:
-
 Copyright 2021 The Stick No Bills Project Authors (https://github.com/mooniak/stick-no-bills-font)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

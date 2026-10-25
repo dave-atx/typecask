@@ -59,12 +59,12 @@ archive)
     size=$(size_of "$ARCHIVE")
     if [ "$size" -gt "$LIMIT" ]; then
         echo "error: $ARCHIVE is $((size / 1024 / 1024)) MiB, over the $((LIMIT / 1024 / 1024)) MiB a" \
-             "single release asset can safely carry. Set MAX_MB_PER_INSTALL to trim it." >&2
+            "single release asset can safely carry. Set MAX_MB_PER_INSTALL to trim it." >&2
         exit 1
     fi
     assets_manifest > "$MANIFEST"
     echo "Archived $ARCHIVE: $((size / 1024 / 1024)) MiB from $((raw / 1024)) MiB." \
-         "Try it in the simulator, then: $0 upload $TAG"
+        "Try it in the simulator, then: $0 upload $TAG"
     ;;
 upload)
     if [ ! -f "$ARCHIVE" ]; then
@@ -83,7 +83,7 @@ upload)
         --notes "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by ci_scripts/ci_post_clone.sh."
     url=$(gh release view "$TAG" --json assets --jq '.assets[0].apiUrl')
 
-    cat > Typecask/FontsAsset.json <<EOF
+    cat > Typecask/FontsAsset.json << EOF
 {
   "tag": "$TAG",
   "url": "$url",
@@ -93,7 +93,7 @@ upload)
 }
 EOF
     echo "Pinned $TAG ($((size / 1024 / 1024)) MiB, $casks casks)." \
-         "Commit fonts.lock.json, Typecask/Catalog.json, Previews/, Licenses/ and FontsAsset.json together."
+        "Commit fonts.lock.json, Typecask/Catalog.json, Previews/, Licenses/ and FontsAsset.json together."
     ;;
 *)
     echo "usage: $0 build|archive|upload [TAG]" >&2

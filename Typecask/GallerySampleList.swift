@@ -1,5 +1,11 @@
 import SwiftUI
 
+/// The sample view's type size: large enough to judge a face by, which on an iPhone's width is smaller,
+/// or a row shows little more than "The quick".
+func sampleSize(_ sizeClass: UserInterfaceSizeClass?) -> CGFloat {
+    sizeClass == .compact ? 40 : 64
+}
+
 /// Font Book's sample view: one specimen per font, set large enough to judge the face by.
 struct GallerySampleList: View {
     let items: [GalleryItem]
@@ -60,6 +66,7 @@ private struct CaskSampleRow: View {
     let cask: Cask
     let catalog: Catalog
     @Environment(FontInstaller.self) private var installer
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -67,8 +74,9 @@ private struct CaskSampleRow: View {
                 Text(cask.installs, format: .number)
                     .monospacedDigit()
             }
-            // Two lines of a 64pt specimen: one line truncates after about "The quick".
-            CaskSpecimen(cask: cask, catalog: catalog, size: 64, relativeTo: .largeTitle, lineLimit: 2)
+            // Two lines: one line truncates after about "The quick".
+            CaskSpecimen(cask: cask, catalog: catalog, size: sampleSize(horizontalSizeClass), relativeTo: .largeTitle,
+                         lineLimit: 2)
         }
         .sampleRowLayout()
     }

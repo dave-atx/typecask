@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/acme:
-
 Copyright (c) 2011, Juan Pablo del Peral (juandelperal@htfonts.com), 
 with Reserved Font Names "Acme"
 

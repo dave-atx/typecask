@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/merienda:
-
 Copyright 2017 The Merienda Project Authors (https://github.com/etunni/merienda)
 with Reserved Font Name "Merienda"
 

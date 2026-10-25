@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/flowcircular:
-
 Copyright 2020 The Flow Project Authors (https://github.com/HYPD/flow-typeface)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

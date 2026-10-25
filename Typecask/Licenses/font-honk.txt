@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/honk:
-
 Copyright 2023 The Honk Project Authors (https://github.com/EkType/Honk)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

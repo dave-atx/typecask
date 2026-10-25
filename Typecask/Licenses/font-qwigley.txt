@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/qwigley:
-
 Copyright 2011 The Qwigley Project Authors (https://github.com/googlefonts/qwigley)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

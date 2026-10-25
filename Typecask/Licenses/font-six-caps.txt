@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/sixcaps:
-
 Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk),
 with Reserved Font Name "Six Caps" "SixCaps".
 

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/frederickathegreat:
-
 Copyright (c) 2011, Tart Workshop (a DBA of Font Diner, Inc) (www.fontdiner.com),
 with Reserved Font Name "Fredericka the Great".
 

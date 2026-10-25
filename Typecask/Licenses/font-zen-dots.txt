@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/zendots:
-
 Copyright 2021 The Dots Project Authors (https://github.com/googlefonts/zen-dots)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

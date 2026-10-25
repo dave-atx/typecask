@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/huninn:
-
 Copyright 2025 The Huninn Project Authors (https://github.com/justfont/Huninn)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/hedviglettersserif:
-
 Copyright 2023 The Hedvig Letters Project Authors (https://github.com/KanonFoundry/HedvigLetters)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

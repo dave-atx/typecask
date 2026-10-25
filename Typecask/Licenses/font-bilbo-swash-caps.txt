@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/bilboswashcaps:
-
 Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net), 
 with Reserved Font Name "Bilbo"
 

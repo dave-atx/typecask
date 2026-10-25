@@ -1,4 +1,4 @@
-License of github.com/djrrb/bungee:
+License of github.com/google/fonts/ofl/bungee:
 
 Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)
 

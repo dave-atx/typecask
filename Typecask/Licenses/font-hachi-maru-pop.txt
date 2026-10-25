@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/hachimarupop:
-
 Copyright 2020 The Hachi Maru Pop Project Authors (https://github.com/noriokanisawa/HachiMaruPop)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

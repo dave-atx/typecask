@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/quando:
-
 Copyright (c) 2011 by Sorkin Type Co (www.sorkintype.com), with Reserved Font Name "Quando".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

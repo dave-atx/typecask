@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/hinamincho:
-
 Copyright 2020 The Hina Mincho Project Authors (https://github.com/satsuyako/Hina-Mincho)
 
 This Font Software is licensed under the SIL Open Font License,

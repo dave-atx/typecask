@@ -29659,22 +29659,6 @@
       }
     },
     {
-      "token": "font-adobe-blank",
-      "name": "Adobe Blank",
-      "homepage": "https://fonts.google.com/specimen/Adobe+Blank",
-      "version": "latest",
-      "installs": 41,
-      "recentInstalls": 3,
-      "exempt": false,
-      "artifacts": [
-        "AdobeBlank-Regular.ttf"
-      ],
-      "source": {
-        "google": "ofl/adobeblank",
-        "tree": "1f5a9b459e282fe96f34454f5bc7422bfbdf2584"
-      }
-    },
-    {
       "token": "font-noto-sans-rejang",
       "name": "Noto Sans Rejang",
       "homepage": "https://fonts.google.com/specimen/Noto+Sans+Rejang",
@@ -32929,6 +32913,33 @@
         "recentViews": 84024516,
         "directory": "ofl/besley",
         "tree": "8a84d566e69625550778eb8ea9fc771b98bd31ea"
+      }
+    },
+    {
+      "token": "font-nixie-one",
+      "name": "Nixie One",
+      "homepage": "https://fonts.google.com/specimen/Nixie+One",
+      "version": "latest",
+      "installs": 37,
+      "recentInstalls": 1,
+      "exempt": true,
+      "artifacts": [
+        "NixieOne-Regular.ttf"
+      ],
+      "source": {
+        "google": "ofl/nixieone",
+        "tree": "b786cc53ecae1ac521c8430ab336a229c38adead"
+      },
+      "google": {
+        "family": "Nixie One",
+        "category": "Display",
+        "designers": [
+          "Jovanny Lemonad"
+        ],
+        "views": 651042405,
+        "recentViews": 39128850,
+        "directory": "ofl/nixieone",
+        "tree": "b786cc53ecae1ac521c8430ab336a229c38adead"
       }
     },
     {
@@ -38689,33 +38700,6 @@
         "recentViews": 127510068,
         "directory": "ofl/staatliches",
         "tree": "2b94d2b437d31a5bb1d0d1a2cff3720fb26b0525"
-      }
-    },
-    {
-      "token": "font-nixie-one",
-      "name": "Nixie One",
-      "homepage": "https://fonts.google.com/specimen/Nixie+One",
-      "version": "latest",
-      "installs": 37,
-      "recentInstalls": 1,
-      "exempt": true,
-      "artifacts": [
-        "NixieOne-Regular.ttf"
-      ],
-      "source": {
-        "google": "ofl/nixieone",
-        "tree": "b786cc53ecae1ac521c8430ab336a229c38adead"
-      },
-      "google": {
-        "family": "Nixie One",
-        "category": "Display",
-        "designers": [
-          "Jovanny Lemonad"
-        ],
-        "views": 651042405,
-        "recentViews": 39128850,
-        "directory": "ofl/nixieone",
-        "tree": "b786cc53ecae1ac521c8430ab336a229c38adead"
       }
     },
     {

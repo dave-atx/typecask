@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/voltaire:
-
 Copyright 2024 The Voltaire Project Authors (https://github.com/SorkinType/Voltaire)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

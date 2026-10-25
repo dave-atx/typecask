@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/tauri:
-
 Copyright (c) 2013 by Sorkin Type Co (www.sorkintype.com), with Reserved Font Name 'Tauri'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

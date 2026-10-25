@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/neucha:
-
 Copyright (c) 2008-2010 by Jovanny Lemonad (http://www.jovanny.ru)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

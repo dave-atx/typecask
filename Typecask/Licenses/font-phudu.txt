@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/phudu:
-
 Copyright 2022 The Phudu Project Authors (https://github.com/duongtrtype/DTPhudu)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/squadaone:
-
 Copyright (c) 2011, Admix Designs (http://www.admixdesigns.com/),
 with Reserved Font Names "Squada" and "Squada One"
 

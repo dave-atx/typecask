@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/unifrakturmaguntia:
-
 Copyright (c) 2010, j. 'mach' wust, with Reserved Font Name UnifrakturMaguntia.
 Copyright (c) 2009, Peter Wiegel.
 

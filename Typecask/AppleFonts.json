@@ -146,7 +146,7 @@
     "faces": 1,
     "name": "Apple Color Emoji",
     "previewFace": "AppleColorEmoji",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": false,
@@ -177,7 +177,7 @@
     "faces": 1,
     "name": "Apple Symbols",
     "previewFace": "AppleSymbols",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": false,
@@ -309,7 +309,7 @@
     "faces": 5,
     "name": "Baloo 2",
     "previewFace": "Baloo2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-2.ttf"
   },
   {
@@ -317,7 +317,7 @@
     "faces": 5,
     "name": "Baloo Bhai 2",
     "previewFace": "BalooBhai2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-bhai-2.ttf"
   },
   {
@@ -333,7 +333,7 @@
     "faces": 5,
     "name": "Baloo Bhaina 2",
     "previewFace": "BalooBhaina2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-bhaina-2.ttf"
   },
   {
@@ -341,7 +341,7 @@
     "faces": 5,
     "name": "Baloo Chettan 2",
     "previewFace": "BalooChettan2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-chettan-2.ttf"
   },
   {
@@ -349,7 +349,7 @@
     "faces": 5,
     "name": "Baloo Da 2",
     "previewFace": "BalooDa2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-da-2.ttf"
   },
   {
@@ -357,7 +357,7 @@
     "faces": 5,
     "name": "Baloo Paaji 2",
     "previewFace": "BalooPaaji2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-paaji-2.ttf"
   },
   {
@@ -365,7 +365,7 @@
     "faces": 5,
     "name": "Baloo Tamma 2",
     "previewFace": "BalooTamma2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-tamma-2.ttf"
   },
   {
@@ -373,7 +373,7 @@
     "faces": 5,
     "name": "Baloo Tammudu 2",
     "previewFace": "BalooTammudu2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-tammudu-2.ttf"
   },
   {
@@ -381,7 +381,7 @@
     "faces": 5,
     "name": "Baloo Thambi 2",
     "previewFace": "BalooThambi2-Regular",
-    "style": "handwriting",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-thambi-2.ttf"
   },
   {
@@ -405,7 +405,7 @@
     "faces": 2,
     "name": "Bank Gothic",
     "previewFace": "BankGothic-Light",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-bank-gothic.ttf"
   },
   {
@@ -494,7 +494,7 @@
     "faces": 1,
     "name": "Blackmoor LET",
     "previewFace": "BlackmoorLetPlain",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-blackmoor-let.ttf"
   },
   {
@@ -550,7 +550,7 @@
     "faces": 1,
     "name": "BM Kirang Haerang",
     "previewFace": "BMKIRANGHAERANG-OTF",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-bm-kirang-haerang.otf"
   },
   {
@@ -587,7 +587,7 @@
     "faces": 1,
     "name": "Bodoni Ornaments",
     "previewFace": "BodoniOrnamentsITCTT",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": false,
@@ -595,7 +595,7 @@
     "name": "Bodoni Ornaments ITC TT",
     "preview": "ApplePreview-Bodoni-Ornaments-ITC-TT",
     "previewFace": "BodoniOrnamentsITCTT",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": false,
@@ -642,7 +642,7 @@
     "faces": 1,
     "name": "Bordeaux Roman Bold LET",
     "previewFace": "BordeauxRomanBoldLetPlain",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-bordeaux-roman-bold-let.ttf"
   },
   {
@@ -650,14 +650,14 @@
     "faces": 1,
     "name": "Bradley Hand",
     "previewFace": "BradleyHandITCTT-Bold",
-    "style": "sansSerif"
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Braganza",
     "previewFace": "BraganzaITCTT",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-braganza.ttf"
   },
   {
@@ -666,7 +666,7 @@
     "name": "Brill",
     "preview": "ApplePreview-Brill",
     "previewFace": "Brill-Bold",
-    "style": "sansSerif"
+    "style": "serif"
   },
   {
     "builtIn": false,
@@ -713,7 +713,7 @@
     "faces": 1,
     "name": "Capitals",
     "previewFace": "CapitalsRegular",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-capitals.ttf"
   },
   {
@@ -783,7 +783,7 @@
     "faces": 2,
     "name": "Charm",
     "previewFace": "Charm-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-charm.ttf"
   },
   {
@@ -791,7 +791,7 @@
     "faces": 2,
     "name": "Charmonman",
     "previewFace": "Charmonman-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-charmonman.ttf"
   },
   {
@@ -830,7 +830,7 @@
     "preview": "ApplePreview-Corsiva-Hebrew",
     "previewFace": "CorsivaHebrew",
     "sample": "דג סקרן שט בים מאוכזב",
-    "style": "sansSerif"
+    "style": "handwriting"
   },
   {
     "builtIn": true,
@@ -860,7 +860,7 @@
     "faces": 2,
     "name": "Dear Joe Four",
     "previewFace": "DearJoeFour-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-dear-joe-four.ttf"
   },
   {
@@ -981,7 +981,7 @@
     "faces": 5,
     "name": "Forgotten Futurist",
     "previewFace": "ForgottenFuturist-Regular",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-forgotten-futurist.ttf"
   },
   {
@@ -1242,7 +1242,7 @@
     "faces": 1,
     "name": "Herculanum",
     "previewFace": "Herculanum",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-herculanum.ttf"
   },
   {
@@ -1288,7 +1288,7 @@
     "faces": 1,
     "name": "Hoefler Text",
     "previewFace": "HoeflerText-Ornaments",
-    "style": "sansSerif",
+    "style": "serif",
     "previewFile": "TypecaskPreview-apple-hoefler-text.ttf"
   },
   {
@@ -1296,7 +1296,7 @@
     "faces": 1,
     "name": "Hopper Script",
     "previewFace": "HopperScript-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-hopper-script.ttf"
   },
   {
@@ -1354,7 +1354,7 @@
     "name": "Jaini",
     "previewFace": "Jaini",
     "sample": "नमस्ते दुनिया",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-jaini.ttf"
   },
   {
@@ -1363,7 +1363,7 @@
     "name": "Jaini Purva",
     "previewFace": "JainiPurva",
     "sample": "नमस्ते दुनिया",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-jaini-purva.ttf"
   },
   {
@@ -1371,7 +1371,7 @@
     "faces": 1,
     "name": "Jazz LET",
     "previewFace": "JazzLetPlain",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-jazz-let.ttf"
   },
   {
@@ -1403,7 +1403,7 @@
     "faces": 3,
     "name": "Kaiti SC",
     "previewFace": "STKaitiSC-Regular",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-kaiti-sc.ttf"
   },
   {
@@ -1411,7 +1411,7 @@
     "faces": 3,
     "name": "Kaiti TC",
     "previewFace": "STKaitiTC-Regular",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-kaiti-tc.ttf"
   },
   {
@@ -1443,7 +1443,7 @@
     "faces": 1,
     "name": "Kavivanar",
     "previewFace": "Kavivanar-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-kavivanar.ttf"
   },
   {
@@ -1497,7 +1497,7 @@
     "faces": 2,
     "name": "Klee",
     "previewFace": "Klee-Medium",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-klee.otf"
   },
   {
@@ -1615,7 +1615,7 @@
     "faces": 3,
     "name": "Lantinghei SC",
     "previewFace": "FZLTZHK--GBK1-0",
-    "style": "handwriting",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lantinghei-sc.ttf"
   },
   {
@@ -1623,7 +1623,7 @@
     "faces": 3,
     "name": "Lantinghei TC",
     "previewFace": "FZLTZHB--B51-0",
-    "style": "monospaced",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lantinghei-tc.ttf"
   },
   {
@@ -1670,7 +1670,7 @@
     "faces": 1,
     "name": "Libian SC",
     "previewFace": "STLibianSC-Regular",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-libian-sc.ttf"
   },
   {
@@ -1678,7 +1678,7 @@
     "faces": 1,
     "name": "Libian TC",
     "previewFace": "STLibianTC-Regular",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-libian-tc.ttf"
   },
   {
@@ -1726,7 +1726,7 @@
     "faces": 1,
     "name": "Luminari",
     "previewFace": "Luminari-Regular",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-luminari.ttf"
   },
   {
@@ -1757,7 +1757,7 @@
     "faces": 12,
     "name": "Mali",
     "previewFace": "Mali-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-mali.ttf"
   },
   {
@@ -1765,7 +1765,7 @@
     "faces": 2,
     "name": "Marker Felt",
     "previewFace": "MarkerFelt-Thin",
-    "style": "sansSerif"
+    "style": "handwriting"
   },
   {
     "builtIn": true,
@@ -1804,7 +1804,7 @@
     "faces": 1,
     "name": "Modak",
     "previewFace": "Modak",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-modak.ttf"
   },
   {
@@ -1812,7 +1812,7 @@
     "faces": 1,
     "name": "Mona Lisa Solid ITC TT",
     "previewFace": "MonaLisaSolidITCTT",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-mona-lisa-solid-itc-tt.ttf"
   },
   {
@@ -1976,7 +1976,7 @@
     "faces": 2,
     "name": "Noteworthy",
     "previewFace": "Noteworthy-Bold",
-    "style": "sansSerif"
+    "style": "handwriting"
   },
   {
     "builtIn": true,
@@ -1984,7 +1984,7 @@
     "name": "Noto Nastaliq Urdu",
     "previewFace": "NotoNastaliqUrdu",
     "sample": "أبجد هوز حطي كلمن",
-    "style": "sansSerif"
+    "style": "serif"
   },
   {
     "builtIn": true,
@@ -2286,7 +2286,7 @@
     "faces": 1,
     "name": "Padyakke Expanded One",
     "previewFace": "PadyakkeExpandedOne-Regular",
-    "style": "sansSerif",
+    "style": "serif",
     "previewFile": "TypecaskPreview-apple-padyakke-expanded-one.otf"
   },
   {
@@ -2301,21 +2301,21 @@
     "faces": 2,
     "name": "Papyrus",
     "previewFace": "Papyrus",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": true,
     "faces": 1,
     "name": "Party LET",
     "previewFace": "PartyLetPlain",
-    "style": "serif"
+    "style": "display"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "PCMyungjo",
     "previewFace": "JCsmPC",
-    "style": "monospaced",
+    "style": "serif",
     "previewFile": "TypecaskPreview-apple-pcmyungjo.ttf"
   },
   {
@@ -2323,7 +2323,7 @@
     "faces": 2,
     "name": "Phosphate",
     "previewFace": "Phosphate-Solid",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-phosphate.ttf"
   },
   {
@@ -2331,7 +2331,7 @@
     "faces": 1,
     "name": "PilGi",
     "previewFace": "JCfg",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-pilgi.ttf"
   },
   {
@@ -2379,7 +2379,7 @@
     "faces": 1,
     "name": "PortagoITC TT",
     "previewFace": "PortagoITCTT",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-portagoitc-tt.ttf"
   },
   {
@@ -2387,7 +2387,7 @@
     "faces": 1,
     "name": "Princetown LET",
     "previewFace": "PrincetownLET",
-    "style": "serif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-princetown-let.ttf"
   },
   {
@@ -2491,7 +2491,7 @@
     "faces": 1,
     "name": "Quotes Script",
     "previewFace": "QuotesScript-Regular",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-quotes-script.otf"
   },
   {
@@ -2587,7 +2587,7 @@
     "faces": 1,
     "name": "Santa Fe LET",
     "previewFace": "SantaFeLetPlain",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-santa-fe-let.ttf"
   },
   {
@@ -2611,7 +2611,7 @@
     "faces": 1,
     "name": "Sauber Script",
     "previewFace": "SauberScript",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-sauber-script.otf"
   },
   {
@@ -2619,14 +2619,14 @@
     "faces": 1,
     "name": "Savoye LET",
     "previewFace": "SavoyeLetPlain",
-    "style": "serif"
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "SchoolHouse Cursive B",
     "previewFace": "SchoolHouseCursiveB",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-schoolhouse-cursive-b.ttf"
   },
   {
@@ -2634,7 +2634,7 @@
     "faces": 1,
     "name": "SchoolHouse Printed A",
     "previewFace": "SchoolHousePrintedA",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-schoolhouse-printed-a.ttf"
   },
   {
@@ -2658,7 +2658,7 @@
     "faces": 1,
     "name": "SignPainter",
     "previewFace": "SignPainter-HouseScript",
-    "style": "sansSerif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-signpainter.otf"
   },
   {
@@ -2705,7 +2705,7 @@
     "faces": 3,
     "name": "Snell Roundhand",
     "previewFace": "SnellRoundhand",
-    "style": "sansSerif"
+    "style": "handwriting"
   },
   {
     "builtIn": false,
@@ -2745,7 +2745,7 @@
     "faces": 2,
     "name": "Srisakdi",
     "previewFace": "Srisakdi-Regular",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-srisakdi.ttf"
   },
   {
@@ -2780,106 +2780,10 @@
   },
   {
     "builtIn": false,
-    "faces": 2,
-    "name": "STIXIntegralsD",
-    "previewFace": "STIXIntegralsD-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixintegralsd.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXIntegralsSm",
-    "previewFace": "STIXIntegralsSm-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixintegralssm.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXIntegralsUp",
-    "previewFace": "STIXIntegralsUp-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixintegralsup.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXIntegralsUpD",
-    "previewFace": "STIXIntegralsUpD-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixintegralsupd.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXIntegralsUpSm",
-    "previewFace": "STIXIntegralsUpSm-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixintegralsupsm.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 4,
-    "name": "STIXNonUnicode",
-    "previewFace": "STIXNonUnicode-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixnonunicode.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 1,
-    "name": "STIXSizeFiveSym",
-    "previewFace": "STIXSizeFiveSym-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixsizefivesym.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXSizeFourSym",
-    "previewFace": "STIXSizeFourSym-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixsizefoursym.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXSizeOneSym",
-    "previewFace": "STIXSizeOneSym-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixsizeonesym.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXSizeThreeSym",
-    "previewFace": "STIXSizeThreeSym-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixsizethreesym.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXSizeTwoSym",
-    "previewFace": "STIXSizeTwoSym-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixsizetwosym.otf"
-  },
-  {
-    "builtIn": false,
-    "faces": 2,
-    "name": "STIXVariants",
-    "previewFace": "STIXVariants-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-stixvariants.otf"
-  },
-  {
-    "builtIn": false,
     "faces": 1,
     "name": "STKaiti",
     "previewFace": "STKaiti",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-stkaiti.ttf"
   },
   {
@@ -2911,14 +2815,14 @@
     "faces": 1,
     "name": "Symbol",
     "previewFace": "Symbol",
-    "style": "sansSerif"
+    "style": "display"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Synchro LET",
     "previewFace": "SynchroLET",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-synchro-let.ttf"
   },
   {
@@ -3099,7 +3003,7 @@
     "faces": 2,
     "name": "Tsukushi A Round Gothic",
     "previewFace": "TsukuARdGothic-Regular",
-    "style": "serif",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-tsukushi-a-round-gothic.otf"
   },
   {
@@ -3107,7 +3011,7 @@
     "faces": 2,
     "name": "Tsukushi B Round Gothic",
     "previewFace": "TsukuBRdGothic-Regular",
-    "style": "serif",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-tsukushi-b-round-gothic.otf"
   },
   {
@@ -3123,7 +3027,7 @@
     "faces": 1,
     "name": "Type Embellishments One LET",
     "previewFace": "TypeEmbellishmentsOneLetPlain",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-type-embellishments-one-let.ttf"
   },
   {
@@ -3147,7 +3051,7 @@
     "faces": 1,
     "name": "Wawati SC",
     "previewFace": "DFWaWaSC-W5",
-    "style": "display",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-wawati-sc.otf"
   },
   {
@@ -3155,7 +3059,7 @@
     "faces": 1,
     "name": "Wawati TC",
     "previewFace": "DFWaWaTC-W5",
-    "style": "display",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-wawati-tc.otf"
   },
   {
@@ -3211,7 +3115,7 @@
     "faces": 2,
     "name": "Xingkai SC",
     "previewFace": "STXingkaiSC-Bold",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-xingkai-sc.ttf"
   },
   {
@@ -3219,7 +3123,7 @@
     "faces": 2,
     "name": "Xingkai TC",
     "previewFace": "STXingkaiTC-Bold",
-    "style": "serif",
+    "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-xingkai-tc.ttf"
   },
   {
@@ -3236,7 +3140,7 @@
     "faces": 3,
     "name": "Yuanti SC",
     "previewFace": "STYuanti-SC-Regular",
-    "style": "serif",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-yuanti-sc.ttf"
   },
   {
@@ -3244,7 +3148,7 @@
     "faces": 3,
     "name": "Yuanti TC",
     "previewFace": "STYuanti-TC-Regular",
-    "style": "serif",
+    "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-yuanti-tc.ttf"
   },
   {
@@ -3292,7 +3196,7 @@
     "faces": 1,
     "name": "Yuppy SC",
     "previewFace": "YuppySC-Regular",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-yuppy-sc.otf"
   },
   {
@@ -3300,7 +3204,7 @@
     "faces": 1,
     "name": "Yuppy TC",
     "previewFace": "YuppyTC-Regular",
-    "style": "sansSerif",
+    "style": "display",
     "previewFile": "TypecaskPreview-apple-yuppy-tc.otf"
   },
   {

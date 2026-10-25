@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/anticdidone:
-
 Copyright (c) 2011, Santiago Orozco (hi@typemade.mx), with Reserved Font Name "Antic Didone".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

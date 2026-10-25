@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/vibur:
-
 Copyright (c) 2010, Johan Kallas (johan.kallas@gmail.com).
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

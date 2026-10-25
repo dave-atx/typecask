@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/akshar:
-
 Copyright 2020 The Akshar Type Project Authors (https://github.com/tallchai/akshar-type)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

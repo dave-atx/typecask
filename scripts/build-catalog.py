@@ -67,6 +67,8 @@ EXCLUDED = {
     "font-sf-pro",
     "font-sf-mono",
     "font-sf-mono-nerd-font-ligaturized",
+    # Draws every character as nothing, for testing font loading on the web: nothing to install.
+    "font-adobe-blank",
     # Icons, symbols and emoji have nothing to preview.
     "font-symbols-only-nerd-font",
     "font-powerline-symbols",
@@ -81,7 +83,7 @@ ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font"]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
-MAX_FILE_BYTES = 100 * 1024 ** 2
+MAX_FILE_BYTES = 100 * 1024**2
 # Below this a cask ships whatever its install count; it costs too little to be worth trimming.
 NICHE_MIN_BYTES = 10_000_000
 # Apple allows an app 1000 asset packs, and each On-Demand Resources tag is its own pack, so past that
@@ -106,32 +108,89 @@ SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!
 # Nerd Fonts icons the gallery shows under the sample: the Powerline branch, GitHub, git, Rust, Python,
 # Node, a terminal, Apple, Linux, Arch, a folder, code, a bolt and a cog, which every Nerd Fonts v3
 # cask in the catalog has. Powerline's rounded caps were dropped: on their own they're a black blob.
-GLYPH_SAMPLE = "             "
+GLYPH_SAMPLE = "\ue0a0 \uf09b \ue702 \ue7a8 \ue73c \ue718 \ue795 \uf179 \uf17c \uf303 \uf07c \uf121 \uf0e7 \uf013"
 # A face needs most of GLYPH_SAMPLE to count as patched. Fonts that happen to fill a few of the same
 # private-use code points, like Material Icons or IBM Plex Sans TC, cover well under half.
 GLYPH_COVERAGE = 0.8
 # Google's own category for each family, which is far better than PANOSE at telling handwriting and
 # display faces apart: most of them leave PANOSE empty and read as sans serif.
-GOOGLE_CATEGORY_STYLES = {"Sans Serif": "sansSerif", "Serif": "serif", "Display": "display",
-                          "Handwriting": "handwriting", "Monospace": "monospaced"}
+GOOGLE_CATEGORY_STYLES = {
+    "Sans Serif": "sansSerif",
+    "Serif": "serif",
+    "Display": "display",
+    "Handwriting": "handwriting",
+    "Monospace": "monospaced",
+}
 GOOGLE_DESCRIPTIONS = ("DESCRIPTION.en_us.html", "article/ARTICLE.en_us.html")
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families
 # Google also publishes take Google's category instead, ahead of this.
 APPLE_STYLES = {
-    "handwriting": ["Bradley Hand", "Brush Script MT", "Corsiva Hebrew", "Dear Joe Four", "Hopper Script",
-                    "Kaiti SC", "Kaiti TC", "Klee", "Libian SC", "Libian TC", "Marker Felt", "Noteworthy",
-                    "PilGi", "BM Kirang Haerang", "Quotes Script", "Sauber Script", "Savoye LET",
-                    "SchoolHouse Cursive B", "SchoolHouse Printed A", "SignPainter", "Snell Roundhand",
-                    "STKaiti", "Xingkai SC", "Xingkai TC", "Wawati SC", "Wawati TC"],
-    "display": ["Apple Braille", "Apple Color Emoji", "Apple Symbols", "Bank Gothic", "Blackmoor LET",
-                "Bodoni Ornaments", "Bodoni Ornaments ITC TT", "Bordeaux Roman Bold LET", "Braganza",
-                "Capitals", "Forgotten Futurist", "Herculanum", "Jazz LET", "Luminari", "Mona Lisa Solid ITC TT",
-                "Papyrus", "Party LET", "Phosphate", "PortagoITC TT", "Princetown LET", "Santa Fe LET",
-                "Symbol", "Synchro LET", "Type Embellishments One LET", "Yuppy SC", "Yuppy TC"],
+    "handwriting": [
+        "Bradley Hand",
+        "Brush Script MT",
+        "Corsiva Hebrew",
+        "Dear Joe Four",
+        "Hopper Script",
+        "Kaiti SC",
+        "Kaiti TC",
+        "Klee",
+        "Libian SC",
+        "Libian TC",
+        "Marker Felt",
+        "Noteworthy",
+        "PilGi",
+        "BM Kirang Haerang",
+        "Quotes Script",
+        "Sauber Script",
+        "Savoye LET",
+        "SchoolHouse Cursive B",
+        "SchoolHouse Printed A",
+        "SignPainter",
+        "Snell Roundhand",
+        "STKaiti",
+        "Xingkai SC",
+        "Xingkai TC",
+        "Wawati SC",
+        "Wawati TC",
+    ],
+    "display": [
+        "Apple Braille",
+        "Apple Color Emoji",
+        "Apple Symbols",
+        "Bank Gothic",
+        "Blackmoor LET",
+        "Bodoni Ornaments",
+        "Bodoni Ornaments ITC TT",
+        "Bordeaux Roman Bold LET",
+        "Braganza",
+        "Capitals",
+        "Forgotten Futurist",
+        "Herculanum",
+        "Jazz LET",
+        "Luminari",
+        "Mona Lisa Solid ITC TT",
+        "Papyrus",
+        "Party LET",
+        "Phosphate",
+        "PortagoITC TT",
+        "Princetown LET",
+        "Santa Fe LET",
+        "Symbol",
+        "Synchro LET",
+        "Type Embellishments One LET",
+        "Yuppy SC",
+        "Yuppy TC",
+    ],
     "serif": ["Brill", "Hoefler Text", "PCMyungjo"],
-    "sansSerif": ["Lantinghei SC", "Lantinghei TC", "Tsukushi A Round Gothic", "Tsukushi B Round Gothic",
-                  "Yuanti SC", "Yuanti TC"],
+    "sansSerif": [
+        "Lantinghei SC",
+        "Lantinghei TC",
+        "Tsukushi A Round Gothic",
+        "Tsukushi B Round Gothic",
+        "Yuanti SC",
+        "Yuanti TC",
+    ],
 }
 # Fonts Core Text needs for laying out math, which no one would pick from a gallery.
 APPLE_HIDDEN = re.compile(r"^STIX(Integrals|Size|NonUnicode|Variants)")
@@ -191,8 +250,9 @@ def write_json(path, value):
 
 
 def git(*arguments, **options):
-    return subprocess.run(["git", "-C", CLONE, *arguments], check=True, capture_output=True, text=True,
-                          **options).stdout
+    return subprocess.run(
+        ["git", "-C", CLONE, *arguments], check=True, capture_output=True, text=True, **options
+    ).stdout
 
 
 # MARK: - Locking
@@ -223,7 +283,7 @@ def google_families(casks_by_token):
     """
     with urllib.request.urlopen(GOOGLE_METADATA_URL) as response:
         raw = response.read().decode()
-    families = json.loads(raw[raw.index("{"):])["familyMetadataList"]
+    families = json.loads(raw[raw.index("{") :])["familyMetadataList"]
     families.sort(key=lambda family: (family["popularity"], family["family"]))
 
     by_specimen, by_directory = {}, {}
@@ -238,9 +298,11 @@ def google_families(casks_by_token):
     for family in families:
         name = family["family"]
         by_name = "font-" + re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
-        token = (by_specimen.get(name.lower())
-                 or by_directory.get(re.sub(r"[^a-z0-9]", "", name.lower()))
-                 or (by_name if by_name in casks_by_token else None))
+        token = (
+            by_specimen.get(name.lower())
+            or by_directory.get(re.sub(r"[^a-z0-9]", "", name.lower()))
+            or (by_name if by_name in casks_by_token else None)
+        )
         matched.append((family, token))
     return matched
 
@@ -255,8 +317,21 @@ def update_clone(commit=None):
     if not (CLONE / ".git").is_dir():
         shutil.rmtree(CLONE, ignore_errors=True)
         CLONE.parent.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse", "--no-checkout",
-                        "--quiet", GOOGLE_FONTS_URL, CLONE], check=True)
+        subprocess.run(
+            [
+                "git",
+                "clone",
+                "--depth",
+                "1",
+                "--filter=blob:none",
+                "--sparse",
+                "--no-checkout",
+                "--quiet",
+                GOOGLE_FONTS_URL,
+                CLONE,
+            ],
+            check=True,
+        )
     # GitHub serves any commit by hash, so a locked one can be fetched on its own.
     git("fetch", "--depth", "1", "--filter=blob:none", "--quiet", "origin", commit or "main")
     return git("rev-parse", "FETCH_HEAD").strip()
@@ -323,8 +398,7 @@ def lock_source(cask, trees, commit):
         return {"google": directory, "tree": trees[directory]} if directory in trees else None
     if url.endswith(".git"):
         branch = specs.get("branch") or "HEAD"
-        output = subprocess.run(["git", "ls-remote", url, branch], check=False, capture_output=True,
-                                text=True).stdout
+        output = subprocess.run(["git", "ls-remote", url, branch], check=False, capture_output=True, text=True).stdout
         if not output:
             return None
         return {"git": url, "commit": output.split()[0], "path": specs.get("only_path", "")}
@@ -361,7 +435,7 @@ def lock(count, google_top):
 
     with urllib.request.urlopen(GOOGLE_STATS_URL) as response:
         raw = response.read().decode()
-    views = {stats["family"]: stats["viewsByDateRange"] for stats in json.loads(raw[raw.index("["):])}
+    views = {stats["family"]: stats["viewsByDateRange"] for stats in json.loads(raw[raw.index("[") :])}
     google_by_token = {token: family for family, token in families if token}
     # A family matches one cask, but several can install it: Hind's specimen page belongs to another
     # cask, and font-hind downloads from upstream with no license, which google/fonts then supplies.
@@ -372,8 +446,10 @@ def lock(count, google_top):
     if google_top != 0:
         top = families[:google_top]
         if missing := [family["family"] for family, token in top if not token]:
-            print(f"no cask for {len(missing)} Google Fonts families, which have no files in google/fonts "
-                  f"under those names either: {', '.join(missing)}")
+            print(
+                f"no cask for {len(missing)} Google Fonts families, which have no files in google/fonts "
+                f"under those names either: {', '.join(missing)}"
+            )
         required = [token for _, token in top if token and token not in EXCLUDED]
     else:
         required = []
@@ -395,8 +471,11 @@ def lock(count, google_top):
             # A Google family whose upstream download can't be had — paratype.com refuses PT Sans and
             # PT Serif to anything but a browser — is the same family in google/fonts.
             source = {"google": directory, "tree": trees[directory]}
-            artifacts = [name.rsplit("/", 1)[-1] for name in git("ls-tree", "--name-only", commit, f"{directory}/")
-                         .splitlines() if name.lower().endswith((".ttf", ".otf"))]
+            artifacts = [
+                name.rsplit("/", 1)[-1]
+                for name in git("ls-tree", "--name-only", commit, f"{directory}/").splitlines()
+                if name.lower().endswith((".ttf", ".otf"))
+            ]
             print(f"{token}: upstream download can't be pinned; using google/fonts {directory}")
         if source is None:
             unpinned.append(token)
@@ -413,10 +492,13 @@ def lock(count, google_top):
             "source": source,
         }
         if family:
-            google = {"family": family["family"], "category": family["category"],
-                      "designers": family.get("designers") or [],
-                      "views": views.get(family["family"], {}).get("year", {}).get("views", 0),
-                      "recentViews": views.get(family["family"], {}).get("30day", {}).get("views", 0)}
+            google = {
+                "family": family["family"],
+                "category": family["category"],
+                "designers": family.get("designers") or [],
+                "views": views.get(family["family"], {}).get("year", {}).get("views", 0),
+                "recentViews": views.get(family["family"], {}).get("30day", {}).get("views", 0),
+            }
             if directory in trees:
                 google |= {"directory": directory, "tree": trees[directory]}
             entry["google"] = google
@@ -424,13 +506,16 @@ def lock(count, google_top):
     if unpinned:
         print(f"warning: {len(unpinned)} casks have a source that can't be pinned: {', '.join(unpinned)}")
 
-    write_json(LOCK, {
-        "generated": date.today().isoformat(),
-        "googleFonts": commit,
-        # Every family's category, for Apple's fonts that Google also publishes.
-        "googleCategories": {family["family"]: family["category"] for family, _ in families},
-        "casks": entries,
-    })
+    write_json(
+        LOCK,
+        {
+            "generated": date.today().isoformat(),
+            "googleFonts": commit,
+            # Every family's category, for Apple's fonts that Google also publishes.
+            "googleCategories": {family["family"]: family["category"] for family, _ in families},
+            "casks": entries,
+        },
+    )
     print(f"locked {len(entries)} casks at google/fonts {commit[:12]}")
 
 
@@ -448,6 +533,7 @@ class Face:
 def read_faces(path):
     """Reads only name tables. Collections share glyph tables between faces, so loading faces eagerly reads the
     shared data once per face: tens of GB for Iosevka's 324-face SuperTTC."""
+
     def face(number, font):
         names = font["name"]
         regular = (names.getDebugName(17) or names.getDebugName(2)) == "Regular"
@@ -655,13 +741,18 @@ def google_fonts_license(directory):
     if not standard or not standard.is_file():
         return None
     copyrights = "\n".join(dict.fromkeys(re.findall(r'copyright: "(.*)"', text)))
-    return (f"License of github.com/google/fonts/{directory}, from its METADATA.pb:\n\n"
-            f"{copyrights}\n\n{standard.read_text()}")
+    return (
+        f"License of github.com/google/fonts/{directory}, from its METADATA.pb:\n\n"
+        f"{copyrights}\n\n{standard.read_text()}"
+    )
 
 
 def find_license(root, url, google_directory=None):
-    paths = sorted(path for path in root.rglob("*") if path.suffix.lower() in LICENSE_SUFFIXES
-                   and LICENSE_NAME.search(path.stem) and path.is_file())
+    paths = sorted(
+        path
+        for path in root.rglob("*")
+        if path.suffix.lower() in LICENSE_SUFFIXES and LICENSE_NAME.search(path.stem) and path.is_file()
+    )
     if paths:
         return "\n\n".join(path.read_text(errors="replace") for path in paths)
     if google_directory and (license := google_fonts_license(google_directory)):
@@ -772,8 +863,9 @@ def stage(entry, work):
     if "git" in source:
         repository = work / "repository"
         subprocess.run(["git", "init", "--quiet", repository], check=True)
-        subprocess.run(["git", "-C", repository, "fetch", "--depth", "1", "--quiet", source["git"],
-                        source["commit"]], check=True)
+        subprocess.run(
+            ["git", "-C", repository, "fetch", "--depth", "1", "--quiet", source["git"], source["commit"]], check=True
+        )
         subprocess.run(["git", "-C", repository, "checkout", "--quiet", "FETCH_HEAD"], check=True)
         return repository / source["path"]
     name = urllib.parse.unquote(urllib.parse.urlparse(source["url"]).path.rsplit("/", 1)[-1]) or "download"
@@ -885,10 +977,14 @@ def write_dataset(path, asset, token):
         os.link(path, dataset / path.name)
     except OSError:
         shutil.copy(path, dataset / path.name)
-    write_json(dataset / "Contents.json", CATALOG_INFO | {
-        "data": [{"filename": path.name, "idiom": "universal"}],
-        "properties": {"on-demand-resource-tags": [token]},
-    })
+    write_json(
+        dataset / "Contents.json",
+        CATALOG_INFO
+        | {
+            "data": [{"filename": path.name, "idiom": "universal"}],
+            "properties": {"on-demand-resource-tags": [token]},
+        },
+    )
 
 
 def assign_packs(weights):
@@ -902,15 +998,17 @@ def assign_packs(weights):
     small = [token for token, weight in weights.items() if weight < SMALL_CASK_BYTES]
     alone = len(weights) - len(small)
     if alone >= MAX_ASSET_PACKS:
-        sys.exit(f"{alone} casks over {SMALL_CASK_BYTES / 1e6:.0f} MB need a pack each, "
-                 f"past the {MAX_ASSET_PACKS} allowed; trim the line-up")
+        sys.exit(
+            f"{alone} casks over {SMALL_CASK_BYTES / 1e6:.0f} MB need a pack each, "
+            f"past the {MAX_ASSET_PACKS} allowed; trim the line-up"
+        )
     per_pack = 1
     while alone + -(-len(small) // per_pack) > MAX_ASSET_PACKS:
         per_pack += 1
     packs = {token: token for token in weights}
     if per_pack > 1:
         for start in range(0, len(small), per_pack):
-            for token in small[start:start + per_pack]:
+            for token in small[start : start + per_pack]:
                 packs[token] = f"pack-{start // per_pack + 1:03d}"
     return packs
 
@@ -962,27 +1060,30 @@ def rank_popularity(catalog, entries):
     records = {record["token"]: record for record in catalog}
     sources = {
         "homebrew": lambda entry: (entry["installs"], entry.get("recentInstalls", 0)),
-        "google": lambda entry: ((entry.get("google") or {}).get("views", 0),
-                                 (entry.get("google") or {}).get("recentViews", 0)),
+        "google": lambda entry: (
+            (entry.get("google") or {}).get("views", 0),
+            (entry.get("google") or {}).get("recentViews", 0),
+        ),
     }
 
     def percentiles(scores):
-        """Each token's share of the others it beats, from 1 for the highest score down toward 0."""
-        ordered = sorted(scores, key=scores.get, reverse=True)
+        """Each token's share of the others it beats, from 1 for the highest score down toward 0. Ties
+        go by token, so the same lock always ranks the same way."""
+        ordered = sorted(scores, key=lambda token: (-scores[token], token))
         return {token: 1 - index / len(ordered) for index, token in enumerate(ordered)}
 
     popular, trending = {}, {}
     for measure in sources.values():
         yearly = {token: measure(entry)[0] for token, entry in by_token.items() if measure(entry)[0]}
         ranked = percentiles(yearly)
-        busy = {token for token, share in ranked.items() if share > 1 - TRENDING_TOP_SHARE}
+        busy = [token for token, share in ranked.items() if share > 1 - TRENDING_TOP_SHARE]
         growth = percentiles({token: measure(by_token[token])[1] * 12 / yearly[token] for token in busy})
         for token, share in ranked.items():
             popular[token] = max(popular.get(token, 0), share)
         for token, share in growth.items():
             trending[token] = max(trending.get(token, 0), share)
     for key, scores in (("popularity", popular), ("trending", trending)):
-        for rank, token in enumerate(sorted(scores, key=lambda token: -scores[token]), 1):
+        for rank, token in enumerate(sorted(scores, key=lambda token: (-scores[token], token)), 1):
             records[token][key] = rank
 
 
@@ -1015,6 +1116,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     entries = locked["casks"]
     keys = {entry["token"]: cache_key(entry) for entry in entries}
     destinations = {token: BUILT / token / key for token, key in keys.items()}
+
     def cached(token):
         path = destinations[token] / "entry.json"
         if not path.is_file():
@@ -1028,12 +1130,15 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     if pending:
         update_clone(locked["googleFonts"])
         directories = {entry["source"]["google"] for entry in pending if "google" in entry["source"]}
-        directories |= {entry["google"]["directory"] for entry in pending if (entry.get("google") or {}).get("directory")}
+        directories |= {
+            entry["google"]["directory"] for entry in pending if (entry.get("google") or {}).get("directory")
+        }
         checkout(locked["googleFonts"], directories)
         failures = []
         with ProcessPoolExecutor(max_workers=jobs) as pool:
             for done, (token, error) in enumerate(
-                    pool.map(build_job, [(entry, destinations[entry["token"]]) for entry in pending]), 1):
+                pool.map(build_job, [(entry, destinations[entry["token"]]) for entry in pending]), 1
+            ):
                 if error:
                     failures.append(token)
                     # An annotation in GitHub Actions, so it shows on the run's summary page.
@@ -1080,8 +1185,12 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             continue
         shipping = [file for file in files if file["shippable"]]
         weight = sum(file["bytes"] for file in shipping)
-        if (max_mb_per_install and not entry["exempt"] and weight > NICHE_MIN_BYTES
-                and weight / 1e6 / max(entry["installs"], 1) > max_mb_per_install):
+        if (
+            max_mb_per_install
+            and not entry["exempt"]
+            and weight > NICHE_MIN_BYTES
+            and weight / 1e6 / max(entry["installs"], 1) > max_mb_per_install
+        ):
             trimmed.append(f"{token} ({weight / 1e6:.0f} MB, {entry['installs']:,} installs)")
             shipping = []
         if only is not None and token not in only:
@@ -1130,18 +1239,23 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             if pack != record["token"]:
                 retag_datasets(record["token"], pack)
 
-    write_json(APP / "Catalog.json", {
-        "source": "Homebrew cask install analytics, 365 days, and every Google Fonts family",
-        "generated": locked["generated"],
-        "sampleText": SAMPLE_TEXT,
-        "glyphSample": GLYPH_SAMPLE,
-        "casks": catalog,
-    })
+    write_json(
+        APP / "Catalog.json",
+        {
+            "source": "Homebrew cask install analytics, 365 days, and every Google Fonts family",
+            "generated": locked["generated"],
+            "sampleText": SAMPLE_TEXT,
+            "glyphSample": GLYPH_SAMPLE,
+            "casks": catalog,
+        },
+    )
     restyle_apple_fonts(locked["googleCategories"])
     report("skipped", skipped)
     report("trimmed heavy niche casks", trimmed)
-    print(f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "
-          f"in {len(set(packs.values()))} asset packs")
+    print(
+        f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "
+        f"in {len(set(packs.values()))} asset packs"
+    )
 
 
 # MARK: - Apple's fonts
@@ -1182,8 +1296,11 @@ def apple_previews():
         name = family["name"]
         # A path on this Mac only, so it doesn't belong in the committed JSON.
         file = Path(family.pop("fontFile", None) or "/nonexistent")
-        face = next((face for face in read_faces(file) if face.postscript_name == family["previewFace"]),
-                    None) if file.is_file() else None
+        face = (
+            next((face for face in read_faces(file) if face.postscript_name == family["previewFace"]), None)
+            if file.is_file()
+            else None
+        )
         if face is None:
             kept["no font file"].append(name)
             continue
@@ -1216,31 +1333,51 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
 
     lock_command = commands.add_parser("lock", help="pin the line-up's sources in fonts.lock.json")
-    lock_command.add_argument("--count", type=int, default=DEFAULT_CATALOG_SIZE, metavar="N",
-                              help=f"how many of Homebrew's most-installed casks to include; casks "
-                                   f"without a license are dropped when building (default {DEFAULT_CATALOG_SIZE})")
-    lock_command.add_argument("--google-top", type=int, metavar="N",
-                              help="include only the N most popular Google Fonts families, whatever their "
-                                   "Homebrew rank, rather than every family; 0 for none")
+    lock_command.add_argument(
+        "--count",
+        type=int,
+        default=DEFAULT_CATALOG_SIZE,
+        metavar="N",
+        help=f"how many of Homebrew's most-installed casks to include; casks "
+        f"without a license are dropped when building (default {DEFAULT_CATALOG_SIZE})",
+    )
+    lock_command.add_argument(
+        "--google-top",
+        type=int,
+        metavar="N",
+        help="include only the N most popular Google Fonts families, whatever their "
+        "Homebrew rank, rather than every family; 0 for none",
+    )
 
     build_command = commands.add_parser("build", help="build everything from fonts.lock.json")
-    build_command.add_argument("--fonts", nargs="+", metavar="TOKEN",
-                               help="write font assets only for these casks")
-    build_command.add_argument("--max-mb-per-install", type=float, metavar="MB",
-                               help="leave out casks over 10 MB that cost more than this per yearly install; "
-                                    "Google families and ALWAYS_INCLUDED are never trimmed")
-    build_command.add_argument("--jobs", type=int, default=max(2, (os.cpu_count() or 2) // 2), metavar="N",
-                               help="build this many casks at once (default: half the cores); subsetting "
-                                    "a CJK collection takes over a GB")
+    build_command.add_argument("--fonts", nargs="+", metavar="TOKEN", help="write font assets only for these casks")
+    build_command.add_argument(
+        "--max-mb-per-install",
+        type=float,
+        metavar="MB",
+        help="leave out casks over 10 MB that cost more than this per yearly install; "
+        "Google families and ALWAYS_INCLUDED are never trimmed",
+    )
+    build_command.add_argument(
+        "--jobs",
+        type=int,
+        default=max(2, (os.cpu_count() or 2) // 2),
+        metavar="N",
+        help="build this many casks at once (default: half the cores); subsetting a CJK collection takes over a GB",
+    )
 
-    commands.add_parser("apple-previews", help="subset Apple's downloadable fonts' previews; run right "
-                                               "after ApplePreviewRenderer")
+    commands.add_parser(
+        "apple-previews", help="subset Apple's downloadable fonts' previews; run right after ApplePreviewRenderer"
+    )
     arguments = parser.parse_args()
     if arguments.command == "lock":
         lock(arguments.count, arguments.google_top)
     elif arguments.command == "build":
-        build(only=set(arguments.fonts) if arguments.fonts else None,
-              max_mb_per_install=arguments.max_mb_per_install, jobs=arguments.jobs)
+        build(
+            only=set(arguments.fonts) if arguments.fonts else None,
+            max_mb_per_install=arguments.max_mb_per_install,
+            jobs=arguments.jobs,
+        )
     else:
         apple_previews()
 

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/candal:
-
 Copyright (c) 2011, Vernon Adams (vern@newtypography.co.uk),
 with Reserved Font Name Candal.
 

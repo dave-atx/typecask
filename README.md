@@ -186,11 +186,24 @@ still uses ODR.
 
 ```sh
 swiftlint --strict
-xcrun simctl erase 'iPhone Duo'
-xcodebuild test -project Typecask.xcodeproj -scheme Typecask -destination 'platform=iOS Simulator,name=iPhone Duo'
+uvx ruff format --check scripts && uvx ruff check scripts
+uvx --from shellcheck-py shellcheck scripts/*.sh ci_scripts/*.sh
+uvx --from shfmt-py shfmt -d scripts ci_scripts
+uvx --from actionlint-py actionlint
+
+xcrun simctl erase 'iPad Pro 11-inch (M5)'
+TEST_RUNNER_TYPECASK_CASK=font-roboto xcodebuild test -project Typecask.xcodeproj -scheme Typecask \
+    -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5)' -only-testing:TypecaskUITests/InstallTests
 ```
 
-The UI tests install a cask, accepting the system consent sheet, and check it is still installed after a
-relaunch; and uninstall one and check it stays uninstalled.
+`ruff.toml` and `.editorconfig` hold the Python and shell settings. The UI tests install a cask, accepting
+the system consent sheet, and check it's still installed after a relaunch; uninstall one and check it stays
+uninstalled; update one marked outdated; and check that a cask iOS already ships offers no Install button.
 Pick the cask with `TEST_RUNNER_TYPECASK_CASK=<token>`. Erase the simulator first: fonts outlive
-`simctl uninstall`, so a cask installed by an earlier run has no Install button.
+`simctl uninstall`, so a cask installed by an earlier run has no Install button. The Fonts workflow runs
+the same tests on a spread of casks.
+
+Subsetting large font collections takes a lot of memory: a build once reached 26 GB before reading fonts
+lazily. `python3 scripts/memcap.py 14 scripts/publish-fonts.sh build` runs it under a cap on its physical
+footprint, which macOS's RSS doesn't report. AGENTS.md has more of what's worth knowing before changing
+things.

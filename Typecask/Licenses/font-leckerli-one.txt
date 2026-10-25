@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/leckerlione:
-
 Copyright (c) 2011 Gesine Todt  (www.gesine-todt.de), with Reserved
 Font Names "Leckerli" and "Leckerli One".
 

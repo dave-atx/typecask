@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/bentham:
-
 Copyright (c) 2010, Ben Weiner (ben@readingtype.org.uk),
 with Reserved Font Name Bentham.
 

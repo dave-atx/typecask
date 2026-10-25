@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/pathwaygothicone:
-
 Copyright 2013 The Pathway Gothic Project Authors (https://github.com/etunni/pathway-gothic), with Reserved Font Name 'Pathway'
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

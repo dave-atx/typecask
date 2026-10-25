@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/readexpro:
-
 Copyright 2018 The Readex Pro Project Authors (https://github.com/ThomasJockin/readexpro), with Reserved Font Name “RevReading Lexend”.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

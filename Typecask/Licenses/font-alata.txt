@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/alata:
-
 Copyright 2016 The Alata Project Authors (https://github.com/SorkinType/Alata)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

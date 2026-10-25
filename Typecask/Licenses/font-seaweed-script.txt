@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/seaweedscript:
-
 Copyright (c) 2012, Font Diner (www.fontdiner.com),
 with Reserved Font Name "Seaweed Script".
 

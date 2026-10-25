@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/zcoolqingkehuangyou:
-
 Copyright 2018 The ZCOOL QingKe HuangYou Project Authors (https://www.github.com/googlefonts/zcool-qingke-huangyou)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/commissioner:
-
 Copyright 2019 The Commissioner Project Authors (https://github.com/kosbarts/Commissioner)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

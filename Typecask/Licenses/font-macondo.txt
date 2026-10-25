@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/macondo:
-
 Copyright � 1997 - 2011, John Vargas Beltr�n (www.johnvargasbeltran.com|john.vargasbeltran@gmail.com),
 with Reserved Font Name Macondo.
 

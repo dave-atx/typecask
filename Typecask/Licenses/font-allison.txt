@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/allison:
-
 Copyright 2020 The Allison Project Authors (https://github.com/googlefonts/allison)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

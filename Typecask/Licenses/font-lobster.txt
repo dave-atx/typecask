@@ -1,5 +1,3 @@
-License of github.com/google/fonts/ofl/lobster:
-
 Copyright 2010 The Lobster Project Authors (https://github.com/impallari/The-Lobster-Font), with Reserved Font Name "Lobster".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
