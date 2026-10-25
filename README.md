@@ -17,8 +17,8 @@ Requires Xcode 27.2, [uv](https://docs.astral.sh/uv/) and Homebrew.
 open Typecask.xcodeproj
 ```
 
-`--count` sets how many casks to catalog, 1000 by default; Homebrew has about 2,650 font casks with install
-data. `--scratch DIR` stages the downloads and Homebrew's own cache somewhere other than the boot disk,
+`--count` sets how many casks to catalog, 1000 by default; Homebrew carries 2,615 font casks, 2,611 of
+them with install data over 365 days. `--scratch DIR` stages the downloads and Homebrew's own cache somewhere other than the boot disk,
 which a full run needs — the top 100 alone are ~2.6 GB. Casks that fail to download, or that no license can
 be found for, are skipped with a warning rather than ending the run.
 
