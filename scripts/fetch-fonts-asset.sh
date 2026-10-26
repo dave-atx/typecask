@@ -1,28 +1,17 @@
 #!/bin/sh
-# Xcode Cloud runs this after cloning, before resolving dependencies.
+# Unpacks the Typecask/Fonts.xcassets that Typecask/FontsAsset.json pins.
 #
-# Typecask/Fonts.xcassets is generated, not committed, and the fonts in it have to be in the archive
-# for On-Demand Resources to host them. scripts/publish-fonts.sh builds it once, attaches it to a
-# GitHub release and pins that release in Typecask/FontsAsset.json; this fetches exactly that file,
-# so CI pays for one download instead of downloading and subsetting every cask.
+# Fonts.xcassets is generated, not committed, and the fonts in it have to be in the archive for
+# On-Demand Resources to host them. scripts/publish-fonts.sh builds it once, attaches it to a GitHub
+# release and pins that release in the file this reads, so a build pays for one download instead of
+# downloading and subsetting every cask. The TestFlight workflow runs this, and so can a local
+# archive; the catalog check below guards either the same way.
 #
-# Without a pin, it falls back to building a few casks from fonts.lock.json. TYPECASK_CASKS picks them.
+# Without a pin, it falls back to building a few casks from fonts.lock.json. TYPECASK_CASKS picks
+# them. TYPECASK_GITHUB_TOKEN authenticates the download while the repository is private.
 set -eu
 
-cd "$CI_PRIMARY_REPOSITORY_PATH"
-
-# Signing.xcconfig leaves the team to a local file, which isn't committed; Xcode Cloud names its own.
-if [ -n "${CI_TEAM_ID:-}" ] && [ ! -f Signing.local.xcconfig ]; then
-    echo "DEVELOPMENT_TEAM = $CI_TEAM_ID" > Signing.local.xcconfig
-fi
-
-# Xcode matches entitlements to App ID capabilities with the portal's current list, which it caches here.
-# The image lacks the folder and Xcode doesn't create its parents, so it falls back to the list it
-# ships with, where Font Enumeration, a capability Apple grants on request, also claims user-fonts'
-# system-installation value. Export then fails trying to enable Font Enumeration on the App ID.
-CAPABILITIES="$HOME/Library/Developer/Xcode/UserData/Capabilities"
-mkdir -p "$CAPABILITIES"
-echo "Xcode's capability cache for $(id -un): $CAPABILITIES"
+cd "$(dirname "$0")/.."
 
 PIN=Typecask/FontsAsset.json
 
@@ -42,12 +31,14 @@ if [ -f "$PIN" ]; then
     fi
     echo "$sha  $archive" | shasum -a 256 -c -
 
-    # macOS's tar has no zstd of its own: it runs the zstd command, which the Xcode Cloud image lacks.
+    # macOS's tar has no zstd of its own: it runs the zstd command, which a runner may not have.
     if ! command -v zstd > /dev/null 2>&1; then
         HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_CLEANUP=1 brew install zstd
     fi
     rm -rf Typecask/Fonts.xcassets
     tar --zstd -xf "$archive" -C Typecask
+    # 1.4 GB that nothing reads again, on a runner that archives and exports several GB more.
+    rm -f "$archive"
 
     # Catalog.json and the asset are published together. If they've drifted, casks would offer an
     # Install button for fonts the build doesn't carry, so stop here instead.
@@ -66,7 +57,7 @@ fi
 
 CASKS="${TYPECASK_CASKS:-font-departure-mono-nerd-font font-roboto font-d2coding}"
 
-# uv runs build-catalog.py with its pinned fontTools; the Xcode Cloud image doesn't ship it.
+# uv runs build-catalog.py with its pinned fontTools; neither CI image ships it.
 if ! command -v uv > /dev/null 2>&1; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
     PATH="$HOME/.local/bin:$PATH"

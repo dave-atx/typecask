@@ -4,8 +4,8 @@
 //
 //     DEVELOPMENT_TEAM = ABCDE12345
 //
-// Simulator builds need no team. Xcode Cloud writes the local file from CI_TEAM_ID in
-// ci_scripts/ci_post_clone.sh.
+// Simulator builds need no team. The TestFlight workflow writes the local file from the repository's
+// APPLE_TEAM_ID variable.
 DEVELOPMENT_TEAM =
 
 #include? "Signing.local.xcconfig"

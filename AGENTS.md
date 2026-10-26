@@ -13,16 +13,17 @@ deletes or renames files.
   which is a generator run as a test, not a test.
 - `scripts/build-catalog.py`: `lock`, `build` and `apple-previews`. `scripts/publish-fonts.sh`:
   `build`, `archive`, `upload`. `fonts.lock.json` pins every cask's source.
-- `.github/workflows/fonts.yml` builds, verifies in the simulator and publishes fonts; `ci_scripts/`
-  runs in Xcode Cloud for TestFlight.
+- `.github/workflows/fonts.yml` builds, verifies in the simulator and publishes fonts;
+  `testflight.yml` archives a `testflight-N` tag and uploads it, via `scripts/fetch-fonts-asset.sh`
+  and `scripts/set-build-number.sh`.
 
 ## Checks
 
 ```sh
 swiftlint --strict
 uvx ruff format --check scripts && uvx ruff check scripts
-uvx --from shellcheck-py shellcheck scripts/*.sh ci_scripts/*.sh
-uvx --from shfmt-py shfmt -d scripts ci_scripts
+uvx --from shellcheck-py shellcheck scripts/*.sh
+uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
 ```
 
@@ -53,8 +54,9 @@ uvx --from actionlint-py actionlint
 ## Signing
 
 The project names no team: `Signing.xcconfig` includes an optional, gitignored
-`Signing.local.xcconfig`, and Xcode Cloud writes that from `CI_TEAM_ID`. Don't set a team in Xcode's
-Signing & Capabilities pane, which writes it into the project for everyone.
+`Signing.local.xcconfig`, which the TestFlight workflow writes from the `APPLE_TEAM_ID` variable.
+Don't set a team in Xcode's Signing & Capabilities pane, which writes it into the project for
+everyone.
 
 ## Running heavy scripts
 

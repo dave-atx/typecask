@@ -1,6 +1,6 @@
 #!/bin/sh
 # Builds the fonts a release ships and publishes them as a GitHub release asset, pinned in
-# Typecask/FontsAsset.json for ci_scripts/ci_post_clone.sh to fetch.
+# Typecask/FontsAsset.json for scripts/fetch-fonts-asset.sh to fetch.
 #
 #   scripts/publish-fonts.sh build   [TAG]   build everything from fonts.lock.json
 #   scripts/publish-fonts.sh archive [TAG]   compress Fonts.xcassets into .cache/TAG.tar.zst
@@ -80,7 +80,7 @@ upload)
     sha=$(shasum -a 256 "$ARCHIVE" | cut -d' ' -f1)
     casks=$(python3 -c 'import json; print(sum(1 for c in json.load(open("Typecask/Catalog.json"))["casks"] if c["assets"]))')
     gh release create "$TAG" "$ARCHIVE" --title "Fonts $TAG" \
-        --notes "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by ci_scripts/ci_post_clone.sh."
+        --notes "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by scripts/fetch-fonts-asset.sh."
     url=$(gh release view "$TAG" --json assets --jq '.assets[0].apiUrl')
 
     cat > Typecask/FontsAsset.json << EOF

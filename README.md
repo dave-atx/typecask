@@ -108,28 +108,26 @@ repository's, through the API, which allows 60 requests an hour unauthenticated 
 
 ## TestFlight
 
-Xcode Cloud builds are triggered by pushing a `testflight-N` tag. `N` becomes the build number, so
-`testflight-4` uploads build 4 and TestFlight won't reject it as a duplicate.
-
-The workflow itself lives in App Store Connect rather than this repo — Xcode Cloud has no
-workflow-as-code format — so it has to be created once by hand, in Xcode under Product > Xcode Cloud >
-Create Workflow, or in App Store Connect under the app's Xcode Cloud tab:
-
-1. **Start Condition:** delete the default branch condition and add *Tag Changes*, with the tag pattern
-   `testflight-*`.
-2. **Environment:** Xcode 27.2. The repository is public, so the font asset downloads without a
-   token; `ci_post_clone.sh` sends `TYPECASK_GITHUB_TOKEN` if one is set, for a private fork.
-3. **Action:** *Archive* for iOS, with the Deployment Preparation set to *TestFlight (Internal Testing
-   Only)* or *TestFlight and App Store*.
-4. **Post-Action:** *TestFlight Internal Testing*, pointed at a tester group.
+Builds are triggered by pushing a `testflight-N` tag. `N` becomes the build number, so `testflight-4`
+uploads build 4 and TestFlight won't reject it as a duplicate. The **TestFlight** workflow in
+`.github/workflows/testflight.yml` fetches the pinned fonts, archives, exports and uploads.
 
 It needs an Apple Developer Program membership, an App Store Connect record for
-`org.marquard.Typecask` whose App ID has the Fonts capability ("Install Fonts"), and the repository
-pushed to a host Xcode Cloud can reach (GitHub, GitLab or Bitbucket). The team comes from Xcode Cloud's
-`CI_TEAM_ID`, which `ci_post_clone.sh` writes into `Signing.local.xcconfig`.
+`org.marquard.Typecask` whose App ID has the Fonts capability ("Install Fonts"), and these in the
+repository's Actions settings:
 
-Both scripts in `ci_scripts/` run automatically. `ci_pre_xcodebuild.sh` sets the build number from
-the tag. `ci_post_clone.sh` supplies `Fonts.xcassets`, which is generated rather than committed.
+| Name | Kind | What it is |
+| --- | --- | --- |
+| `APPLE_TEAM_ID` | variable | the ten-character team the app signs with |
+| `APPLE_DISTRIBUTION_CERT_P12` | secret | `base64 -i cert.p12` of an Apple Distribution certificate and its key, exported from Keychain Access |
+| `APPLE_DISTRIBUTION_CERT_PASSWORD` | secret | the password that export was given |
+| `APP_STORE_CONNECT_KEY_ID` | secret | an App Store Connect API key with App Manager access |
+| `APP_STORE_CONNECT_ISSUER_ID` | secret | that key's issuer, from the same page |
+| `APP_STORE_CONNECT_PRIVATE_KEY` | secret | the key's `.p8`, contents and all |
+
+The API key stands in for an Apple ID: `xcodebuild -allowProvisioningUpdates` uses it to fetch the App
+Store provisioning profile, and `altool` to upload. The certificate is imported into a keychain of the
+job's own, which the last step deletes.
 
 ### Font assets
 
@@ -194,8 +192,8 @@ still uses ODR.
 ```sh
 swiftlint --strict
 uvx ruff format --check scripts && uvx ruff check scripts
-uvx --from shellcheck-py shellcheck scripts/*.sh ci_scripts/*.sh
-uvx --from shfmt-py shfmt -d scripts ci_scripts
+uvx --from shellcheck-py shellcheck scripts/*.sh
+uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
 
 xcrun simctl erase 'iPad Pro 11-inch (M5)'

@@ -127,7 +127,7 @@ jobs:
     timeout-minutes: 90
     env:
       TAG: ${{ needs.build.outputs.tag }}
-      # The image defaults to 27.1; 27.2 is what Xcode Cloud builds releases with.
+      # The image defaults to 27.1; 27.2 is what the TestFlight workflow archives with.
       DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
       # One of each kind: a google/fonts family, a Nerd Font from a GitHub release, a CJK family, and
       # a coding font. The uninstall and update tests take the last two.
