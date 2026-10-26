@@ -181,8 +181,9 @@ single release asset at 2 GiB, and the publish step refuses an archive over 1.9 
 Apple caps an app at [1000 asset packs](https://developer.apple.com/help/app-store-connect/reference/app-uploads/on-demand-resources-size-limits)
 and 70 GB of hosted On-Demand Resources on iOS 18 and later. Each On-Demand Resources tag becomes one
 pack — font data assets don't slice by device the way images do, which a 760-cask build confirmed — so
-`build` gives each cask its own tag until that would pass 900, then puts small casks (under 1 MB) together,
-as few to a pack as gets under the limit. The tag is the `pack` field in `Catalog.json`. Installing a
+`build` gives each cask of 1 MB or more its own tag and spreads smaller casks across 450 shared ones by
+a hash of the cask's token, so a cask keeps its pack as others come and go, 900 in all at most. The tag
+is the `pack` field in `Catalog.json`. Installing a
 cask downloads its pack-mates too but registers only its own fonts, so the cost is a few hundred KB of
 extra download. Note also that On-Demand Resources are deprecated as of iOS 27; Background Assets is the
 replacement, but fonts delivered through it can't be installed system-wide, which is why this app
