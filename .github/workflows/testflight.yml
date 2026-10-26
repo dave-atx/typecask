@@ -105,8 +105,6 @@ jobs:
         run: scripts/set-build-number.sh "${BUILD#testflight-}"
 
       - name: Unpack the fonts
-        env:
-          TYPECASK_GITHUB_TOKEN: ${{ github.token }}
         run: scripts/fetch-fonts-asset.sh
 
       # Ad-hoc, so nothing reaches for a distribution certificate here and the API key mints nothing.

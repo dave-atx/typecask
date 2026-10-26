@@ -8,7 +8,7 @@
 # archive; the catalog check below guards either the same way.
 #
 # Without a pin, it falls back to building a few casks from fonts.lock.json. TYPECASK_CASKS picks
-# them. TYPECASK_GITHUB_TOKEN authenticates the download while the repository is private.
+# them.
 set -eu
 
 cd "$(dirname "$0")/.."
@@ -21,14 +21,8 @@ if [ -f "$PIN" ]; then
     archive="${TMPDIR:-/tmp}/typecask-fonts.tar.zst"
 
     echo "Fetching $url"
-    # The API asset URL serves the file itself with this Accept header; a token is only needed while
-    # the repository is private.
-    if [ -n "${TYPECASK_GITHUB_TOKEN:-}" ]; then
-        curl -fL --retry 3 -H "Accept: application/octet-stream" \
-            -H "Authorization: Bearer $TYPECASK_GITHUB_TOKEN" -o "$archive" "$url"
-    else
-        curl -fL --retry 3 -H "Accept: application/octet-stream" -o "$archive" "$url"
-    fi
+    # The API asset URL serves the file itself with this Accept header.
+    curl -fL --retry 3 -H "Accept: application/octet-stream" -o "$archive" "$url"
     echo "$sha  $archive" | shasum -a 256 -c -
 
     # macOS's tar has no zstd of its own: it runs the zstd command, which a runner may not have.
