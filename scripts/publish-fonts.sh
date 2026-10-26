@@ -2,9 +2,12 @@
 # Builds the fonts a release ships and publishes them as a GitHub release asset, pinned in
 # Typecask/FontsAsset.json for scripts/fetch-fonts-asset.sh to fetch.
 #
-#   scripts/publish-fonts.sh build   [TAG]   build everything from fonts.lock.json
-#   scripts/publish-fonts.sh archive [TAG]   compress Fonts.xcassets into .cache/TAG.tar.zst
-#   scripts/publish-fonts.sh upload  [TAG]   attach that archive to a release and write the pin
+#   scripts/publish-fonts.sh build   [TAG]          build everything from fonts.lock.json
+#   scripts/publish-fonts.sh archive [TAG]          compress Fonts.xcassets into .cache/TAG.tar.zst
+#   scripts/publish-fonts.sh upload  [TAG] [BASE]   attach that archive to a release and write the pin
+#
+# upload's release notes say which casks changed since BASE (default HEAD), from
+# scripts/fonts-changelog.py, which also leaves them in .cache/TAG.changes.md for the pull request.
 #
 # Separate steps so the archive that gets uploaded is the one already built and tried in the
 # simulator, and so CI shows each one on its own. TAG defaults to fonts-YYYYMMDD. The GitHub
@@ -23,6 +26,8 @@ ARCHIVE=".cache/$TAG.tar.zst"
 # What the archive holds, by cask: its assets and On-Demand Resources tag. upload compares it with
 # Catalog.json, so metadata-only changes don't force a rebuild.
 MANIFEST=".cache/$TAG.assets.json"
+# What changed since BASE, as the release notes: scripts/fonts-changelog.py.
+CHANGES=".cache/$TAG.changes.md"
 assets_manifest() {
     python3 -c 'import json, sys
 casks = json.load(open("Typecask/Catalog.json"))["casks"]
@@ -79,8 +84,13 @@ upload)
     size=$(size_of "$ARCHIVE")
     sha=$(shasum -a 256 "$ARCHIVE" | cut -d' ' -f1)
     casks=$(python3 -c 'import json; print(sum(1 for c in json.load(open("Typecask/Catalog.json"))["casks"] if c["assets"]))')
-    gh release create "$TAG" "$ARCHIVE" --title "Fonts $TAG" \
-        --notes "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by scripts/fetch-fonts-asset.sh."
+    scripts/fonts-changelog.py "${3:-HEAD}" > "$CHANGES"
+    {
+        echo "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by scripts/fetch-fonts-asset.sh."
+        echo
+        cat "$CHANGES"
+    } > ".cache/$TAG.notes.md"
+    gh release create "$TAG" "$ARCHIVE" --title "Fonts $TAG" --notes-file ".cache/$TAG.notes.md"
     url=$(gh release view "$TAG" --json assets --jq '.assets[0].apiUrl')
 
     cat > Typecask/FontsAsset.json << EOF

@@ -120,6 +120,7 @@ jobs:
             Typecask/Licenses/
             .cache/${{ steps.tag.outputs.tag }}.tar.zst
             .cache/${{ steps.tag.outputs.tag }}.assets.json
+            .cache/build-report.json
 
   verify:
     needs: build
@@ -223,6 +224,15 @@ jobs:
         with:
           name: fonts
 
+      # Onto the base as it is now, not as it was when the run started, keeping the working tree: the
+      # release notes then compare with what the pull request is reviewed against, and the push isn't
+      # refused. GitHub compares a new branch with the default branch, and refuses it as editing a
+      # workflow, which this token can't, whenever one changed on main during the build.
+      - name: Move onto the latest ${{ github.event.repository.default_branch }}
+        run: |
+          git fetch -q --depth=1 origin "$BASE"
+          git reset -q FETCH_HEAD
+
       - name: Release the archive and write the pin
         run: scripts/publish-fonts.sh upload "$TAG"
 
@@ -232,18 +242,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Not named after the tag the release created, which would make the name ambiguous to git.
           git switch -c "update-fonts/$TAG"
-          # Commit onto the base as it is now, not as it was when the run started: GitHub compares a
-          # new branch with the default branch, and refuses the push as editing a workflow, which
-          # this token can't, whenever one changed on main during the build.
-          git fetch -q --depth=1 origin "$BASE"
-          git reset -q FETCH_HEAD
           git add fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
             Typecask/Licenses Typecask/FontsAsset.json
           git commit -q -m "Update fonts to $TAG"
           git push -q origin "update-fonts/$TAG"
-          gh pr create --title "Update fonts to $TAG" --body "$(cat <<EOF
+          cat > .cache/pr-body.md <<EOF
           Built and verified by [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID).
           The archive is attached to the [$TAG release]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$TAG)
           and pinned in Typecask/FontsAsset.json. Merge to ship it in the next TestFlight build.
+
           EOF
-          )"
+          cat ".cache/$TAG.changes.md" >> .cache/pr-body.md
+          gh pr create --title "Update fonts to $TAG" --body-file .cache/pr-body.md

@@ -1156,6 +1156,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     pending = [entry for entry in entries if not cached(entry["token"])]
     print(f"{len(entries) - len(pending)} of {len(entries)} casks cached; building {len(pending)}")
 
+    failed = {}
     if pending:
         update_clone(locked["googleFonts"])
         directories = {entry["source"]["google"] for entry in pending if "google" in entry["source"]}
@@ -1163,20 +1164,19 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             entry["google"]["directory"] for entry in pending if (entry.get("google") or {}).get("directory")
         }
         checkout(locked["googleFonts"], directories)
-        failures = []
         with ProcessPoolExecutor(max_workers=jobs) as pool:
             for done, (token, error) in enumerate(
                 pool.map(build_job, [(entry, destinations[entry["token"]]) for entry in pending]), 1
             ):
                 if error:
-                    failures.append(token)
+                    failed[token] = error
                     # An annotation in GitHub Actions, so it shows on the run's summary page.
                     prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
                     print(f"{prefix}{token}: {error}")
                 if done % 100 == 0:
                     print(f"built {done} of {len(pending)}")
-        if failures:
-            report("failed to build, retried next run", failures)
+        if failed:
+            report("failed to build, retried next run", list(failed))
 
     # Only what this lock uses stays, so the Actions cache doesn't grow without bound.
     for directory in BUILT.glob("*/*"):
@@ -1191,14 +1191,14 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         directory.mkdir(parents=True)
     write_json(FONTS / "Contents.json", CATALOG_INFO)
 
-    catalog, owners, weights, skipped, trimmed = [], {}, {}, [], []
+    catalog, owners, weights, skipped, trimmed, shadowed = [], {}, {}, {}, {}, {}
     for entry in entries:
         token, destination = entry["token"], destinations[entry["token"]]
         if not (destination / "entry.json").is_file():
             continue
         built = json.loads((destination / "entry.json").read_text())
         if "skip" in built:
-            skipped.append(f"{token} ({built['skip']})")
+            skipped[token] = built["skip"]
             continue
         # Two casks can carry the same face; the higher-ranked one keeps it.
         files = []
@@ -1211,6 +1211,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             owners[file["asset"]] = token
             files.append(file)
         if not files:
+            shadowed[token] = sorted({owners[file["asset"]] for file in built["files"]})
             continue
         shipping = [file for file in files if file["shippable"]]
         weight = sum(file["bytes"] for file in shipping)
@@ -1220,7 +1221,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             and weight > NICHE_MIN_BYTES
             and weight / 1e6 / max(entry["installs"], 1) > max_mb_per_install
         ):
-            trimmed.append(f"{token} ({weight / 1e6:.0f} MB, {entry['installs']:,} installs)")
+            trimmed[token] = f"{weight / 1e6:.0f} MB, {entry['installs']:,} installs"
             shipping = []
         if only is not None and token not in only:
             shipping = []
@@ -1279,8 +1280,13 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         },
     )
     restyle_apple_fonts(locked["googleCategories"])
-    report("skipped", skipped)
-    report("trimmed heavy niche casks", trimmed)
+    report("skipped", [f"{token} ({reason})" for token, reason in skipped.items()])
+    report("trimmed heavy niche casks", [f"{token} ({reason})" for token, reason in trimmed.items()])
+    # Why a locked cask is missing from the catalog or ships nothing, for scripts/fonts-changelog.py.
+    write_json(
+        CACHE / "build-report.json",
+        {"failed": failed, "skipped": skipped, "trimmed": trimmed, "shadowed": shadowed},
+    )
     print(
         f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "
         f"in {len(set(packs.values()))} asset packs"

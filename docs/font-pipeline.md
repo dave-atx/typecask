@@ -114,6 +114,13 @@ tab:
    request with the lock, catalog, previews, licenses and pin. Merging it is the release; the next app
    build ships it. The repository has to allow GitHub Actions to create pull requests.
 
+The release notes and the pull request both say which casks were added, removed, updated to a new
+version or rebuilt into different files, compared with main as it is when the run publishes.
+`scripts/fonts-changelog.py [BASE]` writes that from `Catalog.json` against the one at `BASE` (default
+`HEAD`), and gives each removal its reason: out of the line-up in the lock, or failed, skipped, trimmed
+or overlapping another cask in the `.cache/build-report.json` that `build` writes. Run it after a local
+build to see what a release would change.
+
 Locally, the same steps:
 
 ```sh
