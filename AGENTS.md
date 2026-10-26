@@ -14,8 +14,8 @@ deletes or renames files.
 - `scripts/build-catalog.py`: `lock`, `build` and `apple-previews`. `scripts/publish-fonts.sh`:
   `build`, `archive`, `upload`. `fonts.lock.json` pins every cask's source.
 - `.github/workflows/fonts.yml` builds, verifies in the simulator and publishes fonts;
-  `testflight.yml` archives a `testflight-N` tag and uploads it, via `scripts/fetch-fonts-asset.sh`
-  and `scripts/set-build-number.sh`.
+  `testflight.yml` archives a `testflight-N` tag and uploads it, via `scripts/fetch-fonts-asset.sh`,
+  `scripts/set-build-number.sh`, `scripts/prepare-export.sh` and `scripts/run-with-heartbeat.sh`.
 
 ## Checks
 
@@ -57,6 +57,18 @@ The project names no team: `Signing.xcconfig` includes an optional, gitignored
 `Signing.local.xcconfig`, which the TestFlight workflow writes from the `APPLE_TEAM_ID` variable.
 Don't set a team in Xcode's Signing & Capabilities pane, which writes it into the project for
 everyone.
+
+- Releases sign manually, and have to. `xcodebuild -allowProvisioningUpdates` with an App Store
+  Connect API key signs distribution builds with Apple's cloud-managed certificates, which a key has
+  no access to; it archived with a development certificate it minted itself and then couldn't export.
+  The archive is ad-hoc (`CODE_SIGN_IDENTITY=-`) and the export re-signs from a stored certificate
+  and profile.
+- Check signing before the archive, never after. xcodebuild resolves it at the end of an export,
+  after staging several GB of asset packs, so a bad certificate or profile takes about 40 minutes to
+  report itself. `scripts/prepare-export.sh` is that check.
+- An export writes almost nothing to stdout; the step-by-step detail is in the
+  `.xcdistributionlogs` bundle it leaves in `TMPDIR` (759 bytes against 31 MB once). Set `TMPDIR` so
+  it lands somewhere collectable.
 
 ## Running heavy scripts
 

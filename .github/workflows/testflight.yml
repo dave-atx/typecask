@@ -1,16 +1,18 @@
 # Archives Typecask with the fonts Typecask/FontsAsset.json pins and uploads it to TestFlight.
 #
-# The app is mostly fonts: 3.6 GB of them, in a thousand On-Demand Resources packs that have to be in
-# the archive for Apple to host. So this archives once, exports once and uploads that, and spends most
-# of its care on not running out of disk.
-#
 # Tag testflight-N and push it: N becomes CURRENT_PROJECT_VERSION, the build number TestFlight sees,
 # and it has to be higher than any build already uploaded.
 #
+# Signing is manual, and deliberately so. Given an App Store Connect API key, automatic signing goes
+# looking for cloud-managed distribution certificates, which an API key has no access to; testflight-4
+# archived with a development certificate the key minted on the spot and then couldn't export at all.
+# So the archive is signed ad-hoc and the export re-signs it with the certificate and profile below.
+#
 # Needs these in the repository's Actions settings:
 #   vars.APPLE_TEAM_ID                       the ten-character team the app signs with
-#   secrets.APPLE_DISTRIBUTION_CERT_P12      base64 of an Apple Distribution .p12
+#   secrets.APPLE_DISTRIBUTION_CERT_P12      base64 of an Apple Distribution .p12, with its key
 #   secrets.APPLE_DISTRIBUTION_CERT_PASSWORD the password that .p12 was exported with
+#   secrets.APPLE_PROVISIONING_PROFILE       base64 of the App Store .mobileprovision for the App ID
 #   secrets.APP_STORE_CONNECT_KEY_ID         an App Store Connect API key with App Manager access
 #   secrets.APP_STORE_CONNECT_ISSUER_ID      that key's issuer
 #   secrets.APP_STORE_CONNECT_PRIVATE_KEY    the key's .p8, contents and all
@@ -46,35 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Fonts.xcassets is 3.6 GB, and the derived data, the archive and the export each hold their
-      # own copy of it; Xcode's export pipeline stages a fourth. The spare Xcodes and the simulator
-      # runtimes are the only things on the image big enough to make that room.
-      - name: Make room on the disk
-        run: |
-          df -h / "$RUNNER_TEMP"
-          # By resolved path: the image points more than one Xcode*.app at the same bundle, and
-          # deleting the one DEVELOPER_DIR reaches through a symlink would take the toolchain with it.
-          keep=$(cd "$DEVELOPER_DIR/../.." && pwd -P)
-          echo "Keeping $keep"
-          for app in /Applications/Xcode*.app; do
-            [ "$(cd "$app" && pwd -P)" = "$keep" ] && continue
-            echo "Removing $app"
-            sudo rm -rf "$app"
-          done
-          sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes
-          rm -rf ~/Library/Developer/CoreSimulator/Devices
-          df -h / "$RUNNER_TEMP"
-
-      - name: Set the build number
-        env:
-          BUILD: ${{ inputs.build || github.ref_name }}
-        run: scripts/set-build-number.sh "${BUILD#testflight-}"
-
-      - name: Unpack the fonts
-        env:
-          TYPECASK_GITHUB_TOKEN: ${{ github.token }}
-        run: scripts/fetch-fonts-asset.sh
-
+      # Signing first, and checked before anything slow: xcodebuild resolves it at the end of the
+      # export, so a bad certificate or profile otherwise takes an hour to report itself.
       - name: Import the signing certificate
         env:
           CERT_P12: ${{ secrets.APPLE_DISTRIBUTION_CERT_P12 }}
@@ -83,7 +58,7 @@ jobs:
           keychain="$RUNNER_TEMP/typecask.keychain-db"
           password=$(uuidgen)
           security create-keychain -p "$password" "$keychain"
-          # Long enough for the archive and the export, which together run well over an hour.
+          # Longer than the archive and the export together.
           security set-keychain-settings -lut 21600 "$keychain"
           security unlock-keychain -p "$password" "$keychain"
           # tr because base64 wraps its output by default on some platforms and not others.
@@ -97,24 +72,12 @@ jobs:
           # Ahead of the login keychain, so xcodebuild looks in this one first.
           # shellcheck disable=SC2046 # the existing list is one keychain path per line.
           security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
-          # A .p12 exported without its private key imports without complaint and then fails much
-          # later, in the middle of the archive, so it stops here instead.
-          identities=$(security find-identity -v -p codesigning "$keychain")
-          echo "$identities"
-          case "$identities" in
-            *"Apple Distribution"*) ;;
-            *)
-              echo "::error::No Apple Distribution identity in APPLE_DISTRIBUTION_CERT_P12." \
-                "Export it from Keychain Access's My Certificates, so it carries the private key."
-              exit 1
-              ;;
-          esac
 
-      - name: Set up App Store Connect and Xcode's capability cache
+      - name: Set up App Store Connect and the signing team
         env:
           PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
         run: |
-          # altool finds the key in this directory by name; xcodebuild is told the path.
+          # altool finds the key in this directory by name.
           mkdir -p ~/.appstoreconnect/private_keys
           key="$HOME/.appstoreconnect/private_keys/AuthKey_$KEY_ID.p8"
           printf '%s\n' "$PRIVATE_KEY" > "$key"
@@ -126,56 +89,73 @@ jobs:
           # installation value, and export fails trying to enable Font Enumeration on the App ID.
           mkdir -p ~/Library/Developer/Xcode/UserData/Capabilities
 
+      - name: Prepare the export
+        env:
+          PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
+        run: |
+          printf %s "$PROFILE" | tr -d '[:space:]' | base64 --decode \
+            > "$RUNNER_TEMP/profile.mobileprovision"
+          KEYCHAIN="$RUNNER_TEMP/typecask.keychain-db" \
+            scripts/prepare-export.sh "$RUNNER_TEMP/profile.mobileprovision" \
+            "$RUNNER_TEMP/ExportOptions.plist"
+
+      - name: Set the build number
+        env:
+          BUILD: ${{ inputs.build || github.ref_name }}
+        run: scripts/set-build-number.sh "${BUILD#testflight-}"
+
+      - name: Unpack the fonts
+        env:
+          TYPECASK_GITHUB_TOKEN: ${{ github.token }}
+        run: scripts/fetch-fonts-asset.sh
+
+      # Ad-hoc, so nothing reaches for a distribution certificate here and the API key mints nothing.
+      # The export re-signs every asset pack anyway.
       - name: Archive
         run: |
-          xcodebuild archive -project Typecask.xcodeproj -scheme Typecask \
+          log="$RUNNER_TEMP/archive.log"
+          scripts/run-with-heartbeat.sh "$log" \
+            xcodebuild archive -project Typecask.xcodeproj -scheme Typecask \
             -destination generic/platform=iOS -archivePath "$RUNNER_TEMP/Typecask.xcarchive" \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            -authenticationKeyPath "$HOME/.appstoreconnect/private_keys/AuthKey_$KEY_ID.p8" \
-            -authenticationKeyID "$KEY_ID" -authenticationKeyIssuerID "$ISSUER_ID" \
-            -allowProvisioningUpdates COMPILER_INDEX_STORE_ENABLE=NO \
-            > "$RUNNER_TEMP/archive.log" 2>&1 || { tail -200 "$RUNNER_TEMP/archive.log"; exit 1; }
-          tail -5 "$RUNNER_TEMP/archive.log"
-          # Another copy of every font, and the export needs the space more than a finished build does.
+            CODE_SIGN_IDENTITY=- AD_HOC_CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            || { tail -200 "$log"; exit 1; }
+          grep -E "Signing Identity|^\*\*" "$log" || true
+          # Another copy of every font, and the export needs the room more than a finished build does.
           rm -rf "$RUNNER_TEMP/DerivedData"
-          df -h /
 
       - name: Export for the App Store
+        env:
+          # So the export's own log bundle lands somewhere known rather than deep in /var/folders.
+          TMPDIR: ${{ runner.temp }}/xcdist
         run: |
-          cat > "$RUNNER_TEMP/ExportOptions.plist" << PLIST
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key><string>app-store-connect</string>
-            <key>destination</key><string>export</string>
-            <key>teamID</key><string>$TEAM_ID</string>
-            <key>uploadSymbols</key><true/>
-            <!-- set-build-number.sh already wrote it; letting Xcode pick would ignore the tag. -->
-            <key>manageAppVersionAndBuildNumber</key><false/>
-          </dict>
-          </plist>
-          PLIST
-          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/Typecask.xcarchive" \
+          mkdir -p "$TMPDIR"
+          log="$RUNNER_TEMP/export.log"
+          status=0
+          scripts/run-with-heartbeat.sh "$log" \
+            xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/Typecask.xcarchive" \
             -exportPath "$RUNNER_TEMP/export" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            -authenticationKeyPath "$HOME/.appstoreconnect/private_keys/AuthKey_$KEY_ID.p8" \
-            -authenticationKeyID "$KEY_ID" -authenticationKeyIssuerID "$ISSUER_ID" \
-            -allowProvisioningUpdates \
-            > "$RUNNER_TEMP/export.log" 2>&1 || { tail -200 "$RUNNER_TEMP/export.log"; exit 1; }
-          tail -5 "$RUNNER_TEMP/export.log"
-          # The .ipa is all the upload reads, and it is the smaller half of what's on the disk.
+            || status=$?
+          # xcodebuild's own output is a handful of lines; the step-by-step detail is all in here.
+          mkdir -p "$RUNNER_TEMP/xcdistributionlogs"
+          cp -R "$TMPDIR"/*.xcdistributionlogs "$RUNNER_TEMP/xcdistributionlogs/" 2> /dev/null || true
+          if [ "$status" -ne 0 ]; then
+            tail -200 "$log"
+            exit "$status"
+          fi
+          tail -5 "$log"
+          # The .ipa is all the upload reads, and the archive is the larger half of the two.
           rm -rf "$RUNNER_TEMP/Typecask.xcarchive"
           ls -lh "$RUNNER_TEMP/export"
-          df -h /
 
       - name: Upload to TestFlight
         run: |
           xcrun altool --upload-app --type ios --file "$RUNNER_TEMP/export/Typecask.ipa" \
             --apiKey "$KEY_ID" --apiIssuer "$ISSUER_ID"
 
-      # The archive and export logs are the only record of a failure, and they're far too big to read
-      # in the job log.
+      # xcodebuild says little on its own, so a failure is only diagnosable from these.
       - uses: actions/upload-artifact@v7
         if: failure()
         with:
@@ -184,9 +164,10 @@ jobs:
           path: |
             ${{ runner.temp }}/archive.log
             ${{ runner.temp }}/export.log
+            ${{ runner.temp }}/xcdistributionlogs/
 
       - name: Forget the signing certificate
         if: always()
         run: |
           security delete-keychain "$RUNNER_TEMP/typecask.keychain-db" || true
-          rm -rf ~/.appstoreconnect/private_keys
+          rm -rf ~/.appstoreconnect/private_keys ~/Library/MobileDevice/Provisioning\ Profiles

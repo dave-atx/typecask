@@ -119,15 +119,34 @@ repository's Actions settings:
 | Name | Kind | What it is |
 | --- | --- | --- |
 | `APPLE_TEAM_ID` | variable | the ten-character team the app signs with |
-| `APPLE_DISTRIBUTION_CERT_P12` | secret | `base64 -i cert.p12` of an Apple Distribution certificate and its key, exported from Keychain Access |
+| `APPLE_DISTRIBUTION_CERT_P12` | secret | `base64 -i cert.p12` of an Apple Distribution certificate and its key, exported from Keychain Access's My Certificates |
 | `APPLE_DISTRIBUTION_CERT_PASSWORD` | secret | the password that export was given |
+| `APPLE_PROVISIONING_PROFILE` | secret | `base64 -i profile.mobileprovision` of an App Store profile for `org.marquard.Typecask` |
 | `APP_STORE_CONNECT_KEY_ID` | secret | an App Store Connect API key with App Manager access |
 | `APP_STORE_CONNECT_ISSUER_ID` | secret | that key's issuer, from the same page |
 | `APP_STORE_CONNECT_PRIVATE_KEY` | secret | the key's `.p8`, contents and all |
 
-The API key stands in for an Apple ID: `xcodebuild -allowProvisioningUpdates` uses it to fetch the App
-Store provisioning profile, and `altool` to upload. The certificate is imported into a keychain of the
-job's own, which the last step deletes.
+### Why signing is manual
+
+Automatic signing would be less to set up, but it doesn't work here. Handed an App Store Connect API
+key, `xcodebuild -allowProvisioningUpdates` signs distribution builds with Apple's *cloud-managed*
+certificates, and an API key isn't granted access to those — on an Individual account there's no
+Admin to grant it either. `testflight-4` archived with a development certificate the key minted on
+the spot, then failed to export with "You haven't been given access to cloud-managed distribution
+certificates".
+
+So the archive is signed ad-hoc, with `CODE_SIGN_IDENTITY=-`, which keeps profile resolution out of
+the long step entirely, and `xcodebuild -exportArchive` re-signs the app and every asset pack with
+the certificate and profile from the secrets above. `scripts/prepare-export.sh` installs the profile
+and writes the matching `ExportOptions.plist`.
+
+That script runs before the archive rather than after, because xcodebuild resolves signing at the
+*end* of an export, once it has staged several GB of asset packs: on `testflight-4` the credential
+error took 42 minutes to appear. It checks the profile's team, App ID, expiry and wildcard-ness, and
+that a distribution identity is in the keychain, so the same mistake now fails in seconds.
+
+`altool` still uses the API key to upload, which keys are allowed to do. The certificate goes into a
+keychain of the job's own, which the last step deletes along with the profile.
 
 ### Font assets
 
