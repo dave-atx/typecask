@@ -15,6 +15,15 @@ cd "$CI_PRIMARY_REPOSITORY_PATH"
 if [ -n "${CI_TEAM_ID:-}" ] && [ ! -f Signing.local.xcconfig ]; then
     echo "DEVELOPMENT_TEAM = $CI_TEAM_ID" > Signing.local.xcconfig
 fi
+
+# Xcode matches entitlements to App ID capabilities with the portal's current list, which it caches here.
+# The image lacks the folder and Xcode doesn't create its parents, so it falls back to the list it
+# ships with, where Font Enumeration, a capability Apple grants on request, also claims user-fonts'
+# system-installation value. Export then fails trying to enable Font Enumeration on the App ID.
+CAPABILITIES="$HOME/Library/Developer/Xcode/UserData/Capabilities"
+mkdir -p "$CAPABILITIES"
+echo "Xcode's capability cache for $(id -un): $CAPABILITIES"
+
 PIN=Typecask/FontsAsset.json
 
 if [ -f "$PIN" ]; then
