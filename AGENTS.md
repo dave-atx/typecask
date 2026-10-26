@@ -67,8 +67,12 @@ everyone.
   after staging several GB of asset packs, so a bad certificate or profile takes about 40 minutes to
   report itself. `scripts/prepare-export.sh` is that check.
 - An export writes almost nothing to stdout; the step-by-step detail is in the
-  `.xcdistributionlogs` bundle it leaves in `TMPDIR` (759 bytes against 31 MB once). Set `TMPDIR` so
-  it lands somewhere collectable.
+  `.xcdistributionlogs` bundle it names on its first line (759 bytes against 31 MB once). That goes
+  to the Darwin per-user temp directory, which setting `TMPDIR` does not move, so read the path back
+  from the log rather than choosing it.
+- Install the signed `.mobileprovision` itself, never the plist `security cms -D` gets out of it.
+  Xcode decodes whatever is in `~/Library/MobileDevice/Provisioning Profiles`, and a plain plist
+  fails as "Profile is missing the required UUID property" with the UUID plainly in the file.
 
 ## Running heavy scripts
 

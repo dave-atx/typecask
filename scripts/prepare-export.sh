@@ -91,10 +91,16 @@ case "$identities" in
     ;;
 esac
 
+# The signed original, never the decoded plist above: Xcode CMS-decodes what it finds here, and a
+# plain plist leaves it reporting "Profile is missing the required UUID property" with the UUID in
+# plain sight. The decode is only for reading the fields.
 install_dir="$HOME/Library/MobileDevice/Provisioning Profiles"
+installed="$install_dir/$uuid.mobileprovision"
 mkdir -p "$install_dir"
-cp "$decoded" "$install_dir/$uuid.mobileprovision"
-echo "Installed to $install_dir/$uuid.mobileprovision"
+cp "$PROFILE" "$installed"
+# Proves what landed is still CMS-signed, which is the whole of the mistake above.
+security cms -D -i "$installed" -o /dev/null
+echo "Installed to $installed"
 
 cat > "$OUT" << PLIST
 <?xml version="1.0" encoding="UTF-8"?>

@@ -126,11 +126,7 @@ jobs:
           rm -rf "$RUNNER_TEMP/DerivedData"
 
       - name: Export for the App Store
-        env:
-          # So the export's own log bundle lands somewhere known rather than deep in /var/folders.
-          TMPDIR: ${{ runner.temp }}/xcdist
         run: |
-          mkdir -p "$TMPDIR"
           log="$RUNNER_TEMP/export.log"
           status=0
           scripts/run-with-heartbeat.sh "$log" \
@@ -138,9 +134,15 @@ jobs:
             -exportPath "$RUNNER_TEMP/export" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
             || status=$?
-          # xcodebuild's own output is a handful of lines; the step-by-step detail is all in here.
-          mkdir -p "$RUNNER_TEMP/xcdistributionlogs"
-          cp -R "$TMPDIR"/*.xcdistributionlogs "$RUNNER_TEMP/xcdistributionlogs/" 2> /dev/null || true
+          # xcodebuild's own output is a handful of lines; the step-by-step detail is all in the
+          # bundle it names on its first line. It puts that in the Darwin per-user temp directory,
+          # which TMPDIR doesn't move, so the path is read back rather than chosen.
+          bundle=$(sed -n 's/.*Created bundle at path "\(.*\)".*/\1/p' "$log" | head -1)
+          if [ -d "$bundle" ]; then
+            mkdir -p "$RUNNER_TEMP/xcdistributionlogs"
+            cp -R "$bundle" "$RUNNER_TEMP/xcdistributionlogs/"
+            echo "Kept $(basename "$bundle")"
+          fi
           if [ "$status" -ne 0 ]; then
             tail -200 "$log"
             exit "$status"
