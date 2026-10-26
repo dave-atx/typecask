@@ -140,13 +140,19 @@ the long step entirely, and `xcodebuild -exportArchive` re-signs the app and eve
 the certificate and profile from the secrets above. `scripts/prepare-export.sh` installs the profile
 and writes the matching `ExportOptions.plist`.
 
-That script runs before the archive rather than after, because xcodebuild resolves signing at the
-*end* of an export, once it has staged several GB of asset packs: on `testflight-4` the credential
-error took 42 minutes to appear. It checks the profile's team, App ID, expiry and wildcard-ness, and
-that a distribution identity is in the keychain, so the same mistake now fails in seconds.
+That script runs before the archive rather than after, because signing problems surface only once
+xcodebuild reaches signing: on `testflight-4` the cloud-certificate error took 42 minutes to appear,
+where a whole manual export takes about 6. It checks the profile's team, App ID, expiry and
+wildcard-ness, and that a distribution identity is in the keychain, so the same mistake now fails in
+seconds.
 
 `altool` still uses the API key to upload, which keys are allowed to do. The certificate goes into a
 keychain of the job's own, which the last step deletes along with the profile.
+
+A green run doesn't mean a build in TestFlight. `altool` returns once Apple has the bytes, and App
+Store Connect then processes them on its own time: `testflight-6` uploaded 2.1 GB in 20 seconds and
+took about eight minutes after that to appear under Builds as Processing. A build that never appears
+has failed processing, which Apple reports by email rather than in the UI.
 
 ### Font assets
 

@@ -63,9 +63,10 @@ everyone.
   no access to; it archived with a development certificate it minted itself and then couldn't export.
   The archive is ad-hoc (`CODE_SIGN_IDENTITY=-`) and the export re-signs from a stored certificate
   and profile.
-- Check signing before the archive, never after. xcodebuild resolves it at the end of an export,
-  after staging several GB of asset packs, so a bad certificate or profile takes about 40 minutes to
-  report itself. `scripts/prepare-export.sh` is that check.
+- Check signing before the archive, never after. A bad certificate or profile surfaces only once
+  xcodebuild gets to signing, and with automatic signing it sat there 42 minutes before reporting
+  the cloud-certificate error; a whole manual export, staging and all, takes about 6.
+  `scripts/prepare-export.sh` is that check.
 - An export writes almost nothing to stdout; the step-by-step detail is in the
   `.xcdistributionlogs` bundle it names on its first line (759 bytes against 31 MB once). That goes
   to the Darwin per-user temp directory, which setting `TMPDIR` does not move, so read the path back
