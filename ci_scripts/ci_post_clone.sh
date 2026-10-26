@@ -33,8 +33,11 @@ if [ -f "$PIN" ]; then
     fi
     echo "$sha  $archive" | shasum -a 256 -c -
 
+    # macOS's tar has no zstd of its own: it runs the zstd command, which the Xcode Cloud image lacks.
+    if ! command -v zstd > /dev/null 2>&1; then
+        HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_CLEANUP=1 brew install zstd
+    fi
     rm -rf Typecask/Fonts.xcassets
-    # libarchive reads zstd itself, so this needs nothing installed.
     tar --zstd -xf "$archive" -C Typecask
 
     # Catalog.json and the asset are published together. If they've drifted, casks would offer an
