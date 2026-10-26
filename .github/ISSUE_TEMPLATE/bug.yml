@@ -1,0 +1,28 @@
+name: Bug report
+description: Something in the app doesn't work as it should.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Screenshots help.
+    validations:
+      required: true
+  - type: input
+    id: font
+    attributes:
+      label: Font
+      description: The font involved, if any.
+  - type: input
+    id: device
+    attributes:
+      label: Device and iOS version
+      placeholder: iPhone 17, iOS 27.1
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Typecask version
+      description: From the App Store page or TestFlight.

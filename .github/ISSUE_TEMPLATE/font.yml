@@ -1,0 +1,25 @@
+name: Font request or correction
+description: Ask for a font to be added, or report one that's wrong.
+labels: [fonts]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Request
+      options:
+        - Add a font
+        - Correct a font (license, design style, preview, description)
+    validations:
+      required: true
+  - type: input
+    id: font
+    attributes:
+      label: Font
+      description: Its name, and its Homebrew cask (font-…) or Google Fonts family if you know it.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For a correction, what's wrong and what it should be. For a new font, where it's published and under what license.

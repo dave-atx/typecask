@@ -18,7 +18,7 @@ build writes into Typecask/:
   Licenses/         license texts from each cask's download, google/fonts, or its GitHub repository
   Fonts.xcassets/   fonts as data sets tagged for On-Demand Resources
 
-apple-previews subsets the previews of Apple's downloadable fonts; see the README.
+apple-previews subsets the previews of Apple's downloadable fonts; see docs/font-pipeline.md.
 """
 
 import argparse
