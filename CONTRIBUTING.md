@@ -35,7 +35,8 @@ echo 'DEVELOPMENT_TEAM = ABCDE12345' > Signing.local.xcconfig
 
 ## Checks
 
-Run these before opening a pull request:
+Run these before opening a pull request. The **Checks** workflow (`.github/workflows/checks.yml`)
+runs them on every pull request and push to main, at the versions it pins:
 
 ```sh
 swiftlint --strict

@@ -1,0 +1,51 @@
+# The lint and format checks AGENTS.md lists, on every push to main and every pull request. Versions
+# are pinned so a new release of a linter doesn't fail a change that didn't touch what it flags.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scripts:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.3.2
+        with:
+          # Nothing to key a cache on, and uvx fetches these in seconds.
+          enable-cache: false
+
+      - name: Ruff
+        run: |
+          uvx ruff@0.17.2 format --check scripts
+          uvx ruff@0.17.2 check scripts
+
+      - name: ShellCheck
+        run: uvx --from shellcheck-py==0.11.0.1 shellcheck scripts/*.sh
+
+      - name: shfmt
+        run: uvx --from shfmt-py==4.2.0 shfmt -d scripts
+
+      - name: actionlint
+        run: uvx --from actionlint-py==1.7.12.25 actionlint
+
+  swift:
+    # SwiftLint's own Linux image, which starts in seconds where a macOS runner takes minutes to get.
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: SwiftLint
+        run: docker run --rm -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.65.1 swiftlint --strict
