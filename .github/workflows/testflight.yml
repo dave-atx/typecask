@@ -97,7 +97,18 @@ jobs:
           # Ahead of the login keychain, so xcodebuild looks in this one first.
           # shellcheck disable=SC2046 # the existing list is one keychain path per line.
           security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
-          security find-identity -v -p codesigning "$keychain"
+          # A .p12 exported without its private key imports without complaint and then fails much
+          # later, in the middle of the archive, so it stops here instead.
+          identities=$(security find-identity -v -p codesigning "$keychain")
+          echo "$identities"
+          case "$identities" in
+            *"Apple Distribution"*) ;;
+            *)
+              echo "::error::No Apple Distribution identity in APPLE_DISTRIBUTION_CERT_P12." \
+                "Export it from Keychain Access's My Certificates, so it carries the private key."
+              exit 1
+              ;;
+          esac
 
       - name: Set up App Store Connect and Xcode's capability cache
         env:
