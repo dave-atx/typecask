@@ -31,6 +31,8 @@ uvx --from actionlint-py actionlint
   Verify with two builds under different `PYTHONHASHSEED` values.
 - Only `lock` touches the network to decide sources; `build` uses the lock's files (`.cache/downloads/`
   for `:no_check` casks), never re-resolving.
+- Never delete assets of the `font-sources` release: it mirrors non-GitHub downloads by SHA-256, and old
+  locks build from it. Mirror only casks in the catalog, which have a license.
 - Shared packs are assigned by a hash of the token, so adding or removing a cask doesn't move others.
   Stay under 900 packs (Apple's cap is 1000).
 - Every asset catalog group needs its own `Contents.json`, or `actool` silently ships an empty pack.

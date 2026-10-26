@@ -121,6 +121,7 @@ jobs:
             .cache/${{ steps.tag.outputs.tag }}.tar.zst
             .cache/${{ steps.tag.outputs.tag }}.assets.json
             .cache/build-report.json
+            .cache/mirror/
 
   verify:
     needs: build
@@ -253,4 +254,9 @@ jobs:
 
           EOF
           cat ".cache/$TAG.changes.md" >> .cache/pr-body.md
-          gh pr create --title "Update fonts to $TAG" --body-file .cache/pr-body.md
+          # A draft, so fonts lost to a failed build aren't merged away without someone deciding to.
+          flags=()
+          if [ -s ".cache/$TAG.lost.txt" ]; then
+            flags+=(--draft)
+          fi
+          gh pr create --title "Update fonts to $TAG" --body-file .cache/pr-body.md "${flags[@]}"

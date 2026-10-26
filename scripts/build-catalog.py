@@ -5,12 +5,14 @@
 # ///
 """Builds Typecask's catalog and font assets from Homebrew's font casks and Google Fonts.
 
-Two steps, so a build is repeatable:
+Two steps, so a build is repeatable, and a third that keeps it so when hosts change or go away:
 
   lock            resolves which casks to ship and pins each one's source in fonts.lock.json: a
                   google/fonts directory by its git tree, anything else by URL and SHA-256
   build           builds everything from fonts.lock.json, reusing whatever .cache/built/ already
                   holds for a cask whose locked source hasn't changed
+  mirror          gathers the downloads from hosts other than GitHub that the font-sources release
+                  lacks, for publish-fonts.sh upload to add
 
 build writes into Typecask/:
   Catalog.json      gallery metadata, including each cask's design style, version and description
@@ -232,6 +234,19 @@ BUILT = CACHE / "built"
 # Input, assemble a new zip for every request, so a second download would never match the lock.
 DOWNLOADS = CACHE / "downloads"
 WORK = CACHE / "work"
+# Downloads from hosts less durable than GitHub are kept in this release, named by SHA-256, so a build
+# from any lock still has them once the host is down or serves something else: gust.org.pl was down
+# for all of one build, and int10h.org once served Ac437 with a different hash. Only casks in the
+# catalog are mirrored, since those are the ones with a license to redistribute. Never delete its
+# assets; old locks build from them.
+MIRROR_REPO = "dave-atx/typecask"
+MIRROR_TAG = "font-sources"
+MIRROR_URL = f"https://github.com/{MIRROR_REPO}/releases/download/{MIRROR_TAG}/"
+# Hosts as durable as the mirror, which is on GitHub too, so their downloads aren't copied into it.
+# GitHub Pages sites aren't among them: a site's files change as freely as any other host's.
+DURABLE_HOSTS = {"github.com", "raw.github.com"}
+# What `mirror` gathers for publish-fonts.sh upload to add to the mirror.
+MIRROR = CACHE / "mirror"
 
 
 def fetch_json(url, headers=None):
@@ -382,11 +397,36 @@ def download(url, destination, referer=None, fresh=False):
     if not fresh and (cached := homebrew_download(url)) is not None:
         shutil.copy(cached, destination)
         return destination
-    command = ["curl", "-fsSL", "--retry", "3", "--retry-delay", "2", "-A", USER_AGENT, "-o", destination, url]
+    # Retries every error, not just the ones curl deems transient, and gives up on a stalled transfer
+    # rather than waiting it out: a host timing out or answering 503 for a minute shouldn't cost a cask.
+    command = [
+        "curl", "-fsSL", "--retry", "5", "--retry-all-errors", "--retry-delay", "5", "--connect-timeout", "30",
+        "--speed-limit", "1000", "--speed-time", "60", "-A", USER_AGENT, "-o", destination, url,
+    ]  # fmt: skip
     if referer:
         command[1:1] = ["-e", referer]
     subprocess.run(command, check=True)
     return destination
+
+
+def mirrorable(source):
+    return "url" in source and urllib.parse.urlparse(source["url"]).hostname not in DURABLE_HOSTS
+
+
+def mirrored_hashes():
+    """The SHA-256 of every download in the mirror. Empty when GitHub can't say, so the build falls back
+    on the upstream hosts rather than failing."""
+    api = f"https://api.github.com/repos/{MIRROR_REPO}/releases"
+    try:
+        release = fetch_json(f"{api}/tags/{MIRROR_TAG}", github_headers())
+        names, page = set(), 1
+        while batch := fetch_json(f"{api}/{release['id']}/assets?per_page=100&page={page}", github_headers()):
+            names |= {asset["name"] for asset in batch}
+            page += 1
+    except urllib.error.URLError as error:
+        print(f"can't list the {MIRROR_TAG} mirror ({error}); downloading from upstream hosts")
+        return set()
+    return names
 
 
 def upstream_matches(source):
@@ -442,6 +482,7 @@ def lock_source(cask, trees, commit):
 
 def lock(count, google_top):
     """`lock`: resolves the line-up and pins each cask's source in fonts.lock.json."""
+    previous = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]} if LOCK.is_file() else {}
     casks_by_token = {cask["token"]: cask for cask in fetch_json(CASKS_URL)}
     ranked = rank_casks(fetch_json(ANALYTICS_URL), casks_by_token)
     families = google_families(casks_by_token)
@@ -491,10 +532,19 @@ def lock(count, google_top):
     # Homebrew's hash (Atkinson Hyperlegible). The check downloads each of these 70-odd casks, eight at
     # a time: GitHub serves archives at about 1 MB/s each, and Chiron Sung HK's is over a gigabyte.
     checked = [source for *_, directory, source in planned if directory in trees and source and "url" in source]
+    # A cask only moves to a new download once it has been had and matches its hash, so a host that's
+    # down or serving something else holds back an update instead of dropping the cask from the build.
+    # What's fetched is kept for the build, which then needn't download it again.
+    changed = [
+        source
+        for token, *_, source in planned
+        if source and "url" in source and source != (previous.get(token) or {}).get("source")
+    ]
+    checked = list({source["sha256"]: source for source in checked + changed}.values())
     with ThreadPoolExecutor(8) as pool:
         matches = dict(zip((source["sha256"] for source in checked), pool.map(upstream_matches, checked)))
 
-    entries, unpinned = [], []
+    entries, unpinned, held = [], [], []
     for token, cask, family, directory, source in planned:
         artifacts = [artifact["font"][0] for artifact in cask["artifacts"] if "font" in artifact]
         if directory in trees and (source is None or ("url" in source and not matches[source["sha256"]])):
@@ -505,14 +555,18 @@ def lock(count, google_top):
                 if name.lower().endswith((".ttf", ".otf"))
             ]
             print(f"{token}: upstream download unavailable or changed; using google/fonts {directory}")
-        if source is None:
-            unpinned.append(token)
-            continue
+        version = str(cask.get("version") or "")
+        if source is None or ("url" in source and not matches.get(source["sha256"], True)):
+            if not (kept := previous.get(token)):
+                unpinned.append(token)
+                continue
+            source, artifacts, version = kept["source"], kept["artifacts"], kept["version"]
+            held.append(f"{token} ({version or 'unversioned'})")
         entry = {
             "token": token,
             "name": cask["name"][0],
             "homepage": cask["homepage"],
-            "version": str(cask.get("version") or ""),
+            "version": version,
             "installs": installs.get(token, 0),
             "recentInstalls": recent.get(token, 0),
             "exempt": token in exempt,
@@ -533,6 +587,7 @@ def lock(count, google_top):
         entries.append(entry)
     if unpinned:
         print(f"warning: {len(unpinned)} casks have a source that can't be pinned: {', '.join(unpinned)}")
+    report("kept at their locked version: the new download can't be had or doesn't match its hash", held)
 
     write_json(
         LOCK,
@@ -885,8 +940,9 @@ def extract(archive, destination):
     return True
 
 
-def stage(entry, work):
-    """Returns the directory that the cask's artifact paths are relative to."""
+def stage(entry, work, mirrored=frozenset()):
+    """Returns the directory that the cask's artifact paths are relative to. A download comes from what
+    the lock kept, then the mirror, then its host; `mirrored` is what the mirror holds."""
     source = entry["source"]
     if "google" in source:
         return CLONE / source["google"]
@@ -899,13 +955,25 @@ def stage(entry, work):
         subprocess.run(["git", "-C", repository, "checkout", "--quiet", "FETCH_HEAD"], check=True)
         return repository / source["path"]
     name = urllib.parse.unquote(urllib.parse.urlparse(source["url"]).path.rsplit("/", 1)[-1]) or "download"
+    archive = work / "download" / name
+    archive.parent.mkdir()
     if (kept := DOWNLOADS / source["sha256"]).is_file():
-        (work / "download").mkdir()
-        archive = Path(shutil.copy(kept, work / "download" / name))
+        shutil.copy(kept, archive)
+    elif source["sha256"] in mirrored:
+        try:
+            download(MIRROR_URL + source["sha256"], archive, fresh=True)
+        except subprocess.CalledProcessError:
+            download(source["url"], archive, source.get("referer"))
     else:
-        archive = download(source["url"], work / "download" / name, source.get("referer"))
+        download(source["url"], archive, source.get("referer"))
     if (actual := sha256_of(archive)) != source["sha256"]:
         raise ValueError(f"SHA-256 is {actual}, but the lock pins {source['sha256']}")
+    if mirrorable(source) and not kept.is_file():
+        # Kept for `mirror`, so a download the mirror lacks isn't fetched twice.
+        DOWNLOADS.mkdir(parents=True, exist_ok=True)
+        partial = DOWNLOADS / f"{source['sha256']}.{os.getpid()}"
+        shutil.copy(archive, partial)
+        partial.replace(kept)
     staged = work / "staged"
     staged.mkdir()
     if not extract(archive, staged):
@@ -917,14 +985,14 @@ class Skip(Exception):
     """A cask that can never build from its locked source, which is cached so it isn't retried."""
 
 
-def build_cask(entry, destination):
+def build_cask(entry, destination, mirrored=frozenset()):
     """Builds one cask into `destination`: its shipped fonts, preview, licence and entry.json."""
     token = entry["token"]
     work = WORK / token
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     try:
-        root = stage(entry, work)
+        root = stage(entry, work, mirrored)
         google = entry.get("google") or {}
         url = entry["source"].get("url") or entry["source"].get("git")
         if not (license := find_license(root, url, google.get("directory"))):
@@ -972,12 +1040,12 @@ def build_cask(entry, destination):
 def build_job(job):
     """Runs in a worker process: builds into a temporary directory and moves it into place, so an
     interrupted run never leaves a half-built cask in the cache."""
-    entry, destination = job
+    entry, destination, mirrored = job
     partial = destination.with_name(destination.name + ".partial")
     shutil.rmtree(partial, ignore_errors=True)
     partial.mkdir(parents=True)
     try:
-        build_cask(entry, partial)
+        build_cask(entry, partial, mirrored)
     except Skip as reason:
         shutil.rmtree(partial)
         partial.mkdir()
@@ -1164,17 +1232,28 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             entry["google"]["directory"] for entry in pending if (entry.get("google") or {}).get("directory")
         }
         checkout(locked["googleFonts"], directories)
+        mirrored = (
+            frozenset(mirrored_hashes()) if any(mirrorable(entry["source"]) for entry in pending) else frozenset()
+        )
         with ProcessPoolExecutor(max_workers=jobs) as pool:
-            for done, (token, error) in enumerate(
-                pool.map(build_job, [(entry, destinations[entry["token"]]) for entry in pending]), 1
-            ):
+            queued = [(entry, destinations[entry["token"]], mirrored) for entry in pending]
+            for done, (token, error) in enumerate(pool.map(build_job, queued), 1):
                 if error:
                     failed[token] = error
-                    # An annotation in GitHub Actions, so it shows on the run's summary page.
-                    prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
-                    print(f"{prefix}{token}: {error}")
+                    print(f"{token}: {error}; retrying once the rest are built")
                 if done % 100 == 0:
                     print(f"built {done} of {len(pending)}")
+        # Again one at a time, after the rest: by then a host that was briefly down, or swamped by several
+        # downloads at once, may answer.
+        for entry in [entry for entry in pending if entry["token"] in failed]:
+            token, error = build_job((entry, destinations[entry["token"]], mirrored))
+            if error:
+                failed[token] = error
+                # An annotation in GitHub Actions, so it shows on the run's summary page.
+                prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
+                print(f"{prefix}{token}: {error}")
+            else:
+                del failed[token]
         if failed:
             report("failed to build, retried next run", list(failed))
 
@@ -1293,6 +1372,30 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     )
 
 
+def mirror():
+    """`mirror`: gathers in .cache/mirror/ each download the mirror lacks for a cask in the catalog,
+    checked against the lock, for publish-fonts.sh upload to add to it. Downloads that build or lock kept
+    aren't fetched again."""
+    catalog = {cask["token"] for cask in json.loads((APP / "Catalog.json").read_text())["casks"]}
+    have = mirrored_hashes()
+    wanted = {}
+    for entry in json.loads(LOCK.read_text())["casks"]:
+        source = entry["source"]
+        if entry["token"] in catalog and mirrorable(source) and source["sha256"] not in have:
+            wanted.setdefault(source["sha256"], (entry["token"], source))
+    shutil.rmtree(MIRROR, ignore_errors=True)
+    MIRROR.mkdir(parents=True)
+    missing = []
+    for sha256, (token, source) in sorted(wanted.items()):
+        if upstream_matches(source):
+            shutil.copy(DOWNLOADS / sha256, MIRROR / sha256)
+        else:
+            missing.append(token)
+    if missing:
+        report("not mirrored: the download can't be had or doesn't match, retried next run", missing)
+    print(f"{len(wanted) - len(missing)} downloads to add to the {MIRROR_TAG} mirror, which has {len(have)}")
+
+
 # MARK: - Apple's fonts
 
 
@@ -1401,6 +1504,7 @@ def main():
         help="build this many casks at once (default: half the cores); subsetting a CJK collection takes over a GB",
     )
 
+    commands.add_parser("mirror", help="gather the downloads the mirror lacks, after build")
     commands.add_parser(
         "apple-previews", help="subset Apple's downloadable fonts' previews; run right after ApplePreviewRenderer"
     )
@@ -1413,6 +1517,8 @@ def main():
             max_mb_per_install=arguments.max_mb_per_install,
             jobs=arguments.jobs,
         )
+    elif arguments.command == "mirror":
+        mirror()
     else:
         apple_previews()
 

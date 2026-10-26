@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Says what a fonts build changed, in Markdown, for its release notes and pull request.
 
-    scripts/fonts-changelog.py [BASE]
+    scripts/fonts-changelog.py [BASE] [--lost FILE]
 
 Compares the casks that ship in Typecask/Catalog.json, those with fonts in the archive, with the ones
 at BASE (default HEAD), and lists what was added, removed, updated to a new version, or rebuilt into
 different files at the same version. A removed cask says why where it can: fonts.lock.json says
 whether it is still in the line-up, and the .cache/build-report.json that build writes says why a
 locked cask didn't ship.
+
+A cask that shipped at BASE and failed to build this time leads the notes with a warning, and --lost
+writes those tokens to FILE, one to a line, so the workflow can hold the pull request as a draft.
 """
 
+import argparse
 import json
 import re
 import subprocess
@@ -70,7 +74,7 @@ def line(cask, note=""):
 
 
 def render(summary, sections, limit=None):
-    out = [summary]
+    out = summary.splitlines()
     for title, blurb, items in sections:
         if not items:
             continue
@@ -87,7 +91,11 @@ def render(summary, sections, limit=None):
 
 
 def main():
-    base = sys.argv[1] if len(sys.argv) > 1 else "HEAD"
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("base", nargs="?", default="HEAD", help="the revision to compare with (default HEAD)")
+    parser.add_argument("--lost", type=Path, metavar="FILE", help="write the casks lost to a failed build here")
+    arguments = parser.parse_args()
+    base = arguments.base
     catalog = load(CATALOG, None)
     before, after = shipping(load(CATALOG, base)), shipping(catalog)
     listed = {cask["token"] for cask in catalog.get("casks", [])}
@@ -114,6 +122,16 @@ def main():
     counts = [(len(added), "added"), (len(removed), "removed"), (len(updated), "updated"), (len(rebuilt), "rebuilt")]
     changes = ", ".join(f"{count} {word}" for count, word in counts if count) or f"no changes from {base}"
     summary = f"{len(after):,} casks ship {fonts:,} fonts: {changes}."
+    lost = sorted((before.keys() - after.keys()) & report.get("failed", {}).keys())
+    if lost:
+        names = ", ".join(f"`{token}`" for token in lost)
+        summary = (
+            f"> [!WARNING]\n> {len(lost)} {'cask' if len(lost) == 1 else 'casks'} that shipped before failed to build "
+            "this time and are left out: "
+            f"{names}. Re-running the workflow may bring them back.\n\n{summary}"
+        )
+    if arguments.lost:
+        arguments.lost.write_text("".join(f"{token}\n" for token in lost))
     sections = [
         ("Added", None, added),
         ("Removed", None, removed),

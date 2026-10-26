@@ -35,7 +35,10 @@ hash of what was there when the lock was written, with the file kept in `.cache/
 
 Everything that depends on the network is decided here. `lock` downloads each Google family's upstream
 release fresh, and falls back to google/fonts when it no longer matches Homebrew's hash or can't be
-had at all (PT Sans from paratype.com, say).
+had at all (PT Sans from paratype.com, say). Every other download that's new or changed since the last
+lock is fetched and checked too, and kept for the build; one that can't be had or doesn't match leaves
+the cask at its previous pin, listed as kept at its locked version, so a host that's down holds back an
+update instead of dropping a font.
 
 ## Build
 
@@ -49,7 +52,9 @@ so a cask whose source hasn't changed isn't downloaded and subset again. Bump
 `PIPELINE_VERSION` when a change alters what a cask builds into, and `SKIP_VERSION` when a change could
 rescue skipped casks. Downloads already in Homebrew's cache are used, checked against the locked hash.
 
-Casks with no license anywhere are skipped and remembered; a cask that fails to download is retried next
+A download comes from what `lock` kept, then the mirror (below), then its host. curl retries every
+error five times, and casks that still fail are tried again one at a time once the rest are built.
+Casks with no license anywhere are skipped and remembered; a cask that fails even so is retried next
 run. Where a download has no license, `build` looks in the family's google/fonts directory and then in
 its GitHub repository, through the API. Set `GITHUB_TOKEN` before a large build: the API allows 60
 requests an hour unauthenticated and 5,000 with a token.
@@ -119,7 +124,9 @@ version or rebuilt into different files, compared with main as it is when the ru
 `scripts/fonts-changelog.py [BASE]` writes that from `Catalog.json` against the one at `BASE` (default
 `HEAD`), and gives each removal its reason: out of the line-up in the lock, or failed, skipped, trimmed
 or overlapping another cask in the `.cache/build-report.json` that `build` writes. Run it after a local
-build to see what a release would change.
+build to see what a release would change. A cask that shipped before and failed to build this time
+leads them with a warning, and the pull request opens as a draft, so a release only loses a font when
+someone has decided it should.
 
 Locally, the same steps:
 
@@ -136,6 +143,17 @@ the lock, `Catalog.json`, `Previews/`, `Licenses/` and the pin together. `script
 downloads the pinned archive for an app build, checks its hash, and refuses to continue if its casks
 don't match the ones `Catalog.json` says are installable. Without a pin it builds the casks named in
 `TYPECASK_CASKS` from the lock instead.
+
+### The download mirror
+
+Downloads from hosts other than GitHub are kept as assets of the `font-sources` release, named by
+SHA-256, so any lock builds the same files after its hosts go down or change them: gust.org.pl was down
+for all of one build, and int10h.org once served Ac437 with a different hash. GitHub's downloads aren't
+copied, since the mirror is no more durable than GitHub (`DURABLE_HOSTS` in `build-catalog.py`). Only
+casks in the catalog are mirrored, since those are the ones with a license to redistribute; Apple's
+fonts never are. After `build`, `scripts/build-catalog.py mirror` gathers what the mirror lacks into
+`.cache/mirror/`, and `publish-fonts.sh upload` attaches it. Never delete the mirror's assets: an old
+lock builds from them.
 
 ## Apple's fonts
 

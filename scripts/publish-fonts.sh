@@ -7,7 +7,9 @@
 #   scripts/publish-fonts.sh upload  [TAG] [BASE]   attach that archive to a release and write the pin
 #
 # upload's release notes say which casks changed since BASE (default HEAD), from
-# scripts/fonts-changelog.py, which also leaves them in .cache/TAG.changes.md for the pull request.
+# scripts/fonts-changelog.py, which also leaves them in .cache/TAG.changes.md for the pull request,
+# and the casks lost to a failed build in .cache/TAG.lost.txt. build also gathers the downloads the
+# font-sources mirror lacks, and upload adds them to it.
 #
 # Separate steps so the archive that gets uploaded is the one already built and tried in the
 # simulator, and so CI shows each one on its own. TAG defaults to fonts-YYYYMMDD. The GitHub
@@ -50,7 +52,9 @@ build)
     if [ -n "${JOBS:-}" ]; then
         set -- "$@" --jobs "$JOBS"
     fi
-    GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token)}" uv run --script scripts/build-catalog.py "$@"
+    export GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token)}"
+    uv run --script scripts/build-catalog.py "$@"
+    uv run --script scripts/build-catalog.py mirror
     echo "Built Typecask/Fonts.xcassets. Next: $0 archive $TAG"
     ;;
 archive)
@@ -84,7 +88,16 @@ upload)
     size=$(size_of "$ARCHIVE")
     sha=$(shasum -a 256 "$ARCHIVE" | cut -d' ' -f1)
     casks=$(python3 -c 'import json; print(sum(1 for c in json.load(open("Typecask/Catalog.json"))["casks"] if c["assets"]))')
-    scripts/fonts-changelog.py "${3:-HEAD}" > "$CHANGES"
+    # The downloads the mirror lacks go up first: they're what lets a later build from this lock, the
+    # one that will be pinned, find files their hosts no longer serve.
+    if [ -n "$(ls -A .cache/mirror 2> /dev/null)" ]; then
+        notes="Downloads from hosts other than GitHub, named by SHA-256, for scripts/build-catalog.py"
+        notes="$notes to build any fonts.lock.json from. Never delete these."
+        gh release view font-sources > /dev/null 2>&1 ||
+            gh release create font-sources --title "Font sources" --latest=false --notes "$notes"
+        gh release upload font-sources .cache/mirror/* --clobber
+    fi
+    scripts/fonts-changelog.py "${3:-HEAD}" --lost ".cache/$TAG.lost.txt" > "$CHANGES"
     {
         echo "Typecask/Fonts.xcassets for $casks casks, built from Catalog.json. Fetched by scripts/fetch-fonts-asset.sh."
         echo
