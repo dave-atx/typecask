@@ -2010,6 +2010,13 @@
     "style": "sansSerif"
   },
   {
+    "builtIn": true,
+    "faces": 9,
+    "name": "Noto Sans Syriac",
+    "previewFace": "NotoSansSyriac-Regular",
+    "style": "sansSerif"
+  },
+  {
     "builtIn": false,
     "faces": 9,
     "name": "Noto Serif Kannada",
