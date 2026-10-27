@@ -28,7 +28,7 @@
           {{- if .Params.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
           <span class="spec-installs">{{ lang.FormatNumber 0 .Params.installs }} brew installs</span>
         </span>
-        <span class="spec-line" style="font-family:'tc-{{ .Params.slug }}',var(--ui)">{{ .Params.sample }}</span>
+        <span class="spec-line" style="font-family:'tc-{{ .Params.slug }}',var(--ui)">{{ .Params.line }}</span>
       </a>
     {{- end }}
   </div>
