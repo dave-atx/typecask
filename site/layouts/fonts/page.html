@@ -7,6 +7,7 @@
 {{ define "main" }}
   {{- $catalog := hugo.Data.catalog -}}
   {{- $p := .Params -}}
+  {{- $credit := index (hugo.Data.attribution | default dict) $p.token -}}
 
   <article class="font-page">
     <div class="bar">
@@ -36,12 +37,18 @@
           {{- with $p.designers }}
             <p class="attrib">— {{ delimit . ", " " and " }}, on Google Fonts</p>
           {{- end }}
+          {{- with $credit }}
+            <p class="attrib">— {{ .creator }}{{ with .note }}, {{ . }}{{ end }}</p>
+          {{- end }}
         {{- else }}
           {{- $faces := int $p.faces }}
           <p class="prose">{{ .Title }} ships {{ $faces }}
             {{ cond (eq $faces 1) "face" "faces" }}
             {{- if $p.glyphs }}, patched with Nerd Fonts' icon set{{ end }}.
-            {{ if $p.homepage }}Its own site has the detail its designers wrote.{{ end }}</p>
+            {{ if and $p.homepage (not $credit) }}Its own site has the detail its designers wrote.{{ end }}</p>
+          {{- with $credit }}
+            <p class="attrib">— {{ .creator }}{{ with .note }}, {{ . }}{{ end }}</p>
+          {{- end }}
         {{- end }}
 
         <div class="get">
@@ -69,7 +76,10 @@
           <dd><a href="{{ (printf "/styles/%s/" (urlize $p.styleName)) | relURL }}">{{ $p.styleName }}</a></dd>
           {{- with $p.version }}<dt>Version</dt><dd>{{ . }}</dd>{{ end }}
           {{- with $p.designers }}<dt>{{ cond (eq (len .) 1) "Designer" "Designers" }}</dt>
-            <dd>{{ delimit . ", " " and " }}</dd>{{ end }}
+            <dd>{{ delimit . ", " " and " }}</dd>
+          {{- else }}{{ with $credit }}<dt>Created by</dt>
+            <dd><a href="{{ .url }}" rel="noopener">{{ .creator }}</a></dd>{{ end }}
+          {{- end }}
           <dt>Faces</dt><dd>{{ int $p.faces }}</dd>
           <dt>Download</dt><dd>{{ partial "bytes.html" $p.bytes }}</dd>
           <dt>Brew installs</dt><dd>{{ lang.FormatNumber 0 $p.installs }}<span class="fine"> / year</span></dd>
