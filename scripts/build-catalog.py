@@ -265,7 +265,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 3
+PIPELINE_VERSION = 4
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -668,8 +668,8 @@ class Face:
     path: Path
     number: int  # index within a collection
     postscript_name: str
-    # Typographic family and subfamily (name IDs 16 and 17, falling back on 1 and 2), the subfamily
-    # as one of CORE_STYLES or None for any other style.
+    # Typographic family and subfamily (name IDs 16 and 17), or the legacy ones (1 and 2) where only
+    # those name a core style, the subfamily as one of CORE_STYLES or None for any other style.
     family: str
     style: str | None
     weight: int
@@ -686,10 +686,19 @@ def read_faces(path):
     faces, so loading faces eagerly reads the shared data once per face: tens of GB for Iosevka's
     324-face SuperTTC."""
 
+    def core_style(subfamily):
+        return CORE_STYLES.get(re.sub(r"[\s_-]+", "", subfamily.lower()))
+
     def face(number, font):
         names = font["name"]
         family = names.getDebugName(16) or names.getDebugName(1) or ""
-        subfamily = (names.getDebugName(17) or names.getDebugName(2) or "").lower()
+        subfamily = names.getDebugName(17) or names.getDebugName(2) or ""
+        # EB Garamond's typographic subfamilies carry the optical size, "08 Regular" and "12 Italic",
+        # which left no face Regular and made the capitals-only Initials its primary face. Its legacy
+        # names are plain Regular and Italic, of the families EB Garamond 08 and 12.
+        if not core_style(subfamily) and core_style(legacy := names.getDebugName(2) or ""):
+            family, subfamily = names.getDebugName(1) or "", legacy
+        subfamily = subfamily.lower()
         os2 = font.get("OS/2")
         italic = bool(
             (os2 is not None and os2.fsSelection & 1)
@@ -698,7 +707,7 @@ def read_faces(path):
             or "oblique" in subfamily
         )
         weight = os2.usWeightClass if os2 is not None else 400
-        style = CORE_STYLES.get(re.sub(r"[\s_-]+", "", subfamily))
+        style = core_style(subfamily)
         variable = "fvar" in font
         if variable:
             # A variable font is its whole weight range, whatever its default instance is called.
