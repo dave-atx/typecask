@@ -10,10 +10,16 @@ comes from, and `build` builds everything from that lock.
 | --- | --- |
 | `Catalog.json` | gallery metadata: each cask's design style, versions, description, popularity and pack |
 | `Previews/` | fonts subset to the gallery's sample text, so the gallery renders before anything is installed |
-| `Licenses/` | each cask's license text |
+| `Licenses.deflate` | every cask's license, one JSON object by token, raw-deflated |
 | `Fonts.xcassets/` | the fonts themselves, tagged for On-Demand Resources (several GB, gitignored) |
 
-These are generated, so don't edit them by hand: change the script and rebuild.
+and the same licenses as text into `Licenses/` at the root, outside the app, so a fonts pull request
+shows what changed in them. The app carries them compressed: 2,000-odd text files, most of them the
+same OFL, took 20 MB on a device, where the one file takes 0.5 MB.
+
+These are generated, so don't edit them by hand: change the script and rebuild. Both copies of the
+licenses are committed, so CI runs `scripts/build-catalog.py check-licenses`, which fails if
+`Licenses.deflate` isn't what `Licenses/` deflates to.
 
 ## Lock
 
@@ -79,13 +85,28 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
 ## What a release ships
 
 - **Files.** A cask's variable font where it has one; otherwise the Regular, Italic, Bold and Bold
-  Italic of a single family. Nerd Fonts' Mono and Propo spacing variants are left out, and so is any
-  file over 100 MB (CJK collections and Iosevka SuperTTCs), so a cask made only of those reads as
-  "Fonts not included in this build".
+  Italic of a single family, the primary face's. Both are read from the fonts' own tables (`fvar`, and
+  the typographic family and subfamily names), not their filenames, which follow no one scheme:
+  Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. The primary face's
+  file always ships, though Terminus calls its Regular "Medium". Nerd Fonts' Mono and
+  Propo spacing variants are left out, and so is any file over 100 MB (CJK collections and Iosevka
+  SuperTTCs), so a cask made only of those is left out of the catalog.
+- **The primary face** is the one the gallery previews and the app checks to see whether a cask is
+  installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
+  width, not a family named Mono beside others (Liberation Mono), then the shortest family name.
+- **Previews** are the primary face subset to the sample, keeping only the OpenType features Core
+  Text applies by default and no hinting, which Core Text doesn't use: every feature kept every
+  stylistic alternate, and Iosevka's preview came to 1,900 glyphs. A variable font is instanced at
+  its Regular, whatever its default: Fira Code's is Light. A face with no Latin letters is previewed
+  in its own script, from the same list of lines `ApplePreviewRenderer` uses, and a face that draws
+  none of them, an icon, emoji or music font, is skipped as having nothing to preview.
 - **Heavy niche casks** are left out entirely: those over 10 MB that cost more than 0.1 MB per yearly
   install, which is Iosevka's stylistic sets, the rarer Maple Mono builds and a handful of CJK families.
   Google families are exempt, since Homebrew undercounts fonts most people get from Google. Set
   `MAX_MB_PER_INSTALL` to move the line, or leave it empty to ship everything.
+- **A cask with nothing to install isn't listed**, so the gallery never offers one it can't
+  install. Only a local `build --fonts` lists casks without their fonts, as "Fonts not included in
+  this build".
 - **Licenses.** A cask ships only with a license.
 
 ### Asset packs
@@ -116,8 +137,10 @@ tab:
 2. **verify** (macOS) unpacks a spread of casks from the archive and runs the UI tests on them in the
    simulator: installs, an uninstall, an update and a font iOS already has.
 3. **publish** attaches the archive to a `fonts-YYYYMMDD-N` release, writes the pin, and opens a pull
-   request with the lock, catalog, previews, licenses and pin. Merging it is the release; the next app
-   build ships it. The repository has to allow GitHub Actions to create pull requests.
+   request with the lock, catalog, previews, licenses and pin, against the branch the run started
+   from. Merging it into main is the release; the next app build ships it. Started from another
+   branch, the run rebuilds the fonts for that branch's pipeline changes, so they merge together.
+   The repository has to allow GitHub Actions to create pull requests.
 
 The release notes and the pull request both say which casks were added, removed, updated to a new
 version or rebuilt into different files, compared with main as it is when the run publishes.
@@ -139,7 +162,7 @@ scripts/publish-fonts.sh upload    # attach that archive to a release and write 
 
 `upload` refuses if any cask's `assets` or `pack` in `Catalog.json` differ from what `build` recorded
 beside the archive, and refuses an archive over 1.9 GiB (GitHub caps a release asset at 2 GiB). Commit
-the lock, `Catalog.json`, `Previews/`, `Licenses/` and the pin together. `scripts/fetch-fonts-asset.sh`
+the lock, `Catalog.json`, `Previews/`, `Licenses.deflate`, `Licenses/` and the pin together. `scripts/fetch-fonts-asset.sh`
 downloads the pinned archive for an app build, checks its hash, and refuses to continue if its casks
 don't match the ones `Catalog.json` says are installable. Without a pin it builds the casks named in
 `TYPECASK_CASKS` from the lock instead.

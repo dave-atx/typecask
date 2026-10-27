@@ -245,7 +245,8 @@ final class ApplePreviewRenderer: XCTestCase {
     }
 
     /// A line in each script Apple's fonts cover, tried in order. Japanese comes before Chinese because
-    /// Japanese fonts carry the kanji too, while Chinese fonts lack the kana.
+    /// Japanese fonts carry the kanji too, while Chinese fonts lack the kana. SCRIPT_SAMPLES in
+    /// scripts/build-catalog.py is the same list, for casks; change both together.
     private static let scriptSamples = [
         "いろはにほへと ちりぬるを",          // Japanese
         "天地玄黄 宇宙洪荒",                  // Chinese

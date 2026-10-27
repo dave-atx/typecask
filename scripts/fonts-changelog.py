@@ -62,6 +62,8 @@ def removal_reason(token, locked, listed, report):
         return reason
     if reason := report.get("trimmed", {}).get(token):
         return f"trimmed as a heavy niche cask ({reason})"
+    if reason := report.get("unshippable", {}).get(token):
+        return reason
     if owners := report.get("shadowed", {}).get(token):
         return f"its fonts now come from {', '.join(f'`{owner}`' for owner in owners)}"
     if token in listed:

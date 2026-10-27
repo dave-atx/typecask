@@ -17,10 +17,12 @@ Two steps, so a build is repeatable, and a third that keeps it so when hosts cha
 build writes into Typecask/:
   Catalog.json      gallery metadata, including each cask's design style, version and description
   Previews/         fonts subset to the sample text, for rendering the gallery before install
-  Licenses/         license texts from each cask's download, google/fonts, or its GitHub repository
+  Licenses.deflate  every license, from each cask's download, google/fonts, or its GitHub repository
   Fonts.xcassets/   fonts as data sets tagged for On-Demand Resources
+and the same licenses as text into Licenses/, beside the app rather than in it, for review.
 
 apple-previews subsets the previews of Apple's downloadable fonts; see docs/font-pipeline.md.
+check-licenses fails if Licenses.deflate isn't what Licenses/ deflates to, for CI.
 """
 
 import argparse
@@ -39,6 +41,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
+import zlib
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date
@@ -96,9 +99,23 @@ MAX_ASSET_PACKS = 900
 SHARED_PACKS = 450
 # Only casks under this are grouped, so installing a large font never drags others along with it.
 SMALL_CASK_BYTES = 1_000_000
-# Google's variable fonts are named Family[wght].ttf; a few, like Inter, spell it out instead.
-VARIABLE_NAME = re.compile(r"\[|variable|-vf$", re.IGNORECASE)
-CORE_STYLES = ("regular", "italic", "bold", "bolditalic")
+# A face's typographic subfamily, lowercased without spaces, mapped to the four core styles a cask
+# ships. Old fonts call their upright Roman, Book, Normal or Plain.
+CORE_STYLES = {
+    "regular": "regular",
+    "roman": "regular",
+    "book": "regular",
+    "normal": "regular",
+    "plain": "regular",
+    "italic": "italic",
+    "oblique": "italic",
+    "bold": "bold",
+    "bolditalic": "bolditalic",
+    "boldoblique": "bolditalic",
+}
+# Where a variable font's preview is instanced: its Regular, upright and at normal width, clamped to
+# the font's range. Its default can be anything: Fira Code's is Light, Montserrat's Thin.
+REGULAR_LOCATION = {"wght": 400, "wdth": 100, "ital": 0, "slnt": 0}
 # Public, no API key. The leading characters before the first brace are XSSI padding.
 GOOGLE_METADATA_URL = "https://fonts.google.com/metadata/fonts"
 # Each family's views on Google Fonts, by year and by the last 30 days. The metadata's own
@@ -109,7 +126,43 @@ GOOGLE_SPECIMEN = re.compile(r"fonts\.google\.com/specimen/([^/?#]+)")
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
 GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
 GOOGLE_FONTS_URL = "https://github.com/google/fonts.git"
-SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|"
+PANGRAM = "The quick brown fox jumps over the lazy dog"
+SAMPLE_TEXT = PANGRAM + " 0123456789 {}[]()<>=!&|"
+# A face that has fewer of PANGRAM's letters than this is previewed in its own script instead.
+# Faces have all of them or none, bar a barcode font's 81%.
+LATIN_COVERAGE = 0.8
+# A line in each script, for a face with no Latin letters, tried in order: the same list as
+# scriptSamples in TypecaskUITests/ApplePreviewRenderer.swift, which picks Apple's fonts' samples.
+# Japanese comes before Chinese because Japanese fonts carry the kanji too.
+SCRIPT_SAMPLES = [
+    "いろはにほへと ちりぬるを",  # Japanese
+    "天地玄黄 宇宙洪荒",  # Chinese
+    "다람쥐 헌 쳇바퀴에 타고파",  # Korean
+    "أبجد هوز حطي كلمن",  # Arabic
+    "דג סקרן שט בים מאוכזב",  # Hebrew
+    "नमस्ते दुनिया",  # Devanagari
+    "বাংলা লিপি",  # Bengali
+    "ਗੁਰਮੁਖੀ ਲਿਪੀ",  # Gurmukhi
+    "ગુજરાતી લિપિ",  # Gujarati
+    "ଓଡ଼ିଆ ଲିପି",  # Odia
+    "தமிழ் எழுத்து",  # Tamil
+    "తెలుగు లిపి",  # Telugu
+    "ಕನ್ನಡ ಲಿಪಿ",  # Kannada
+    "മലയാളം ലിപി",  # Malayalam
+    "සිංහල අක්ෂර",  # Sinhala
+    "สวัสดีชาวโลก",  # Thai
+    "ສະບາຍດີ",  # Lao
+    "សួស្តីពិភពលោក",  # Khmer
+    "မင်္ဂလာပါ",  # Myanmar
+    "བོད་ཡིག",  # Tibetan
+    "ქართული დამწერლობა",  # Georgian
+    "Հայերեն այբուբեն",  # Armenian
+    "ግዕዝ ፊደል",  # Ethiopic
+    "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ",  # Cherokee
+    "ᐃᓄᒃᑎᑐᑦ",  # Canadian syllabics
+    "ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ",  # Mongolian
+    "⠃⠗⠁⠊⠇⠇⠑",  # Braille
+]
 # Nerd Fonts icons the gallery shows under the sample: the Powerline branch, GitHub, git, Rust, Python,
 # Node, a terminal, Apple, Linux, Arch, a folder, code, a bolt and a cog, which every Nerd Fonts v3
 # cask in the catalog has. Powerline's rounded caps were dropped: on their own they're a black blob.
@@ -204,6 +257,8 @@ COLLECTION_SUFFIXES = (".ttc", ".otc")
 # Cozette's was being picked as its shortest-named file.
 FONT_SUFFIXES = (".ttf", ".otf", *COLLECTION_SUFFIXES)
 LICENSE_NAME = re.compile(r"licen[cs]e|\bofl\b|copying|copyright", re.IGNORECASE)
+# OFL-FAQ.txt matches \bofl\b, and is 40 KB of questions rather than a license.
+NOT_LICENSE_NAME = re.compile(r"faq", re.IGNORECASE)
 LICENSE_SUFFIXES = ("", ".txt", ".md")
 GITHUB_REPO = re.compile(r"github\.com/([^/]+)/([^/]+?)(?:\.git)?/")
 CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
@@ -211,7 +266,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 2
+PIPELINE_VERSION = 8
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -221,7 +276,11 @@ ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
 FONTS = APP / "Fonts.xcassets"
 PREVIEWS = APP / "Previews"
-LICENSES = APP / "Licenses"
+# Each cask's license as text, for review: outside the app, which ships them all in LICENSE_BUNDLE.
+LICENSES = ROOT / "Licenses"
+# Every license in one JSON object by token, raw-deflated, which NSData decompresses as .zlib: 0.8 MB
+# against 12.5 MB of text in 2,000-odd files, most of them the same OFL.
+LICENSE_BUNDLE = APP / "Licenses.deflate"
 APPLE_PREVIEWS = APP / "ApplePreviews"
 LOCK = ROOT / "fonts.lock.json"
 # Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
@@ -610,17 +669,65 @@ class Face:
     path: Path
     number: int  # index within a collection
     postscript_name: str
-    regular: bool
+    # Typographic family and subfamily (name IDs 16 and 17), or the legacy ones (1 and 2) where only
+    # those name a core style, the subfamily as one of CORE_STYLES or None for any other style.
+    family: str
+    style: str | None
+    weight: int
+    width: int  # OS/2 width class, 5 for normal
+    italic: bool
+    variable: bool
+    # Families named for it, which their names say more reliably than their tables: DejaVu Sans
+    # carries a MATH table, and Libertinus Mono doesn't set isFixedPitch.
+    mono: bool  # Liberation Mono, Red Hat Mono
+    math: bool  # STIX Two Math, Libertinus Math
+
+    @property
+    def regular(self):
+        return self.style == "regular"
 
 
 def read_faces(path):
-    """Reads only name tables. Collections share glyph tables between faces, so loading faces eagerly reads the
-    shared data once per face: tens of GB for Iosevka's 324-face SuperTTC."""
+    """Reads only the tables that name and describe each face. Collections share glyph tables between
+    faces, so loading faces eagerly reads the shared data once per face: tens of GB for Iosevka's
+    324-face SuperTTC."""
+
+    def core_style(subfamily):
+        return CORE_STYLES.get(re.sub(r"[\s_-]+", "", subfamily.lower()))
 
     def face(number, font):
         names = font["name"]
-        regular = (names.getDebugName(17) or names.getDebugName(2)) == "Regular"
-        return Face(path, number, names.getDebugName(6), regular)
+        family = names.getDebugName(16) or names.getDebugName(1) or ""
+        subfamily = names.getDebugName(17) or names.getDebugName(2) or ""
+        # EB Garamond's typographic subfamilies carry the optical size, "08 Regular" and "12 Italic",
+        # which left no face Regular and made the capitals-only Initials its primary face. Its legacy
+        # names are plain Regular and Italic, of the families EB Garamond 08 and 12.
+        if not core_style(subfamily) and core_style(legacy := names.getDebugName(2) or ""):
+            family, subfamily = names.getDebugName(1) or "", legacy
+        subfamily = subfamily.lower()
+        os2 = font.get("OS/2")
+        italic = bool(
+            (os2 is not None and os2.fsSelection & 1)
+            or ("head" in font and font["head"].macStyle & 2)
+            or "italic" in subfamily
+            or "oblique" in subfamily
+        )
+        weight = os2.usWeightClass if os2 is not None else 400
+        width = os2.usWidthClass if os2 is not None else 5
+        style = core_style(subfamily)
+        variable = "fvar" in font
+        if variable:
+            # A variable font is its whole weight and width range, whatever its default instance is called.
+            axes = {axis.axisTag: axis for axis in font["fvar"].axes}
+            if "wght" not in axes or axes["wght"].minValue <= 400 <= axes["wght"].maxValue:
+                weight = 400
+            if "wdth" not in axes or axes["wdth"].minValue <= 100 <= axes["wdth"].maxValue:
+                width = 5
+            style = "italic" if italic else "regular"
+        postscript_name = names.getDebugName(6) or ""
+        mono = "mono" in family.lower()  # FreeMono and JetBrainsMonoNL too
+        math = bool(re.search(r"\bmath\b", family, re.IGNORECASE))
+        return Face(path, number, postscript_name, family, style, weight, width, italic, variable, mono, math)
 
     if path.suffix.lower() in COLLECTION_SUFFIXES:
         with TTCollection(path, lazy=True) as collection:
@@ -629,50 +736,59 @@ def read_faces(path):
         return [face(0, font)]
 
 
-def style_of(path):
-    """The style of a font filename: Lato-BoldItalic -> 'bolditalic'.
-
-    Weights are sometimes a compound word rather than a suffix — Iosevka Comfy writes
-    `iosevka-comfy-normalsemilightupright` — so the padding words are stripped before matching.
-    """
-    stem = Path(path).stem.lower()
-    if "-" not in stem:
-        return "regular"
-    tail = stem.rsplit("-", 1)[1]
-    for filler in ("upright", "normal"):
-        tail = tail.replace(filler, "")
-    return tail or "regular"
-
-
-def family_of(path):
-    """Everything before the style, which separates JetBrainsMonoNerdFont from …NerdFontMono."""
-    stem = Path(path).stem.lower()
-    return stem.rsplit("-", 1)[0] if "-" in stem else stem
-
-
-def select_files(paths):
+def select_files(faces):
     """The files worth shipping out of a cask, which often carries far more than anyone installs.
+
+    Chosen by what each face says about itself, not by its filename: Cascadia Code, Charter and
+    Linux Libertine name their files in ways no filename rule reads, and shipped only Regular, only
+    Bold and only the capitals-only Initials.
 
     A variable font covers the whole weight axis in one file, so where a cask has one it is the whole
     answer rather than a reduced set. Failing that, the four core styles of a single family are kept:
     Nerd Fonts ship Mono and Propo spacing variants of every weight, so Noto alone is 399 files, and
-    the family is taken from the shortest upright Regular, the way primary_face picks a preview.
+    the family is the primary face's.
 
-    Where none of that matches, one file is kept rather than all of them. Shipping everything on an
-    unrecognised naming scheme is how Iosevka Comfy's 126 files, a gigabyte, slipped through.
+    Where none of that matches, the primary face's file is kept rather than all of them. Shipping
+    everything on an unrecognised naming scheme is how Iosevka Comfy's 126 files, a gigabyte,
+    slipped through. Files come back in the order given, so a face shipped as both TTF and OTF keeps
+    whichever the cask lists first.
     """
-    if variable := [path for path in paths if VARIABLE_NAME.search(Path(path).stem)]:
-        return variable
-    core = [path for path in paths if style_of(path) in CORE_STYLES]
-    if not core:
-        return sorted(paths, key=lambda path: len(Path(path).stem))[:1]
-    family = family_of(min(core, key=lambda path: len(Path(path).stem)))
-    return [path for path in core if family_of(path) == family]
+    paths = list(dict.fromkeys(face.path for face in faces))
+    if variable := {face.path for face in faces if face.variable}:
+        return [path for path in paths if path in variable]
+    primary = primary_face(faces)
+    # The primary face's own file too, whatever it's called: Terminus and Scientifica name their
+    # Regular "Medium", and shipped only Bold and the italics.
+    core = {face.path for face in faces if face.style and face.family == primary.family} | {primary.path}
+    return [path for path in paths if path in core]
 
 
 def primary_face(faces):
-    """Prefers the shortest-named upright Regular, which skips Nerd Font Mono/Propo variants."""
-    return min(faces, key=lambda face: (not face.regular, len(face.postscript_name)))
+    """The face a cask is previewed in and recognised as installed by: a text face, not math, upright
+    and Regular, nearest 400 in weight and normal in width, not a family named Mono beside the cask's
+    others, then the shortest family and name, which skips Nerd Fonts' Mono and Propo variants.
+
+    Without the width, Noto's Nerd Font previewed its condensed face, whose legacy family name is the
+    shorter; without the Mono rule, Liberation and Red Hat their Mono families, which sort first. It
+    goes by the name rather than the spacing, so Input, Myrica and Sudo keep their monospaced faces
+    over their proportional ones.
+    """
+    return min(
+        faces,
+        key=lambda face: (
+            face.math,
+            face.italic,
+            not face.regular,
+            abs(face.weight - 400),
+            abs(face.width - 5),
+            face.mono,
+            len(face.family),
+            len(face.postscript_name),
+            face.postscript_name,
+            str(face.path),
+            face.number,
+        ),
+    )
 
 
 # PANOSE serif styles 11-15 are the sans-serif ones: normal, obtuse and perpendicular sans, plus flared
@@ -741,7 +857,13 @@ def subset_preview(face, token, directory, text, drop):
         font_version = font_version_of(font)
         # Subsetting first leaves the instancer a few dozen glyphs instead of the whole font.
         options = Options()
-        options.layout_features = ["*"]
+        # fontTools' default features, which are the ones Core Text applies unasked, shaping included.
+        # Every feature ("*") kept every alternate the sample's letters reach through aalt, salt and
+        # the stylistic sets, which no preview draws: Iosevka's came to 1,900 glyphs and 318 KB.
+        # Hinting goes too, since Core Text doesn't run it; together they halve the previews. Except
+        # in a CFF2 variable font, whose stripped hints fontTools' instancer then fails on, and which
+        # carries little hinting anyway: Source Han Sans VF, Cantarell.
+        options.hinting = "CFF2" in font and "fvar" in font
         options.name_IDs = ["*"]
         # BASE, baseline offsets for mixing scripts on a line, which a one-line sample doesn't need,
         # is always dropped: fontTools can't parse Google Sans Code Nerd Font's.
@@ -750,7 +872,7 @@ def subset_preview(face, token, directory, text, drop):
         subsetter.populate(text=text + (GLYPH_SAMPLE if glyphs else ""))
         subsetter.subset(font)
         if "fvar" in font:
-            instantiateVariableFont(font, {axis.axisTag: None for axis in font["fvar"].axes}, inplace=True)
+            instantiateVariableFont(font, regular_location(font["fvar"].axes), inplace=True)
         if "STAT" in font:
             del font["STAT"]
         font["name"].names = []
@@ -761,6 +883,32 @@ def subset_preview(face, token, directory, text, drop):
         file_name = f"{postscript_name}.{'otf' if 'CFF ' in font or 'CFF2' in font else 'ttf'}"
         font.save(directory / file_name)
     return Preview(file_name, style, glyphs, font_version)
+
+
+def regular_location(axes):
+    """Each axis pinned at REGULAR_LOCATION within its range, and any other axis at its default."""
+    return {
+        axis.axisTag: (
+            min(max(REGULAR_LOCATION[axis.axisTag], axis.minValue), axis.maxValue)
+            if axis.axisTag in REGULAR_LOCATION
+            else None
+        )
+        for axis in axes
+    }
+
+
+def sample_for(face):
+    """What the face is previewed with: SAMPLE_TEXT where it has the Latin letters, else the first of
+    SCRIPT_SAMPLES it covers, else None."""
+    with TTFont(face.path, fontNumber=face.number, lazy=True) as font:
+        cmap = font.getBestCmap() or {}
+    letters = {ord(character) for character in PANGRAM if not character.isspace()}
+    if len(letters & cmap.keys()) >= LATIN_COVERAGE * len(letters):
+        return SAMPLE_TEXT
+    return next(
+        (sample for sample in SCRIPT_SAMPLES if all(ord(char) in cmap for char in sample if not char.isspace())),
+        None,
+    )
 
 
 def font_version_of(font):
@@ -836,7 +984,10 @@ def find_license(root, url, google_directory=None):
     paths = sorted(
         path
         for path in root.rglob("*")
-        if path.suffix.lower() in LICENSE_SUFFIXES and LICENSE_NAME.search(path.stem) and path.is_file()
+        if path.suffix.lower() in LICENSE_SUFFIXES
+        and LICENSE_NAME.search(path.stem)
+        and not NOT_LICENSE_NAME.search(path.stem)
+        and path.is_file()
     )
     if paths:
         return "\n\n".join(path.read_text(errors="replace") for path in paths)
@@ -998,16 +1149,26 @@ def build_cask(entry, destination, mirrored=frozenset()):
         if not (license := find_license(root, url, google.get("directory"))):
             # Without a license to ship alongside the fonts, there's no basis for redistributing them.
             raise Skip("no license found")
-        fonts = [artifact for artifact in entry["artifacts"] if Path(artifact).suffix.lower() in FONT_SUFFIXES]
-        selected = [root / artifact for artifact in select_files(fonts) if (root / artifact).is_file()]
-        if not selected:
+        paths = [
+            root / artifact
+            for artifact in dict.fromkeys(entry["artifacts"])
+            if Path(artifact).suffix.lower() in FONT_SUFFIXES and (root / artifact).is_file()
+        ]
+        faces_by_path = {}
+        for path in paths:
+            try:
+                faces_by_path[path] = read_faces(path)
+            except Exception as error:  # noqa: BLE001 - one unreadable file shouldn't cost the cask
+                print(f"{token}: can't read {path.name} ({type(error).__name__}: {error}); leaving it out")
+        if not (candidates := [face for faces in faces_by_path.values() for face in faces]):
             raise Skip("no usable font files")
+        selected = select_files(candidates)
         (destination / "fonts").mkdir(parents=True)
         files, shipped_faces, all_faces = [], [], []
         for path in selected:
             size = path.stat().st_size
             shippable = size <= MAX_FILE_BYTES
-            faces = read_faces(path)
+            faces = faces_by_path[path]
             if shippable:
                 shutil.copy(path, destination / "fonts" / path.name)
                 shipped_faces += faces
@@ -1020,7 +1181,11 @@ def build_cask(entry, destination, mirrored=frozenset()):
             files.append({"file": path.name, "asset": faces[0].postscript_name, "bytes": size, "shippable": shippable})
         # The app decides a cask is installed by resolving primaryFont, so it has to be a face that ships.
         primary = primary_face(shipped_faces or all_faces)
-        preview = write_preview(primary, token, destination)
+        sample = sample_for(primary)
+        if sample is None:
+            # Icon, emoji and music fonts draw none of the samples: a card would show the system font.
+            raise Skip("draws none of the sample text")
+        preview = write_preview(primary, token, destination, sample)
         (destination / "license.txt").write_text(license)
         built = {
             "files": files,
@@ -1030,6 +1195,8 @@ def build_cask(entry, destination, mirrored=frozenset()):
             "glyphs": preview.glyphs,
             "fontVersion": preview.font_version,
         }
+        if sample != SAMPLE_TEXT:
+            built["sample"] = sample
         if google.get("directory") and (description := google_description(google["directory"])):
             built["description"] = description
         write_json(destination / "entry.json", built)
@@ -1270,7 +1437,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         directory.mkdir(parents=True)
     write_json(FONTS / "Contents.json", CATALOG_INFO)
 
-    catalog, owners, weights, skipped, trimmed, shadowed = [], {}, {}, {}, {}, {}
+    catalog, owners, weights, licenses = [], {}, {}, {}
+    skipped, trimmed, unshippable, shadowed = {}, {}, {}, {}
     for entry in entries:
         token, destination = entry["token"], destinations[entry["token"]]
         if not (destination / "entry.json").is_file():
@@ -1280,15 +1448,14 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             skipped[token] = built["skip"]
             continue
         # Two casks can carry the same face; the higher-ranked one keeps it.
-        files = []
+        files, faces = [], set()
         for file in built["files"]:
             if file["asset"] in owners:
-                # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
-                if owners[file["asset"]] != token:
-                    print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
-                continue
-            owners[file["asset"]] = token
-            files.append(file)
+                print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
+            # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
+            elif file["asset"] not in faces:
+                faces.add(file["asset"])
+                files.append(file)
         if not files:
             shadowed[token] = sorted({owners[file["asset"]] for file in built["files"]})
             continue
@@ -1304,12 +1471,20 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             shipping = []
         if only is not None and token not in only:
             shipping = []
+        elif not shipping:
+            # Left out altogether rather than listed with nothing to install, and without claiming
+            # its faces, so a lower-ranked cask that has them can still ship them.
+            if token not in trimmed:
+                unshippable[token] = f"every file is over {MAX_FILE_BYTES // 1024**2} MB"
+            continue
+        owners.update(dict.fromkeys(faces, token))
         for file in shipping:
             write_dataset(destination / "fonts" / file["file"], file["asset"], token)
         if shipping:
             weights[token] = weight
         shutil.copy(destination / built["previewFile"], PREVIEWS / built["previewFile"])
         shutil.copy(destination / "license.txt", LICENSES / f"{token}.txt")
+        licenses[token] = (destination / "license.txt").read_text()
 
         google = entry.get("google") or {}
         style = built["style"]
@@ -1333,6 +1508,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             "version": cask_version(entry["version"], built["fontVersion"]),
             "fontVersion": built["fontVersion"],
         }
+        if "sample" in built:
+            record["sample"] = built["sample"]
         if "description" in built:
             record["description"] = built["description"]
             # Google's descriptions are often the designer's own words, in the first person.
@@ -1358,18 +1535,44 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             "casks": catalog,
         },
     )
+    write_license_bundle(licenses)
     restyle_apple_fonts(locked["googleCategories"])
     report("skipped", [f"{token} ({reason})" for token, reason in skipped.items()])
     report("trimmed heavy niche casks", [f"{token} ({reason})" for token, reason in trimmed.items()])
+    report("left out, too large to ship", list(unshippable))
     # Why a locked cask is missing from the catalog or ships nothing, for scripts/fonts-changelog.py.
     write_json(
         CACHE / "build-report.json",
-        {"failed": failed, "skipped": skipped, "trimmed": trimmed, "shadowed": shadowed},
+        {"failed": failed, "skipped": skipped, "trimmed": trimmed, "unshippable": unshippable, "shadowed": shadowed},
     )
     print(
         f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "
         f"in {len(set(packs.values()))} asset packs"
     )
+
+
+def write_license_bundle(licenses):
+    LICENSE_BUNDLE.write_bytes(license_bundle(licenses))
+
+
+def license_bundle(licenses):
+    """LICENSE_BUNDLE's bytes. Sorted and compact, so the same licenses always deflate to the same bytes."""
+    text = json.dumps(licenses, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    # Negative window bits make raw DEFLATE, with no zlib header, which is what Apple's .zlib reads.
+    compressor = zlib.compressobj(9, zlib.DEFLATED, -15)
+    return compressor.compress(text.encode()) + compressor.flush()
+
+
+def check_licenses():
+    """`check-licenses`: whether LICENSE_BUNDLE holds exactly the texts in LICENSES. build writes both
+    from the same licenses, so they differ only when one was edited by hand or committed without the
+    other."""
+    licenses = {path.stem: path.read_text() for path in sorted(LICENSES.glob("*.txt"))}
+    if LICENSE_BUNDLE.read_bytes() == license_bundle(licenses):
+        print(f"{LICENSE_BUNDLE.relative_to(ROOT)} matches the {len(licenses)} licenses in Licenses/")
+        return 0
+    print(f"{LICENSE_BUNDLE.relative_to(ROOT)} doesn't match Licenses/: rebuild both with build-catalog.py build")
+    return 1
 
 
 def mirror():
@@ -1508,6 +1711,7 @@ def main():
     commands.add_parser(
         "apple-previews", help="subset Apple's downloadable fonts' previews; run right after ApplePreviewRenderer"
     )
+    commands.add_parser("check-licenses", help="check that Licenses.deflate matches Licenses/")
     arguments = parser.parse_args()
     if arguments.command == "lock":
         lock(arguments.count, arguments.google_top)
@@ -1519,6 +1723,8 @@ def main():
         )
     elif arguments.command == "mirror":
         mirror()
+    elif arguments.command == "check-licenses":
+        return check_licenses()
     else:
         apple_previews()
 

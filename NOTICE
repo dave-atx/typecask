@@ -5,8 +5,8 @@ Licensed under the Apache License, Version 2.0; see LICENSE.
 
 The fonts in this repository are not covered by that license. Typecask/Previews holds subsets of
 each cask's fonts, cut down to the gallery's sample text by scripts/build-catalog.py and renamed
-TypecaskPreview-<cask>, and each one stays under the license in the matching
-Typecask/Licenses/<cask>.txt.
+TypecaskPreview-<cask>, and each one stays under the license in the matching Licenses/<cask>.txt.
 
 The fonts the app installs aren't in the source tree. They're built from Homebrew casks and
-published as release assets, each under its own license in Typecask/Licenses.
+published as release assets, each under its own license in Licenses/, which the app carries as
+Typecask/Licenses.deflate.
