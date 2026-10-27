@@ -1,0 +1,32 @@
+{{- /*
+  What the home page sets in real type: one leader per design style for the phone, and what's
+  climbing for the specimen strip. Chosen from the catalog rather than hard-coded, so a fonts release
+  can't leave the home page pointing at a font that's no longer shipped.
+*/ -}}
+{{- $catalog := hugo.Data.catalog -}}
+{{- $sample := $catalog.sampleText -}}
+
+{{- $phone := slice -}}
+{{- range (slice "serif" "monospaced" "handwriting" "display" "sansSerif") -}}
+  {{- $inStyle := sort (where $catalog.casks "style" .) "popularity" -}}
+  {{- with index $inStyle 0 -}}
+    {{- $phone = $phone | append (partial "cask-view.html" (dict "cask" . "sampleText" $sample)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $trending := slice -}}
+{{- range first 6 (sort (where $catalog.casks "trending" "gt" 0) "trending") -}}
+  {{- $trending = $trending | append (partial "cask-view.html" (dict "cask" . "sampleText" $sample)) -}}
+{{- end -}}
+
+{{- /* One @font-face per face actually used, with no duplicates. */ -}}
+{{- $seen := dict -}}
+{{- $all := slice -}}
+{{- range ($phone | append $trending) -}}
+  {{- if not (index $seen .slug) -}}
+    {{- $seen = merge $seen (dict .slug true) -}}
+    {{- $all = $all | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict "phone" $phone "trending" $trending "all" $all) -}}

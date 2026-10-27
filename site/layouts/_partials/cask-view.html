@@ -1,0 +1,23 @@
+{{- /*
+  The fields a template needs to render one cask, from a raw entry in data/catalog.json. Keeps the
+  style-name mapping and the sample fallback in one place instead of in every layout.
+*/ -}}
+{{- $c := .cask -}}
+{{- $styleNames := dict
+    "monospaced" "Fixed Width"
+    "serif" "Serif"
+    "sansSerif" "Sans Serif"
+    "display" "Display"
+    "handwriting" "Handwriting"
+-}}
+{{- return (dict
+    "slug" (strings.TrimPrefix "font-" $c.token)
+    "token" $c.token
+    "name" $c.name
+    "sample" ($c.sample | default .sampleText)
+    "styleKey" $c.style
+    "styleName" (index $styleNames $c.style | default "Sans Serif")
+    "glyphs" $c.glyphs
+    "installs" $c.installs
+    "previewFile" $c.previewFile
+) -}}

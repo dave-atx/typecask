@@ -1,0 +1,90 @@
+# Builds typecask.app and deploys it to Cloudflare Workers.
+#
+# The site shows the catalog the shipping app carries, not main's, so it rebuilds when a TestFlight
+# build succeeds. Cloudflare Workers Builds only triggers on branch pushes, and this has to trigger
+# on a testflight-N tag, which is why the build lives here instead.
+#
+# Needs these in the repository's Actions settings:
+#   secrets.CLOUDFLARE_API_TOKEN    a token with Workers Scripts:Edit on the account below
+#   secrets.CLOUDFLARE_ACCOUNT_ID   the Cloudflare account the Worker lives in
+name: Site
+
+on:
+  workflow_run:
+    workflows: [TestFlight]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - site/**
+      - scripts/site-catalog.sh
+      - .github/workflows/site.yml
+  pull_request:
+    paths:
+      - site/**
+      - scripts/site-catalog.sh
+      - .github/workflows/site.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Cloudflare Workers Builds reads the same variable, if the build ever moves there.
+  HUGO_VERSION: 0.168.0
+
+jobs:
+  site:
+    # A TestFlight run that failed shipped no new build, so there's no new catalog to publish.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    steps:
+      # Shallow: site-catalog.sh fetches the one tag it needs. The full history is a fonts release
+      # of previews every week.
+      - uses: actions/checkout@v7
+
+      - name: Install Hugo
+        run: |
+          url="https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION"
+          curl -fsSL --retry 3 -o /tmp/hugo.deb \
+            "$url/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i /tmp/hugo.deb
+          hugo version
+
+      - name: Read the shipping app's catalog
+        run: scripts/site-catalog.sh
+
+      - name: Build
+        working-directory: site
+        env:
+          HUGO_ENVIRONMENT: production
+        run: hugo --gc --minify --printPathWarnings
+
+      # A page that didn't build is worth catching before Cloudflare serves it.
+      - name: Check the build
+        working-directory: site
+        run: |
+          pages=$(find public -name '*.html' | wc -l)
+          fonts=$(find public/p -type f | wc -l)
+          echo "$pages pages, $fonts previews"
+          # 2,193 casks plus the home, catalog, style and document pages.
+          if [ "$pages" -lt 2200 ] || [ "$fonts" -lt 2000 ]; then
+            echo "The build is short; the catalog probably didn't load." >&2
+            exit 1
+          fi
+          test -s public/index.html
+          test -s public/fonts/index.html
+          test -s public/sitemap.xml
+
+      - name: Deploy
+        if: github.event_name != 'pull_request'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: site

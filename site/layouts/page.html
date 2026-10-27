@@ -1,0 +1,7 @@
+{{ define "main" }}
+  <article class="bar doc">
+    <h1>{{ .Title }}</h1>
+    {{- with .Params.updated }}<p class="fine">Last updated {{ . }}.</p>{{ end }}
+    <div class="prose">{{ .Content }}</div>
+  </article>
+{{ end }}

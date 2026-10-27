@@ -1,0 +1,17 @@
+{{- /*
+  One place decides what the download button says. The App Store record exists but the app isn't
+  public, so until params.appStoreLive is true the button points at TestFlight when there's a public
+  link and says so plainly when there isn't. Nothing here ever renders a dead App Store link.
+*/ -}}
+{{- $class := cond .small "btn btn-small" "btn btn-big" -}}
+{{- if site.Params.appStoreLive -}}
+  <a class="{{ $class }}" href="https://apps.apple.com/app/id{{ site.Params.appStoreID }}">
+    Download on the App&nbsp;Store
+  </a>
+{{- else if site.Params.testflightURL -}}
+  <a class="{{ $class }}" href="{{ site.Params.testflightURL }}">
+    Join the TestFlight beta
+  </a>
+{{- else -}}
+  <span class="{{ $class }} btn-off" aria-disabled="true">Coming to the App&nbsp;Store</span>
+{{- end -}}

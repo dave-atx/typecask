@@ -1,0 +1,118 @@
+{{ define "head" }}
+  <style>
+    @font-face{font-family:"tc-specimen";src:url("{{ (printf "/p/%s" .Params.preview) | relURL }}");font-display:swap}
+  </style>
+{{ end }}
+
+{{ define "main" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  {{- $p := .Params -}}
+  {{- $credit := index (hugo.Data.attribution | default dict) $p.token -}}
+
+  <article class="font-page">
+    <div class="bar">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{{ "/fonts/" | relURL }}">Fonts</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ (printf "/styles/%s/" (urlize $p.styleName)) | relURL }}">{{ $p.styleName }}</a>
+      </nav>
+
+      <h1>{{ .Title }}</h1>
+
+      <div class="specimen">
+        <p class="specimen-big" style="font-family:'tc-specimen',var(--ui)">{{ $p.sample }}</p>
+        <p class="specimen-mid" style="font-family:'tc-specimen',var(--ui)">{{ $p.sample }}</p>
+        {{- if $p.glyphs }}
+          <p class="specimen-glyphs" style="font-family:'tc-specimen',var(--ui)"
+            aria-label="Nerd Fonts icons">{{ $catalog.glyphSample }}</p>
+        {{- end }}
+      </div>
+      <p class="fine specimen-note">Set in {{ .Title }} itself, from the preview the app ships.</p>
+    </div>
+
+    <div class="bar font-grid">
+      <div class="font-main">
+        {{- if .Content }}
+          <div class="prose">{{ .Content }}</div>
+          {{- with $p.designers }}
+            <p class="attrib">— {{ delimit . ", " " and " }}, on Google Fonts</p>
+          {{- end }}
+          {{- with $credit }}
+            <p class="attrib">— {{ .creator }}{{ with .note }}, {{ . }}{{ end }}</p>
+          {{- end }}
+        {{- else }}
+          {{- $faces := int $p.faces }}
+          <p class="prose">{{ .Title }} ships {{ $faces }}
+            {{ cond (eq $faces 1) "face" "faces" }}
+            {{- if $p.glyphs }}, patched with Nerd Fonts' icon set{{ end }}.
+            {{ if and $p.homepage (not $credit) }}Its own site has the detail its designers wrote.{{ end }}</p>
+          {{- with $credit }}
+            <p class="attrib">— {{ .creator }}{{ with .note }}, {{ . }}{{ end }}</p>
+          {{- end }}
+        {{- end }}
+
+        <div class="get">
+          {{ partial "download-button.html" (dict "page" . "small" false) }}
+          <p class="fine">Typecask has no deep links yet. Open the app and search for
+            &ldquo;{{ .Title }}&rdquo;.</p>
+        </div>
+
+        <details class="license">
+          <summary>License</summary>
+          {{- $path := printf "licenses/%s.txt" $p.token }}
+          {{- if fileExists $path }}
+            <pre>{{ os.ReadFile $path }}</pre>
+          {{- else }}
+            <p class="fine">The license text didn't make it into this build. It's in
+              <a href="{{ site.Params.repoURL }}/blob/main/Licenses/{{ $p.token }}.txt">the
+              repository</a>.</p>
+          {{- end }}
+        </details>
+      </div>
+
+      <aside class="font-facts">
+        <dl>
+          <dt>Design style</dt>
+          <dd><a href="{{ (printf "/styles/%s/" (urlize $p.styleName)) | relURL }}">{{ $p.styleName }}</a></dd>
+          {{- with $p.version }}<dt>Version</dt><dd>{{ . }}</dd>{{ end }}
+          {{- with $p.designers }}<dt>{{ cond (eq (len .) 1) "Designer" "Designers" }}</dt>
+            <dd>{{ delimit . ", " " and " }}</dd>
+          {{- else }}{{ with $credit }}<dt>Created by</dt>
+            <dd><a href="{{ .url }}" rel="noopener">{{ .creator }}</a></dd>{{ end }}
+          {{- end }}
+          <dt>Faces</dt><dd>{{ int $p.faces }}</dd>
+          <dt>Download</dt><dd>{{ partial "bytes.html" $p.bytes }}</dd>
+          <dt>Brew installs</dt><dd>{{ lang.FormatNumber 0 $p.installs }}<span class="fine"> / year</span></dd>
+          <dt>Popularity</dt><dd>#{{ $p.popularity }}</dd>
+          {{- with $p.trending }}<dt>Climbing</dt><dd>#{{ . }}</dd>{{ end }}
+          {{- if $p.glyphs }}<dt>Collection</dt>
+            <dd><a href="{{ "/styles/nerd-fonts/" | relURL }}">Nerd Fonts</a></dd>{{ end }}
+          <dt>Cask</dt><dd class="cask-token">{{ $p.token }}</dd>
+        </dl>
+        {{- with $p.homepage }}
+          <p><a class="more" href="{{ . }}" rel="noopener">The font's own site →</a></p>
+        {{- end }}
+      </aside>
+    </div>
+
+    {{- $related := partial "related.html" . }}
+    {{- with $related }}
+      <div class="bar related">
+        <h2>More {{ $p.styleName }}</h2>
+        <div class="related-grid">
+          {{- range . }}
+            <a class="related-card" href="{{ (printf "/fonts/%s/" .slug) | relURL }}">
+              <span class="related-spec" data-f="{{ .slug }}" data-p="{{ .previewFile }}"
+                style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</span>
+              <span class="related-name">{{ .name }}</span>
+            </a>
+          {{- end }}
+        </div>
+      </div>
+      {{- with resources.Get "js/catalog.js" }}
+        {{- $js := . | fingerprint }}
+        <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+      {{- end }}
+    {{- end }}
+  </article>
+{{ end }}

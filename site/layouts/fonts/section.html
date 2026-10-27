@@ -1,0 +1,91 @@
+{{ define "head" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  {{- /*
+    The first rows are set in their own faces before any script runs, so the page has real type in
+    its first frame. Everything below them loads on scroll, in assets/js/catalog.js.
+  */ -}}
+  <style>
+    {{- range first 24 (sort $catalog.casks "popularity") }}
+      @font-face{font-family:"tc-{{ strings.TrimPrefix "font-" .token }}";src:url("{{ (printf "/p/%s" .previewFile) | relURL }}");font-display:swap}
+    {{- end }}
+  </style>
+{{ end }}
+
+{{ define "main" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  {{- $casks := sort $catalog.casks "popularity" -}}
+  {{- $count := len $casks -}}
+
+  <div class="bar catalog-head">
+    <h1>{{ lang.FormatNumber 0 $count }} fonts</h1>
+    <p class="lede">Every family Typecask can install, set in its own face. Ordered by how many
+      people install it, across Homebrew and Google Fonts. Tap one to read its license and what it
+      ships.</p>
+  </div>
+
+  <div class="filters" id="filters">
+    <div class="bar filter-bar">
+      <label class="search">
+        <span class="vh">Search fonts by name</span>
+        <input type="search" id="q" placeholder="Search {{ lang.FormatNumber 0 $count }} fonts"
+          autocomplete="off" spellcheck="false">
+      </label>
+      <div class="chips" role="group" aria-label="Filter by design style">
+        <button class="chip is-on" data-style="">All</button>
+        {{- range (slice "monospaced" "serif" "sansSerif" "display" "handwriting") }}
+          {{- $names := dict "monospaced" "Fixed Width" "serif" "Serif" "sansSerif" "Sans Serif" "display" "Display" "handwriting" "Handwriting" }}
+          <button class="chip" data-style="{{ . }}">{{ index $names . }}</button>
+        {{- end }}
+        <button class="chip" data-nerd="1">Nerd Fonts</button>
+      </div>
+      <label class="sort">
+        <span class="vh">Sort</span>
+        <select id="sort">
+          <option value="popularity">Most installed</option>
+          <option value="trending">Climbing</option>
+          <option value="name">Name</option>
+          <option value="bytes">Smallest</option>
+        </select>
+      </label>
+    </div>
+    <div class="bar result-line">
+      <p id="count" aria-live="polite">{{ lang.FormatNumber 0 $count }} fonts</p>
+      <button class="chip chip-clear" id="clear" hidden>Clear filters</button>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="bar note">Search, filtering and sorting need JavaScript. The whole catalog is below
+      either way, and every font has its own page.</div>
+  </noscript>
+
+  <div class="wall" id="wall">
+    {{- range $casks }}
+      {{- $v := partial "cask-view.html" (dict "cask" . "sampleText" $catalog.sampleText) }}
+      <a class="spec-row" href="{{ (printf "/fonts/%s/" $v.slug) | relURL }}"
+        data-f="{{ $v.slug }}" data-p="{{ $v.previewFile }}"
+        data-style="{{ $v.styleKey }}" data-nerd="{{ if $v.glyphs }}1{{ else }}0{{ end }}"
+        data-name="{{ lower $v.name }}"
+        data-installs="{{ $v.installs }}" data-bytes="{{ .bytes }}"
+        data-popularity="{{ .popularity }}"
+        data-trending="{{ .trending | default 99999 }}">
+        <span class="spec-meta">
+          <b>{{ $v.name }}</b>
+          <span>{{ $v.styleName }}</span>
+          {{- if $v.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
+          <span class="spec-installs">{{ lang.FormatNumber 0 $v.installs }} brew installs</span>
+        </span>
+        <span class="spec-line" style="font-family:'tc-{{ $v.slug }}',var(--ui)">{{ $v.sample }}</span>
+      </a>
+    {{- end }}
+  </div>
+
+  <div class="bar empty" id="empty" hidden>
+    <p>No font matches that.</p>
+  </div>
+
+  {{- with resources.Get "js/catalog.js" }}
+    {{- $js := . | fingerprint }}
+    <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{- end }}
+{{ end }}

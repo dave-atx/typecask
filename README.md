@@ -3,8 +3,8 @@
 Install thousands of free fonts on your iPhone and iPad, and use them in any app that supports
 installed fonts.
 
-<!-- TODO: replace with the App Store link and badge once the app is live. -->
-[Download on the App Store](https://apps.apple.com/app/idTODO) · [typecask.app](https://typecask.app)
+<!-- TODO: the App Store record is 6826936046; link and badge go here once the app is public. -->
+[typecask.app](https://typecask.app)
 
 Typecask brings the most popular fonts from [Homebrew](https://brew.sh)'s font casks, and every
 family on [Google Fonts](https://fonts.google.com), to iOS and iPadOS. Tap Install, approve the
@@ -50,3 +50,4 @@ build the app and run the checks, and [docs/](docs) for how it works:
 - [How it works](docs/how-it-works.md): installing, updates, ranking and Apple's fonts
 - [The font pipeline](docs/font-pipeline.md): how the catalog and font assets are built and published
 - [Releasing](docs/releasing.md): TestFlight builds and signing
+- [The site](docs/site.md): typecask.app, which publishes the shipping build's catalog

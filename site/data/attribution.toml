@@ -1,0 +1,15 @@
+# Creators the site names on a font's page, where the license asks for it and Catalog.json has
+# nobody to take it from. Google families carry their designers in the catalog; every other cask
+# arrives with none, so the few licenses that require attribution get it here.
+#
+# Both of these are VileR's, under CC BY-SA 4.0, which requires that the creator stay identified.
+
+[font-437-plus]
+creator = "VileR"
+url = "https://int10h.org/oldschool-pc-fonts/"
+note = "from The Ultimate Oldschool PC Font Pack"
+
+[font-bigblue-terminal-nerd-font]
+creator = "VileR"
+url = "https://int10h.org/oldschool-pc-fonts/"
+note = "BigBlue Terminal, from The Ultimate Oldschool PC Font Pack, patched by Nerd Fonts"

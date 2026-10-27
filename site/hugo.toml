@@ -1,0 +1,45 @@
+# The marketing site, built from the catalog the shipping app carries. scripts/site-catalog.sh puts
+# that catalog in data/ and static/ before hugo runs; both are gitignored.
+
+baseURL = "https://typecask.app/"
+locale = "en-us"
+title = "Typecask"
+enableRobotsTXT = true
+
+# No blog, so no feeds, and the catalog's own pages are the index people want.
+disableKinds = ["rss"]
+
+# 2,193 font pages, each carrying a licence text. Hugo warns past its default.
+timeout = "180s"
+
+[taxonomies]
+  style = "styles"
+
+[params]
+  tagline = "Thousands of free fonts, on your iPhone and iPad."
+  # The App Store record exists; the app isn't public yet. Flip appStoreLive once it is and the
+  # download buttons switch from TestFlight to the App Store on their own.
+  appStoreID = "6826936046"
+  appStoreLive = false
+  # A public TestFlight link, if there is one. Empty means the buttons say "coming soon" instead.
+  testflightURL = ""
+  minimumOS = "iOS or iPadOS 27"
+  repoURL = "https://github.com/dave-atx/typecask"
+  # An address for people who don't have a GitHub account. Empty hides it.
+  supportEmail = ""
+  # Cloudflare Web Analytics. Cookieless, and disclosed on /privacy/. Empty loads no script at all.
+  cloudflareAnalyticsToken = ""
+  description = "Typecask installs free fonts on your iPhone and iPad, system-wide, from a catalog of thousands of families."
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+
+[minify]
+  disableHTML = false
+
+[build]
+  writeStats = false

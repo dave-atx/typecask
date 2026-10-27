@@ -1,0 +1,7 @@
+{{- /* What the app's byteCount format shows: MB over a million bytes, KB under it. */ -}}
+{{- $b := . -}}
+{{- if ge $b 1000000 -}}
+  {{- printf "%.1f MB" (div (float $b) 1000000.0) -}}
+{{- else -}}
+  {{- printf "%d KB" (int (math.Round (div (float $b) 1000.0))) -}}
+{{- end -}}
