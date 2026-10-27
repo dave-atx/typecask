@@ -23,8 +23,9 @@ anyway.
 ## Updates
 
 Each cask records its Homebrew version and its primary face's own version string (`fontVersion`,
-name ID 5). At launch the app compares that with the installed copy's and offers Update when they
-differ, which removes the old fonts and installs the current build's.
+name ID 5). Each time the app comes to the foreground it compares that with the installed copy's and offers
+Update when they differ, which removes the old fonts and installs the current build's. A cask whose
+fonts were removed in Settings meanwhile reads as not installed again.
 
 The system keeps its own copy of an installed font, so fonts survive app updates and reinstalls. A font
 installed by an earlier build stays installed when a later one stops shipping it, and can still be

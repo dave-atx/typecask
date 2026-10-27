@@ -72,6 +72,23 @@ final class InstallTests: XCTestCase {
         XCTAssertFalse(app.buttons["install"].exists)
     }
 
+    /// Opens the cask's license, which the app inflates from Licenses.deflate when it's first shown.
+    @MainActor
+    func testLicenseShows() {
+        let app = XCUIApplication()
+        app.launch()
+        openCask(in: app)
+        let disclosure = app.buttons["License"]
+        // Below the description and details, off screen on a smaller device.
+        for _ in 0..<6 where !(disclosure.exists && disclosure.isHittable) {
+            app.swipeUp()
+        }
+        disclosure.tap()
+        let license = app.staticTexts["licenseText"]
+        XCTAssertTrue(license.waitForExistence(timeout: 10))
+        XCTAssertGreaterThan(license.label.count, 100)
+    }
+
     /// Waits for the Uninstall button, which only an installed cask has; with an Installed collection in the
     /// sidebar, the word alone proves nothing. Accepts the system's font consent sheet if it appears. The system
     /// asks only once per app, remembering the answer even across reinstalls, and the sheet ignores taps while

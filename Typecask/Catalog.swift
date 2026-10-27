@@ -18,17 +18,22 @@ struct Catalog: Decodable {
     /// Only decodes JSON. Preview fonts load as cards appear (see PreviewFonts): registering all of them
     /// here held up the first frame for most of a second, and taps before then went nowhere.
     static let bundled: Catalog = {
-        guard var catalog: Catalog = decode("Catalog") else {
-            fatalError("Catalog.json is missing or malformed; run scripts/build-catalog.py")
+        do {
+            var catalog: Catalog = try decode("Catalog")
+            // Apple's fonts are an extra: the gallery still works without them.
+            catalog.appleFonts = (try? decode("AppleFonts")) ?? []
+            return catalog
+        } catch {
+            // The error names the field and the cask it broke on.
+            fatalError("Catalog.json is missing or malformed: \(error). Run scripts/build-catalog.py")
         }
-        catalog.appleFonts = decode("AppleFonts") ?? []
-        return catalog
     }()
 
-    private static func decode<Value: Decodable>(_ resource: String) -> Value? {
-        guard let url = Bundle.main.url(forResource: resource, withExtension: "json"),
-              let data = try? Data(contentsOf: url) else { return nil }
-        return try? JSONDecoder().decode(Value.self, from: data)
+    private static func decode<Value: Decodable>(_ resource: String) throws -> Value {
+        guard let url = Bundle.main.url(forResource: resource, withExtension: "json") else {
+            throw CocoaError(.fileNoSuchFile, userInfo: [NSFilePathErrorKey: "\(resource).json"])
+        }
+        return try JSONDecoder().decode(Value.self, from: Data(contentsOf: url))
     }
 }
 
@@ -54,6 +59,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     let pack: String?
     /// Whether the cask is patched with Nerd Fonts' icons, which its preview then includes.
     let glyphs: Bool
+    /// A line in the font's own script, for a font with no Latin letters; otherwise the catalog's
+    /// `sampleText` is shown.
+    let sample: String?
     /// Google Fonts' description of the family, as Markdown.
     let description: String?
     /// The family's designers, per Google Fonts, who often wrote its description.
@@ -72,10 +80,25 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag
     /// to download, so only a bundled cask can be installed.
     var isBundled: Bool { !assets.isEmpty }
-    var license: String? {
-        guard let url = Bundle.main.url(forResource: token, withExtension: "txt"),
-              let text = try? String(contentsOf: url, encoding: .utf8) else { return nil }
-        return text.unwrappingHardLineBreaks()
+
+    // By token alone: the catalog never holds two casks with one token, and hashing every field hashed
+    // each description whenever a cask was a navigation value.
+    nonisolated static func == (lhs: Cask, rhs: Cask) -> Bool { lhs.token == rhs.token }
+    nonisolated func hash(into hasher: inout Hasher) { hasher.combine(token) }
+}
+
+/// Every cask's license, from Licenses.deflate: a JSON object by token, raw-deflated by
+/// scripts/build-catalog.py. That's 0.8 MB in the app where 2,000-odd text files took 20 MB.
+enum Licenses {
+    /// Read only when a license is shown, and off the main actor: the file inflates to 12 MB, too much
+    /// to keep around for the one license on screen.
+    @concurrent
+    nonisolated static func text(for token: String) async -> String? {
+        guard let url = Bundle.main.url(forResource: "Licenses", withExtension: "deflate"),
+              let compressed = try? Data(contentsOf: url),
+              let json = try? (compressed as NSData).decompressed(using: .zlib) as Data,
+              let licenses = try? JSONDecoder().decode([String: String].self, from: json) else { return nil }
+        return licenses[token]?.unwrappingHardLineBreaks()
     }
 }
 
@@ -107,7 +130,7 @@ extension String {
     /// Rejoins lines that a license file wrapped at 70 or 80 columns, so the text wraps to the screen
     /// instead. Blank lines still separate paragraphs, and a line that starts a list item, a copyright
     /// notice or an indented block keeps its break.
-    func unwrappingHardLineBreaks() -> String {
+    nonisolated func unwrappingHardLineBreaks() -> String {
         let keepsBreak = /^\s*(?:[-*•]|\d+[.)]|\(?[a-zA-Z0-9]{1,3}\)|[a-zA-Z][.)]\s|Copyright\b|\(c\)|©|\s{4})/
         var paragraphs: [String] = []
         var current = ""

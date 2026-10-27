@@ -62,9 +62,12 @@ final class GalleryModel {
     private(set) var visibleItems: [GalleryItem] = []
 
     private let sortedItems: [GalleryItem]
-    /// Each item's name and token, and its description, folded once here rather than on every keystroke:
-    /// two thousand descriptions are a couple of MB of text.
-    private let searchKeys: [(names: String, description: String)]
+    /// Each item's name and token, folded once here rather than on every keystroke.
+    private let nameKeys: [String]
+    /// Each item's description, folded the same way off the main actor after launch: two thousand
+    /// descriptions are a couple of MB of text, too much to fold before the first frame. Until then a
+    /// search matches names only.
+    @ObservationIgnored private var descriptionKeys: [String]?
     /// `sortedItems`' indices in each sort order, worked out once: unranked items, Apple's fonts among
     /// them, follow the ranked ones by name.
     private let orders: [SortOrder: [Int]]
@@ -79,13 +82,11 @@ final class GalleryModel {
         nerdFontCount = catalog.casks.count(where: \.glyphs)
         // Sorted once here, so every later filter preserves the order instead of re-sorting.
         sortedItems = items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-        searchKeys = sortedItems.map { item in
+        nameKeys = sortedItems.map { item in
             switch item {
-            case .cask(let cask):
-                // The token is worth matching too: it is what a Homebrew user already knows the cask by.
-                (Self.fold("\(cask.name) \(cask.token)"), Self.fold(cask.description ?? ""))
-            case .apple(let family):
-                (Self.fold(family.name), "")
+            // The token is worth matching too: it is what a Homebrew user already knows the cask by.
+            case .cask(let cask): Self.fold("\(cask.name) \(cask.token)")
+            case .apple(let family): Self.fold(family.name)
             }
         }
         var orders: [SortOrder: [Int]] = [.name: Array(sortedItems.indices)]
@@ -99,6 +100,20 @@ final class GalleryModel {
         }
         self.orders = orders
         visibleItems = sortedItems
+        let descriptions = sortedItems.map { item in
+            switch item {
+            case .cask(let cask): cask.description ?? ""
+            case .apple: ""
+            }
+        }
+        Task { [weak self] in
+            let folded = await Self.foldAll(descriptions)
+            guard let self else { return }
+            descriptionKeys = folded
+            if !searchText.isEmpty {
+                recompute()
+            }
+        }
     }
 
     func count(of collection: FontCollection) -> Int {
@@ -117,11 +132,11 @@ final class GalleryModel {
         let query = Self.fold(searchText.trimmingCharacters(in: .whitespacesAndNewlines))
         var byName: [GalleryItem] = [], byDescription: [GalleryItem] = []
         for index in orders[sortOrder] ?? [] {
-            let item = sortedItems[index], keys = searchKeys[index]
+            let item = sortedItems[index]
             guard collection.contains(item, installed: installed) else { continue }
-            if query.isEmpty || keys.names.contains(query) {
+            if query.isEmpty || nameKeys[index].contains(query) {
                 byName.append(item)
-            } else if keys.description.contains(query) {
+            } else if descriptionKeys?[index].contains(query) ?? false {
                 byDescription.append(item)
             }
         }
@@ -130,5 +145,10 @@ final class GalleryModel {
 
     nonisolated private static func fold(_ text: String) -> String {
         text.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: nil)
+    }
+
+    @concurrent
+    nonisolated private static func foldAll(_ texts: [String]) async -> [String] {
+        texts.map { fold($0) }
     }
 }

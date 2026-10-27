@@ -5,9 +5,10 @@ import Observation
 /// Downloads a cask's On-Demand Resources tag and installs its fonts system-wide, and removes them again.
 @Observable
 final class FontInstaller {
-    enum Status {
+    enum Status: Equatable {
         case available
-        case downloading(fractionCompleted: Double)
+        /// Downloading the cask's On-Demand Resources tag; `progress(of:)` says how far along.
+        case downloading
         case installing
         case installed
         /// Installed, but the copy installed declares a different version from the one this build ships.
@@ -25,6 +26,14 @@ final class FontInstaller {
             default: false
             }
         }
+
+        /// An install, update or uninstall under way, which a refresh leaves alone.
+        var isBusy: Bool {
+            switch self {
+            case .downloading, .installing, .updating, .uninstalling: true
+            default: false
+            }
+        }
     }
 
     private var statuses: [Cask.ID: Status] = [:] {
@@ -36,11 +45,25 @@ final class FontInstaller {
         }
     }
 
+    /// Download progress, apart from `statuses`: every card in the gallery reads a status, and a progress
+    /// tick written there redrew all of them, the gallery under the detail page included.
+    private var downloads: [Cask.ID: Double] = [:]
+
     /// The casks installed now, which the Installed collection lists.
     private(set) var installed: Set<Cask.ID> = []
 
+    /// The primary faces iOS has built in, found by the first refresh. They change only with iOS itself,
+    /// and finding them means resolving every cask's name, so later refreshes reuse them.
+    @ObservationIgnored private var builtIn: Set<String>?
+    @ObservationIgnored private var isRefreshing = false
+
     func status(of cask: Cask) -> Status {
         statuses[cask.id] ?? .available
+    }
+
+    /// How much of the cask's download has arrived, from 0 to 1.
+    func progress(of cask: Cask) -> Double {
+        downloads[cask.id] ?? 0
     }
 
     /// Marks the casks whose fonts this app registered, and those iOS has built in. A name that merely
@@ -49,9 +72,15 @@ final class FontInstaller {
     /// vanish after a reboot while still registered.
     ///
     /// An installed cask whose face declares a different version (name ID 5) from the one this build
-    /// ships is offered as an update.
+    /// ships is offered as an update. Runs each time the app comes to the foreground, since fonts can be
+    /// removed in Settings › General › Fonts meanwhile: a cask whose fonts are gone reads as available.
     func refresh(_ casks: [Cask]) async {
-        let (installed, builtIn) = await Self.scan(casks.map(\.primaryFont))
+        guard !isRefreshing else { return }
+        isRefreshing = true
+        defer { isRefreshing = false }
+        let before = statuses
+        let (installed, builtIn) = await Self.scan(casks.map(\.primaryFont), builtIn: self.builtIn)
+        self.builtIn = builtIn
         #if DEBUG
         // Lets the UI tests exercise an update without two releases of a font to hand.
         let outdated = Set((ProcessInfo.processInfo.environment["TYPECASK_OUTDATED"] ?? "").split(separator: ","))
@@ -59,11 +88,17 @@ final class FontInstaller {
         let outdated: Set<Substring> = []
         #endif
         for cask in casks {
+            let status = statuses[cask.id]
+            // An install, update or uninstall under way, or one that finished while the scan ran, knows
+            // better than the scan does.
+            guard status == before[cask.id], !(status?.isBusy ?? false) else { continue }
             if let version = installed[cask.primaryFont] {
                 let current = cask.fontVersion.map { $0 == version } ?? true
                 statuses[cask.id] = current && !outdated.contains(Substring(cask.token)) ? .installed : .updateAvailable
             } else if builtIn.contains(cask.primaryFont) {
                 statuses[cask.id] = .builtIn
+            } else if status?.isInstalled ?? false {
+                statuses[cask.id] = .available
             }
         }
     }
@@ -83,13 +118,15 @@ final class FontInstaller {
         // Deprecated in iOS 27, but fonts from its replacement, Background Assets, can't be installed system-wide.
         // A shared pack downloads its other casks too, but only this cask's assets get registered below.
         let request = NSBundleResourceRequest(tags: [cask.pack ?? cask.token])
-        statuses[cask.id] = .downloading(fractionCompleted: 0)
+        statuses[cask.id] = .downloading
+        downloads[cask.id] = 0
+        defer { downloads[cask.id] = nil }
         // The progress updates on a background queue, so SwiftUI can't observe it directly.
         let observation = request.progress.observe(\.fractionCompleted) { @Sendable [weak self] progress, _ in
             let fraction = progress.fractionCompleted
             Task { @MainActor in
-                if case .downloading = self?.statuses[cask.id] {
-                    self?.statuses[cask.id] = .downloading(fractionCompleted: fraction)
+                if self?.statuses[cask.id] == .downloading {
+                    self?.downloads[cask.id] = fraction
                 }
             }
         }
@@ -105,6 +142,11 @@ final class FontInstaller {
         if !errors.isEmpty, errors.allSatisfy({ $0.code == CTFontManagerError.alreadyRegistered.rawValue }) {
             _ = await Self.unregister(cask.assets)
             errors = await Self.register(cask.assets)
+        }
+        if !errors.isEmpty {
+            // Some of the cask's files may have registered before one failed. Left in place, they'd
+            // read as an installed cask on the next launch with faces missing, so all or nothing.
+            _ = await Self.unregister(cask.assets)
         }
         request.endAccessingResources()
         statuses[cask.id] = if errors.isEmpty {
@@ -130,15 +172,15 @@ final class FontInstaller {
     }
 
     /// Which of `postScriptNames` this app has installed, with the version each declares, and which iOS
-    /// has built in.
+    /// has built in. Given the built-in names from an earlier scan, it resolves only registered names.
     @concurrent
     nonisolated private static func scan(
-        _ postScriptNames: [String]
+        _ postScriptNames: [String], builtIn known: Set<String>?
     ) async -> (installed: [String: String], builtIn: Set<String>) {
         let registered = CTFontManagerCopyRegisteredFontDescriptors(.persistent, true) as? [CTFontDescriptor] ?? []
         let names = Set(registered.compactMap { CTFontDescriptorCopyAttribute($0, kCTFontNameAttribute) as? String })
         var installed: [String: String] = [:], builtIn: Set<String> = []
-        for name in postScriptNames {
+        for name in postScriptNames where known == nil || names.contains(name) {
             let font = CTFontCreateWithName(name as CFString, 0, nil)
             guard CTFontCopyPostScriptName(font) as String == name else { continue }
             if names.contains(name) {
@@ -149,7 +191,7 @@ final class FontInstaller {
                 builtIn.insert(name)
             }
         }
-        return (installed, builtIn)
+        return (installed, known ?? builtIn)
     }
 
     nonisolated private static func resolves(_ postScriptName: String) -> Bool {

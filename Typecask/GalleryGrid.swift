@@ -103,7 +103,8 @@ struct InstallBadge: View {
     }
 }
 
-/// The sample text in a cask's preview font, and Nerd Fonts' icons under it for a patched cask.
+/// The sample text in a cask's preview font, or a line in its own script for a font with no Latin
+/// letters, and Nerd Fonts' icons under it for a patched cask.
 struct CaskSpecimen: View {
     let cask: Cask
     let catalog: Catalog
@@ -120,7 +121,7 @@ struct CaskSpecimen: View {
     var body: some View {
         let font = PreviewFonts.font(cask.previewFile, size: size)
         VStack(alignment: .leading, spacing: size / 4) {
-            Text(catalog.sampleText)
+            Text(cask.sample ?? catalog.sampleText)
                 .font(font)
                 .lineLimit(lineLimit)
             if cask.glyphs {

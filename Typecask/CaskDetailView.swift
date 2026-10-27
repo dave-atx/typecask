@@ -27,21 +27,47 @@ struct CaskDetailView: View {
                     LabeledContent("Download", value: cask.bytes, format: .byteCount(style: .file))
                     LabeledContent("Installs, last 365 days", value: cask.installs, format: .number)
                 }
-                if let license = cask.license {
-                    DisclosureGroup("License") {
-                        Text(license)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 8)
-                    }
+                // Every cask in the catalog has a license; build-catalog.py skips those without one.
+                DisclosureGroup("License") {
+                    LicenseText(token: cask.token)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 8)
                 }
             }
             .padding()
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+/// A cask's license, read when the disclosure group first opens: a collapsed group doesn't build its
+/// content, so the detail page never pays for unpacking the licenses unless someone asks.
+private struct LicenseText: View {
+    let token: String
+    @State private var text: String?
+    @State private var loaded = false
+
+    var body: some View {
+        Group {
+            if let text {
+                Text(text)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+                    .accessibilityIdentifier("licenseText")
+            } else if loaded {
+                Text("The license couldn't be read.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } else {
+                ProgressView()
+            }
+        }
+        .task(id: token) {
+            text = await Licenses.text(for: token)
+            loaded = true
+        }
     }
 }
 
@@ -116,8 +142,8 @@ private struct InstallControl: View {
             installButton("Install")
         case .failed:
             installButton("Try Again")
-        case .downloading(let fractionCompleted):
-            ProgressView("Downloading…", value: fractionCompleted)
+        case .downloading:
+            ProgressView("Downloading…", value: installer.progress(of: cask))
                 .frame(maxWidth: 220)
         case .installing:
             ProgressView("Installing…")
