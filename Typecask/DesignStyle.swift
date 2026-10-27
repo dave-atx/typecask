@@ -25,8 +25,8 @@ enum DesignStyle: String, CaseIterable, Hashable, Sendable {
         case .monospaced: "chevron.left.forwardslash.chevron.right"
         case .serif: "textformat.characters"
         case .sansSerif: "textformat"
-        case .display: "sparkles"
-        case .handwriting: "hand.draw"
+        case .display: "megaphone"
+        case .handwriting: "signature"
         }
     }
 }

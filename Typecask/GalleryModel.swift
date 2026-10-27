@@ -28,10 +28,23 @@ final class GalleryModel {
         }
     }
 
+    /// A script the gallery's fonts cover, by its ISO 15924 code, with how many fonts cover it.
+    struct Script: Hashable, Identifiable {
+        let code: String
+        let name: String
+        let count: Int
+
+        var id: String { code }
+    }
+
     let catalog: Catalog
     /// The styles present in the gallery, in `DesignStyle`'s own order, with how many fonts each holds.
     let styles: [(style: DesignStyle, count: Int)]
     let nerdFontCount: Int
+    /// The scripts enough fonts cover to list in the script menu itself: Latin, then the rest by name.
+    let scripts: [Script]
+    /// The long tail of scripts, a handful of fonts each, which the menu tucks into a submenu.
+    let moreScripts: [Script]
 
     var searchText: String = "" {
         didSet { if searchText != oldValue { recompute() } }
@@ -53,6 +66,11 @@ final class GalleryModel {
         didSet { if installed != oldValue && collection == .installed { recompute() } }
     }
 
+    /// Fonts must cover at least one of these; empty lets every font through.
+    var selectedScripts: Set<String> = [] {
+        didSet { if selectedScripts != oldValue { recompute() } }
+    }
+
     var viewMode: ViewMode = .grid
 
     var sortOrder: SortOrder = .name {
@@ -64,6 +82,7 @@ final class GalleryModel {
     private let sortedItems: [GalleryItem]
     /// Each item's name and token, folded once here rather than on every keystroke.
     private let nameKeys: [String]
+    private let scriptSets: [Set<String>]
     /// Each item's description, folded the same way off the main actor after launch: two thousand
     /// descriptions are a couple of MB of text, too much to fold before the first frame. Until then a
     /// search matches names only.
@@ -80,6 +99,9 @@ final class GalleryModel {
             counts[style].map { (style, $0) }
         }
         nerdFontCount = catalog.casks.count(where: \.glyphs)
+        let allScripts = Self.scripts(of: items)
+        scripts = allScripts.filter { $0.count >= Self.listedScriptMinimum }
+        moreScripts = allScripts.filter { $0.count < Self.listedScriptMinimum }
         // Sorted once here, so every later filter preserves the order instead of re-sorting.
         sortedItems = items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         nameKeys = sortedItems.map { item in
@@ -89,6 +111,7 @@ final class GalleryModel {
             case .apple(let family): Self.fold(family.name)
             }
         }
+        scriptSets = sortedItems.map { Set($0.scripts) }
         var orders: [SortOrder: [Int]] = [.name: Array(sortedItems.indices)]
         for order in [SortOrder.popularity, .trending] {
             let ranks = sortedItems.map { item -> Int in
@@ -133,7 +156,8 @@ final class GalleryModel {
         var byName: [GalleryItem] = [], byDescription: [GalleryItem] = []
         for index in orders[sortOrder] ?? [] {
             let item = sortedItems[index]
-            guard collection.contains(item, installed: installed) else { continue }
+            guard collection.contains(item, installed: installed),
+                  selectedScripts.isEmpty || !selectedScripts.isDisjoint(with: scriptSets[index]) else { continue }
             if query.isEmpty || nameKeys[index].contains(query) {
                 byName.append(item)
             } else if descriptionKeys?[index].contains(query) ?? false {
@@ -142,6 +166,24 @@ final class GalleryModel {
         }
         visibleItems = byName + byDescription
     }
+
+    /// Every script `items` cover, Latin first, as most of the gallery is, then the rest by name.
+    private static func scripts(of items: [GalleryItem]) -> [Script] {
+        let counts = items.reduce(into: [String: Int]()) { counts, item in
+            for code in Set(item.scripts) { counts[code, default: 0] += 1 }
+        }
+        return counts.map { code, count in
+            Script(code: code, name: Locale.current.localizedString(forScriptCode: code) ?? code, count: count)
+        }
+        .sorted { lhs, rhs in
+            (lhs.code == "Latn") != (rhs.code == "Latn")
+                ? lhs.code == "Latn"
+                : lhs.name.localizedStandardCompare(rhs.name) == .orderedAscending
+        }
+    }
+
+    /// Scripts fewer fonts cover than this go in a submenu: over a hundred of them, most with one font.
+    private static let listedScriptMinimum = 10
 
     nonisolated private static func fold(_ text: String) -> String {
         text.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: nil)

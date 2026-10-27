@@ -54,7 +54,15 @@ private struct CollectionSidebar: View {
         Label {
             Text(collection.name)
         } icon: {
-            Image(systemName: collection.symbol)
+            if collection == .style(.serif) {
+                // Serif's symbol, "Abc", is half again as wide as the others and overruns the icon column
+                // at accessibility sizes. Sans Serif's "Aa" set in New York pairs with it and fits.
+                Text(verbatim: "Aa")
+                    .fontDesign(.serif)
+                    .accessibilityHidden(true)
+            } else {
+                Image(systemName: collection.symbol)
+            }
         }
         .badge(model.count(of: collection))
         .tag(collection)
@@ -95,6 +103,9 @@ private struct GalleryBrowser: View {
                 SortMenu(model: model)
             }
             ToolbarItem(placement: .primaryAction) {
+                ScriptMenu(model: model)
+            }
+            ToolbarItem(placement: .primaryAction) {
                 ViewModePicker(model: model)
             }
             .visibilityPriority(.high)
@@ -110,7 +121,13 @@ private struct GalleryBrowser: View {
     }
 
     private var emptyDescription: LocalizedStringKey {
-        model.collection == .installed ? "Fonts you install appear here." : "Nothing in this collection."
+        if !model.selectedScripts.isEmpty {
+            "No fonts in this collection cover the selected writing systems."
+        } else if model.collection == .installed {
+            "Fonts you install appear here."
+        } else {
+            "Nothing in this collection."
+        }
     }
 }
 
@@ -150,6 +167,55 @@ private struct SortMenu: View {
     }
 }
 
+/// Filters the gallery to fonts covering any of the scripts picked. It stays open as scripts are toggled,
+/// so several can be picked at once.
+private struct ScriptMenu: View {
+    @Bindable var model: GalleryModel
+
+    var body: some View {
+        Menu {
+            if !model.selectedScripts.isEmpty {
+                Button("Any Writing System", systemImage: "xmark.circle") {
+                    model.selectedScripts = []
+                }
+            }
+            Section("Writing Systems") {
+                ForEach(model.scripts) { script in
+                    toggle(script)
+                }
+            }
+            if !model.moreScripts.isEmpty {
+                Menu("More Writing Systems") {
+                    ForEach(model.moreScripts) { script in
+                        toggle(script)
+                    }
+                }
+            }
+        } label: {
+            Label("Writing System", systemImage: model.selectedScripts.isEmpty
+                ? "line.3.horizontal.decrease.circle"
+                : "line.3.horizontal.decrease.circle.fill")
+        }
+        .menuActionDismissBehavior(.disabled)
+        .accessibilityIdentifier("scripts")
+    }
+
+    private func toggle(_ script: GalleryModel.Script) -> some View {
+        Toggle(isOn: Binding {
+            model.selectedScripts.contains(script.code)
+        } set: { isOn in
+            if isOn {
+                model.selectedScripts.insert(script.code)
+            } else {
+                model.selectedScripts.remove(script.code)
+            }
+        }) {
+            Text(script.name)
+            Text("^[\(script.count) font](inflect: true)")
+        }
+    }
+}
+
 /// The compact-width stand-in for the sidebar.
 private struct CollectionMenu: View {
     @Bindable var model: GalleryModel
@@ -180,4 +246,23 @@ private struct CollectionMenu: View {
 #Preview {
     GalleryView(catalog: .bundled)
         .environment(FontInstaller())
+}
+
+/// The gallery filtered to fonts for Arabic or Hebrew, with the script menu's button filled.
+#Preview("Script Filter") {
+    let model = GalleryModel(catalog: .bundled)
+    model.selectedScripts = ["Arab", "Hebr"]
+    return NavigationStack {
+        GalleryBrowser(model: model, showsCollectionMenu: false)
+    }
+    .environment(FontInstaller())
+}
+
+/// The sidebar slid over the gallery on iPhone Duo's exterior display in portrait, at AX1.
+#Preview("Sidebar, AX1", traits: .fixedLayout(width: 340, height: 1000)) {
+    NavigationStack {
+        CollectionSidebar(model: GalleryModel(catalog: .bundled))
+            .listStyle(.sidebar)
+    }
+    .dynamicTypeSize(.accessibility1)
 }

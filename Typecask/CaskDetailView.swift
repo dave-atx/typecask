@@ -45,7 +45,7 @@ struct CaskDetailView: View {
 /// content, so the detail page never pays for unpacking the licenses unless someone asks.
 private struct LicenseText: View {
     let token: String
-    @State private var text: String?
+    @State private var text: AttributedString?
     @State private var loaded = false
 
     var body: some View {
@@ -65,9 +65,25 @@ private struct LicenseText: View {
             }
         }
         .task(id: token) {
-            text = await Licenses.text(for: token)
+            text = await Licenses.text(for: token).map(Self.linkified)
             loaded = true
         }
+    }
+
+    /// The license with its URLs as links, like the OFL's FAQ at https://scripts.sil.org/OFL.
+    private static func linkified(_ string: String) -> AttributedString {
+        var attributed = AttributedString(string)
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
+            return attributed
+        }
+        for match in detector.matches(in: string, range: NSRange(string.startIndex..., in: string)) {
+            guard let url = match.url,
+                  let range = Range(match.range, in: string),
+                  let start = AttributedString.Index(range.lowerBound, within: attributed),
+                  let end = AttributedString.Index(range.upperBound, within: attributed) else { continue }
+            attributed[start..<end].link = url
+        }
+        return attributed
     }
 }
 
@@ -107,15 +123,11 @@ private struct CaskActions: View {
     @Environment(FontInstaller.self) private var installer
 
     var body: some View {
-        HStack(spacing: 12) {
-            // An installed cask can be removed even when this build no longer ships it.
-            if cask.isBundled || installer.status(of: cask).isInstalled {
-                InstallControl(cask: cask)
-            }
-            Link(destination: cask.homepage) {
-                Label("Homepage", systemImage: "safari")
-            }
-            .buttonStyle(.glass)
+        // In a row when they fit, stacked when they don't, as on a narrow screen at an accessibility text
+        // size, where a row broke every label mid-word. Stacking keeps the labels, which icons alone wouldn't.
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) { buttons }
+            VStack(alignment: .leading, spacing: 12) { buttons }
         }
         if !cask.isBundled {
             // The release left this cask's fonts out (see README), so there is no On-Demand Resources
@@ -129,6 +141,17 @@ private struct CaskActions: View {
                 .font(.footnote)
                 .foregroundStyle(.red)
         }
+    }
+
+    @ViewBuilder private var buttons: some View {
+        // An installed cask can be removed even when this build no longer ships it.
+        if cask.isBundled || installer.status(of: cask).isInstalled {
+            InstallControl(cask: cask)
+        }
+        Link(destination: cask.homepage) {
+            Label("Homepage", systemImage: "safari")
+        }
+        .buttonStyle(.glass)
     }
 }
 
@@ -193,4 +216,23 @@ private struct InstallControl: View {
         CaskDetailView(cask: cask, catalog: catalog)
     }
     .environment(FontInstaller())
+}
+
+#Preview("Installed") {
+    let catalog = Catalog.bundled
+    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
+    NavigationStack {
+        CaskDetailView(cask: cask, catalog: catalog)
+    }
+    .environment(FontInstaller(previewing: .installed, for: cask))
+}
+
+#Preview("Installed, AX1") {
+    let catalog = Catalog.bundled
+    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
+    NavigationStack {
+        CaskDetailView(cask: cask, catalog: catalog)
+    }
+    .environment(FontInstaller(previewing: .installed, for: cask))
+    .dynamicTypeSize(.accessibility1)
 }

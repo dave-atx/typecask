@@ -238,3 +238,14 @@ final class FontInstaller {
         }
     }
 }
+
+#if DEBUG
+extension FontInstaller {
+    /// An installer that reports the given status for a cask, for previews. Set after `init()` so that
+    /// `statuses`' observer keeps `installed` in step.
+    convenience init(previewing status: Status, for cask: Cask) {
+        self.init()
+        statuses[cask.id] = status
+    }
+}
+#endif

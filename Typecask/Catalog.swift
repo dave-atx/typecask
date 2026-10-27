@@ -57,6 +57,8 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// share a pack once there are more casks than Apple allows packs; absent when the build doesn't
     /// ship the cask's fonts.
     let pack: String?
+    /// ISO 15924 codes of every script the primary face covers, which the script filter matches.
+    let scripts: [String]
     /// Whether the cask is patched with Nerd Fonts' icons, which its preview then includes.
     let glyphs: Bool
     /// A line in the font's own script, then `sampleText` where it has Latin letters too; absent for a
@@ -129,25 +131,36 @@ enum PreviewFonts {
 extension String {
     /// Rejoins lines that a license file wrapped at 70 or 80 columns, so the text wraps to the screen
     /// instead. Blank lines still separate paragraphs, and a line that starts a list item, a copyright
-    /// notice or an indented block keeps its break.
+    /// notice or an indented block keeps its break. A rule of dashes keeps the breaks on both sides,
+    /// and so does a short all-caps heading that starts a paragraph, like the OFL's "PREAMBLE".
     nonisolated func unwrappingHardLineBreaks() -> String {
         let keepsBreak = /^\s*(?:[-*•]|\d+[.)]|\(?[a-zA-Z0-9]{1,3}\)|[a-zA-Z][.)]\s|Copyright\b|\(c\)|©|\s{4})/
+        let rule = /^\s*[-=_*~]{3,}\s*$/
+        let heading = /^\s*[A-Z][A-Z0-9 &'\/-]{0,38}[A-Z0-9]?\s*$/
         var paragraphs: [String] = []
         var current = ""
+        // Whether the next line starts on a line of its own, after a rule or a heading.
+        var breaksAfter = false
         for line in split(separator: "\n", omittingEmptySubsequences: false) {
             let line = line.replacing("\r", with: "")
+            let isRule = line.wholeMatch(of: rule) != nil
             if line.allSatisfy(\.isWhitespace) {
                 if !current.isEmpty {
                     paragraphs.append(current)
                     current = ""
                 }
+                breaksAfter = false
+                continue
             } else if current.isEmpty {
                 current = String(line)
-            } else if line.prefixMatch(of: keepsBreak) != nil {
+                breaksAfter = isRule || line.wholeMatch(of: heading) != nil
+                continue
+            } else if breaksAfter || isRule || line.prefixMatch(of: keepsBreak) != nil {
                 current += "\n" + line
             } else {
                 current += " " + line.trimmingCharacters(in: .whitespaces)
             }
+            breaksAfter = isRule
         }
         if !current.isEmpty {
             paragraphs.append(current)

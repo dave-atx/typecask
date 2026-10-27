@@ -15,6 +15,8 @@ struct AppleFontFamily: Decodable, Identifiable, Hashable {
     /// PostScript name of the face previews are set in: the Regular, where the family has one.
     let previewFace: String
     let style: DesignStyle
+    /// ISO 15924 codes of every script the preview face covers, which the script filter matches.
+    let scripts: [String]
     /// Always installed, as opposed to downloadable from Settings.
     let builtIn: Bool
     /// A line in the family's own script, then the sample text where it has Latin letters too; nil for
@@ -67,6 +69,13 @@ enum GalleryItem: Identifiable, Hashable {
         switch self {
         case .cask(let cask): cask.style
         case .apple(let family): family.style
+        }
+    }
+
+    var scripts: [String] {
+        switch self {
+        case .cask(let cask): cask.scripts
+        case .apple(let family): family.scripts
         }
     }
 

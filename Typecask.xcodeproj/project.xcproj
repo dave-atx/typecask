@@ -59,13 +59,14 @@
         "SWIFT_EMIT_LOC_STRINGS": "YES",
         "SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY": "YES",
       },
-    },
-    {
+    }, {
       "name": "TypecaskUITests",
       "id": "000000000000000200000000",
       "product": "Products/TypecaskUITests.xctest",
       "product-type": "bundle.ui-testing",
-      "dependencies": [ "Typecask" ],
+      "dependencies": [
+        "Typecask",
+      ],
       "build-phases": [
         "compile-sources",
         "frameworks",
