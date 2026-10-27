@@ -19,6 +19,7 @@
     "faces": 1,
     "name": "AkayaKanadaka",
     "previewFace": "AkayaKanadaka-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-akayakanadaka.ttf"
   },
@@ -27,6 +28,7 @@
     "faces": 1,
     "name": "AkayaTelivigala",
     "previewFace": "AkayaTelivigala-Regular",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-akayatelivigala.ttf"
   },
@@ -152,23 +154,26 @@
     "builtIn": false,
     "faces": 1,
     "name": "Apple LiGothic",
+    "preview": "ApplePreview-Apple-LiGothic",
     "previewFace": "LiGothicMed",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-apple-ligothic.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Apple LiSung",
+    "preview": "ApplePreview-Apple-LiSung",
     "previewFace": "LiSungLight",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-apple-lisung.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Apple SD Gothic Neo",
     "previewFace": "AppleSDGothicNeo-Heavy",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-apple-sd-gothic-neo.otf"
   },
@@ -185,6 +190,7 @@
     "name": "AppleMyungjo",
     "preview": "ApplePreview-AppleMyungjo",
     "previewFace": "AppleMyungjo",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif"
   },
   {
@@ -247,6 +253,7 @@
     "faces": 8,
     "name": "Arima Koshi",
     "previewFace": "ArimaKoshi-Regular",
+    "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-arima-koshi.otf"
   },
@@ -255,6 +262,7 @@
     "faces": 8,
     "name": "Arima Madurai",
     "previewFace": "ArimaMadurai-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-arima-madurai.otf"
   },
@@ -301,6 +309,7 @@
     "faces": 12,
     "name": "Bai Jamjuree",
     "previewFace": "BaiJamjuree-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bai-jamjuree.ttf"
   },
@@ -309,6 +318,7 @@
     "faces": 5,
     "name": "Baloo 2",
     "previewFace": "Baloo2-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-2.ttf"
   },
@@ -317,6 +327,7 @@
     "faces": 5,
     "name": "Baloo Bhai 2",
     "previewFace": "BalooBhai2-Regular",
+    "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-bhai-2.ttf"
   },
@@ -325,6 +336,7 @@
     "faces": 1,
     "name": "Baloo Bhaijaan",
     "previewFace": "BalooBhaijaan-Regular",
+    "sample": "أبجد هوز حطي كلمن\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-baloo-bhaijaan.ttf"
   },
@@ -333,6 +345,7 @@
     "faces": 5,
     "name": "Baloo Bhaina 2",
     "previewFace": "BalooBhaina2-Regular",
+    "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-bhaina-2.ttf"
   },
@@ -341,6 +354,7 @@
     "faces": 5,
     "name": "Baloo Chettan 2",
     "previewFace": "BalooChettan2-Regular",
+    "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-chettan-2.ttf"
   },
@@ -349,6 +363,7 @@
     "faces": 5,
     "name": "Baloo Da 2",
     "previewFace": "BalooDa2-Regular",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-da-2.ttf"
   },
@@ -357,6 +372,7 @@
     "faces": 5,
     "name": "Baloo Paaji 2",
     "previewFace": "BalooPaaji2-Regular",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-paaji-2.ttf"
   },
@@ -365,6 +381,7 @@
     "faces": 5,
     "name": "Baloo Tamma 2",
     "previewFace": "BalooTamma2-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-tamma-2.ttf"
   },
@@ -373,6 +390,7 @@
     "faces": 5,
     "name": "Baloo Tammudu 2",
     "previewFace": "BalooTammudu2-Regular",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-tammudu-2.ttf"
   },
@@ -381,6 +399,7 @@
     "faces": 5,
     "name": "Baloo Thambi 2",
     "previewFace": "BalooThambi2-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-baloo-thambi-2.ttf"
   },
@@ -389,6 +408,7 @@
     "faces": 2,
     "name": "Bangla MN",
     "previewFace": "BanglaMN",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bangla-mn.ttf"
   },
@@ -397,6 +417,7 @@
     "faces": 2,
     "name": "Bangla Sangam MN",
     "previewFace": "BanglaSangamMN",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bangla-sangam-mn.ttf"
   },
@@ -412,17 +433,19 @@
     "builtIn": false,
     "faces": 1,
     "name": "Baoli SC",
+    "preview": "ApplePreview-Baoli-SC",
     "previewFace": "STBaoliSC-Regular",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-baoli-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Baoli TC",
+    "preview": "ApplePreview-Baoli-TC",
     "previewFace": "STBaoliTC-Regular",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-baoli-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": true,
@@ -454,6 +477,7 @@
     "faces": 1,
     "name": "BiauKaiHK",
     "previewFace": "BiauKaiHK-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-biaukaihk.otf"
   },
@@ -462,6 +486,7 @@
     "faces": 1,
     "name": "BiauKaiTC",
     "previewFace": "BiauKaiTC-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-biaukaitc.otf"
   },
@@ -478,6 +503,7 @@
     "faces": 2,
     "name": "BIZ UDGothic",
     "previewFace": "BIZUDGothic-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "monospaced",
     "previewFile": "TypecaskPreview-apple-biz-udgothic.ttf"
   },
@@ -486,6 +512,7 @@
     "faces": 1,
     "name": "BIZ UDMincho",
     "previewFace": "BIZUDMincho-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "monospaced",
     "previewFile": "TypecaskPreview-apple-biz-udmincho.ttf"
   },
@@ -510,6 +537,7 @@
     "faces": 1,
     "name": "BM Dohyeon",
     "previewFace": "BMDoHyeon-OTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bm-dohyeon.otf"
   },
@@ -518,6 +546,7 @@
     "faces": 1,
     "name": "BM Hanna 11yrs Old",
     "previewFace": "BMHANNA11yrsoldOTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bm-hanna-11yrs-old.otf"
   },
@@ -526,6 +555,7 @@
     "faces": 1,
     "name": "BM Hanna Air",
     "previewFace": "BMHANNAAirOTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bm-hanna-air.otf"
   },
@@ -534,6 +564,7 @@
     "faces": 1,
     "name": "BM Hanna Pro",
     "previewFace": "BMHANNAProOTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bm-hanna-pro.otf"
   },
@@ -542,6 +573,7 @@
     "faces": 1,
     "name": "BM Jua",
     "previewFace": "BMJUAOTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-bm-jua.otf"
   },
@@ -550,6 +582,7 @@
     "faces": 1,
     "name": "BM Kirang Haerang",
     "previewFace": "BMKIRANGHAERANG-OTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-bm-kirang-haerang.otf"
   },
@@ -558,6 +591,7 @@
     "faces": 1,
     "name": "BM Yeonsung",
     "previewFace": "BMYEONSUNG-OTF",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-bm-yeonsung.otf"
   },
@@ -681,6 +715,7 @@
     "faces": 4,
     "name": "Cambay Devanagari",
     "previewFace": "CambayDevanagari-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-cambay-devanagari.ttf"
   },
@@ -721,6 +756,7 @@
     "faces": 9,
     "name": "Catamaran",
     "previewFace": "Catamaran-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-catamaran.ttf"
   },
@@ -745,6 +781,7 @@
     "faces": 12,
     "name": "Chakra Petch",
     "previewFace": "ChakraPetch-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-chakra-petch.ttf"
   },
@@ -783,6 +820,7 @@
     "faces": 2,
     "name": "Charm",
     "previewFace": "Charm-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-charm.ttf"
   },
@@ -791,6 +829,7 @@
     "faces": 2,
     "name": "Charmonman",
     "previewFace": "Charmonman-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-charmonman.ttf"
   },
@@ -886,6 +925,7 @@
     "faces": 2,
     "name": "Devanagari Sangam MN",
     "previewFace": "DevanagariSangamMN",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -949,6 +989,7 @@
     "faces": 3,
     "name": "Euphemia UCAS",
     "previewFace": "EuphemiaUCAS",
+    "sample": "ᐃᓄᒃᑎᑐᑦ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -956,6 +997,7 @@
     "faces": 12,
     "name": "Fahkwang",
     "previewFace": "Fahkwang-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-fahkwang.ttf"
   },
@@ -1020,6 +1062,7 @@
     "faces": 2,
     "name": "Galvji",
     "previewFace": "Galvji-Oblique",
+    "sample": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-galvji.ttf"
   },
@@ -1074,6 +1117,7 @@
     "faces": 1,
     "name": "Gotu",
     "previewFace": "Gotu",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-gotu.ttf"
   },
@@ -1082,6 +1126,7 @@
     "faces": 4,
     "name": "Grantha Sangam MN",
     "previewFace": "GranthaSangamMN-Black",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-grantha-sangam-mn.otf"
   },
@@ -1115,6 +1160,7 @@
     "faces": 2,
     "name": "Gujarati Sangam MN",
     "previewFace": "GujaratiSangamMN",
+    "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-gujarati-sangam-mn.ttf"
   },
@@ -1122,15 +1168,17 @@
     "builtIn": false,
     "faces": 1,
     "name": "GungSeo",
+    "preview": "ApplePreview-GungSeo",
     "previewFace": "JCkg",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-gungseo.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Gurmukhi MN",
     "previewFace": "GurmukhiMN",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-gurmukhi-mn.ttf"
   },
@@ -1148,6 +1196,7 @@
     "faces": 2,
     "name": "Gurmukhi Sangam MN",
     "previewFace": "GurmukhiSangamMN",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-gurmukhi-sangam-mn.ttf"
   },
@@ -1156,6 +1205,7 @@
     "faces": 2,
     "name": "Hannotate SC",
     "previewFace": "HannotateSC-W5",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-hannotate-sc.otf"
   },
@@ -1164,6 +1214,7 @@
     "faces": 2,
     "name": "Hannotate TC",
     "previewFace": "HannotateTC-W5",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-hannotate-tc.otf"
   },
@@ -1172,6 +1223,7 @@
     "faces": 2,
     "name": "HanziPen SC",
     "previewFace": "HanziPenSC-W3",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-hanzipen-sc.otf"
   },
@@ -1180,6 +1232,7 @@
     "faces": 2,
     "name": "HanziPen TC",
     "previewFace": "HanziPenTC-W3",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-hanzipen-tc.otf"
   },
@@ -1187,33 +1240,37 @@
     "builtIn": false,
     "faces": 1,
     "name": "HeadLineA",
+    "preview": "ApplePreview-HeadLineA",
     "previewFace": "JCHEadA",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-headlinea.ttf"
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Hei",
+    "preview": "ApplePreview-Hei",
     "previewFace": "SIL-Hei-Med-Jian",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-hei.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Heiti SC",
+    "preview": "ApplePreview-Heiti-SC",
     "previewFace": "STHeitiSC-Light",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-heiti-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Heiti TC",
+    "preview": "ApplePreview-Heiti-TC",
     "previewFace": "STHeitiTC-Light",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-heiti-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": true,
@@ -1250,6 +1307,7 @@
     "faces": 1,
     "name": "Hiragino Maru Gothic ProN",
     "previewFace": "HiraMaruProN-W4",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1257,6 +1315,7 @@
     "faces": 2,
     "name": "Hiragino Mincho ProN",
     "previewFace": "HiraMinProN-W3",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif"
   },
   {
@@ -1265,6 +1324,7 @@
     "name": "Hiragino Sans",
     "preview": "ApplePreview-Hiragino-Sans",
     "previewFace": "HiraginoSans-W4",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1272,6 +1332,7 @@
     "faces": 2,
     "name": "Hiragino Sans GB",
     "previewFace": "HiraginoSansGB-W3",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-hiragino-sans-gb.otf"
   },
@@ -1280,6 +1341,7 @@
     "faces": 2,
     "name": "Hiragino Sans TC",
     "previewFace": "HiraginoSansTC-W3",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-hiragino-sans-tc.otf"
   },
@@ -1304,6 +1366,7 @@
     "faces": 1,
     "name": "Hubballi",
     "previewFace": "Hubballi-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-hubballi.otf"
   },
@@ -1319,6 +1382,7 @@
     "faces": 2,
     "name": "InaiMathi",
     "previewFace": "InaiMathi",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-inaimathi.ttf"
   },
@@ -1379,6 +1443,7 @@
     "faces": 16,
     "name": "K2D",
     "previewFace": "K2D-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-k2d.ttf"
   },
@@ -1386,9 +1451,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "Kai",
+    "preview": "ApplePreview-Kai",
     "previewFace": "SIL-Kai-Reg-Jian",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-kai.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": true,
@@ -1402,23 +1468,26 @@
     "builtIn": false,
     "faces": 3,
     "name": "Kaiti SC",
+    "preview": "ApplePreview-Kaiti-SC",
     "previewFace": "STKaitiSC-Regular",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-kaiti-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 3,
     "name": "Kaiti TC",
+    "preview": "ApplePreview-Kaiti-TC",
     "previewFace": "STKaitiTC-Regular",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-kaiti-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Kannada MN",
     "previewFace": "KannadaMN",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-kannada-mn.ttf"
   },
@@ -1427,6 +1496,7 @@
     "faces": 2,
     "name": "Kannada Sangam MN",
     "previewFace": "KannadaSangamMN",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kannada-sangam-mn.ttf"
   },
@@ -1435,6 +1505,7 @@
     "faces": 8,
     "name": "Katari",
     "previewFace": "Katari-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-katari.otf"
   },
@@ -1443,6 +1514,7 @@
     "faces": 1,
     "name": "Kavivanar",
     "previewFace": "Kavivanar-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-kavivanar.ttf"
   },
@@ -1451,6 +1523,7 @@
     "faces": 2,
     "name": "Kefa",
     "previewFace": "Kefa-Regular",
+    "sample": "ግዕዝ ፊደል\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kefa.ttf"
   },
@@ -1459,6 +1532,7 @@
     "faces": 4,
     "name": "Kefa III",
     "previewFace": "KefaIII-Regular",
+    "sample": "ግዕዝ ፊደል\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1466,6 +1540,7 @@
     "faces": 2,
     "name": "Khmer MN",
     "previewFace": "KhmerMN",
+    "sample": "សួស្តីពិភពលោក\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-khmer-mn.ttf"
   },
@@ -1474,6 +1549,7 @@
     "faces": 1,
     "name": "Khmer Sangam MN",
     "previewFace": "KhmerSangamMN",
+    "sample": "សួស្តីពិភពលោក\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1497,6 +1573,7 @@
     "faces": 2,
     "name": "Klee",
     "previewFace": "Klee-Medium",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-klee.otf"
   },
@@ -1505,6 +1582,7 @@
     "faces": 12,
     "name": "Kodchasan",
     "previewFace": "Kodchasan-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kodchasan.ttf"
   },
@@ -1513,6 +1591,7 @@
     "faces": 2,
     "name": "Kohinoor Bangla",
     "previewFace": "KohinoorBangla-Bold",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kohinoor-bangla.otf"
   },
@@ -1521,6 +1600,7 @@
     "faces": 2,
     "name": "Kohinoor Devanagari",
     "previewFace": "KohinoorDevanagari-Bold",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kohinoor-devanagari.otf"
   },
@@ -1538,6 +1618,7 @@
     "faces": 2,
     "name": "Kohinoor Telugu",
     "previewFace": "KohinoorTelugu-Bold",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-kohinoor-telugu.otf"
   },
@@ -1546,6 +1627,7 @@
     "faces": 12,
     "name": "KoHo",
     "previewFace": "KoHo-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-koho.ttf"
   },
@@ -1572,6 +1654,7 @@
     "faces": 12,
     "name": "Krub",
     "previewFace": "Krub-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-krub.ttf"
   },
@@ -1580,6 +1663,7 @@
     "faces": 1,
     "name": "Krungthep",
     "previewFace": "Krungthep",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-krungthep.ttf"
   },
@@ -1615,6 +1699,7 @@
     "faces": 3,
     "name": "Lantinghei SC",
     "previewFace": "FZLTZHK--GBK1-0",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lantinghei-sc.ttf"
   },
@@ -1623,6 +1708,7 @@
     "faces": 3,
     "name": "Lantinghei TC",
     "previewFace": "FZLTZHB--B51-0",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lantinghei-tc.ttf"
   },
@@ -1631,6 +1717,7 @@
     "faces": 2,
     "name": "Lao MN",
     "previewFace": "LaoMN",
+    "sample": "ສະບາຍດີ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-lao-mn.ttf"
   },
@@ -1639,6 +1726,7 @@
     "faces": 1,
     "name": "Lao Sangam MN",
     "previewFace": "LaoSangamMN",
+    "sample": "ສະບາຍດີ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1646,6 +1734,7 @@
     "faces": 4,
     "name": "Lava Devanagari",
     "previewFace": "LavaDevanagari-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lava-devanagari.otf"
   },
@@ -1654,6 +1743,7 @@
     "faces": 4,
     "name": "Lava Kannada",
     "previewFace": "LavaKannada-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lava-kannada.otf"
   },
@@ -1662,6 +1752,7 @@
     "faces": 4,
     "name": "Lava Telugu",
     "previewFace": "LavaTelugu-Regular",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-lava-telugu.otf"
   },
@@ -1669,31 +1760,35 @@
     "builtIn": false,
     "faces": 1,
     "name": "Libian SC",
+    "preview": "ApplePreview-Libian-SC",
     "previewFace": "STLibianSC-Regular",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-libian-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Libian TC",
+    "preview": "ApplePreview-Libian-TC",
     "previewFace": "STLibianTC-Regular",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-libian-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "LiHei Pro",
+    "preview": "ApplePreview-LiHei-Pro",
     "previewFace": "LiHeiPro",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-lihei-pro.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "LingWai SC",
     "previewFace": "MLingWaiMedium-SC",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-lingwai-sc.otf"
   },
@@ -1702,6 +1797,7 @@
     "faces": 1,
     "name": "LingWai TC",
     "previewFace": "MLingWaiMedium-TC",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-lingwai-tc.otf"
   },
@@ -1709,9 +1805,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "LiSong Pro",
+    "preview": "ApplePreview-LiSong-Pro",
     "previewFace": "LiSongPro",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-lisong-pro.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
@@ -1741,15 +1838,17 @@
     "builtIn": false,
     "faces": 2,
     "name": "Malayalam MN",
+    "preview": "ApplePreview-Malayalam-MN",
     "previewFace": "MalayalamMN",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-malayalam-mn.ttf"
+    "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": true,
     "faces": 2,
     "name": "Malayalam Sangam MN",
     "previewFace": "MalayalamSangamMN",
+    "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1757,6 +1856,7 @@
     "faces": 12,
     "name": "Mali",
     "previewFace": "Mali-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-mali.ttf"
   },
@@ -1804,6 +1904,7 @@
     "faces": 1,
     "name": "Modak",
     "previewFace": "Modak",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-modak.ttf"
   },
@@ -1837,6 +1938,7 @@
     "faces": 7,
     "name": "Mukta",
     "previewFace": "Mukta-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-mukta.ttf"
   },
@@ -1845,6 +1947,7 @@
     "faces": 4,
     "name": "Mukta Mahee",
     "previewFace": "MuktaMahee-Medium",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-mukta-mahee.ttf"
   },
@@ -1853,6 +1956,7 @@
     "faces": 7,
     "name": "Mukta Malar",
     "previewFace": "MuktaMalar-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-mukta-malar.ttf"
   },
@@ -1861,6 +1965,7 @@
     "faces": 7,
     "name": "Mukta Vaani",
     "previewFace": "MuktaVaani-Regular",
+    "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-mukta-vaani.ttf"
   },
@@ -1878,6 +1983,7 @@
     "faces": 2,
     "name": "Myanmar MN",
     "previewFace": "MyanmarMN",
+    "sample": "မင်္ဂလာပါ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-myanmar-mn.ttf"
   },
@@ -1886,6 +1992,7 @@
     "faces": 2,
     "name": "Myanmar Sangam MN",
     "previewFace": "MyanmarSangamMN",
+    "sample": "မင်္ဂလာပါ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -1893,6 +2000,7 @@
     "faces": 10,
     "name": "Myriad Arabic",
     "previewFace": "MyriadArabic-Regular",
+    "sample": "أبجد هوز حطي كلمن\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-myriad-arabic.otf"
   },
@@ -1910,6 +2018,7 @@
     "faces": 1,
     "name": "Nanum Brush Script",
     "previewFace": "NanumBrush",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-nanum-brush-script.ttf"
   },
@@ -1918,6 +2027,7 @@
     "faces": 3,
     "name": "Nanum Gothic",
     "previewFace": "NanumGothic",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-nanum-gothic.ttf"
   },
@@ -1926,6 +2036,7 @@
     "faces": 3,
     "name": "Nanum Myeongjo",
     "previewFace": "NanumMyeongjo",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-nanum-myeongjo.ttf"
   },
@@ -1934,6 +2045,7 @@
     "faces": 1,
     "name": "Nanum Pen Script",
     "previewFace": "NanumPen",
+    "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-nanum-pen-script.ttf"
   },
@@ -1951,6 +2063,7 @@
     "faces": 12,
     "name": "Niramit",
     "previewFace": "Niramit-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-niramit.ttf"
   },
@@ -1968,6 +2081,7 @@
     "faces": 1,
     "name": "Nom Na Tong",
     "previewFace": "NomNaTong-Regular",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-nom-na-tong.otf"
   },
@@ -2014,6 +2128,7 @@
     "faces": 9,
     "name": "Noto Sans Syriac",
     "previewFace": "NotoSansSyriac-Regular",
+    "sample": "ܠܫܢܐ ܣܘܪܝܝܐ",
     "style": "sansSerif"
   },
   {
@@ -2038,6 +2153,7 @@
     "faces": 27,
     "name": "November Bangla Traditional",
     "previewFace": "NovemberBanglaTraditional-Regular",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-november-bangla-traditional.ttf"
   },
@@ -2046,6 +2162,7 @@
     "faces": 9,
     "name": "October Compressed Devanagari",
     "previewFace": "OctoberCompressedDL-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-compressed-devanagari.otf"
   },
@@ -2102,6 +2219,7 @@
     "faces": 9,
     "name": "October Compressed Tamil",
     "previewFace": "OctoberCompressedTL-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-compressed-tamil.otf"
   },
@@ -2118,6 +2236,7 @@
     "faces": 9,
     "name": "October Condensed Devanagari",
     "previewFace": "OctoberCondensedDL-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-condensed-devanagari.otf"
   },
@@ -2174,6 +2293,7 @@
     "faces": 9,
     "name": "October Condensed Tamil",
     "previewFace": "OctoberCondensedTLRegular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-condensed-tamil.otf"
   },
@@ -2190,6 +2310,7 @@
     "faces": 9,
     "name": "October Devanagari",
     "previewFace": "OctoberDL-Regular",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-devanagari.otf"
   },
@@ -2246,6 +2367,7 @@
     "faces": 9,
     "name": "October Tamil",
     "previewFace": "OctoberTL-Regular",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-october-tamil.otf"
   },
@@ -2269,6 +2391,7 @@
     "faces": 2,
     "name": "Oriya MN",
     "previewFace": "OriyaMN",
+    "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-oriya-mn.ttf"
   },
@@ -2277,6 +2400,7 @@
     "faces": 2,
     "name": "Oriya Sangam MN",
     "previewFace": "OriyaSangamMN",
+    "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-oriya-sangam-mn.ttf"
   },
@@ -2284,15 +2408,17 @@
     "builtIn": false,
     "faces": 2,
     "name": "Osaka",
+    "preview": "ApplePreview-Osaka",
     "previewFace": "Osaka",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-osaka.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 1,
     "name": "Padyakke Expanded One",
     "previewFace": "PadyakkeExpandedOne-Regular",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-padyakke-expanded-one.otf"
   },
@@ -2321,9 +2447,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "PCMyungjo",
+    "preview": "ApplePreview-PCMyungjo",
     "previewFace": "JCsmPC",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-pcmyungjo.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
@@ -2337,9 +2464,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "PilGi",
+    "preview": "ApplePreview-PilGi",
     "previewFace": "JCfg",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-pilgi.ttf"
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
@@ -2347,6 +2475,7 @@
     "name": "PingFang HK",
     "preview": "ApplePreview-PingFang-HK",
     "previewFace": "PingFangHK-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -2355,6 +2484,7 @@
     "name": "PingFang MO",
     "preview": "ApplePreview-PingFang-MO",
     "previewFace": "PingFangMO-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -2363,6 +2493,7 @@
     "name": "PingFang SC",
     "preview": "ApplePreview-PingFang-SC",
     "previewFace": "PingFangSC-Regular",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -2371,6 +2502,7 @@
     "name": "PingFang TC",
     "preview": "ApplePreview-PingFang-TC",
     "previewFace": "PingFangTC-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -2378,6 +2510,7 @@
     "faces": 1,
     "name": "Plantagenet Cherokee",
     "previewFace": "PlantagenetCherokee",
+    "sample": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-plantagenet-cherokee.ttf"
   },
@@ -2418,6 +2551,7 @@
     "faces": 8,
     "name": "PSL Ornanong Pro",
     "previewFace": "PSLOrnanongPro-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-psl-ornanong-pro.otf"
   },
@@ -2602,6 +2736,7 @@
     "faces": 16,
     "name": "Sarabun",
     "previewFace": "Sarabun-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-sarabun.ttf"
   },
@@ -2657,6 +2792,7 @@
     "faces": 4,
     "name": "Shree Devanagari 714",
     "previewFace": "ShreeDev0714",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-shree-devanagari-714.ttf"
   },
@@ -2673,6 +2809,7 @@
     "faces": 1,
     "name": "Silom",
     "previewFace": "Silom",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-silom.ttf"
   },
@@ -2681,6 +2818,7 @@
     "faces": 2,
     "name": "SimSong",
     "previewFace": "SimSong-Regular",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-simsong.otf"
   },
@@ -2689,6 +2827,7 @@
     "faces": 2,
     "name": "Sinhala MN",
     "previewFace": "SinhalaMN",
+    "sample": "සිංහල අක්ෂර\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-sinhala-mn.ttf"
   },
@@ -2697,6 +2836,7 @@
     "faces": 2,
     "name": "Sinhala Sangam MN",
     "previewFace": "SinhalaSangamMN",
+    "sample": "සිංහල අක්ෂර\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif"
   },
   {
@@ -2727,17 +2867,19 @@
     "builtIn": false,
     "faces": 4,
     "name": "Songti SC",
+    "preview": "ApplePreview-Songti-SC",
     "previewFace": "STSongti-SC-Regular",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-songti-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
     "faces": 3,
     "name": "Songti TC",
+    "preview": "ApplePreview-Songti-TC",
     "previewFace": "STSongti-TC-Regular",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-songti-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
@@ -2752,6 +2894,7 @@
     "faces": 2,
     "name": "Srisakdi",
     "previewFace": "Srisakdi-Regular",
+    "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-srisakdi.ttf"
   },
@@ -2761,15 +2904,17 @@
     "name": "STFangsong",
     "preview": "ApplePreview-STFangsong",
     "previewFace": "STFangsong",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "STHeiti",
+    "preview": "ApplePreview-STHeiti",
     "previewFace": "STHeiti",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-stheiti.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": true,
@@ -2789,9 +2934,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "STKaiti",
+    "preview": "ApplePreview-STKaiti",
     "previewFace": "STKaiti",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-stkaiti.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
@@ -2813,9 +2959,10 @@
     "builtIn": false,
     "faces": 1,
     "name": "STSong",
+    "preview": "ApplePreview-STSong",
     "previewFace": "STSong",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-stsong.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": true,
@@ -2844,15 +2991,17 @@
     "builtIn": false,
     "faces": 2,
     "name": "Tamil MN",
+    "preview": "ApplePreview-Tamil-MN",
     "previewFace": "TamilMN",
-    "style": "serif",
-    "previewFile": "TypecaskPreview-apple-tamil-mn.ttf"
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "serif"
   },
   {
     "builtIn": false,
     "faces": 4,
     "name": "Tamil Sangam MN",
     "previewFace": "TamilSangamMN-Black",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-tamil-sangam-mn.otf"
   },
@@ -2861,6 +3010,7 @@
     "faces": 2,
     "name": "Telugu MN",
     "previewFace": "TeluguMN",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-telugu-mn.ttf"
   },
@@ -2869,6 +3019,7 @@
     "faces": 2,
     "name": "Telugu Sangam MN",
     "previewFace": "TeluguSangamMN",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-telugu-sangam-mn.ttf"
   },
@@ -2899,6 +3050,7 @@
     "faces": 2,
     "name": "Tiro Bangla",
     "previewFace": "TiroBangla",
+    "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-bangla.otf"
   },
@@ -2907,6 +3059,7 @@
     "faces": 2,
     "name": "Tiro Devanagari Hindi",
     "previewFace": "TiroDevaHindi",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-devanagari-hindi.otf"
   },
@@ -2915,6 +3068,7 @@
     "faces": 2,
     "name": "Tiro Devanagari Marathi",
     "previewFace": "TiroDevaMarathi",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-devanagari-marathi.otf"
   },
@@ -2923,6 +3077,7 @@
     "faces": 2,
     "name": "Tiro Devanagari Sanskrit",
     "previewFace": "TiroDevaSanskrit",
+    "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-devanagari-sanskrit.otf"
   },
@@ -2931,6 +3086,7 @@
     "faces": 2,
     "name": "Tiro Gurmukhi",
     "previewFace": "TiroGurmukhi",
+    "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-gurmukhi.otf"
   },
@@ -2939,6 +3095,7 @@
     "faces": 2,
     "name": "Tiro Kannada",
     "previewFace": "TiroKannada",
+    "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-kannada.otf"
   },
@@ -2947,6 +3104,7 @@
     "faces": 2,
     "name": "Tiro Tamil",
     "previewFace": "TiroTamil",
+    "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-tamil.otf"
   },
@@ -2955,6 +3113,7 @@
     "faces": 2,
     "name": "Tiro Telugu",
     "previewFace": "TiroTelugu",
+    "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-tiro-telugu.otf"
   },
@@ -2963,6 +3122,7 @@
     "faces": 2,
     "name": "Toppan Bunkyu Gothic",
     "previewFace": "ToppanBunkyuGothicPr6N-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-toppan-bunkyu-gothic.otf"
   },
@@ -2971,6 +3131,7 @@
     "faces": 1,
     "name": "Toppan Bunkyu Midashi Gothic",
     "previewFace": "ToppanBunkyuMidashiGothicStdN-ExtraBold",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-toppan-bunkyu-midashi-gothic.otf"
   },
@@ -2979,6 +3140,7 @@
     "faces": 1,
     "name": "Toppan Bunkyu Midashi Mincho",
     "previewFace": "ToppanBunkyuMidashiMinchoStdN-ExtraBold",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-toppan-bunkyu-midashi-mincho.otf"
   },
@@ -2987,6 +3149,7 @@
     "faces": 1,
     "name": "Toppan Bunkyu Mincho",
     "previewFace": "ToppanBunkyuMinchoPr6N-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-toppan-bunkyu-mincho.otf"
   },
@@ -3010,6 +3173,7 @@
     "faces": 2,
     "name": "Tsukushi A Round Gothic",
     "previewFace": "TsukuARdGothic-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-tsukushi-a-round-gothic.otf"
   },
@@ -3018,6 +3182,7 @@
     "faces": 2,
     "name": "Tsukushi B Round Gothic",
     "previewFace": "TsukuBRdGothic-Regular",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-tsukushi-b-round-gothic.otf"
   },
@@ -3058,6 +3223,7 @@
     "faces": 1,
     "name": "Wawati SC",
     "previewFace": "DFWaWaSC-W5",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-wawati-sc.otf"
   },
@@ -3066,6 +3232,7 @@
     "faces": 1,
     "name": "Wawati TC",
     "previewFace": "DFWaWaTC-W5",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-wawati-tc.otf"
   },
@@ -3082,6 +3249,7 @@
     "faces": 1,
     "name": "Weibei SC",
     "previewFace": "WeibeiSC-Bold",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-weibei-sc.otf"
   },
@@ -3090,6 +3258,7 @@
     "faces": 1,
     "name": "Weibei TC",
     "previewFace": "WeibeiTC-Bold",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "handwriting",
     "previewFile": "TypecaskPreview-apple-weibei-tc.otf"
   },
@@ -3121,17 +3290,19 @@
     "builtIn": false,
     "faces": 2,
     "name": "Xingkai SC",
+    "preview": "ApplePreview-Xingkai-SC",
     "previewFace": "STXingkaiSC-Bold",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-xingkai-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "Xingkai TC",
+    "preview": "ApplePreview-Xingkai-TC",
     "previewFace": "STXingkaiTC-Bold",
-    "style": "handwriting",
-    "previewFile": "TypecaskPreview-apple-xingkai-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "handwriting"
   },
   {
     "builtIn": false,
@@ -3146,23 +3317,26 @@
     "builtIn": false,
     "faces": 3,
     "name": "Yuanti SC",
+    "preview": "ApplePreview-Yuanti-SC",
     "previewFace": "STYuanti-SC-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-yuanti-sc.ttf"
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 3,
     "name": "Yuanti TC",
+    "preview": "ApplePreview-Yuanti-TC",
     "previewFace": "STYuanti-TC-Regular",
-    "style": "sansSerif",
-    "previewFile": "TypecaskPreview-apple-yuanti-tc.ttf"
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
+    "style": "sansSerif"
   },
   {
     "builtIn": false,
     "faces": 2,
     "name": "YuGothic",
     "previewFace": "YuGo-Bold",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "sansSerif",
     "previewFile": "TypecaskPreview-apple-yugothic.otf"
   },
@@ -3171,6 +3345,7 @@
     "faces": 2,
     "name": "YuKyokasho",
     "previewFace": "YuKyo-Bold",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-yukyokasho.otf"
   },
@@ -3179,6 +3354,7 @@
     "faces": 2,
     "name": "YuKyokasho Yoko",
     "previewFace": "YuKyo_Yoko-Bold",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-yukyokasho-yoko.otf"
   },
@@ -3187,6 +3363,7 @@
     "faces": 3,
     "name": "YuMincho",
     "previewFace": "YuMin-Medium",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-yumincho.otf"
   },
@@ -3195,6 +3372,7 @@
     "faces": 3,
     "name": "YuMincho +36p Kana",
     "previewFace": "YuMin_36pKn-Medium",
+    "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "serif",
     "previewFile": "TypecaskPreview-apple-yumincho-36p-kana.otf"
   },
@@ -3203,6 +3381,7 @@
     "faces": 1,
     "name": "Yuppy SC",
     "previewFace": "YuppySC-Regular",
+    "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-yuppy-sc.otf"
   },
@@ -3211,6 +3390,7 @@
     "faces": 1,
     "name": "Yuppy TC",
     "previewFace": "YuppyTC-Regular",
+    "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "style": "display",
     "previewFile": "TypecaskPreview-apple-yuppy-tc.otf"
   },
