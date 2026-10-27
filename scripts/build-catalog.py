@@ -206,6 +206,9 @@ SCRIPT_NAMES = {
 # The lowercase alphabets that make a face Greek or Cyrillic too, for filtering by script: Latin's is
 # PANGRAM, and the others are SCRIPT_SAMPLES.
 EUROPEAN_ALPHABETS = {"Grek": (0x03B1, 0x03C9), "Cyrl": (0x0430, 0x044F)}
+# Scripts Latin faces carry beside Greek or Cyrillic alone, as Rubik and Amatic SC carry Hebrew; a
+# Thai or Indic face may carry Cyrillic itself, as Thonburi does.
+BESIDE_EUROPE = ("Hebr", "Arab", "Armn", "Geor")
 # Kanji made in Japan, which Chinese character sets lack though they carry the kana.
 JAPANESE_KANJI = "込働畑"
 # The characters own_script() counts to tell a face's script.
@@ -1011,8 +1014,8 @@ def own_script(family, cmap, code_pages, covered, latin):
     Latin is for the first it covers, and one with Latin is for a CJK script when it has
     the thousands of characters one needs, or the kana alone of a kana display face, since Japanese
     fonts carry Greek and Cyrillic, and Hebrew sometimes. Otherwise it's for another script when it
-    covers just that one and has neither Greek nor Cyrillic: Tahoma and Open Sans, with Hebrew or
-    Arabic and Thai beside the scripts of Europe, are Latin faces. Braille counts only where there's
+    covers just that one and isn't a face for the scripts of Europe: one with Greek and Cyrillic, or
+    either, beside Hebrew, Arabic, Armenian or Georgian. Tahoma and Open Sans are Latin faces, and Thonburi, with Cyrillic, a Thai one. Braille counts only where there's
     nothing else: Nerd Fonts and Maple Mono draw its patterns for terminals.
     """
     counts = Counter()
@@ -1032,8 +1035,10 @@ def own_script(family, cmap, code_pages, covered, latin):
     ideographs = counts["han"] + counts["hangul"]
     if cjk and len(others) < 6 and (ideographs >= 2000 or (counts["kana"] >= 80 and ideographs < 20)):
         return cjk_script(family, code_pages, counts, cjk)
-    if not cjk and len(others) == 1 and counts["greek"] < 20 and counts["cyrillic"] < 20:
-        return others[0]
+    if not cjk and len(others) == 1:
+        europe = [counts["greek"] >= 20, counts["cyrillic"] >= 20]
+        if not (any(europe) if others[0] in BESIDE_EUROPE else all(europe)):
+            return others[0]
     return None
 
 

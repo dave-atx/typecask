@@ -43,9 +43,10 @@ struct OwnScript {
     /// gives, of those it covers. Otherwise a face with no Latin is for the first it covers, and one
     /// with Latin is for a CJK script when it has the thousands of characters one needs, or the kana
     /// alone of a kana display face, since Japanese fonts carry Greek and Cyrillic too. Otherwise it's
-    /// for another script when it covers just that one and has neither Greek nor Cyrillic: Lucida
-    /// Grande, with Arabic, Hebrew and Thai beside the scripts of Europe, is a Latin face. Braille
-    /// counts only where there's nothing else.
+    /// for another script when it covers just that one and isn't a face for the scripts of Europe: one
+    /// with Greek and Cyrillic, or either, beside Hebrew, Arabic, Armenian or Georgian. Lucida Grande
+    /// is a Latin face, and Thonburi, with Cyrillic, a Thai one. Braille counts only where there's
+    /// nothing else.
     private static func ownScript(of font: CTFont, family: String, latin: Bool, covered: [String]) -> String? {
         let cjk = covered.filter(cjkScripts.contains)
         let others = covered.filter { !cjkScripts.contains($0) && $0 != "Brai" }
@@ -67,8 +68,12 @@ struct OwnScript {
         if !cjk.isEmpty && others.count < 6 && (ideographs >= 2000 || (counts.kana >= 80 && ideographs < 20)) {
             return cjkScript(of: font, family: family, counts: counts, covered: cjk)
         }
-        if cjk.isEmpty && others.count == 1 && count(0x0391...0x03C9) < 20 && count(0x0410...0x044F) < 20 {
-            return others[0]
+        if cjk.isEmpty && others.count == 1 {
+            let europe = [count(0x0391...0x03C9) >= 20, count(0x0410...0x044F) >= 20]
+            let european = besideEurope.contains(others[0]) ? europe.contains(true) : !europe.contains(false)
+            if !european {
+                return others[0]
+            }
         }
         return nil
     }
@@ -119,6 +124,9 @@ struct OwnScript {
     }
 
     private static let cjkScripts = ["Jpan", "Hans", "Hant", "Kore"]
+    /// Scripts Latin faces carry beside Greek or Cyrillic alone, as Rubik and Amatic SC carry Hebrew; a
+    /// Thai or Indic face may carry Cyrillic itself, as Thonburi does.
+    private static let besideEurope = ["Hebr", "Arab", "Armn", "Geor"]
     /// The lowercase alphabets that make a face Greek or Cyrillic too: Latin's is the pangram, and the
     /// others are `samples`.
     private static let europeanAlphabets: [(script: String, range: ClosedRange<UInt32>)] = [
