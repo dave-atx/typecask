@@ -75,7 +75,7 @@
           {{- if $v.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
           <span class="spec-installs">{{ lang.FormatNumber 0 $v.installs }} brew installs</span>
         </span>
-        <span class="spec-line" style="font-family:'tc-{{ $v.slug }}',var(--ui)">{{ $v.sample }}</span>
+        <span class="spec-line" style="font-family:'tc-{{ $v.slug }}',var(--ui)">{{ $v.line }}</span>
       </a>
     {{- end }}
   </div>

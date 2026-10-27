@@ -34,6 +34,7 @@
       "styleKey" .style
       "styleName" $styleName
       "sample" (.sample | default $catalog.sampleText)
+      "line" (index (split (.sample | default $catalog.sampleText) "\n") 0)
       "preview" .previewFile
       "glyphs" .glyphs
       "installs" .installs

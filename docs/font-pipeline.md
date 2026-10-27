@@ -97,9 +97,16 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
 - **Previews** are the primary face subset to the sample, keeping only the OpenType features Core
   Text applies by default and no hinting, which Core Text doesn't use: every feature kept every
   stylistic alternate, and Iosevka's preview came to 1,900 glyphs. A variable font is instanced at
-  its Regular, whatever its default: Fira Code's is Light. A face with no Latin letters is previewed
-  in its own script, from the same list of lines `ApplePreviewRenderer` uses, and a face that draws
-  none of them, an icon, emoji or music font, is skipped as having nothing to preview.
+  its Regular, whatever its default: Fira Code's is Light. A face for another script is previewed
+  in it, from the same list of lines `ApplePreviewRenderer` uses, with the Latin sample on the next
+  line where it has Latin letters too; a face that draws none of them, an icon, emoji or music font,
+  is skipped as having nothing to preview. A face's script is the family's `primary_script` in
+  google/fonts, where it has one, else read from the face: the one script it covers besides Latin, if
+  it has no Greek or Cyrillic (Tahoma and Open Sans, with Hebrew or Thai beside those, are Latin
+  faces), or CJK where it has thousands of ideographs. A CJK face's region comes from its name (Noto
+  Sans CJK JP and KR carry the same characters), then its OS/2 code pages, then its kana or hangul.
+  `Catalog.json` and `AppleFonts.json` record that script as `script`, an ISO 15924 code (`Latn` for
+  a Latin face), and every script the face covers as `scripts`, for filtering by.
 - **Heavy niche casks** are left out entirely: those over 10 MB that cost more than 0.1 MB per yearly
   install, which is Iosevka's stylistic sets, the rarer Maple Mono builds and a handful of CJK families.
   Google families are exempt, since Homebrew undercounts fonts most people get from Google. Set

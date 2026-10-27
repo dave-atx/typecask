@@ -13,27 +13,62 @@ permissions:
   contents: write
   pull-requests: write
 
+# pipefail, so a test run that fails ahead of a grep fails the step: without it, a runner that never
+# started left the committed AppleFonts.json as it was, and the run reported nothing had changed.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   previews:
     runs-on: xcode-27
     timeout-minutes: 120
     env:
-      DESTINATION: platform=iOS Simulator,name=iPad Pro 11-inch (M5)
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v7
 
       - uses: astral-sh/setup-uv@v10.3.2
 
-      - name: Render Apple's fonts in the simulator
+      # As in fonts.yml: a first boot outlasts XCTest's patience ("Timed out waiting for AX loaded
+      # notification"), so the simulator boots while the tests build, and they wait until it's done.
+      - name: Boot the simulator
+        run: |
+          udid=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          import itertools
+          # com.apple.CoreSimulator.SimRuntime.iOS-27-2, or iOS-27-2-iPhone19-4 for a device-specific one.
+          version = lambda runtime: [int(part) for part in itertools.takewhile(
+              str.isdigit, runtime.rsplit("iOS-", 1)[1].split("-"))]
+          for runtime in sorted((r for r in devices if ".iOS-" in r), key=version, reverse=True):
+              for device in devices[runtime]:
+                  if device["name"] == "iPad Pro 11-inch (M5)":
+                      print(device["udid"])
+                      sys.exit()
+          sys.exit("no iPad Pro 11-inch (M5) simulator")')
+          xcrun simctl boot "$udid"
+          echo "SIMULATOR=$udid" >> "$GITHUB_ENV"
+          echo "DESTINATION=platform=iOS Simulator,id=$udid" >> "$GITHUB_ENV"
+
+      - name: Build for testing
         run: |
           # The project expects Fonts.xcassets, which is generated rather than committed; these
           # tests need no fonts in it.
           mkdir -p Typecask/Fonts.xcassets
           echo '{"info":{"author":"xcode","version":1}}' > Typecask/Fonts.xcassets/Contents.json
-          TEST_RUNNER_TYPECASK_APPLE_FONTS_OUTPUT="$PWD/Typecask" xcodebuild test -project Typecask.xcodeproj \
-            -scheme Typecask -destination "$DESTINATION" -derivedDataPath DerivedData \
-            -only-testing:TypecaskUITests/ApplePreviewRenderer | grep -E "ApplePreviewRenderer:|TEST"
+          xcodebuild build-for-testing -project Typecask.xcodeproj -scheme Typecask \
+            -destination "$DESTINATION" -derivedDataPath DerivedData | tail -5
+
+      - name: Wait for the simulator to finish booting
+        run: xcrun simctl bootstatus "$SIMULATOR" -b
+
+      - name: Render Apple's fonts in the simulator
+        run: |
+          TEST_RUNNER_TYPECASK_APPLE_FONTS_OUTPUT="$PWD/Typecask" xcodebuild test-without-building \
+            -project Typecask.xcodeproj -scheme Typecask -destination "$DESTINATION" \
+            -derivedDataPath DerivedData -only-testing:TypecaskUITests/ApplePreviewRenderer |
+            grep -E "ApplePreviewRenderer:|TEST"
 
       - name: Subset the previews
         run: uv run --script scripts/build-catalog.py apple-previews

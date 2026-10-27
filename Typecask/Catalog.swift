@@ -59,8 +59,8 @@ struct Cask: Decodable, Identifiable, Hashable {
     let pack: String?
     /// Whether the cask is patched with Nerd Fonts' icons, which its preview then includes.
     let glyphs: Bool
-    /// A line in the font's own script, for a font with no Latin letters; otherwise the catalog's
-    /// `sampleText` is shown.
+    /// A line in the font's own script, then `sampleText` where it has Latin letters too; absent for a
+    /// Latin font, which shows `sampleText` alone.
     let sample: String?
     /// Google Fonts' description of the family, as Markdown.
     let description: String?
