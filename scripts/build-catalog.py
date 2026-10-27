@@ -265,7 +265,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 4
+PIPELINE_VERSION = 5
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -673,8 +673,11 @@ class Face:
     family: str
     style: str | None
     weight: int
+    width: int  # OS/2 width class, 5 for normal
     italic: bool
     variable: bool
+    fixed_pitch: bool
+    math: bool  # carries a MATH table: STIX Two Math, Libertinus Math
 
     @property
     def regular(self):
@@ -707,15 +710,22 @@ def read_faces(path):
             or "oblique" in subfamily
         )
         weight = os2.usWeightClass if os2 is not None else 400
+        width = os2.usWidthClass if os2 is not None else 5
         style = core_style(subfamily)
         variable = "fvar" in font
         if variable:
-            # A variable font is its whole weight range, whatever its default instance is called.
+            # A variable font is its whole weight and width range, whatever its default instance is called.
             axes = {axis.axisTag: axis for axis in font["fvar"].axes}
             if "wght" not in axes or axes["wght"].minValue <= 400 <= axes["wght"].maxValue:
                 weight = 400
+            if "wdth" not in axes or axes["wdth"].minValue <= 100 <= axes["wdth"].maxValue:
+                width = 5
             style = "italic" if italic else "regular"
-        return Face(path, number, names.getDebugName(6) or "", family, style, weight, italic, variable)
+        fixed_pitch = "post" in font and bool(font["post"].isFixedPitch)
+        postscript_name = names.getDebugName(6) or ""
+        return Face(
+            path, number, postscript_name, family, style, weight, width, italic, variable, fixed_pitch, "MATH" in font
+        )
 
     if path.suffix.lower() in COLLECTION_SUFFIXES:
         with TTCollection(path, lazy=True) as collection:
@@ -744,21 +754,30 @@ def select_files(faces):
     paths = list(dict.fromkeys(face.path for face in faces))
     if variable := {face.path for face in faces if face.variable}:
         return [path for path in paths if path in variable]
-    family = primary_face(faces).family
-    core = {face.path for face in faces if face.style and face.family == family}
-    return [path for path in paths if path in core] or [primary_face(faces).path]
+    primary = primary_face(faces)
+    # The primary face's own file too, whatever it's called: Terminus and Scientifica name their
+    # Regular "Medium", and shipped only Bold and the italics.
+    core = {face.path for face in faces if face.style and face.family == primary.family} | {primary.path}
+    return [path for path in paths if path in core]
 
 
 def primary_face(faces):
-    """The face a cask is previewed in and recognised as installed by: upright and Regular, nearest
-    400 in weight, then the shortest family and name, which skips Nerd Fonts' Mono and Propo
-    variants."""
+    """The face a cask is previewed in and recognised as installed by: a text face, not math, upright
+    and Regular, nearest 400 in weight and normal in width, proportional where the cask has both, then
+    the shortest family and name, which skips Nerd Fonts' Mono and Propo variants.
+
+    Without the width, Noto's Nerd Font previewed its condensed face, whose legacy family name is the
+    shorter; without the spacing, Liberation and Red Hat their monospaced families, which sort first.
+    """
     return min(
         faces,
         key=lambda face: (
+            face.math,
             face.italic,
             not face.regular,
             abs(face.weight - 400),
+            abs(face.width - 5),
+            face.fixed_pitch,
             len(face.family),
             len(face.postscript_name),
             face.postscript_name,

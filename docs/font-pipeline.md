@@ -85,11 +85,13 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
 - **Files.** A cask's variable font where it has one; otherwise the Regular, Italic, Bold and Bold
   Italic of a single family, the primary face's. Both are read from the fonts' own tables (`fvar`, and
   the typographic family and subfamily names), not their filenames, which follow no one scheme:
-  Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. Nerd Fonts' Mono and
+  Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. The primary face's
+  file always ships, though Terminus calls its Regular "Medium". Nerd Fonts' Mono and
   Propo spacing variants are left out, and so is any file over 100 MB (CJK collections and Iosevka
   SuperTTCs), so a cask made only of those reads as "Fonts not included in this build".
 - **The primary face** is the one the gallery previews and the app checks to see whether a cask is
-  installed: upright, Regular, nearest 400 in weight, then the shortest family name.
+  installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
+  width, proportional where the cask also has a monospaced family, then the shortest family name.
 - **Previews** are the primary face subset to the sample, keeping only the OpenType features Core
   Text applies by default and no hinting, which Core Text doesn't use: every feature kept every
   stylistic alternate, and Iosevka's preview came to 1,900 glyphs. A variable font is instanced at
