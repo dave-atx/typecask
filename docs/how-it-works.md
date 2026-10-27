@@ -11,8 +11,7 @@ delivered that way can't be installed system-wide, which is why Typecask still u
 
 Each cask ships its variable font where it has one, which covers every weight in a file or two, and
 otherwise the Regular, Italic, Bold and Bold Italic of a single family. Some casks are left out of a
-release, or read as "Fonts not included in this build"; [the font pipeline](font-pipeline.md#what-a-release-ships)
-explains which and why.
+release; [the font pipeline](font-pipeline.md#what-a-release-ships) explains which and why.
 
 ## Fonts iOS already has
 

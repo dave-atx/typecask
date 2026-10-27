@@ -1436,7 +1436,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         directory.mkdir(parents=True)
     write_json(FONTS / "Contents.json", CATALOG_INFO)
 
-    catalog, owners, weights, skipped, trimmed, shadowed, licenses = [], {}, {}, {}, {}, {}, {}
+    catalog, owners, weights, licenses = [], {}, {}, {}
+    skipped, trimmed, unshippable, shadowed = {}, {}, {}, {}
     for entry in entries:
         token, destination = entry["token"], destinations[entry["token"]]
         if not (destination / "entry.json").is_file():
@@ -1446,15 +1447,14 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             skipped[token] = built["skip"]
             continue
         # Two casks can carry the same face; the higher-ranked one keeps it.
-        files = []
+        files, faces = [], set()
         for file in built["files"]:
             if file["asset"] in owners:
-                # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
-                if owners[file["asset"]] != token:
-                    print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
-                continue
-            owners[file["asset"]] = token
-            files.append(file)
+                print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
+            # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
+            elif file["asset"] not in faces:
+                faces.add(file["asset"])
+                files.append(file)
         if not files:
             shadowed[token] = sorted({owners[file["asset"]] for file in built["files"]})
             continue
@@ -1470,6 +1470,13 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             shipping = []
         if only is not None and token not in only:
             shipping = []
+        elif not shipping:
+            # Left out altogether rather than listed with nothing to install, and without claiming
+            # its faces, so a lower-ranked cask that has them can still ship them.
+            if token not in trimmed:
+                unshippable[token] = f"every file is over {MAX_FILE_BYTES // 1024**2} MB"
+            continue
+        owners.update(dict.fromkeys(faces, token))
         for file in shipping:
             write_dataset(destination / "fonts" / file["file"], file["asset"], token)
         if shipping:
@@ -1531,10 +1538,11 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     restyle_apple_fonts(locked["googleCategories"])
     report("skipped", [f"{token} ({reason})" for token, reason in skipped.items()])
     report("trimmed heavy niche casks", [f"{token} ({reason})" for token, reason in trimmed.items()])
+    report("left out, too large to ship", list(unshippable))
     # Why a locked cask is missing from the catalog or ships nothing, for scripts/fonts-changelog.py.
     write_json(
         CACHE / "build-report.json",
-        {"failed": failed, "skipped": skipped, "trimmed": trimmed, "shadowed": shadowed},
+        {"failed": failed, "skipped": skipped, "trimmed": trimmed, "unshippable": unshippable, "shadowed": shadowed},
     )
     print(
         f"{len(catalog)} casks; {len(weights)} ship {sum(len(r['assets']) for r in catalog)} fonts "

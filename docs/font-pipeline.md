@@ -88,7 +88,7 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. The primary face's
   file always ships, though Terminus calls its Regular "Medium". Nerd Fonts' Mono and
   Propo spacing variants are left out, and so is any file over 100 MB (CJK collections and Iosevka
-  SuperTTCs), so a cask made only of those reads as "Fonts not included in this build".
+  SuperTTCs), so a cask made only of those is left out of the catalog.
 - **The primary face** is the one the gallery previews and the app checks to see whether a cask is
   installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
   width, not a family named Mono beside others (Liberation Mono), then the shortest family name.
@@ -102,6 +102,9 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   install, which is Iosevka's stylistic sets, the rarer Maple Mono builds and a handful of CJK families.
   Google families are exempt, since Homebrew undercounts fonts most people get from Google. Set
   `MAX_MB_PER_INSTALL` to move the line, or leave it empty to ship everything.
+- **A cask with nothing to install isn't listed**, so the gallery never offers one it can't
+  install. Only a local `build --fonts` lists casks without their fonts, as "Fonts not included in
+  this build".
 - **Licenses.** A cask ships only with a license.
 
 ### Asset packs
