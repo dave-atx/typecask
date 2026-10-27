@@ -218,6 +218,7 @@ private struct InstallControl: View {
     .environment(FontInstaller())
 }
 
+#if DEBUG
 #Preview("Installed") {
     let catalog = Catalog.bundled
     let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
@@ -236,3 +237,4 @@ private struct InstallControl: View {
     .environment(FontInstaller(previewing: .installed, for: cask))
     .dynamicTypeSize(.accessibility1)
 }
+#endif
