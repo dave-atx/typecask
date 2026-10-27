@@ -1,7 +1,7 @@
 {
-  "tag": "fonts-20261026-16",
-  "url": "https://api.github.com/repos/dave-atx/typecask/releases/assets/679450124",
-  "sha256": "bf80c8d8a67dd9db4dcc02b4843176e3b59f86b2f03625a1aedb2e42412406e8",
-  "bytes": 1404447262,
-  "casks": 2202
+  "tag": "fonts-20261027-22",
+  "url": "https://api.github.com/repos/dave-atx/typecask/releases/assets/680359236",
+  "sha256": "f9959c5e61c4f160dffdde8276e170e664d51f602a3d4da9699a67e603fecaa6",
+  "bytes": 1473634607,
+  "casks": 2193
 }
