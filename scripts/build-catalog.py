@@ -72,6 +72,15 @@ EXCLUDED = {
     "font-sf-pro",
     "font-sf-mono",
     "font-sf-mono-nerd-font-ligaturized",
+    # Input is free for personal use only. Its license forbids redistribution, embedding in an app
+    # and self-hosted webfonts, each of which needs a license bought from the publisher, and bars
+    # distributing modified copies, which a subset preview is.
+    "font-input",
+    # Microsoft's Consolas with Powerline glyphs patched in, as CONSOLA-Powerline.ttf and its
+    # siblings. The repository's BSD-2 license covers the patching; Consolas ships with Windows and
+    # isn't redistributable. github_license() finds a repository's license without being able to
+    # tell that it doesn't cover the fonts beside it, which is how this one got in.
+    "font-consolas-for-powerline",
     # Draws every character as nothing, for testing font loading on the web: nothing to install.
     "font-adobe-blank",
     # Icons, symbols and emoji have nothing to preview.
