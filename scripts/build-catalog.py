@@ -265,7 +265,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 7
+PIPELINE_VERSION = 8
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -724,7 +724,7 @@ def read_faces(path):
                 width = 5
             style = "italic" if italic else "regular"
         postscript_name = names.getDebugName(6) or ""
-        mono = bool(re.search(r"mono(?![a-z])", family, re.IGNORECASE))  # FreeMono too
+        mono = "mono" in family.lower()  # FreeMono and JetBrainsMonoNL too
         math = bool(re.search(r"\bmath\b", family, re.IGNORECASE))
         return Face(path, number, postscript_name, family, style, weight, width, italic, variable, mono, math)
 
