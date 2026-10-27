@@ -42,6 +42,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 import zlib
+from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date
@@ -128,41 +129,59 @@ GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
 GOOGLE_FONTS_URL = "https://github.com/google/fonts.git"
 PANGRAM = "The quick brown fox jumps over the lazy dog"
 SAMPLE_TEXT = PANGRAM + " 0123456789 {}[]()<>=!&|"
-# A face that has fewer of PANGRAM's letters than this is previewed in its own script instead.
-# Faces have all of them or none, bar a barcode font's 81%.
+# A face that has fewer of PANGRAM's letters than this has no Latin. Faces have all of them or
+# none, bar a barcode font's 81%.
 LATIN_COVERAGE = 0.8
-# A line in each script, for a face with no Latin letters, tried in order: the same list as
-# scriptSamples in TypecaskUITests/ApplePreviewRenderer.swift, which picks Apple's fonts' samples.
-# Japanese comes before Chinese because Japanese fonts carry the kanji too.
-SCRIPT_SAMPLES = [
-    "いろはにほへと ちりぬるを",  # Japanese
-    "天地玄黄 宇宙洪荒",  # Chinese
-    "다람쥐 헌 쳇바퀴에 타고파",  # Korean
-    "أبجد هوز حطي كلمن",  # Arabic
-    "דג סקרן שט בים מאוכזב",  # Hebrew
-    "नमस्ते दुनिया",  # Devanagari
-    "বাংলা লিপি",  # Bengali
-    "ਗੁਰਮੁਖੀ ਲਿਪੀ",  # Gurmukhi
-    "ગુજરાતી લિપિ",  # Gujarati
-    "ଓଡ଼ିଆ ଲିପି",  # Odia
-    "தமிழ் எழுத்து",  # Tamil
-    "తెలుగు లిపి",  # Telugu
-    "ಕನ್ನಡ ಲಿಪಿ",  # Kannada
-    "മലയാളം ലിപി",  # Malayalam
-    "සිංහල අක්ෂර",  # Sinhala
-    "สวัสดีชาวโลก",  # Thai
-    "ສະບາຍດີ",  # Lao
-    "សួស្តីពិភពលោក",  # Khmer
-    "မင်္ဂလာပါ",  # Myanmar
-    "བོད་ཡིག",  # Tibetan
-    "ქართული დამწერლობა",  # Georgian
-    "Հայերեն այբուբեն",  # Armenian
-    "ግዕዝ ፊደል",  # Ethiopic
-    "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ",  # Cherokee
-    "ᐃᓄᒃᑎᑐᑦ",  # Canadian syllabics
-    "ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ",  # Mongolian
-    "⠃⠗⠁⠊⠇⠇⠑",  # Braille
-]
+# A line in each script, for a face previewed in its own: the same list as scriptSamples in
+# TypecaskUITests/ApplePreviewRenderer.swift, which picks Apple's fonts' samples. Keyed by ISO 15924
+# code, as google/fonts names a family's primary script, and tried in order for a face with no Latin.
+SCRIPT_SAMPLES = {
+    "Jpan": "いろはにほへと ちりぬるを",  # Japanese
+    "Hans": "天地玄黄 宇宙洪荒",  # Chinese, simplified
+    "Hant": "天地玄黃 宇宙洪荒",  # Chinese, traditional
+    "Kore": "다람쥐 헌 쳇바퀴에 타고파",  # Korean
+    "Arab": "أبجد هوز حطي كلمن",  # Arabic
+    "Hebr": "דג סקרן שט בים מאוכזב",  # Hebrew
+    "Deva": "नमस्ते दुनिया",  # Devanagari
+    "Beng": "বাংলা লিপি",  # Bengali
+    "Guru": "ਗੁਰਮੁਖੀ ਲਿਪੀ",  # Gurmukhi
+    "Gujr": "ગુજરાતી લિપિ",  # Gujarati
+    "Orya": "ଓଡ଼ିଆ ଲିପି",  # Odia
+    "Taml": "தமிழ் எழுத்து",  # Tamil
+    "Telu": "తెలుగు లిపి",  # Telugu
+    "Knda": "ಕನ್ನಡ ಲಿಪಿ",  # Kannada
+    "Mlym": "മലയാളം ലിപി",  # Malayalam
+    "Sinh": "සිංහල අක්ෂර",  # Sinhala
+    "Thai": "สวัสดีชาวโลก",  # Thai
+    "Laoo": "ສະບາຍດີ",  # Lao
+    "Khmr": "សួស្តីពិភពលោក",  # Khmer
+    "Mymr": "မင်္ဂလာပါ",  # Myanmar
+    "Tibt": "བོད་ཡིག",  # Tibetan
+    "Geor": "ქართული დამწერლობა",  # Georgian
+    "Armn": "Հայերեն այբուբեն",  # Armenian
+    "Ethi": "ግዕዝ ፊደል",  # Ethiopic
+    "Cher": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ",  # Cherokee
+    "Cans": "ᐃᓄᒃᑎᑐᑦ",  # Canadian syllabics
+    "Mong": "ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ",  # Mongolian
+    "Syrc": "ܠܫܢܐ ܣܘܪܝܝܐ",  # Syriac
+    "Mtei": "ꯃꯤꯇꯩ ꯃꯌꯦꯛ",  # Meetei Mayek
+    "Olck": "ᱚᱞ ᱪᱤᱠᱤ",  # Ol Chiki
+    "Brai": "⠃⠗⠁⠊⠇⠇⠑",  # Braille
+}
+CJK_SCRIPTS = ("Jpan", "Hans", "Hant", "Kore")
+# google/fonts' names for scripts this list has under another.
+SCRIPT_ALIASES = {"Hira": "Jpan", "Kana": "Jpan", "Hrkt": "Jpan", "Hang": "Kore", "Hani": "Hans"}
+# A CJK family's region, as its name gives it: Noto Sans CJK JP and KR carry the same characters.
+CJK_REGIONS = {"Jpan": "JP", "Kore": "KR", "Hans": "SC|CN|GB", "Hant": "TC|HK|MO|TW"}
+# The characters own_script() counts to tell a face's script.
+SCRIPT_RANGES = {
+    "kana": (0x3040, 0x30FF),
+    "han": (0x4E00, 0x9FFF),
+    "hangul": (0xAC00, 0xD7A3),
+    "greek": (0x0391, 0x03C9),
+    "cyrillic": (0x0410, 0x044F),
+}
+
 # Nerd Fonts icons the gallery shows under the sample: the Powerline branch, GitHub, git, Rust, Python,
 # Node, a terminal, Apple, Linux, Arch, a folder, code, a bolt and a cog, which every Nerd Fonts v3
 # cask in the catalog has. Powerline's rounded caps were dropped: on their own they're a black blob.
@@ -266,7 +285,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 8
+PIPELINE_VERSION = 9
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -897,18 +916,93 @@ def regular_location(axes):
     }
 
 
-def sample_for(face):
-    """What the face is previewed with: SAMPLE_TEXT where it has the Latin letters, else the first of
-    SCRIPT_SAMPLES it covers, else None."""
+def sample_for(face, primary_script=None):
+    """What the face is previewed with: the line in its own script, then SAMPLE_TEXT on the next where
+    it has Latin letters too; SAMPLE_TEXT alone for a Latin face; or None for one that draws none of
+    them, an icon, emoji or music font.
+
+    A face's own script is the one google/fonts gives as the family's primary script, else what
+    own_script() reads from the face. Most faces for other scripts carry Latin letters too, so having
+    them doesn't make a face Latin, and Google calls Poppins and Teko Devanagari faces, though most
+    use them for Latin: showing both covers either reading.
+    """
     with TTFont(face.path, fontNumber=face.number, lazy=True) as font:
         cmap = font.getBestCmap() or {}
+        os2 = font.get("OS/2")
+        code_pages = getattr(os2, "ulCodePageRange1", 0) if os2 is not None else 0
+    covered = [
+        script
+        for script, sample in SCRIPT_SAMPLES.items()
+        if all(ord(character) in cmap for character in sample if not character.isspace())
+    ]
     letters = {ord(character) for character in PANGRAM if not character.isspace()}
-    if len(letters & cmap.keys()) >= LATIN_COVERAGE * len(letters):
-        return SAMPLE_TEXT
-    return next(
-        (sample for sample in SCRIPT_SAMPLES if all(ord(char) in cmap for char in sample if not char.isspace())),
-        None,
-    )
+    latin = len(letters & cmap.keys()) >= LATIN_COVERAGE * len(letters)
+    primary_script = SCRIPT_ALIASES.get(primary_script, primary_script)
+    if primary_script in ("Latn", "Grek", "Cyrl") and latin:
+        script = None
+    elif primary_script in covered:
+        script = primary_script
+    else:
+        script = own_script(face.family, cmap, code_pages, covered, latin)
+    if script is None:
+        return SAMPLE_TEXT if latin else None
+    return SCRIPT_SAMPLES[script] + ("\n" + SAMPLE_TEXT if latin else "")
+
+
+def own_script(family, cmap, code_pages, covered, latin):
+    """The script of `covered` a face is for, or None for a Latin face.
+
+    A face with no Latin is for the first it covers. One with Latin is for a CJK script when it has
+    the thousands of characters one needs, or the kana alone of a kana display face, since Japanese
+    fonts carry Greek and Cyrillic, and Hebrew sometimes. Otherwise it's for another script when it
+    covers just that one and has neither Greek nor Cyrillic: Tahoma and Open Sans, with Hebrew or
+    Arabic and Thai beside the scripts of Europe, are Latin faces. Braille counts only where there's
+    nothing else: Nerd Fonts and Maple Mono draw its patterns for terminals.
+    """
+    counts = Counter()
+    for code in cmap:
+        for name, (low, high) in SCRIPT_RANGES.items():
+            if low <= code <= high:
+                counts[name] += 1
+    cjk = [script for script in covered if script in CJK_SCRIPTS]
+    others = [script for script in covered if script not in CJK_SCRIPTS and script != "Brai"]
+    if not latin:
+        if cjk:
+            return cjk_script(family, code_pages, counts, cjk)
+        return covered[0] if covered else None
+    ideographs = counts["han"] + counts["hangul"]
+    if cjk and len(others) < 6 and (ideographs >= 2000 or (counts["kana"] >= 80 and ideographs < 20)):
+        return cjk_script(family, code_pages, counts, cjk)
+    if not cjk and len(others) == 1 and counts["greek"] < 20 and counts["cyrillic"] < 20:
+        return others[0]
+    return None
+
+
+def cjk_script(family, code_pages, counts, covered):
+    """Which of the CJK scripts in `covered` a CJK face is for: the region its family name gives, else
+    the one its OS/2 code pages name alone, else Japanese for a face with kana, Korean for one with
+    hangul, and Chinese."""
+    regions = [script for script, codes in CJK_REGIONS.items() if re.search(rf"(?:\b|(?<=[a-z]))(?:{codes})\b", family)]
+    # Code pages 932 (JIS), 936 (simplified Chinese), 949 and 1361 (Korean) and 950 (traditional).
+    pages = {
+        script
+        for script, bits in (("Jpan", 1 << 17), ("Hans", 1 << 18 | 1 << 20), ("Kore", 1 << 19 | 1 << 21))
+        if code_pages & bits
+    }
+    if regions:
+        wanted = regions[0]
+    elif len(pages) == 1:
+        (wanted,) = pages
+        if wanted == "Hans" and not code_pages & 1 << 18:
+            wanted = "Hant"
+    elif counts["kana"] >= 80:
+        wanted = "Jpan"
+    elif counts["hangul"] >= 2000:
+        wanted = "Kore"
+    else:
+        wanted = "Hans"
+    order = [wanted, *(("Hant", "Hans") if wanted in ("Hans", "Hant") else ()), *CJK_SCRIPTS]
+    return next(script for script in order if script in covered)
 
 
 def font_version_of(font):
@@ -1051,6 +1145,15 @@ def describe(html):
     return "\n\n".join(text for text in paragraphs if text) or None
 
 
+def google_primary_script(directory):
+    """The script google/fonts says the family is for, as an ISO 15924 code, where it says: about a
+    third of families do, though Badeen Display, an Arabic face, doesn't."""
+    if not directory or not (metadata := CLONE / directory / "METADATA.pb").is_file():
+        return None
+    match = re.search(r'^primary_script: "(\w+)"', metadata.read_text(), re.MULTILINE)
+    return match.group(1) if match else None
+
+
 def google_description(directory):
     for name in GOOGLE_DESCRIPTIONS:
         if (path := CLONE / directory / name).is_file():
@@ -1181,7 +1284,7 @@ def build_cask(entry, destination, mirrored=frozenset()):
             files.append({"file": path.name, "asset": faces[0].postscript_name, "bytes": size, "shippable": shippable})
         # The app decides a cask is installed by resolving primaryFont, so it has to be a face that ships.
         primary = primary_face(shipped_faces or all_faces)
-        sample = sample_for(primary)
+        sample = sample_for(primary, google_primary_script(google.get("directory")))
         if sample is None:
             # Icon, emoji and music fonts draw none of the samples: a card would show the system font.
             raise Skip("draws none of the sample text")

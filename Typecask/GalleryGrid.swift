@@ -103,8 +103,8 @@ struct InstallBadge: View {
     }
 }
 
-/// The sample text in a cask's preview font, or a line in its own script for a font with no Latin
-/// letters, and Nerd Fonts' icons under it for a patched cask.
+/// The sample text in a cask's preview font, after a line in its own script for a font for another
+/// script, and Nerd Fonts' icons under it for a patched cask.
 struct CaskSpecimen: View {
     let cask: Cask
     let catalog: Catalog

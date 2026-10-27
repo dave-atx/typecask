@@ -17,7 +17,8 @@ struct AppleFontFamily: Decodable, Identifiable, Hashable {
     let style: DesignStyle
     /// Always installed, as opposed to downloadable from Settings.
     let builtIn: Bool
-    /// A line in the family's own script, for a font with no Latin letters.
+    /// A line in the family's own script, then the sample text where it has Latin letters too; nil for
+    /// a Latin font.
     let sample: String?
     /// The family's preview face subset to its sample, from the Mac's copy, for a downloadable family.
     let previewFile: String?

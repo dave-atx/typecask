@@ -20,7 +20,8 @@ final class ApplePreviewRenderer: XCTestCase {
         let previewFace: String
         let style: String
         let builtIn: Bool
-        /// A line in the family's own script, for a font with no Latin letters.
+        /// A line in the family's own script, then the sample text where it has Latin letters too; nil
+        /// for a Latin font.
         let sample: String?
         /// Base name of the preview images; downloadable families only.
         var preview: String?
@@ -108,8 +109,7 @@ final class ApplePreviewRenderer: XCTestCase {
 
     private static func describe(_ name: String, faces: Int, face: String, builtIn: Bool) -> Family {
         let font = CTFontCreateWithName(face as CFString, 20, nil)
-        let sample = covers(font, "The quick brown fox jumps over the lazy dog")
-            ? nil : scriptSamples.first { covers(font, $0) }
+        let sample = OwnScript.sample(for: font, family: name, latinSample: sampleText)
         return Family(name: name, faces: faces, previewFace: face, style: classify(font),
                       builtIn: builtIn, sample: sample, preview: nil, fontFile: nil)
     }
@@ -177,7 +177,7 @@ final class ApplePreviewRenderer: XCTestCase {
     /// card, and two lines at 64pt for the sample list and the detail page.
     private static func renderPreviews(of family: Family, into directory: URL) throws -> String {
         let base = "ApplePreview-" + family.name.replacing(/[^A-Za-z0-9]+/, with: "-")
-        let text = family.sample ?? "The quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|"
+        let text = family.sample ?? sampleText
         for (suffix, size, width, lines, scale) in [("card", 20.0, 190.0, 3, 3), ("row", 64.0, 1000.0, 2, 2)] {
             let font = CTFontCreateWithName(family.previewFace as CFString, size, nil)
             let image = render(text, font: font, width: width, lines: lines, scale: CGFloat(scale))
@@ -236,44 +236,6 @@ final class ApplePreviewRenderer: XCTestCase {
                        provider: provider, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
     }
 
-    /// Whether the font draws every character of `text` itself, skipping spaces.
-    private static func covers(_ font: CTFont, _ text: String) -> Bool {
-        let units = Array(text.filter { !$0.isWhitespace }.utf16)
-        guard !units.isEmpty else { return false }
-        var glyphs = [CGGlyph](repeating: 0, count: units.count)
-        return CTFontGetGlyphsForCharacters(font, units, &glyphs, units.count)
-    }
-
-    /// A line in each script Apple's fonts cover, tried in order. Japanese comes before Chinese because
-    /// Japanese fonts carry the kanji too, while Chinese fonts lack the kana. SCRIPT_SAMPLES in
-    /// scripts/build-catalog.py is the same list, for casks; change both together.
-    private static let scriptSamples = [
-        "いろはにほへと ちりぬるを",          // Japanese
-        "天地玄黄 宇宙洪荒",                  // Chinese
-        "다람쥐 헌 쳇바퀴에 타고파",            // Korean
-        "أبجد هوز حطي كلمن",                  // Arabic
-        "דג סקרן שט בים מאוכזב",              // Hebrew
-        "नमस्ते दुनिया",                        // Devanagari
-        "বাংলা লিপি",                          // Bengali
-        "ਗੁਰਮੁਖੀ ਲਿਪੀ",                          // Gurmukhi
-        "ગુજરાતી લિપિ",                         // Gujarati
-        "ଓଡ଼ିଆ ଲିପି",                           // Odia
-        "தமிழ் எழுத்து",                        // Tamil
-        "తెలుగు లిపి",                          // Telugu
-        "ಕನ್ನಡ ಲಿಪಿ",                           // Kannada
-        "മലയാളം ലിപി",                         // Malayalam
-        "සිංහල අක්ෂර",                         // Sinhala
-        "สวัสดีชาวโลก",                         // Thai
-        "ສະບາຍດີ",                              // Lao
-        "សួស្តីពិភពលោក",                          // Khmer
-        "မင်္ဂလာပါ",                              // Myanmar
-        "བོད་ཡིག",                              // Tibetan
-        "ქართული დამწერლობა",                // Georgian
-        "Հայերեն այբուբեն",                   // Armenian
-        "ግዕዝ ፊደል",                           // Ethiopic
-        "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ",                         // Cherokee
-        "ᐃᓄᒃᑎᑐᑦ",                             // Canadian syllabics
-        "ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ",                         // Mongolian
-        "⠃⠗⠁⠊⠇⠇⠑"                               // Braille
-    ]
+    /// SAMPLE_TEXT in scripts/build-catalog.py, which the catalog gives the app as its sample text.
+    private static let sampleText = "The quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|"
 }
