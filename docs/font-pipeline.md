@@ -91,7 +91,7 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   SuperTTCs), so a cask made only of those reads as "Fonts not included in this build".
 - **The primary face** is the one the gallery previews and the app checks to see whether a cask is
   installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
-  width, proportional where the cask also has a monospaced family, then the shortest family name.
+  width, not a family named Mono beside others (Liberation Mono), then the shortest family name.
 - **Previews** are the primary face subset to the sample, keeping only the OpenType features Core
   Text applies by default and no hinting, which Core Text doesn't use: every feature kept every
   stylistic alternate, and Iosevka's preview came to 1,900 glyphs. A variable font is instanced at

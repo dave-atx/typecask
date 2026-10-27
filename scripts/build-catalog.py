@@ -265,7 +265,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 6
+PIPELINE_VERSION = 7
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -676,8 +676,10 @@ class Face:
     width: int  # OS/2 width class, 5 for normal
     italic: bool
     variable: bool
-    fixed_pitch: bool
-    math: bool  # a family named for it, STIX Two Math or Libertinus Math
+    # Families named for it, which their names say more reliably than their tables: DejaVu Sans
+    # carries a MATH table, and Libertinus Mono doesn't set isFixedPitch.
+    mono: bool  # Liberation Mono, Red Hat Mono
+    math: bool  # STIX Two Math, Libertinus Math
 
     @property
     def regular(self):
@@ -722,19 +724,9 @@ def read_faces(path):
                 width = 5
             style = "italic" if italic else "regular"
         postscript_name = names.getDebugName(6) or ""
-        # By name, not by a MATH table, which DejaVu Sans and Serif carry too.
+        mono = bool(re.search(r"mono(?![a-z])", family, re.IGNORECASE))  # FreeMono too
         math = bool(re.search(r"\bmath\b", family, re.IGNORECASE))
-        return Face(
-            path, number, postscript_name, family, style, weight, width, italic, variable, monospaced(font), math
-        )
-
-    def monospaced(font):
-        # Libertinus Mono doesn't set isFixedPitch, so the letters' advances count too.
-        if "post" in font and font["post"].isFixedPitch:
-            return True
-        cmap = font.getBestCmap() or {}
-        glyphs = [cmap.get(ord(letter)) for letter in "ilmW"]
-        return "hmtx" in font and None not in glyphs and len({font["hmtx"][glyph][0] for glyph in glyphs}) == 1
+        return Face(path, number, postscript_name, family, style, weight, width, italic, variable, mono, math)
 
     if path.suffix.lower() in COLLECTION_SUFFIXES:
         with TTCollection(path, lazy=True) as collection:
@@ -772,11 +764,13 @@ def select_files(faces):
 
 def primary_face(faces):
     """The face a cask is previewed in and recognised as installed by: a text face, not math, upright
-    and Regular, nearest 400 in weight and normal in width, proportional where the cask has both, then
-    the shortest family and name, which skips Nerd Fonts' Mono and Propo variants.
+    and Regular, nearest 400 in weight and normal in width, not a family named Mono beside the cask's
+    others, then the shortest family and name, which skips Nerd Fonts' Mono and Propo variants.
 
     Without the width, Noto's Nerd Font previewed its condensed face, whose legacy family name is the
-    shorter; without the spacing, Liberation and Red Hat their monospaced families, which sort first.
+    shorter; without the Mono rule, Liberation and Red Hat their Mono families, which sort first. It
+    goes by the name rather than the spacing, so Input, Myrica and Sudo keep their monospaced faces
+    over their proportional ones.
     """
     return min(
         faces,
@@ -786,7 +780,7 @@ def primary_face(faces):
             not face.regular,
             abs(face.weight - 400),
             abs(face.width - 5),
-            face.fixed_pitch,
+            face.mono,
             len(face.family),
             len(face.postscript_name),
             face.postscript_name,
