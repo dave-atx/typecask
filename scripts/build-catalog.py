@@ -265,7 +265,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 5
+PIPELINE_VERSION = 6
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -677,7 +677,7 @@ class Face:
     italic: bool
     variable: bool
     fixed_pitch: bool
-    math: bool  # carries a MATH table: STIX Two Math, Libertinus Math
+    math: bool  # a family named for it, STIX Two Math or Libertinus Math
 
     @property
     def regular(self):
@@ -721,11 +721,20 @@ def read_faces(path):
             if "wdth" not in axes or axes["wdth"].minValue <= 100 <= axes["wdth"].maxValue:
                 width = 5
             style = "italic" if italic else "regular"
-        fixed_pitch = "post" in font and bool(font["post"].isFixedPitch)
         postscript_name = names.getDebugName(6) or ""
+        # By name, not by a MATH table, which DejaVu Sans and Serif carry too.
+        math = bool(re.search(r"\bmath\b", family, re.IGNORECASE))
         return Face(
-            path, number, postscript_name, family, style, weight, width, italic, variable, fixed_pitch, "MATH" in font
+            path, number, postscript_name, family, style, weight, width, italic, variable, monospaced(font), math
         )
+
+    def monospaced(font):
+        # Libertinus Mono doesn't set isFixedPitch, so the letters' advances count too.
+        if "post" in font and font["post"].isFixedPitch:
+            return True
+        cmap = font.getBestCmap() or {}
+        glyphs = [cmap.get(ord(letter)) for letter in "ilmW"]
+        return "hmtx" in font and None not in glyphs and len({font["hmtx"][glyph][0] for glyph in glyphs}) == 1
 
     if path.suffix.lower() in COLLECTION_SUFFIXES:
         with TTCollection(path, lazy=True) as collection:
