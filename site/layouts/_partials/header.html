@@ -1,0 +1,13 @@
+<header class="site-head">
+  <div class="bar">
+    <a class="mark" href="{{ "/" | relURL }}">
+      type<em>cask</em>
+    </a>
+    <nav aria-label="Primary">
+      <a href="{{ "/fonts/" | relURL }}"{{ if hasPrefix .RelPermalink "/fonts/" }} aria-current="true"{{ end }}>Fonts</a>
+      <a href="{{ "/privacy/" | relURL }}"{{ if eq .RelPermalink "/privacy/" }} aria-current="true"{{ end }}>Privacy</a>
+      <a href="{{ "/support/" | relURL }}"{{ if eq .RelPermalink "/support/" }} aria-current="true"{{ end }}>Support</a>
+    </nav>
+    {{ partial "download-button.html" (dict "page" . "small" true) }}
+  </div>
+</header>

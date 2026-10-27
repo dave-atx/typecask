@@ -33,6 +33,18 @@ everyone.
 echo 'DEVELOPMENT_TEAM = ABCDE12345' > Signing.local.xcconfig
 ```
 
+## Building the site
+
+[typecask.app](https://typecask.app) is a Hugo site in `site/`. It reads the catalog of the most
+recent `testflight-N` tag rather than main's, so it describes the app people can install:
+
+```sh
+scripts/site-catalog.sh
+cd site && hugo server
+```
+
+Needs Hugo 0.168 or later. [docs/site.md](docs/site.md) covers the rest.
+
 ## Checks
 
 Run these before opening a pull request. The **Checks** workflow (`.github/workflows/checks.yml`)

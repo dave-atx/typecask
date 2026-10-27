@@ -1,0 +1,40 @@
+{{ define "head" }}
+  {{- /* The first rows are set before any script runs; the rest load on scroll. */ -}}
+  <style>
+    {{- range first 24 (sort .Pages "Params.popularity") }}
+      @font-face{font-family:"tc-{{ .Params.slug }}";src:url("{{ (printf "/p/%s" .Params.preview) | relURL }}");font-display:swap}
+    {{- end }}
+  </style>
+{{ end }}
+
+{{ define "main" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  {{- $pages := sort .Pages "Params.popularity" -}}
+
+  <div class="bar catalog-head">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/fonts/" | relURL }}">Fonts</a></nav>
+    <h1>{{ .Title }}</h1>
+    <p class="lede">{{ partial "style-blurb.html" .Title }}</p>
+    <p class="fine">{{ lang.FormatNumber 0 (len $pages) }} families, ordered by installs.</p>
+  </div>
+
+  <div class="wall">
+    {{- range $pages }}
+      <a class="spec-row" href="{{ .RelPermalink }}" data-f="{{ .Params.slug }}"
+        data-p="{{ .Params.preview }}">
+        <span class="spec-meta">
+          <b>{{ .Title }}</b>
+          <span>{{ .Params.styleName }}</span>
+          {{- if .Params.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
+          <span class="spec-installs">{{ lang.FormatNumber 0 .Params.installs }} brew installs</span>
+        </span>
+        <span class="spec-line" style="font-family:'tc-{{ .Params.slug }}',var(--ui)">{{ .Params.sample }}</span>
+      </a>
+    {{- end }}
+  </div>
+
+  {{- with resources.Get "js/catalog.js" }}
+    {{- $js := . | fingerprint }}
+    <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{- end }}
+{{ end }}

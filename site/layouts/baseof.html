@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    {{ partial "head.html" . }}
+    {{ block "head" . }}{{ end }}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    {{ partial "header.html" . }}
+    <main id="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+    {{ partial "analytics.html" . }}
+  </body>
+</html>

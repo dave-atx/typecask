@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <div class="bar catalog-head">
+    <h1>{{ .Title }}</h1>
+    <p class="lede">Every collection in the catalog.</p>
+  </div>
+  <div class="bar style-links style-links-page">
+    {{- range .Pages }}
+      <a href="{{ .RelPermalink }}">{{ .Title }} <b>{{ lang.FormatNumber 0 (len .Pages) }}</b></a>
+    {{- end }}
+  </div>
+{{ end }}

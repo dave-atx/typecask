@@ -1,0 +1,9 @@
+{{- $blurbs := dict
+    "Fixed Width" "Every glyph the same width, which is what a terminal and a code editor need. The most installed fonts in the whole catalog live here."
+    "Serif" "Faces with finishing strokes on the letters. What most books are set in, and what reads best in long runs of text."
+    "Sans Serif" "No finishing strokes. The largest group in the catalog, and where most interface and body faces sit."
+    "Display" "Built for headlines and posters rather than paragraphs. Set them large."
+    "Handwriting" "Script and hand-drawn faces, from formal copperplate to marker pen."
+    "Nerd Fonts" "Fixed-width faces patched with Nerd Fonts' icon set, so a shell prompt, a status line and a file tree render the way they do on a desktop."
+-}}
+{{- index $blurbs . | default "Fonts in this collection." -}}

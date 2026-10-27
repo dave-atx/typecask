@@ -46,6 +46,17 @@ scripts/build-catalog.py check-licenses
   font. `ApplePreviewRenderer` downloads them in the simulator.
 - Keep `.cache/` on the boot disk.
 
+## The site
+
+- `site/` reads the catalog of the latest `testflight-N` tag, not main's: `scripts/site-catalog.sh`
+  writes `site/data/`, `site/static/p/` and `site/licenses/`, all gitignored. Run it before `hugo`.
+- Previews hold about fifty glyphs, so nothing on the site can be set in a font but the sample line.
+- Apple's fonts stay off the site; `apple-previews` subsets Apple's own files.
+- A `define` in a page template reaches a `block` in `baseof.html` only, never one inside a partial.
+- Hugo's taxonomy map keys multi-word terms with spaces, so look a term page up with `site.GetPage`
+  and a urlized path rather than `.Taxonomies.styles.Get`.
+- JSON numbers arrive as float64: `printf "%d"` needs an `int` cast first.
+
 ## Signing and releases
 
 - Verify in the simulator before publishing fonts or a release.

@@ -1,0 +1,31 @@
+{{- $release := hugo.Data.release -}}
+<footer class="site-foot">
+  <div class="bar">
+    <div class="foot-col">
+      <p class="foot-mark">type<em>cask</em></p>
+      <p>Free fonts for {{ site.Params.minimumOS }} and later.</p>
+    </div>
+    <nav class="foot-col" aria-label="Fonts">
+      <h2>Fonts</h2>
+      <a href="{{ "/fonts/" | relURL }}">All fonts</a>
+      {{- range (slice "Fixed Width" "Serif" "Sans Serif" "Display" "Handwriting" "Nerd Fonts") }}
+        <a href="{{ (printf "/styles/%s/" (urlize .)) | relURL }}">{{ . }}</a>
+      {{- end }}
+    </nav>
+    <nav class="foot-col" aria-label="About">
+      <h2>About</h2>
+      <a href="{{ "/privacy/" | relURL }}">Privacy</a>
+      <a href="{{ "/support/" | relURL }}">Support</a>
+      <a href="{{ "/licenses/" | relURL }}">Font licenses</a>
+      <a href="{{ site.Params.repoURL }}">Source on GitHub</a>
+    </nav>
+  </div>
+  <div class="bar foot-fine">
+    <p>Every font belongs to its designers and ships under its own license. Typecask isn't affiliated
+      with Homebrew, Google or Apple.</p>
+    <p>
+      {{- with $release }}Catalog from build {{ .build }}, {{ .date }}. {{ end -}}
+      <a href="{{ site.Params.repoURL }}/blob/main/LICENSE">Apache 2.0</a>
+    </p>
+  </div>
+</footer>
