@@ -15,9 +15,11 @@ comes from, and `build` builds everything from that lock.
 
 and the same licenses as text into `Licenses/` at the root, outside the app, so a fonts pull request
 shows what changed in them. The app carries them compressed: 2,000-odd text files, most of them the
-same OFL, took 20 MB on a device, where the one file takes 0.8 MB.
+same OFL, took 20 MB on a device, where the one file takes 0.5 MB.
 
-These are generated, so don't edit them by hand: change the script and rebuild.
+These are generated, so don't edit them by hand: change the script and rebuild. Both copies of the
+licenses are committed, so CI runs `scripts/build-catalog.py check-licenses`, which fails if
+`Licenses.deflate` isn't what `Licenses/` deflates to.
 
 ## Lock
 

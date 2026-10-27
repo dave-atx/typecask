@@ -22,6 +22,7 @@ build writes into Typecask/:
 and the same licenses as text into Licenses/, beside the app rather than in it, for review.
 
 apple-previews subsets the previews of Apple's downloadable fonts; see docs/font-pipeline.md.
+check-licenses fails if Licenses.deflate isn't what Licenses/ deflates to, for CI.
 """
 
 import argparse
@@ -1551,11 +1552,27 @@ def build(only=None, max_mb_per_install=None, jobs=1):
 
 
 def write_license_bundle(licenses):
-    """Writes LICENSE_BUNDLE. Sorted and compact, so the same licenses always deflate to the same bytes."""
+    LICENSE_BUNDLE.write_bytes(license_bundle(licenses))
+
+
+def license_bundle(licenses):
+    """LICENSE_BUNDLE's bytes. Sorted and compact, so the same licenses always deflate to the same bytes."""
     text = json.dumps(licenses, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     # Negative window bits make raw DEFLATE, with no zlib header, which is what Apple's .zlib reads.
     compressor = zlib.compressobj(9, zlib.DEFLATED, -15)
-    LICENSE_BUNDLE.write_bytes(compressor.compress(text.encode()) + compressor.flush())
+    return compressor.compress(text.encode()) + compressor.flush()
+
+
+def check_licenses():
+    """`check-licenses`: whether LICENSE_BUNDLE holds exactly the texts in LICENSES. build writes both
+    from the same licenses, so they differ only when one was edited by hand or committed without the
+    other."""
+    licenses = {path.stem: path.read_text() for path in sorted(LICENSES.glob("*.txt"))}
+    if LICENSE_BUNDLE.read_bytes() == license_bundle(licenses):
+        print(f"{LICENSE_BUNDLE.relative_to(ROOT)} matches the {len(licenses)} licenses in Licenses/")
+        return 0
+    print(f"{LICENSE_BUNDLE.relative_to(ROOT)} doesn't match Licenses/: rebuild both with build-catalog.py build")
+    return 1
 
 
 def mirror():
@@ -1694,6 +1711,7 @@ def main():
     commands.add_parser(
         "apple-previews", help="subset Apple's downloadable fonts' previews; run right after ApplePreviewRenderer"
     )
+    commands.add_parser("check-licenses", help="check that Licenses.deflate matches Licenses/")
     arguments = parser.parse_args()
     if arguments.command == "lock":
         lock(arguments.count, arguments.google_top)
@@ -1705,6 +1723,8 @@ def main():
         )
     elif arguments.command == "mirror":
         mirror()
+    elif arguments.command == "check-licenses":
+        return check_licenses()
     else:
         apple_previews()
 

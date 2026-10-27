@@ -12,6 +12,7 @@ uvx ruff format --check scripts && uvx ruff check scripts
 uvx --from shellcheck-py shellcheck scripts/*.sh
 uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
+scripts/build-catalog.py check-licenses
 ```
 
 ## Generated files

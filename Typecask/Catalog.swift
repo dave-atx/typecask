@@ -88,7 +88,7 @@ struct Cask: Decodable, Identifiable, Hashable {
 }
 
 /// Every cask's license, from Licenses.deflate: a JSON object by token, raw-deflated by
-/// scripts/build-catalog.py. That's 0.8 MB in the app where 2,000-odd text files took 20 MB.
+/// scripts/build-catalog.py. That's 0.5 MB in the app where 2,000-odd text files took 20 MB.
 enum Licenses {
     /// Read only when a license is shown, and off the main actor: the file inflates to 12 MB, too much
     /// to keep around for the one license on screen.

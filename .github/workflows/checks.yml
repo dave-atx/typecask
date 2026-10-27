@@ -40,6 +40,9 @@ jobs:
       - name: actionlint
         run: uvx --from actionlint-py==1.7.12.25 actionlint
 
+      - name: Licenses.deflate matches Licenses/
+        run: scripts/build-catalog.py check-licenses
+
   swift:
     # SwiftLint's own Linux image, which starts in seconds where a macOS runner takes minutes to get.
     runs-on: ubuntu-26.04
