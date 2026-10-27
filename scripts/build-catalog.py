@@ -81,6 +81,16 @@ EXCLUDED = {
     # isn't redistributable. github_license() finds a repository's license without being able to
     # tell that it doesn't cover the fonts beside it, which is how this one got in.
     "font-consolas-for-powerline",
+    # GPL and AGPL fonts, which Typecask doesn't ship at all. Apple's App Store terms impose device
+    # limits and DRM that conflict with GPL section 6; that's what got VLC and GNU Go pulled, and
+    # these fonts go to Apple as On-Demand Resources like everything else. A font exception, which
+    # fandol and urw-base35 carry, covers embedding a font in a document and says nothing about
+    # this. Any other GPL cask belongs here too.
+    "font-average-mono",
+    "font-fandol",
+    "font-freefont",
+    "font-nimbus-sans-l",
+    "font-urw-base35",
     # Draws every character as nothing, for testing font loading on the web: nothing to install.
     "font-adobe-blank",
     # Icons, symbols and emoji have nothing to preview.

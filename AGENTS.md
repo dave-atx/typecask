@@ -40,6 +40,10 @@ scripts/build-catalog.py check-licenses
 - Every asset catalog group needs its own `Contents.json`, or `actool` silently ships an empty pack.
 - Ship a cask only with a license. Never ship Apple's fonts; `apple-previews` subsets only what fsType
   permits (least restrictive bit wins).
+- Never ship a GPL or AGPL font: Apple's App Store terms conflict with GPL section 6, and a font
+  exception doesn't cover it. Add it to `EXCLUDED`.
+- A license found through the GitHub API is the repository's, not the fonts': that's how Consolas
+  got in under someone else's BSD license. Check a cask whose license came from there.
 - Run font-heavy scripts under the cap, `python3 scripts/memcap.py 14 <command>`, and open fonts with
   `lazy=True`: fontTools has reached 26 GB and crashed the Mac, invisibly to RSS.
 - On the Mac, never resolve a downloadable Apple font through Core Text; it pops a download dialog per
