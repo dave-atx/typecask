@@ -7,6 +7,8 @@
 #          updates them, before anything is published.
 # publish  attaches the archive to a GitHub release, writes the pin to Typecask/FontsAsset.json, and
 #          opens a pull request with everything the build regenerated. Merging it is the release.
+#          The pull request is against the branch the run started from: main on the schedule, or a
+#          branch whose pipeline changes need their fonts rebuilt before it merges.
 name: Fonts
 
 on:
@@ -117,7 +119,8 @@ jobs:
             Typecask/Catalog.json
             Typecask/AppleFonts.json
             Typecask/Previews/
-            Typecask/Licenses/
+            Typecask/Licenses.deflate
+            Licenses/
             .cache/${{ steps.tag.outputs.tag }}.tar.zst
             .cache/${{ steps.tag.outputs.tag }}.assets.json
             .cache/build-report.json
@@ -205,6 +208,7 @@ jobs:
           run_test testUninstalledCaskStaysUninstalledAfterRelaunch font-fira-code || status=1
           run_test testOutdatedCaskUpdates font-noto-sans-cjk-sc || status=1
           run_test testCaskBuiltIntoIOSOffersNoInstall font-noto-sans-armenian || status=1
+          run_test testLicenseShows font-roboto || status=1
           exit $status
 
   publish:
@@ -216,10 +220,15 @@ jobs:
       pull-requests: write
     env:
       TAG: ${{ needs.build.outputs.tag }}
-      BASE: ${{ github.event.repository.default_branch }}
+      BASE: ${{ github.ref_name }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v7
+
+      # The artifact holds every generated file that should exist. Unpacked over the checkout, a
+      # removed cask's preview and license would stay behind and ship in the app forever.
+      - name: Clear the generated files
+        run: rm -rf Typecask/Previews Licenses
 
       - uses: actions/download-artifact@v8
         with:
@@ -229,7 +238,7 @@ jobs:
       # release notes then compare with what the pull request is reviewed against, and the push isn't
       # refused. GitHub compares a new branch with the default branch, and refuses it as editing a
       # workflow, which this token can't, whenever one changed on main during the build.
-      - name: Move onto the latest ${{ github.event.repository.default_branch }}
+      - name: Move onto the latest ${{ github.ref_name }}
         run: |
           git fetch -q --depth=1 origin "$BASE"
           git reset -q FETCH_HEAD
@@ -243,8 +252,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Not named after the tag the release created, which would make the name ambiguous to git.
           git switch -c "update-fonts/$TAG"
-          git add fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
-            Typecask/Licenses Typecask/FontsAsset.json
+          # -A, so the files of casks that are gone are deleted rather than kept.
+          git add -A fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
+            Typecask/Licenses.deflate Licenses Typecask/FontsAsset.json
           git commit -q -m "Update fonts to $TAG"
           git push -q origin "update-fonts/$TAG"
           cat > .cache/pr-body.md <<EOF
@@ -259,4 +269,4 @@ jobs:
           if [ -s ".cache/$TAG.lost.txt" ]; then
             flags+=(--draft)
           fi
-          gh pr create --title "Update fonts to $TAG" --body-file .cache/pr-body.md "${flags[@]}"
+          gh pr create --base "$BASE" --title "Update fonts to $TAG" --body-file .cache/pr-body.md "${flags[@]}"
