@@ -1,0 +1,10 @@
+{{- /*
+  Cloudflare Web Analytics. Cookieless, no cross-site identifiers, and described on /privacy/. With
+  no token set it loads nothing at all, which is what every local and preview build does.
+*/ -}}
+{{- with site.Params.cloudflareAnalyticsToken -}}
+  {{- if hugo.IsProduction -}}
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "{{ . }}"}'></script>
+  {{- end -}}
+{{- end -}}

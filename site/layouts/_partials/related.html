@@ -1,0 +1,13 @@
+{{- /*
+  Four more of the same design style, the most installed that aren't this one. Gives every font page
+  a way out that isn't the back button, and links the 2,193 pages to each other.
+*/ -}}
+{{- $catalog := hugo.Data.catalog -}}
+{{- $me := .Params.token -}}
+{{- $out := slice -}}
+{{- range first 5 (sort (where $catalog.casks "style" .Params.styleKey) "popularity") -}}
+  {{- if and (ne .token $me) (lt (len $out) 4) -}}
+    {{- $out = $out | append (partial "cask-view.html" (dict "cask" . "sampleText" $catalog.sampleText)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

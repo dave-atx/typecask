@@ -1,0 +1,122 @@
+{{ define "head" }}
+  {{- $picks := partial "home-picks.html" . -}}
+  <style>
+    {{- range $picks.all }}
+      @font-face{font-family:"tc-{{ .slug }}";src:url("{{ (printf "/p/%s" .previewFile) | relURL }}");font-display:swap}
+    {{- end }}
+  </style>
+{{ end }}
+
+{{ define "main" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  {{- $picks := partial "home-picks.html" . -}}
+  {{- $count := len $catalog.casks -}}
+
+  <section class="hero">
+    <div class="bar hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{{ lang.FormatNumber 0 $count }} fonts · free · no account</p>
+        <h1>{{ site.Params.tagline }}</h1>
+        <p class="lede">Typecask brings Homebrew's font casks and every family on Google Fonts to
+          iOS. Tap Install, approve the system prompt, and the font turns up in Pages, Keynote,
+          Procreate, and anything else that takes an installed font.</p>
+        <div class="hero-cta">
+          {{ partial "download-button.html" (dict "page" . "small" false) }}
+          <a class="btn btn-big btn-quiet" href="{{ "/fonts/" | relURL }}">Browse the catalog</a>
+        </div>
+        <p class="fine">{{ site.Params.minimumOS }} or later, on iPhone and iPad.</p>
+      </div>
+
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="phone-bar"><span>All Fonts</span><span class="phone-sort">Sort</span></div>
+          <div class="phone-cards">
+            {{- range $picks.phone }}
+              <div class="phone-card">
+                <p class="phone-spec" style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</p>
+                <p class="phone-name">{{ .name }}</p>
+              </div>
+            {{- end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="strip">
+    <div class="bar strip-head">
+      <h2>Climbing this month</h2>
+      <a class="more" href="{{ "/fonts/" | relURL }}">All {{ lang.FormatNumber 0 $count }} fonts →</a>
+    </div>
+    <div class="wall">
+      {{- range $picks.trending }}
+        <a class="spec-row" href="{{ (printf "/fonts/%s/" .slug) | relURL }}">
+          <span class="spec-meta">
+            <b>{{ .name }}</b>
+            <span>{{ .styleName }}</span>
+            {{- if .glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
+          </span>
+          <span class="spec-line" style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</span>
+        </a>
+      {{- end }}
+    </div>
+  </section>
+
+  <section class="feats">
+    <div class="bar feats-grid">
+      <div class="feat">
+        <h2>Browse the way Font&nbsp;Book does</h2>
+        <p>A collection for each design style, plus Nerd Fonts and a look at Apple's own. Sort by
+          name, by how many people install it, or by what's climbing. Search by name.</p>
+      </div>
+      <div class="feat">
+        <h2>Preview before you download</h2>
+        <p>Every card in the gallery is set in its own face, and nothing downloads until you tap
+          Install. The app ships the previews, so scrolling costs you nothing.</p>
+      </div>
+      <div class="feat">
+        <h2>Install and remove, system-wide</h2>
+        <p>Installed fonts appear in Settings&nbsp;&rsaquo;&nbsp;General&nbsp;&rsaquo;&nbsp;Fonts and
+          survive app updates. Remove one from Typecask or from Settings, whichever you reach first.</p>
+      </div>
+      <div class="feat">
+        <h2>Updates when a font changes</h2>
+        <p>Typecask records the version of every font you install. When a later release carries a
+          newer one, the font's page offers Update instead of Install.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="styles-band">
+    <div class="bar">
+      <h2>By design style</h2>
+      <div class="style-links">
+        {{- range (slice "Fixed Width" "Serif" "Sans Serif" "Display" "Handwriting" "Nerd Fonts") }}
+          {{- /* The taxonomy map keys multi-word terms with spaces, so look the page up by path. */}}
+          {{- $term := site.GetPage (printf "/styles/%s" (urlize .)) }}
+          <a href="{{ (printf "/styles/%s/" (urlize .)) | relURL }}">
+            {{ . }} <b>{{ with $term }}{{ lang.FormatNumber 0 (len .Pages) }}{{ end }}</b>
+          </a>
+        {{- end }}
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy-band">
+    <div class="bar privacy-grid">
+      <div>
+        <h2>Nothing is collected</h2>
+        <p>Typecask has no accounts and no analytics, and the app makes no network requests of its
+          own. Fonts come down from Apple's App&nbsp;Store servers when you install them, the same way
+          the rest of an app's content does.</p>
+        <p><a class="more" href="{{ "/privacy/" | relURL }}">Read the privacy policy →</a></p>
+      </div>
+      <div>
+        <h2>Every font keeps its license</h2>
+        <p>A font without a license it can be redistributed under isn't in the catalog. The rest ship
+          with their license text, which you can read in the app and on every font's page here.</p>
+        <p><a class="more" href="{{ "/licenses/" | relURL }}">How licensing works →</a></p>
+      </div>
+    </div>
+  </section>
+{{ end }}

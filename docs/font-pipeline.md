@@ -114,7 +114,12 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
 - **A cask with nothing to install isn't listed**, so the gallery never offers one it can't
   install. Only a local `build --fonts` lists casks without their fonts, as "Fonts not included in
   this build".
-- **Licenses.** A cask ships only with a license.
+- **Licenses.** A cask ships only with a license, and only one that allows redistributing the font.
+  `EXCLUDED` in `build-catalog.py` holds the casks that don't: Apple's own fonts, Input, which is
+  free for personal use only, Consolas, which isn't Eugene Ching's to license, and the GPL and AGPL
+  families, whose terms conflict with the App Store's. Watch casks whose license came from the
+  GitHub API, since that reports the repository's license and can't say whether it covers the font
+  files beside it.
 
 ### Asset packs
 

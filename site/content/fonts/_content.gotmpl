@@ -1,0 +1,58 @@
+{{/*
+  One page per cask, built from the catalog the shipping app carries (data/catalog.json, which
+  scripts/site-catalog.sh extracts from the most recent testflight-N tag). Nothing here is
+  hand-maintained: a fonts release changes the catalog and these pages follow.
+*/}}
+
+{{ $catalog := hugo.Data.catalog }}
+
+{{ if not $catalog }}
+  {{ errorf "data/catalog.json is missing. Run scripts/site-catalog.sh before hugo." }}
+{{ end }}
+
+{{/* The app's own names for the design styles, from Typecask/DesignStyle.swift. */}}
+{{ $styleNames := dict
+    "monospaced" "Fixed Width"
+    "serif" "Serif"
+    "sansSerif" "Sans Serif"
+    "display" "Display"
+    "handwriting" "Handwriting"
+}}
+
+{{ range $catalog.casks }}
+  {{ $slug := strings.TrimPrefix "font-" .token }}
+  {{/* A style the catalog knows and this build doesn't falls in with sans serif, as the app does. */}}
+  {{ $styleName := index $styleNames .style | default "Sans Serif" }}
+  {{ $terms := slice $styleName }}
+  {{ if .glyphs }}
+    {{ $terms = $terms | append "Nerd Fonts" }}
+  {{ end }}
+
+  {{ $params := dict
+      "token" .token
+      "slug" $slug
+      "styleKey" .style
+      "styleName" $styleName
+      "sample" (.sample | default $catalog.sampleText)
+      "preview" .previewFile
+      "glyphs" .glyphs
+      "installs" .installs
+      "bytes" .bytes
+      "faces" .fonts
+      "version" .version
+      "fontVersion" .fontVersion
+      "popularity" .popularity
+      "trending" .trending
+      "designers" (.designers | default slice)
+      "homepage" .homepage
+      "styles" $terms
+  }}
+
+  {{/* Google's description, which is Markdown with links, becomes the page's body. */}}
+  {{ $.AddPage (dict
+      "path" $slug
+      "title" .name
+      "params" $params
+      "content" (dict "mediaType" "text/markdown" "value" (.description | default ""))
+  ) }}
+{{ end }}
