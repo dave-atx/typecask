@@ -16,8 +16,9 @@ uvx --from actionlint-py actionlint
 
 ## Generated files
 
-- Never hand-edit `Typecask/Catalog.json`, `Previews/`, `Licenses/`, `AppleFonts.json`,
-  `ApplePreviews/` or `Fonts.xcassets`; change `scripts/build-catalog.py` and rebuild.
+- Never hand-edit `Typecask/Catalog.json`, `Previews/`, `Licenses.deflate`, `AppleFonts.json`,
+  `ApplePreviews/` or `Fonts.xcassets`, or the root `Licenses/`; change `scripts/build-catalog.py`
+  and rebuild.
 - Look before deleting or overwriting anything generated: a full rebuild is hours of downloads.
 - The boot volume is case-insensitive. For a case-only rename, write to a distinct temp name and
   `os.replace` it, never save-new-then-delete-old, and check the stored names after.

@@ -17,8 +17,8 @@
 #
 # build trims heavy niche casks, those over 10 MB costing more than MAX_MB_PER_INSTALL (default 0.1)
 # per yearly install; set it empty to ship everything. It rewrites Typecask/Catalog.json, Previews/
-# and Licenses/, so commit those with the pin: CI refuses to build when the catalog and the asset
-# disagree. JOBS sets how many casks build at once. archive compresses at ZSTD_LEVEL.
+# and Licenses.deflate, and Licenses/, so commit those with the pin: CI refuses to build when the
+# catalog and the asset disagree. JOBS sets how many casks build at once. archive compresses at ZSTD_LEVEL.
 set -eu
 
 cd "$(dirname "$0")/.."
@@ -116,7 +116,8 @@ upload)
 }
 EOF
     echo "Pinned $TAG ($((size / 1024 / 1024)) MiB, $casks casks)." \
-        "Commit fonts.lock.json, Typecask/Catalog.json, Previews/, Licenses/ and FontsAsset.json together."
+        "Commit fonts.lock.json, Typecask/Catalog.json, Previews/, Licenses.deflate, Licenses/ and" \
+        "FontsAsset.json together."
     ;;
 *)
     echo "usage: $0 build|archive|upload [TAG]" >&2
