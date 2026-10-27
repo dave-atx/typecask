@@ -828,8 +828,10 @@ def subset_preview(face, token, directory, text, drop):
         # fontTools' default features, which are the ones Core Text applies unasked, shaping included.
         # Every feature ("*") kept every alternate the sample's letters reach through aalt, salt and
         # the stylistic sets, which no preview draws: Iosevka's came to 1,900 glyphs and 318 KB.
-        # Hinting goes too, since Core Text doesn't run it; together they halve the previews.
-        options.hinting = False
+        # Hinting goes too, since Core Text doesn't run it; together they halve the previews. Except
+        # in a CFF2 variable font, whose stripped hints fontTools' instancer then fails on, and which
+        # carries little hinting anyway: Source Han Sans VF, Cantarell.
+        options.hinting = "CFF2" in font and "fvar" in font
         options.name_IDs = ["*"]
         # BASE, baseline offsets for mixing scripts on a line, which a one-line sample doesn't need,
         # is always dropped: fontTools can't parse Google Sans Code Nerd Font's.
