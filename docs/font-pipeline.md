@@ -105,6 +105,8 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   it has no Greek or Cyrillic (Tahoma and Open Sans, with Hebrew or Thai beside those, are Latin
   faces), or CJK where it has thousands of ideographs. A CJK face's region comes from its name (Noto
   Sans CJK JP and KR carry the same characters), then its OS/2 code pages, then its kana or hangul.
+  `Catalog.json` and `AppleFonts.json` record that script as `script`, an ISO 15924 code (`Latn` for
+  a Latin face), and every script the face covers as `scripts`, for filtering by.
 - **Heavy niche casks** are left out entirely: those over 10 MB that cost more than 0.1 MB per yearly
   install, which is Iosevka's stylistic sets, the rarer Maple Mono builds and a handful of CJK families.
   Google families are exempt, since Homebrew undercounts fonts most people get from Google. Set

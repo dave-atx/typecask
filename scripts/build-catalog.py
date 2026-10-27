@@ -203,6 +203,9 @@ SCRIPT_NAMES = {
     "Mtei": "Meetei Mayek",
     "Olck": "Ol Chiki",
 }
+# The lowercase alphabets that make a face Greek or Cyrillic too, for filtering by script: Latin's is
+# PANGRAM, and the others are SCRIPT_SAMPLES.
+EUROPEAN_ALPHABETS = {"Grek": (0x03B1, 0x03C9), "Cyrl": (0x0430, 0x044F)}
 # Kanji made in Japan, which Chinese character sets lack though they carry the kana.
 JAPANESE_KANJI = "込働畑"
 # The characters own_script() counts to tell a face's script.
@@ -317,7 +320,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 9
+PIPELINE_VERSION = 10
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -948,10 +951,18 @@ def regular_location(axes):
     }
 
 
-def sample_for(face, primary_script=None):
-    """What the face is previewed with: the line in its own script, then SAMPLE_TEXT on the next where
-    it has Latin letters too; SAMPLE_TEXT alone for a Latin face; or None for one that draws none of
-    them, an icon, emoji or music font.
+@dataclass(frozen=True)
+class Scripts:
+    """What scripts a face is for and covers, as ISO 15924 codes, and the sample it's previewed with."""
+
+    script: str | None  # its own: Latn for a Latin face, None for one that draws no script
+    scripts: list[str]  # every one it covers, for filtering by
+    sample: str | None  # None for an icon, emoji or music font, which has nothing to preview
+
+
+def face_scripts(face, primary_script=None):
+    """The face's own script, every script it covers, and its sample: the line in its own script,
+    then SAMPLE_TEXT on the next where it has Latin letters too, or SAMPLE_TEXT alone for a Latin face.
 
     A face's own script is the one google/fonts gives as the family's primary script, else what
     own_script() reads from the face. Most faces for other scripts carry Latin letters too, so having
@@ -969,6 +980,12 @@ def sample_for(face, primary_script=None):
     ]
     letters = {ord(character) for character in PANGRAM if not character.isspace()}
     latin = len(letters & cmap.keys()) >= LATIN_COVERAGE * len(letters)
+    european = [
+        script
+        for script, (low, high) in EUROPEAN_ALPHABETS.items()
+        if all(code in cmap for code in range(low, high + 1))
+    ]
+    scripts = (["Latn"] if latin else []) + european + covered
     primary_script = SCRIPT_ALIASES.get(primary_script, primary_script)
     if primary_script in ("Latn", "Grek", "Cyrl") and latin:
         script = None
@@ -976,9 +993,15 @@ def sample_for(face, primary_script=None):
         script = primary_script
     else:
         script = own_script(face.family, cmap, code_pages, covered, latin)
-    if script is None:
-        return SAMPLE_TEXT if latin else None
-    return SCRIPT_SAMPLES[script] + ("\n" + SAMPLE_TEXT if latin else "")
+    if script is not None:
+        sample = SCRIPT_SAMPLES[script] + ("\n" + SAMPLE_TEXT if latin else "")
+    else:
+        sample = SAMPLE_TEXT if latin else None
+    # Google's word for the family's script stands, even for one with no sample here, like Tifinagh.
+    own = primary_script or script or ("Latn" if latin else None)
+    if own and own not in scripts:
+        scripts.append(own)
+    return Scripts(own if sample else None, scripts if sample else [], sample)
 
 
 def own_script(family, cmap, code_pages, covered, latin):
@@ -1323,8 +1346,8 @@ def build_cask(entry, destination, mirrored=frozenset()):
             files.append({"file": path.name, "asset": faces[0].postscript_name, "bytes": size, "shippable": shippable})
         # The app decides a cask is installed by resolving primaryFont, so it has to be a face that ships.
         primary = primary_face(shipped_faces or all_faces)
-        sample = sample_for(primary, google_primary_script(google.get("directory")))
-        if sample is None:
+        scripts = face_scripts(primary, google_primary_script(google.get("directory")))
+        if (sample := scripts.sample) is None:
             # Icon, emoji and music fonts draw none of the samples: a card would show the system font.
             raise Skip("draws none of the sample text")
         preview = write_preview(primary, token, destination, sample)
@@ -1339,6 +1362,7 @@ def build_cask(entry, destination, mirrored=frozenset()):
         }
         if sample != SAMPLE_TEXT:
             built["sample"] = sample
+        built |= {"script": scripts.script, "scripts": scripts.scripts}
         if google.get("directory") and (description := google_description(google["directory"])):
             built["description"] = description
         write_json(destination / "entry.json", built)
@@ -1652,6 +1676,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         }
         if "sample" in built:
             record["sample"] = built["sample"]
+        record |= {"script": built["script"], "scripts": built["scripts"]}
         if "description" in built:
             record["description"] = built["description"]
             # Google's descriptions are often the designer's own words, in the first person.

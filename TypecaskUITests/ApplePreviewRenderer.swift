@@ -20,6 +20,10 @@ final class ApplePreviewRenderer: XCTestCase {
         let previewFace: String
         let style: String
         let builtIn: Bool
+        /// The family's own script, as an ISO 15924 code: Latn for a Latin font, nil for a symbol font.
+        let script: String?
+        /// Every script the family covers, for filtering by.
+        let scripts: [String]
         /// A line in the family's own script, then the sample text where it has Latin letters too; nil
         /// for a Latin font.
         let sample: String?
@@ -109,9 +113,10 @@ final class ApplePreviewRenderer: XCTestCase {
 
     private static func describe(_ name: String, faces: Int, face: String, builtIn: Bool) -> Family {
         let font = CTFontCreateWithName(face as CFString, 20, nil)
-        let sample = OwnScript.sample(for: font, family: name, latinSample: sampleText)
-        return Family(name: name, faces: faces, previewFace: face, style: classify(font),
-                      builtIn: builtIn, sample: sample, preview: nil, fontFile: nil)
+        let scripts = OwnScript(font, family: name, latinSample: sampleText)
+        return Family(name: name, faces: faces, previewFace: face, style: classify(font), builtIn: builtIn,
+                      script: scripts.script, scripts: scripts.scripts, sample: scripts.sample,
+                      preview: nil, fontFile: nil)
     }
 
     private static func download(_ postScriptName: String) async -> Bool {

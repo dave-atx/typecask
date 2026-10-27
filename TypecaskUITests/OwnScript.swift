@@ -1,17 +1,34 @@
 import CoreText
 import Foundation
 
-/// Which sample a face is previewed with: the same rules as sample_for() and own_script() in
-/// scripts/build-catalog.py, from the same tables, so Apple's fonts and the casks preview alike.
-/// Change both together.
-enum OwnScript {
+/// What scripts a face is for and covers, and the sample it's previewed with: the same rules as
+/// face_scripts() and own_script() in scripts/build-catalog.py, from the same tables, so Apple's fonts
+/// and the casks preview alike. Change both together.
+struct OwnScript {
+    /// The face's own script, as an ISO 15924 code: Latn for a Latin face, nil for one that draws none.
+    let script: String?
+    /// Every script the face covers, for filtering by.
+    let scripts: [String]
     /// The line in the face's own script, then `latinSample` on the next where it has Latin letters
     /// too, or nil for a Latin face, which the app shows the catalog's sample text in.
-    static func sample(for font: CTFont, family: String, latinSample: String) -> String? {
-        let latin = covers(font, "The quick brown fox jumps over the lazy dog")
-        guard let script = script(of: font, family: family, latin: latin) else { return nil }
-        let line = samples.first { $0.script == script }!.sample
-        return latin ? line + "\n" + latinSample : line
+    let sample: String?
+
+    init(_ font: CTFont, family: String, latinSample: String) {
+        let latin = Self.covers(font, "The quick brown fox jumps over the lazy dog")
+        let characters = CTFontCopyCharacterSet(font) as CharacterSet
+        let european = Self.europeanAlphabets.filter { alphabet in
+            alphabet.range.allSatisfy { Unicode.Scalar($0).map { characters.contains($0) } ?? false }
+        }.map(\.script)
+        let covered = Self.samples.filter { Self.covers(font, $0.sample) }.map(\.script)
+        scripts = (latin ? ["Latn"] : []) + european + covered
+        if let own = Self.ownScript(of: font, family: family, latin: latin, covered: covered) {
+            script = own
+            let line = Self.samples.first { $0.script == own }!.sample
+            sample = latin ? line + "\n" + latinSample : line
+        } else {
+            script = latin ? "Latn" : nil
+            sample = nil
+        }
     }
 
     /// What cjkScript(of:family:counts:covered:) reads from a face's characters.
@@ -29,8 +46,7 @@ enum OwnScript {
     /// for another script when it covers just that one and has neither Greek nor Cyrillic: Lucida
     /// Grande, with Arabic, Hebrew and Thai beside the scripts of Europe, is a Latin face. Braille
     /// counts only where there's nothing else.
-    private static func script(of font: CTFont, family: String, latin: Bool) -> String? {
-        let covered = samples.filter { covers(font, $0.sample) }.map(\.script)
+    private static func ownScript(of font: CTFont, family: String, latin: Bool, covered: [String]) -> String? {
         let cjk = covered.filter(cjkScripts.contains)
         let others = covered.filter { !cjkScripts.contains($0) && $0 != "Brai" }
         if let named = others.first(where: { script in
@@ -103,6 +119,11 @@ enum OwnScript {
     }
 
     private static let cjkScripts = ["Jpan", "Hans", "Hant", "Kore"]
+    /// The lowercase alphabets that make a face Greek or Cyrillic too: Latin's is the pangram, and the
+    /// others are `samples`.
+    private static let europeanAlphabets: [(script: String, range: ClosedRange<UInt32>)] = [
+        ("Grek", 0x03B1...0x03C9), ("Cyrl", 0x0430...0x044F)
+    ]
     /// Kanji made in Japan, which Chinese character sets lack though they carry the kana.
     private static let japaneseKanji = "込働畑"
     /// What a family's name calls each script: October Gujarati and Kigelia Arabic carry Devanagari or
