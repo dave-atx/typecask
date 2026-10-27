@@ -159,3 +159,12 @@ private struct InstallControl: View {
         .accessibilityIdentifier("install")
     }
 }
+
+#Preview {
+    let catalog = Catalog.bundled
+    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
+    NavigationStack {
+        CaskDetailView(cask: cask, catalog: catalog)
+    }
+    .environment(FontInstaller())
+}

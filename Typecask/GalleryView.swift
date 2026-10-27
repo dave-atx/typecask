@@ -15,17 +15,11 @@ struct GalleryView: View {
         // Both branches read the same model, so switching between them — rotating, resizing a Split View
         // — keeps the search text, the collection and the view mode.
         Group {
-            if horizontalSizeClass == .regular {
-                NavigationSplitView {
-                    CollectionSidebar(model: model)
-                } detail: {
-                    NavigationStack {
-                        GalleryBrowser(model: model, showsCollectionMenu: false)
-                    }
-                }
-            } else {
+            NavigationSplitView {
+                CollectionSidebar(model: model)
+            } detail: {
                 NavigationStack {
-                    GalleryBrowser(model: model, showsCollectionMenu: true)
+                    GalleryBrowser(model: model, showsCollectionMenu: false)
                 }
             }
         }
@@ -182,4 +176,8 @@ private struct CollectionMenu: View {
         }
         .accessibilityIdentifier("designStyle")
     }
+}
+#Preview {
+    GalleryView(catalog: .bundled)
+        .environment(FontInstaller())
 }
