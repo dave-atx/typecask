@@ -173,6 +173,38 @@ CJK_SCRIPTS = ("Jpan", "Hans", "Hant", "Kore")
 SCRIPT_ALIASES = {"Hira": "Jpan", "Kana": "Jpan", "Hrkt": "Jpan", "Hang": "Kore", "Hani": "Hans"}
 # A CJK family's region, as its name gives it: Noto Sans CJK JP and KR carry the same characters.
 CJK_REGIONS = {"Jpan": "JP", "Kore": "KR", "Hans": "SC|CN|GB", "Hant": "TC|HK|MO|TW"}
+# What a family's name calls each script: October Gujarati and Kigelia Arabic carry Devanagari or the
+# scripts of Europe as well as their own.
+SCRIPT_NAMES = {
+    "Arab": "Arabic|Urdu|Kufi|Naskh|Nastaliq",
+    "Hebr": "Hebrew",
+    "Deva": "Devanagari",
+    "Beng": "Bangla|Bengali",
+    "Guru": "Gurmukhi",
+    "Gujr": "Gujarati",
+    "Orya": "Odia|Oriya",
+    "Taml": "Tamil",
+    "Telu": "Telugu",
+    "Knda": "Kannada",
+    "Mlym": "Malayalam",
+    "Sinh": "Sinhala",
+    "Thai": "Thai",
+    "Laoo": "Lao",
+    "Khmr": "Khmer",
+    "Mymr": "Myanmar",
+    "Tibt": "Tibetan",
+    "Geor": "Georgian",
+    "Armn": "Armenian",
+    "Ethi": "Ethiopic",
+    "Cher": "Cherokee",
+    "Cans": "Canadian Aboriginal|UCAS",
+    "Mong": "Mongolian",
+    "Syrc": "Syriac",
+    "Mtei": "Meetei Mayek",
+    "Olck": "Ol Chiki",
+}
+# Kanji made in Japan, which Chinese character sets lack though they carry the kana.
+JAPANESE_KANJI = "込働畑"
 # The characters own_script() counts to tell a face's script.
 SCRIPT_RANGES = {
     "kana": (0x3040, 0x30FF),
@@ -952,7 +984,8 @@ def sample_for(face, primary_script=None):
 def own_script(family, cmap, code_pages, covered, latin):
     """The script of `covered` a face is for, or None for a Latin face.
 
-    A face with no Latin is for the first it covers. One with Latin is for a CJK script when it has
+    A face is for a script its family's name gives, of those it covers. Otherwise a face with no
+    Latin is for the first it covers, and one with Latin is for a CJK script when it has
     the thousands of characters one needs, or the kana alone of a kana display face, since Japanese
     fonts carry Greek and Cyrillic, and Hebrew sometimes. Otherwise it's for another script when it
     covers just that one and has neither Greek nor Cyrillic: Tahoma and Open Sans, with Hebrew or
@@ -966,6 +999,9 @@ def own_script(family, cmap, code_pages, covered, latin):
                 counts[name] += 1
     cjk = [script for script in covered if script in CJK_SCRIPTS]
     others = [script for script in covered if script not in CJK_SCRIPTS and script != "Brai"]
+    if named := [script for script in others if re.search(rf"\b(?:{SCRIPT_NAMES[script]})\b", family)]:
+        return named[0]
+    counts["japanese kanji"] = all(ord(character) in cmap for character in JAPANESE_KANJI)
     if not latin:
         if cjk:
             return cjk_script(family, code_pages, counts, cjk)
@@ -980,8 +1016,9 @@ def own_script(family, cmap, code_pages, covered, latin):
 
 def cjk_script(family, code_pages, counts, covered):
     """Which of the CJK scripts in `covered` a CJK face is for: the region its family name gives, else
-    the one its OS/2 code pages name alone, else Japanese for a face with kana, Korean for one with
-    hangul, and Chinese."""
+    the one its OS/2 code pages name alone, else Korean for one with hangul and only Korean's few
+    thousand hanja, Japanese for one with kana and Japan's own kanji, Korean for one with hangul, and
+    Chinese. Korean and Chinese character sets carry the kana too."""
     regions = [script for script, codes in CJK_REGIONS.items() if re.search(rf"(?:\b|(?<=[a-z]))(?:{codes})\b", family)]
     # Code pages 932 (JIS), 936 (simplified Chinese), 949 and 1361 (Korean) and 950 (traditional).
     pages = {
@@ -995,7 +1032,9 @@ def cjk_script(family, code_pages, counts, covered):
         (wanted,) = pages
         if wanted == "Hans" and not code_pages & 1 << 18:
             wanted = "Hant"
-    elif counts["kana"] >= 80:
+    elif counts["hangul"] >= 2000 and counts["han"] < 10000:
+        wanted = "Kore"
+    elif counts["kana"] >= 80 and counts["japanese kanji"]:
         wanted = "Jpan"
     elif counts["hangul"] >= 2000:
         wanted = "Kore"

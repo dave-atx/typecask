@@ -14,31 +14,42 @@ enum OwnScript {
         return latin ? line + "\n" + latinSample : line
     }
 
-    /// The script a face is for, or nil for a Latin face. A face with no Latin is for the first it
-    /// covers. One with Latin is for a CJK script when it has the thousands of characters one needs, or
-    /// the kana alone of a kana display face, since Japanese fonts carry Greek and Cyrillic too.
-    /// Otherwise it's for another script when it covers just that one and has neither Greek nor
-    /// Cyrillic: Lucida Grande, with Arabic, Hebrew and Thai beside the scripts of Europe, is a Latin
-    /// face. Braille counts only where there's nothing else.
+    /// What cjkScript(of:family:counts:covered:) reads from a face's characters.
+    private struct Counts {
+        let kana: Int
+        let han: Int
+        let hangul: Int
+        let japaneseKanji: Bool
+    }
+
+    /// The script a face is for, or nil for a Latin face. A face is for a script its family's name
+    /// gives, of those it covers. Otherwise a face with no Latin is for the first it covers, and one
+    /// with Latin is for a CJK script when it has the thousands of characters one needs, or the kana
+    /// alone of a kana display face, since Japanese fonts carry Greek and Cyrillic too. Otherwise it's
+    /// for another script when it covers just that one and has neither Greek nor Cyrillic: Lucida
+    /// Grande, with Arabic, Hebrew and Thai beside the scripts of Europe, is a Latin face. Braille
+    /// counts only where there's nothing else.
     private static func script(of font: CTFont, family: String, latin: Bool) -> String? {
         let covered = samples.filter { covers(font, $0.sample) }.map(\.script)
+        let cjk = covered.filter(cjkScripts.contains)
+        let others = covered.filter { !cjkScripts.contains($0) && $0 != "Brai" }
+        if let named = others.first(where: { script in
+            family.range(of: "\\b(?:\(scriptNames[script]!))\\b", options: .regularExpression) != nil
+        }) {
+            return named
+        }
         let characters = CTFontCopyCharacterSet(font) as CharacterSet
         func count(_ range: ClosedRange<UInt32>) -> Int {
             range.count(where: { Unicode.Scalar($0).map { characters.contains($0) } ?? false })
         }
-        let kana = count(0x3040...0x30FF)
-        let hangul = count(0xAC00...0xD7A3)
-        let ideographs = count(0x4E00...0x9FFF) + hangul
-        let cjk = covered.filter(cjkScripts.contains)
-        let others = covered.filter { !cjkScripts.contains($0) && $0 != "Brai" }
-        func cjkScript() -> String {
-            Self.cjkScript(of: font, family: family, kana: kana, hangul: hangul, covered: cjk)
-        }
+        let counts = Counts(kana: count(0x3040...0x30FF), han: count(0x4E00...0x9FFF),
+                            hangul: count(0xAC00...0xD7A3), japaneseKanji: covers(font, japaneseKanji))
+        let ideographs = counts.han + counts.hangul
         if !latin {
-            return cjk.isEmpty ? covered.first : cjkScript()
+            return cjk.isEmpty ? covered.first : cjkScript(of: font, family: family, counts: counts, covered: cjk)
         }
-        if !cjk.isEmpty && others.count < 6 && (ideographs >= 2000 || (kana >= 80 && ideographs < 20)) {
-            return cjkScript()
+        if !cjk.isEmpty && others.count < 6 && (ideographs >= 2000 || (counts.kana >= 80 && ideographs < 20)) {
+            return cjkScript(of: font, family: family, counts: counts, covered: cjk)
         }
         if cjk.isEmpty && others.count == 1 && count(0x0391...0x03C9) < 20 && count(0x0410...0x044F) < 20 {
             return others[0]
@@ -47,10 +58,10 @@ enum OwnScript {
     }
 
     /// Which of the CJK scripts in `covered` a CJK face is for: the region its family name gives, else
-    /// the one its OS/2 code pages name alone, else Japanese for a face with kana, Korean for one with
-    /// hangul, and Chinese.
-    private static func cjkScript(of font: CTFont, family: String, kana: Int, hangul: Int,
-                                  covered: [String]) -> String {
+    /// the one its OS/2 code pages name alone, else Korean for one with hangul and only Korean's few
+    /// thousand hanja, Japanese for one with kana and Japan's own kanji, Korean for one with hangul,
+    /// and Chinese. Korean and Chinese character sets carry the kana too.
+    private static func cjkScript(of font: CTFont, family: String, counts: Counts, covered: [String]) -> String {
         let regions = cjkRegions.filter { region in
             family.range(of: "(?:\\b|(?<=[a-z]))(?:\(region.codes))\\b", options: .regularExpression) != nil
         }
@@ -63,9 +74,11 @@ enum OwnScript {
             wanted = region.script
         } else if pages.count == 1 {
             wanted = pages[0] == "Hans" && codePages & 1 << 18 == 0 ? "Hant" : pages[0]
-        } else if kana >= 80 {
+        } else if counts.hangul >= 2000 && counts.han < 10000 {
+            wanted = "Kore"
+        } else if counts.kana >= 80 && counts.japaneseKanji {
             wanted = "Jpan"
-        } else if hangul >= 2000 {
+        } else if counts.hangul >= 2000 {
             wanted = "Kore"
         } else {
             wanted = "Hans"
@@ -90,6 +103,19 @@ enum OwnScript {
     }
 
     private static let cjkScripts = ["Jpan", "Hans", "Hant", "Kore"]
+    /// Kanji made in Japan, which Chinese character sets lack though they carry the kana.
+    private static let japaneseKanji = "込働畑"
+    /// What a family's name calls each script: October Gujarati and Kigelia Arabic carry Devanagari or
+    /// the scripts of Europe as well as their own.
+    private static let scriptNames = [
+        "Arab": "Arabic|Urdu|Kufi|Naskh|Nastaliq", "Hebr": "Hebrew", "Deva": "Devanagari",
+        "Beng": "Bangla|Bengali", "Guru": "Gurmukhi", "Gujr": "Gujarati", "Orya": "Odia|Oriya",
+        "Taml": "Tamil", "Telu": "Telugu", "Knda": "Kannada", "Mlym": "Malayalam", "Sinh": "Sinhala",
+        "Thai": "Thai", "Laoo": "Lao", "Khmr": "Khmer", "Mymr": "Myanmar", "Tibt": "Tibetan",
+        "Geor": "Georgian", "Armn": "Armenian", "Ethi": "Ethiopic", "Cher": "Cherokee",
+        "Cans": "Canadian Aboriginal|UCAS", "Mong": "Mongolian", "Syrc": "Syriac", "Mtei": "Meetei Mayek",
+        "Olck": "Ol Chiki"
+    ]
     /// A CJK family's region, as its name gives it: Noto Sans CJK JP and KR carry the same characters.
     private static let cjkRegions: [(script: String, codes: String)] = [
         ("Jpan", "JP"), ("Kore", "KR"), ("Hans", "SC|CN|GB"), ("Hant", "TC|HK|MO|TW")
