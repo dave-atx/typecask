@@ -38,6 +38,7 @@ struct CaskDetailView: View {
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+        .promptsForReview(after: cask)
     }
 }
 
