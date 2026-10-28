@@ -1,0 +1,11 @@
+{{- /*
+  A screenshot of the app, from assets/screens/, which scripts/screenshots.sh writes. Takes the
+  screenshot's name, the width it's shown at in CSS pixels, its alt text, and eager to load it with
+  the page rather than as it nears the viewport. Served as WebP at 1x and 2x.
+*/ -}}
+{{- $img := resources.Get (printf "screens/%s.png" .name) -}}
+{{- $one := $img.Resize (printf "%dx webp q85" .width) -}}
+{{- $two := $img.Resize (printf "%dx webp q85" (int (math.Min (mul .width 2) $img.Width))) -}}
+<img src="{{ $one.RelPermalink }}" srcset="{{ $one.RelPermalink }} 1x, {{ $two.RelPermalink }} 2x"
+  width="{{ $one.Width }}" height="{{ $one.Height }}" alt="{{ .alt }}"
+  {{- if .eager }} fetchpriority="high"{{ else }} loading="lazy"{{ end }} decoding="async">

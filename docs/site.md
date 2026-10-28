@@ -62,6 +62,36 @@ Apple's fonts aren't on the site. The app lists them, but `apple-previews` subse
 files, and publishing those on a website is a different kind of distribution from shipping them
 inside an iOS app.
 
+## Screenshots
+
+The home page's pictures of the app are real screenshots, in `site/assets/screens/`, and Hugo serves
+them as WebP at 1x and 2x through `layouts/_partials/screenshot.html`. They're checked in, since the
+site builds on Linux, where there's no simulator. To retake them:
+
+```sh
+scripts/screenshots.sh
+```
+
+It runs `TypecaskUITests/SiteScreenshots` on an iPhone 18 Pro and an iPad Pro 13-inch (M5) at once,
+in dark appearance with the status bar at 9:41, from a copy of the project without
+`Fonts.xcassets`, and takes about five minutes. Each test drives the app to one screen and attaches
+it under the name the page uses:
+
+- `iphone-samples`: All Fonts by Trending, as sample lines, scrolled to start at the first
+  handwriting font. The top of Trending is mostly monospaced fonts, which look alike; the test reads
+  the catalog to find that font, so the shot keeps up as Trending changes.
+- `iphone-detail`: Caveat's page. A handwriting font, the style least like the rest.
+- `ipad-gallery`: All Fonts by Trending, in landscape.
+
+To add one, add a test that snaps a new name, then use that name in the page.
+`TYPECASK_SCREENSHOT_PHONE` and `TYPECASK_SCREENSHOT_PAD` pick other simulators, and
+`TEST_RUNNER_TYPECASK_SCREENSHOT_CASK` another cask for the detail page. A failing test leaves the
+screenshots as they were, prints why, and keeps `Screenshots.xcresult` (gitignored), with a screen
+recording and the UI hierarchy at the failure.
+
+Nothing needs installing beyond Xcode: `simctl` sets the appearance and status bar and `xcresulttool`
+exports the attachments. `oxipng` shrinks the PNGs, as it does the previews.
+
 ## Deploying
 
 `.github/workflows/site.yml` builds and deploys. It runs when a **TestFlight** run succeeds, which
