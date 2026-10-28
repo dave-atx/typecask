@@ -1,7 +1,7 @@
 {{ define "head" }}
   {{- $picks := partial "home-picks.html" . -}}
   <style>
-    {{- range $picks.all }}
+    {{- range $picks.trending }}
       @font-face{font-family:"tc-{{ .slug }}";src:url("{{ (printf "/p/%s" .previewFile) | relURL }}");font-display:swap}
     {{- end }}
   </style>
@@ -27,19 +27,10 @@
         <p class="fine">{{ site.Params.minimumOS }} or later, on iPhone and iPad.</p>
       </div>
 
-      <div class="phone" aria-hidden="true">
-        <div class="phone-screen">
-          <div class="phone-bar"><span>All Fonts</span><span class="phone-sort">Sort</span></div>
-          <div class="phone-cards">
-            {{- range $picks.phone }}
-              <div class="phone-card">
-                <p class="phone-spec" style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</p>
-                <p class="phone-name">{{ .name }}</p>
-              </div>
-            {{- end }}
-          </div>
-        </div>
-      </div>
+      <figure class="device device-phone">
+        {{ partial "screenshot.html" (dict "name" "iphone-samples" "width" 280 "eager" true
+          "alt" "Typecask on iPhone, listing fonts by what's trending as sample lines, each set in its own face: a handwriting font, a sans, a serif and a monospaced font.") }}
+      </figure>
     </div>
   </section>
 
@@ -59,6 +50,25 @@
           <span class="spec-line" style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .line }}</span>
         </a>
       {{- end }}
+    </div>
+  </section>
+
+  <section class="tour">
+    <div class="bar tour-grid">
+      <figure class="tour-pad">
+        <div class="device device-pad">
+          {{ partial "screenshot.html" (dict "name" "ipad-gallery" "width" 800
+            "alt" "Typecask on iPad: a sidebar of collections beside a grid of font cards, each card set in its own face.") }}
+        </div>
+        <figcaption>On iPad, collections sit in a sidebar, as in Font&nbsp;Book.</figcaption>
+      </figure>
+      <figure class="tour-phone">
+        <div class="device device-phone">
+          {{ partial "screenshot.html" (dict "name" "iphone-detail" "width" 260
+            "alt" "Caveat, a handwriting font, in Typecask on iPhone: the sample set large and small, an Install button, and the designer's description.") }}
+        </div>
+        <figcaption>Each font's page, with Install a tap away.</figcaption>
+      </figure>
     </div>
   </section>
 

@@ -60,6 +60,9 @@ scripts/build-catalog.py check-licenses
 - Hugo's taxonomy map keys multi-word terms with spaces, so look a term page up with `site.GetPage`
   and a urlized path rather than `.Taxonomies.styles.Get`.
 - JSON numbers arrive as float64: `printf "%d"` needs an `int` cast first.
+- The app screenshots in `site/assets/screens/` come from `scripts/screenshots.sh`; retake them, don't
+  edit them. `XCUIScreen` captures in portrait whichever way the device is held, so `SiteScreenshots`
+  turns landscape shots upright itself.
 
 ## Signing and releases
 
