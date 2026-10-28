@@ -7,7 +7,7 @@ final class InstallTests: XCTestCase {
 
     @MainActor
     func testInstalledCaskStaysInstalledAfterRelaunch() {
-        let app = XCUIApplication()
+        let app = Self.makeApp()
         app.launch()
         openCask(in: app)
         app.buttons["install"].tap()
@@ -23,7 +23,7 @@ final class InstallTests: XCTestCase {
     /// cask: it leaves that cask uninstalled.
     @MainActor
     func testUninstalledCaskStaysUninstalledAfterRelaunch() {
-        let app = XCUIApplication()
+        let app = Self.makeApp()
         app.launch()
         openCask(in: app)
         if app.buttons["install"].waitForExistence(timeout: 10) {
@@ -43,7 +43,7 @@ final class InstallTests: XCTestCase {
     /// since a real update needs two releases of the font.
     @MainActor
     func testOutdatedCaskUpdates() {
-        let app = XCUIApplication()
+        let app = Self.makeApp()
         app.launch()
         openCask(in: app)
         if app.buttons["install"].waitForExistence(timeout: 10) {
@@ -65,7 +65,7 @@ final class InstallTests: XCTestCase {
     /// error 305, duplicated name), so the app says it's built in instead of offering an Install that fails.
     @MainActor
     func testCaskBuiltIntoIOSOffersNoInstall() {
-        let app = XCUIApplication()
+        let app = Self.makeApp()
         app.launch()
         openCask("font-noto-sans-armenian", in: app)
         XCTAssertTrue(app.staticTexts["Built into iOS"].waitForExistence(timeout: 10))
@@ -75,7 +75,7 @@ final class InstallTests: XCTestCase {
     /// Opens the cask's license, which the app inflates from Licenses.deflate when it's first shown.
     @MainActor
     func testLicenseShows() {
-        let app = XCUIApplication()
+        let app = Self.makeApp()
         app.launch()
         openCask(in: app)
         let disclosure = app.buttons["License"]
@@ -111,6 +111,14 @@ final class InstallTests: XCTestCase {
             }
         }
         return false
+    }
+
+    /// The app, with the App Store rating prompt held back: a debug build always shows it, over the next tap.
+    @MainActor
+    private static func makeApp() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchEnvironment["TYPECASK_NO_REVIEW"] = "1"
+        return app
     }
 
     /// Searches for the card rather than scrolling to it: sorted by name, the catalog runs to hundreds of casks.

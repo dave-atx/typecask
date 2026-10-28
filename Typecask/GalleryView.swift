@@ -32,6 +32,7 @@ struct GalleryView: View {
 /// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts and Apple's.
 private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
+    @State private var showsAbout = false
 
     var body: some View {
         List(selection: $model.selectedCollection) {
@@ -48,6 +49,17 @@ private struct CollectionSidebar: View {
             }
         }
         .navigationTitle("Typecask")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("About Typecask", systemImage: "info.circle") {
+                    showsAbout = true
+                }
+                .accessibilityIdentifier("about")
+            }
+        }
+        .sheet(isPresented: $showsAbout) {
+            AboutView(catalog: model.catalog)
+        }
     }
 
     private func row(_ collection: FontCollection) -> some View {
