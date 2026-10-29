@@ -79,16 +79,11 @@ private struct AboutHeader: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            // A copy of the icon at 88 points: an app icon set can't be loaded as an image.
+            // scripts/icon.sh's render of AppIcon.icon at 88 points: an app's icon can't be loaded as an image.
+            // The render has the icon's own shape and glass edge, so it needs no clip or border here.
             Image(.aboutIcon)
                 .resizable()
                 .frame(width: 88, height: 88)
-                .clipShape(.rect(cornerRadius: 20))
-                // The icon's near-black ground would vanish into a dark sheet without an edge.
-                .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(.separator)
-                }
                 .accessibilityHidden(true)
             Text(verbatim: "Typecask")
                 .font(.title.bold())

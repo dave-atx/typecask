@@ -23,6 +23,8 @@ scripts/build-catalog.py check-licenses
 - Look before deleting or overwriting anything generated: a full rebuild is hours of downloads.
 - The boot volume is case-insensitive. For a case-only rename, write to a distinct temp name and
   `os.replace` it, never save-new-then-delete-old, and check the stored names after.
+- `docs/icon/` and the About screen's `AboutIcon.imageset` are renders of `Typecask/AppIcon.icon`.
+  Edit the icon in Icon Composer, then rerun `scripts/icon.sh`; see [docs/icon.md](docs/icon.md).
 
 ## Font pipeline
 

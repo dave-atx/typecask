@@ -48,8 +48,12 @@ trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
 # git archive reads the tag's tree, so this works on a checkout of any other revision. Licenses come
 # from the same tag as the fonts they cover; the app and the site both have to ship a font's license
-# with the font.
-icon=Typecask/Assets.xcassets/AppIcon.appiconset/icon-1024.png
+# with the font. The icon is scripts/icon.sh's render of AppIcon.icon; tags from before AppIcon.icon
+# have only the flat PNG of the old icon set.
+icon=docs/icon/default.png
+if ! git cat-file -e "$tag:$icon" 2> /dev/null; then
+    icon=Typecask/Assets.xcassets/AppIcon.appiconset/icon-1024.png
+fi
 git archive "$tag" Typecask/Catalog.json Typecask/Previews Licenses "$icon" | tar -x -C "$tmp"
 
 rm -rf site/data/catalog.json site/data/release.json site/static/p site/licenses \

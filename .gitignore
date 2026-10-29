@@ -17,3 +17,5 @@ site/static/p/
 site/licenses/
 site/assets/icon.png
 site/.hugo_build.lock
+# Written by scripts/screenshots.sh app-store, for uploading to App Store Connect.
+AppStoreScreenshots/

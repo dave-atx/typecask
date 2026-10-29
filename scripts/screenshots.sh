@@ -1,7 +1,10 @@
 #!/bin/sh
-# Takes the app screenshots typecask.app shows and writes them to site/assets/screens/.
+# Takes the app screenshots typecask.app shows and writes them to site/assets/screens/, or, with
+# app-store, the ones App Store Connect takes.
 #
-#   scripts/screenshots.sh
+#   scripts/screenshots.sh             the site's, scaled to fit 2000 pixels
+#   scripts/screenshots.sh app-store   full size from a 6.9-inch iPhone and a 13-inch iPad, in
+#                                      AppStoreScreenshots/ (gitignored), for uploading by hand
 #
 # Runs TypecaskUITests/SiteScreenshots on an iPhone and an iPad simulator at once, in dark
 # appearance, since the site is dark only, with the status bar at 9:41 and full. The build is a copy
@@ -15,9 +18,23 @@ set -eu
 
 cd "$(dirname "$0")/.."
 
-phone=${TYPECASK_SCREENSHOT_PHONE:-iPhone 18 Pro}
+mode=${1:-site}
+case $mode in
+site)
+    phone=${TYPECASK_SCREENSHOT_PHONE:-iPhone 18 Pro}
+    out=site/assets/screens
+    ;;
+app-store)
+    # App Store Connect wants 6.9-inch iPhone screenshots and scales them down for smaller phones.
+    phone=${TYPECASK_SCREENSHOT_PHONE:-iPhone 18 Pro Max}
+    out=AppStoreScreenshots
+    ;;
+*)
+    echo "usage: scripts/screenshots.sh [app-store]" >&2
+    exit 2
+    ;;
+esac
 pad=${TYPECASK_SCREENSHOT_PAD:-iPad Pro 13-inch (M5)}
-out=site/assets/screens
 
 # The first available simulator with exactly this name. Xcode can list several under one name, one
 # per runtime, and -destination name= refuses to pick between them.
@@ -96,8 +113,11 @@ for test in json.loads((attachments / "manifest.json").read_text()):
         print(f"screenshots.sh: wrote {out / name}.png")
 EOF
 
-# Hugo resizes them for the page; this only keeps what's checked in small.
-for png in "$out"/*.png; do
-    sips -Z 2000 "$png" > /dev/null
-done
+# Hugo resizes the site's for the page; this only keeps what's checked in small. App Store Connect
+# takes only the device's own sizes, so those stay as they are.
+if [ "$mode" = site ]; then
+    for png in "$out"/*.png; do
+        sips -Z 2000 "$png" > /dev/null
+    done
+fi
 oxipng -q -o 4 --strip safe "$out"/*.png

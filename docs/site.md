@@ -19,7 +19,7 @@ would offer people fonts they can't install.
 | `site/data/catalog.json` | `Typecask/Catalog.json` |
 | `site/static/p/` | `Typecask/Previews/` |
 | `site/licenses/` | `Licenses/` |
-| `site/assets/icon.png` | the app icon |
+| `site/assets/icon.png` | `docs/icon/default.png`, the app icon as `scripts/icon.sh` renders it |
 | `site/data/release.json` | the tag, build number, commit and date |
 
 All of it is gitignored. The script runs `git archive` against the tag, so it works from a checkout

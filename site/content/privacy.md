@@ -1,6 +1,6 @@
 ---
 title: Privacy
-updated: 2026-10-27
+updated: 2026-10-28
 description: Typecask collects nothing. The website counts page views without cookies. This page says exactly what that means.
 ---
 
@@ -20,8 +20,10 @@ of ours in the path. Apple's handling of it is covered by the
 [Apple Privacy Policy](https://www.apple.com/legal/privacy/).
 
 **What stays on your device.** The app records which fonts you've installed and their versions, so
-it can offer Update when a later release carries a newer version. That record lives on your device.
-It isn't sent anywhere and isn't readable by us.
+it can offer Update when a later release carries a newer version. It also counts how many fonts
+you've installed and notes the last version of the app that asked you for an App Store rating, so it
+asks no more than once per version. All of that lives on your device. It isn't sent anywhere and
+isn't readable by us.
 
 **Fonts you install become system fonts.** They appear in
 Settings&nbsp;&rsaquo;&nbsp;General&nbsp;&rsaquo;&nbsp;Fonts and in any app that can use installed
