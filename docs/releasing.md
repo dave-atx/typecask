@@ -48,3 +48,32 @@ on the first line of its output.
 A green run doesn't mean the build is in TestFlight yet. `altool` returns once Apple has the bytes, and
 App Store Connect then processes them, which takes several minutes before the build appears under
 Builds. A build that never appears has failed processing, and Apple reports that by email.
+
+## App Store images
+
+`scripts/screenshots.sh app-store` takes the screenshots on a 6.9-inch iPhone, a 13-inch iPad and an iPhone
+Duo simulator into `AppStoreScreenshots/raw/`, then lays them out as the images App Store Connect takes, in
+a folder per screenshot slot:
+
+| Folder | Slot | Size (px) |
+| --- | --- | --- |
+| `iphone-medium/` | iPhone with Dynamic Island (medium display), required | 1206 x 2622 |
+| `iphone-large/` | iPhone with Dynamic Island (large display) | 1320 x 2868 |
+| `ipad/` | iPad 13-inch display, required | 2752 x 2064 |
+| `duo-outer/` | iPhone Duo outer display | 1398 x 2034 |
+| `duo-inner/` | iPhone Duo inner display, landscape | 2853 x 2007 |
+
+plus `header.png` (3840 x 1646) and `search-results.png` (3840 x 2560) for the product page header and
+search results. App Store Connect refuses an image in a slot that wants other dimensions.
+
+The Duo runs twice: folded, onto the outer display, then unfolded with `idb hinge 180`, since neither
+`simctl` nor XCTest can set the hinge. So `app-store` needs idb. Unfolded, the app lays out like an iPad,
+sidebar and gallery, in landscape.
+
+Each image is a page in `scripts/app-store/`, drawn by headless Google Chrome at its CSS size times a scale,
+and run through oxipng, which also drops the alpha channel App Store Connect refuses. The pages load their
+fonts from Google Fonts, so rendering needs the network.
+
+After changing a page, `scripts/screenshots.sh app-store-render` redraws the images from the shots already
+taken, in under a minute, without the simulator. `AppStoreScreenshots/` is gitignored; upload each folder's
+PNGs by hand.

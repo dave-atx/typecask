@@ -71,6 +71,8 @@ scripts/build-catalog.py check-licenses
 - Verify in the simulator before publishing fonts or a release.
 - Never set a team in Xcode's Signing & Capabilities pane; it goes in the gitignored
   `Signing.local.xcconfig`.
+- The App Store images are pages in `scripts/app-store/`. Change a page and rerun
+  `scripts/screenshots.sh app-store-render`; never edit the PNGs.
 - Releases sign manually: ad-hoc archive, then export with the stored certificate and profile.
   `-allowProvisioningUpdates` with an API key can't use cloud-managed distribution certificates.
 - Check signing before the archive (`scripts/prepare-export.sh`), never after; xcodebuild reports
@@ -91,3 +93,6 @@ scripts/build-catalog.py check-licenses
 - Screenshots lag taps by a second or two, input right after launch can be dropped, and rotation
   changes tap coordinates. Take a second screenshot before deciding a tap failed.
 - In CI, wait for `simctl bootstatus -b` before the first test; a cold boot outlasts XCTest.
+- iPhone Duo: `idb hinge 180` unfolds it, but only from a fresh idb companion (`idb kill` first) after a
+  test run, and folding it back leaves the outer display black until a reboot. Unfolded, `XCUIScreen.main`
+  is still the outer display and synthesized drags don't reach the inner one.
