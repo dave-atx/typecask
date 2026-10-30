@@ -44,6 +44,8 @@ scripts/build-catalog.py check-licenses
   permits (least restrictive bit wins).
 - Never ship a GPL or AGPL font: Apple's App Store terms conflict with GPL section 6, and a font
   exception doesn't cover it. Add it to `EXCLUDED`.
+- Never ship a Fontshare font: ITF's Free Font License doesn't allow redistributing it through an app.
+  `EXCLUDED_HOSTS` keeps out casks that download from fontshare.com. ITF's Google Fonts families are OFL.
 - A license found through the GitHub API is the repository's, not the fonts': that's how Consolas
   got in under someone else's BSD license. Check a cask whose license came from there.
 - Run font-heavy scripts under the cap, `python3 scripts/memcap.py 14 <command>`, and open fonts with

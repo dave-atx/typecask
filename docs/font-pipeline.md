@@ -126,7 +126,9 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
 - **Licenses.** A cask ships only with a license, and only one that allows redistributing the font.
   `EXCLUDED` in `build-catalog.py` holds the casks that don't: Apple's own fonts, Input, which is
   free for personal use only, Consolas, which isn't Eugene Ching's to license, and the GPL and AGPL
-  families, whose terms conflict with the App Store's. `build` skips them too, so a cask added to
+  families, whose terms conflict with the App Store's. Satoshi is there too, and `EXCLUDED_HOSTS` keeps
+  out any cask that downloads from Fontshare: ITF's Free Font License doesn't allow redistributing its
+  fonts through an app. `build` skips them too, so a cask added to
   `EXCLUDED` stops shipping at the next build even from a lock written before. Watch casks whose license came from the
   GitHub API, since that reports the repository's license and can't say whether it covers the font
   files beside it.

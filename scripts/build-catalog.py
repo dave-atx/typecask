@@ -94,6 +94,9 @@ EXCLUDED = {
     "font-nimbus-sans-l",
     "font-urw-base35",
     "font-urw-core35",
+    # Fontshare's fonts, under ITF's Free Font License, which doesn't allow redistributing them through
+    # an app. EXCLUDED_HOSTS keeps out any other cask that downloads from Fontshare.
+    "font-satoshi",
     # Draws every character as nothing, for testing font loading on the web: nothing to install.
     "font-adobe-blank",
     # Icons, symbols and emoji have nothing to preview.
@@ -109,6 +112,8 @@ EXCLUDED = {
     # cask, pointing at a specimen page that's gone.
     "font-42dot-sans",
 }
+# Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
+EXCLUDED_HOSTS = {"fontshare.com"}
 ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
 # Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
 # takes over once it has one, and lock says so, for the entry to go.
@@ -466,12 +471,22 @@ def git(*arguments, **options):
 # MARK: - Locking
 
 
+def is_excluded(token, url):
+    """Whether a cask is in EXCLUDED, or downloads from one of EXCLUDED_HOSTS or a subdomain of one."""
+    host = urllib.parse.urlparse(url or "").hostname or ""
+    return token in EXCLUDED or any(host == name or host.endswith("." + name) for name in EXCLUDED_HOSTS)
+
+
 def rank_casks(analytics, casks_by_token):
     """Returns every eligible font cask with its install count, most-installed first."""
     installs = {}
     for item in analytics["items"]:
         token = item["cask"]
-        if token.startswith("font-") and token in casks_by_token and token not in EXCLUDED:
+        if (
+            token.startswith("font-")
+            and token in casks_by_token
+            and not is_excluded(token, casks_by_token[token]["url"])
+        ):
             installs.setdefault(token, int(item["count"].replace(",", "")))
     return [(casks_by_token[token], installs[token]) for token in sorted(installs, key=installs.get, reverse=True)]
 
@@ -722,7 +737,7 @@ def lock(count, google_top):
                 f"no cask for {len(missing)} Google Fonts families, which have no files in google/fonts "
                 f"under those names either: {', '.join(missing)}"
             )
-        required = [token for _, token in top if token and token not in EXCLUDED]
+        required = [token for _, token in top if token and not is_excluded(token, casks_by_token[token]["url"])]
     else:
         required = []
     required += ALWAYS_INCLUDED
@@ -1665,7 +1680,9 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     # and a run that doesn't lock again builds from that lock: Input shipped a release after it was
     # excluded that way. So a cask stops shipping at the next build, whichever lock it uses.
     excluded = {
-        entry["token"]: "excluded in build-catalog.py" for entry in locked["casks"] if entry["token"] in EXCLUDED
+        entry["token"]: "excluded in build-catalog.py"
+        for entry in locked["casks"]
+        if is_excluded(entry["token"], entry["source"].get("url"))
     }
     entries = [entry for entry in locked["casks"] if entry["token"] not in excluded]
     keys = {entry["token"]: cache_key(entry) for entry in entries}
