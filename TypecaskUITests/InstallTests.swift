@@ -126,7 +126,16 @@ final class InstallTests: XCTestCase {
     private func openCask(_ token: String? = nil, in app: XCUIApplication) {
         let token = token ?? self.token
         let search = app.searchFields.firstMatch
-        XCTAssertTrue(search.waitForExistence(timeout: 30))
+        // Where the toolbar has no room for the field, as on an 11-inch iPad, it's a Search button.
+        let searchButton = app.buttons["Search"]
+        let launched = Date.now
+        while !search.exists, !searchButton.exists, Date.now.timeIntervalSince(launched) < 30 {
+            _ = search.waitForExistence(timeout: 1)
+        }
+        if !search.exists {
+            searchButton.tap()
+        }
+        XCTAssertTrue(search.waitForExistence(timeout: 10))
         search.tap()
         search.typeText(token)
         let card = app.buttons[token]
