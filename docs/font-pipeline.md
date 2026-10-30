@@ -32,7 +32,9 @@ most-installed font casks (`--count`), plus every Google Fonts family (`--google
 most popular N). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
 and needs no API key. Each Google family is matched to a cask by its specimen homepage, then by the
 google/fonts directory the cask checks out, then by name, since fonts that began elsewhere, like Inter
-and JetBrains Mono, keep their upstream homepage.
+and JetBrains Mono, keep their upstream homepage. `EXTRA_CASKS` adds a font Homebrew has no cask for
+yet, as Geist Serif was the day it came out, in the shape of Homebrew's API, and `lock` says when
+Homebrew has one of its own, for the entry to go.
 
 Most casks are files in github.com/google/fonts, so the lock pins those by the git tree of their
 family's directory at one google/fonts commit, and builds read them from a single sparse clone. The rest
@@ -106,11 +108,18 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   faces), or CJK where it has thousands of ideographs. A CJK face's region comes from its name (Noto
   Sans CJK JP and KR carry the same characters), then its OS/2 code pages, then its kana or hangul.
   `Catalog.json` and `AppleFonts.json` record that script as `script`, an ISO 15924 code (`Latn` for
-  a Latin face), and every script the face covers as `scripts`, for filtering by.
+  a Latin face), and the scripts the filter lists the face under as `scripts`: every one it covers,
+  except that Latin, Greek and Cyrillic count only for a face whose own script is Latin or that one.
+  Noto Sans CJK and D2Coding carry Latin to set beside their own, and aren't Latin fonts.
+  `LATIN_TOO` holds the exceptions, Poppins and Teko, which google/fonts calls Devanagari. The rule
+  applies as `build` assembles the catalog, so changing it needs no rebuild.
 - **Heavy niche casks** are left out entirely: those over 10 MB that cost more than 0.1 MB per yearly
   install, which is Iosevka's stylistic sets, the rarer Maple Mono builds and a handful of CJK families.
   Google families are exempt, since Homebrew undercounts fonts most people get from Google. Set
   `MAX_MB_PER_INSTALL` to move the line, or leave it empty to ship everything.
+- **A family Apple offers is Apple's alone.** `build` skips a cask whose name, Homebrew's or Google's,
+  is one of the families in `AppleFonts.json`, or that ships one's preview face, as `font-stix` ships
+  STIX Two Text. Catamaran and the PT, Baloo and Tiro families are listed once, as Apple's.
 - **A cask with nothing to install isn't listed**, so the gallery never offers one it can't
   install. Only a local `build --fonts` lists casks without their fonts, as "Fonts not included in
   this build".

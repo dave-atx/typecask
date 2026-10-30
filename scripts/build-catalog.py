@@ -93,6 +93,7 @@ EXCLUDED = {
     "font-freefont",
     "font-nimbus-sans-l",
     "font-urw-base35",
+    "font-urw-core35",
     # Draws every character as nothing, for testing font loading on the web: nothing to install.
     "font-adobe-blank",
     # Icons, symbols and emoji have nothing to preview.
@@ -108,7 +109,30 @@ EXCLUDED = {
     # cask, pointing at a specimen page that's gone.
     "font-42dot-sans",
 }
-ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font"]
+ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
+# Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
+# takes over once it has one, and lock says so, for the entry to go.
+EXTRA_CASKS = [
+    {
+        # Released with Geist 1.9.0, which Homebrew's font-geist and siblings install, without a cask.
+        "token": "font-geist-serif",
+        "name": ["Geist Serif"],
+        "homepage": "https://vercel.com/font",
+        "url": "https://github.com/vercel/geist-font/releases/download/v1.9.0/geist-font-v1.9.0.zip",
+        "version": "1.9.0",
+        "sha256": "1f2dd9ea90e68d0358a1d234a5f156807b2c3e0e295d78d87980a6dbad1fa58c",
+        "artifacts": [
+            {"font": [f"geist-font/GeistSerif/{path}"]}
+            for path in (
+                "ttf/GeistSerif-Heart.ttf",
+                "ttf/GeistSerif-Regular.ttf",
+                "ttf/GeistSerif-Square.ttf",
+                "ttf/GeistSerif-Triangle.ttf",
+                "variable/GeistSerif[ELSH].ttf",
+            )
+        ],
+    },
+]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
@@ -247,6 +271,10 @@ SCRIPT_NAMES = {
 # The lowercase alphabets that make a face Greek or Cyrillic too, for filtering by script: Latin's is
 # PANGRAM, and the others are SCRIPT_SAMPLES.
 EUROPEAN_ALPHABETS = {"Grek": (0x03B1, 0x03C9), "Cyrl": (0x0430, 0x044F)}
+# A face for another script mostly carries Latin, Greek or Cyrillic only to set beside its own, as Noto
+# Sans CJK and D2Coding do, so the filter lists it under those only where its own script is Latin or
+# that one. These are Latin families whatever their own script: google/fonts calls them Devanagari.
+LATIN_TOO = {"font-poppins", "font-teko"}
 # Scripts Latin faces carry beside Greek or Cyrillic alone, as Rubik and Amatic SC carry Hebrew; a
 # Thai or Indic face may carry Cyrillic itself, as Thonburi does.
 BESIDE_EUROPE = ("Hebr", "Arab", "Armn", "Geor")
@@ -278,6 +306,11 @@ GOOGLE_CATEGORY_STYLES = {
     "Monospace": "monospaced",
 }
 GOOGLE_DESCRIPTIONS = ("DESCRIPTION.en_us.html", "article/ARTICLE.en_us.html")
+# Casks whose PANOSE reading gets their style wrong and that Google has no category for (yet).
+CASK_STYLES = {
+    # PANOSE says sans serif.
+    "font-geist-serif": "serif",
+}
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families
 # Google also publishes take Google's category instead, ahead of this.
@@ -475,7 +508,7 @@ def google_families(casks_by_token):
         by_name = "font-" + re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
         token = (
             by_specimen.get(name.lower())
-            or by_directory.get(re.sub(r"[^a-z0-9]", "", name.lower()))
+            or by_directory.get(simplified(name))
             or (by_name if by_name in casks_by_token else None)
         )
         matched.append((family, token))
@@ -537,9 +570,14 @@ def google_seasons(commit):
     return seasons
 
 
+def simplified(name):
+    """A family name lowercased to its letters and digits, as google/fonts names its directories."""
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
 def google_directory_of(family, cask, family_directories):
     only_path = (cask.get("url_specs") or {}).get("only_path", "") if cask else ""
-    return only_path or family_directories.get(re.sub(r"[^a-z0-9]", "", family["family"].lower()))
+    return only_path or family_directories.get(simplified(family["family"]))
 
 
 def sha256_of(path):
@@ -651,6 +689,11 @@ def lock(count, google_top):
     """`lock`: resolves the line-up and pins each cask's source in fonts.lock.json."""
     previous = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]} if LOCK.is_file() else {}
     casks_by_token = {cask["token"]: cask for cask in fetch_json(CASKS_URL)}
+    for cask in EXTRA_CASKS:
+        if cask["token"] in casks_by_token:
+            print(f"{cask['token']}: Homebrew has a cask now; take it out of EXTRA_CASKS")
+        else:
+            casks_by_token[cask["token"]] = cask
     ranked = rank_casks(fetch_json(ANALYTICS_URL), casks_by_token)
     families = google_families(casks_by_token)
     commit = update_clone()
@@ -1064,6 +1107,16 @@ def face_scripts(face, primary_script=None):
     if own and own not in scripts:
         scripts.append(own)
     return Scripts(own if sample else None, scripts if sample else [], sample)
+
+
+def filtered_scripts(script, scripts, token=None):
+    """The scripts the filter lists a face under, of those it covers: Latin, Greek and Cyrillic only
+    where `script`, its own, is Latin or that one, or it's one of LATIN_TOO. Applied when assembling
+    the catalog, not in the cached build, so changing it needs no rebuild."""
+    if token in LATIN_TOO:
+        return scripts
+    own = script or "Latn"
+    return [code for code in scripts if code not in ("Latn", *EUROPEAN_ALPHABETS) or own in ("Latn", code)]
 
 
 def own_script(family, cmap, code_pages, covered, latin):
@@ -1534,6 +1587,7 @@ def restyle_apple_fonts(categories):
         if google and family["style"] != "monospaced":
             family["style"] = google
         family["style"] = overrides.get(family["name"], family["style"])
+        family["scripts"] = filtered_scripts(family.get("script"), family["scripts"])
         kept.append(family)
     write_json(path, kept)
     print(f"{len(kept)} Apple font families")
@@ -1675,6 +1729,11 @@ def build(only=None, max_mb_per_install=None, jobs=1):
 
     catalog, owners, weights, licenses = [], {}, {}, {}
     skipped, trimmed, unshippable, shadowed = dict(excluded), {}, {}, {}
+    # A family Apple offers too is listed as Apple's alone, which needs no download from the app and
+    # can't collide with Apple's copy once Settings installs it.
+    apple = json.loads((APP / "AppleFonts.json").read_text()) if (APP / "AppleFonts.json").is_file() else []
+    apple_names = {simplified(family["name"]): family["name"] for family in apple}
+    apple_faces = {family["previewFace"]: family["name"] for family in apple}
     for entry in entries:
         token, destination = entry["token"], destinations[entry["token"]]
         if not (destination / "entry.json").is_file():
@@ -1682,6 +1741,13 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         built = json.loads((destination / "entry.json").read_text())
         if "skip" in built:
             skipped[token] = built["skip"]
+            continue
+        # By name, Homebrew's or Google's, or by a face: font-stix installs STIX Two Text under another.
+        names = (entry["name"], (entry.get("google") or {}).get("family"))
+        matches = [apple_names.get(simplified(name)) for name in names if name]
+        matches += [apple_faces.get(file["asset"]) for file in built["files"]]
+        if apple_family := next(filter(None, matches), None):
+            skipped[token] = f"one of Apple's fonts, {apple_family}"
             continue
         # Two casks can carry the same face; the higher-ranked one keeps it.
         files, faces = [], set()
@@ -1729,6 +1795,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         # state reliably, still wins: a monospaced face stays in Fixed Width whatever Google says.
         if (google_style := GOOGLE_CATEGORY_STYLES.get(google.get("category"))) and style != "monospaced":
             style = google_style
+        style = CASK_STYLES.get(token, style)
         record = {
             "token": token,
             "name": entry["name"],
@@ -1746,7 +1813,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         }
         if "sample" in built:
             record["sample"] = built["sample"]
-        record |= {"script": built["script"], "scripts": built["scripts"]}
+        record |= {"script": built["script"], "scripts": filtered_scripts(built["script"], built["scripts"], token)}
         if "description" in built:
             record["description"] = built["description"]
             # Google's descriptions are often the designer's own words, in the first person.

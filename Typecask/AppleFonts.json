@@ -18,7 +18,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Arab",
       "Deva",
       "Thai",
@@ -35,7 +34,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "serif",
@@ -49,7 +47,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "sansSerif",
@@ -241,7 +238,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hant"
     ],
     "style": "sansSerif"
@@ -255,7 +251,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hant"
     ],
     "style": "serif"
@@ -268,8 +263,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hant",
       "Kore"
@@ -299,7 +292,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Jpan",
       "Hant",
       "Kore"
@@ -427,7 +419,6 @@
     "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mlym",
     "scripts": [
-      "Latn",
       "Mlym"
     ],
     "style": "sansSerif",
@@ -441,7 +432,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -491,8 +481,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Thai"
     ],
     "style": "sansSerif"
@@ -518,7 +506,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -532,7 +519,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "display",
@@ -546,7 +532,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
       "Gujr"
     ],
     "style": "display",
@@ -560,7 +545,6 @@
     "sample": "أبجد هوز حطي كلمن\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Arab",
     "scripts": [
-      "Latn",
       "Arab"
     ],
     "style": "handwriting",
@@ -574,7 +558,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
       "Orya"
     ],
     "style": "display",
@@ -588,7 +571,6 @@
     "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mlym",
     "scripts": [
-      "Latn",
       "Mlym"
     ],
     "style": "display",
@@ -602,7 +584,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "display",
@@ -616,7 +597,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
       "Guru"
     ],
     "style": "display",
@@ -630,7 +610,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "display",
@@ -644,7 +623,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "display",
@@ -658,7 +636,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "display",
@@ -672,7 +649,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "sansSerif",
@@ -686,7 +662,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "sansSerif",
@@ -715,9 +690,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -733,9 +705,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -789,8 +758,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -806,7 +773,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Jpan",
       "Hans",
       "Hant"
@@ -834,9 +800,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -852,9 +815,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -894,8 +854,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Kore"
     ],
@@ -910,7 +868,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Kore"
     ],
     "style": "sansSerif",
@@ -924,7 +881,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Kore"
     ],
     "style": "sansSerif",
@@ -938,7 +894,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Kore"
     ],
     "style": "sansSerif",
@@ -952,7 +907,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Kore"
     ],
     "style": "serif",
@@ -966,8 +920,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hant",
       "Kore"
@@ -983,8 +935,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Kore"
     ],
@@ -1186,7 +1136,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -1248,7 +1197,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -1288,7 +1236,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -1351,7 +1298,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "handwriting",
@@ -1365,7 +1311,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "handwriting",
@@ -1524,7 +1469,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif"
@@ -1625,7 +1569,6 @@
     "sample": "ᐃᓄᒃᑎᑐᑦ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Cans",
     "scripts": [
-      "Latn",
       "Cans"
     ],
     "style": "sansSerif"
@@ -1638,7 +1581,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -1738,7 +1680,6 @@
     "sample": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Cher",
     "scripts": [
-      "Latn",
       "Cher"
     ],
     "style": "sansSerif",
@@ -1831,7 +1772,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -1845,7 +1785,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -1896,7 +1835,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
       "Gujr"
     ],
     "style": "sansSerif",
@@ -1911,7 +1849,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Jpan",
       "Hant",
       "Kore"
@@ -1926,7 +1863,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
       "Guru"
     ],
     "style": "serif",
@@ -1953,7 +1889,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
       "Guru"
     ],
     "style": "sansSerif",
@@ -1967,8 +1902,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -1984,8 +1917,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2001,8 +1932,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2018,8 +1947,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2036,7 +1963,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Kore"
     ],
     "style": "sansSerif"
@@ -2050,8 +1976,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans"
     ],
@@ -2066,9 +1990,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -2085,9 +2006,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -2155,9 +2073,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2172,9 +2087,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2190,9 +2102,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2207,8 +2116,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2224,8 +2131,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2262,7 +2167,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "sansSerif",
@@ -2289,7 +2193,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -2379,7 +2282,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -2394,8 +2296,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans"
     ],
@@ -2422,9 +2322,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2440,9 +2337,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2457,7 +2351,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "serif",
@@ -2471,7 +2364,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "sansSerif",
@@ -2485,7 +2377,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "serif",
@@ -2499,7 +2390,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "handwriting",
@@ -2513,7 +2403,6 @@
     "sample": "ግዕዝ ፊደል\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Ethi",
     "scripts": [
-      "Latn",
       "Ethi"
     ],
     "style": "sansSerif",
@@ -2527,7 +2416,6 @@
     "sample": "ግዕዝ ፊደል\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Ethi",
     "scripts": [
-      "Latn",
       "Ethi"
     ],
     "style": "sansSerif"
@@ -2540,7 +2428,6 @@
     "sample": "សួស្តីពិភពលោក\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Khmr",
     "scripts": [
-      "Latn",
       "Khmr"
     ],
     "style": "serif",
@@ -2554,7 +2441,6 @@
     "sample": "សួស្តីពិភពលោក\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Khmr",
     "scripts": [
-      "Latn",
       "Khmr"
     ],
     "style": "sansSerif"
@@ -2582,8 +2468,6 @@
     "sample": "أبجد هوز حطي كلمن\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Arab",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Arab"
     ],
     "style": "sansSerif",
@@ -2597,8 +2481,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2614,7 +2496,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -2628,7 +2509,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "sansSerif",
@@ -2642,7 +2522,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -2669,7 +2548,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "sansSerif",
@@ -2683,7 +2561,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -2723,7 +2600,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -2737,7 +2613,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -2790,8 +2665,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2807,8 +2680,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2824,7 +2695,6 @@
     "sample": "ສະບາຍດີ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Laoo",
     "scripts": [
-      "Latn",
       "Laoo"
     ],
     "style": "serif",
@@ -2838,7 +2708,6 @@
     "sample": "ສະບາຍດີ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Laoo",
     "scripts": [
-      "Latn",
       "Laoo"
     ],
     "style": "sansSerif"
@@ -2851,7 +2720,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -2865,7 +2733,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "sansSerif",
@@ -2879,7 +2746,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "sansSerif",
@@ -2894,9 +2760,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2912,9 +2775,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2930,8 +2790,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2946,8 +2804,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2963,8 +2819,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -2981,8 +2835,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -3042,7 +2894,6 @@
     "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mlym",
     "scripts": [
-      "Latn",
       "Mlym"
     ],
     "style": "serif"
@@ -3055,7 +2906,6 @@
     "sample": "മലയാളം ലിപി\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mlym",
     "scripts": [
-      "Latn",
       "Mlym"
     ],
     "style": "sansSerif"
@@ -3068,7 +2918,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "handwriting",
@@ -3152,7 +3001,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "display",
@@ -3204,7 +3052,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -3218,7 +3065,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
       "Guru"
     ],
     "style": "sansSerif",
@@ -3232,7 +3078,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -3246,7 +3091,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
       "Gujr"
     ],
     "style": "sansSerif",
@@ -3273,7 +3117,6 @@
     "sample": "မင်္ဂလာပါ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mymr",
     "scripts": [
-      "Latn",
       "Mymr"
     ],
     "style": "serif",
@@ -3287,7 +3130,6 @@
     "sample": "မင်္ဂလာပါ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mymr",
     "scripts": [
-      "Latn",
       "Mymr"
     ],
     "style": "sansSerif"
@@ -3300,7 +3142,6 @@
     "sample": "أبجد هوز حطي كلمن\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Arab",
     "scripts": [
-      "Latn",
       "Arab"
     ],
     "style": "sansSerif",
@@ -3327,8 +3168,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Kore"
     ],
@@ -3343,8 +3182,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hant",
       "Kore"
@@ -3360,8 +3197,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Kore"
     ],
@@ -3376,8 +3211,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Kore"
     ],
@@ -3405,7 +3238,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -3432,7 +3264,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
       "Hans",
       "Hant"
     ],
@@ -3541,7 +3372,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "sansSerif",
@@ -3555,7 +3385,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -3569,9 +3398,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Gujr"
     ],
     "style": "sansSerif",
@@ -3585,9 +3411,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Guru"
     ],
     "style": "sansSerif",
@@ -3601,9 +3424,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Knda"
     ],
     "style": "sansSerif",
@@ -3617,9 +3437,6 @@
     "sample": "ꯃꯤꯇꯩ ꯃꯌꯦꯛ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mtei",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Mtei"
     ],
     "style": "sansSerif",
@@ -3633,9 +3450,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Orya"
     ],
     "style": "sansSerif",
@@ -3649,9 +3463,6 @@
     "sample": "ᱚᱞ ᱪᱤᱠᱤ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Olck",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Olck"
     ],
     "style": "sansSerif",
@@ -3665,7 +3476,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -3679,9 +3489,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Telu"
     ],
     "style": "sansSerif",
@@ -3695,7 +3502,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -3709,9 +3515,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Gujr"
     ],
     "style": "sansSerif",
@@ -3725,9 +3528,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Guru"
     ],
     "style": "sansSerif",
@@ -3741,9 +3541,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Knda"
     ],
     "style": "sansSerif",
@@ -3757,9 +3554,6 @@
     "sample": "ꯃꯤꯇꯩ ꯃꯌꯦꯛ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mtei",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Mtei"
     ],
     "style": "sansSerif",
@@ -3773,9 +3567,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Orya"
     ],
     "style": "sansSerif",
@@ -3789,9 +3580,6 @@
     "sample": "ᱚᱞ ᱪᱤᱠᱤ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Olck",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Olck"
     ],
     "style": "sansSerif",
@@ -3805,7 +3593,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -3819,9 +3606,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Telu"
     ],
     "style": "sansSerif",
@@ -3835,7 +3619,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -3849,9 +3632,6 @@
     "sample": "ગુજરાતી લિપિ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Gujr",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Gujr"
     ],
     "style": "sansSerif",
@@ -3865,9 +3645,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Guru"
     ],
     "style": "sansSerif",
@@ -3881,9 +3658,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Knda"
     ],
     "style": "sansSerif",
@@ -3897,9 +3671,6 @@
     "sample": "ꯃꯤꯇꯩ ꯃꯌꯦꯛ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Mtei",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Mtei"
     ],
     "style": "sansSerif",
@@ -3913,9 +3684,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Orya"
     ],
     "style": "sansSerif",
@@ -3929,9 +3697,6 @@
     "sample": "ᱚᱞ ᱪᱤᱠᱤ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Olck",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Olck"
     ],
     "style": "sansSerif",
@@ -3945,7 +3710,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -3959,9 +3723,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Telu"
     ],
     "style": "sansSerif",
@@ -3986,7 +3747,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
       "Orya"
     ],
     "style": "serif",
@@ -4000,7 +3760,6 @@
     "sample": "ଓଡ଼ିଆ ଲିପି\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Orya",
     "scripts": [
-      "Latn",
       "Orya"
     ],
     "style": "sansSerif",
@@ -4015,8 +3774,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans"
     ],
@@ -4030,7 +3787,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "serif",
@@ -4080,7 +3836,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Jpan",
       "Hant",
       "Kore"
@@ -4110,7 +3865,6 @@
     "sample": "다람쥐 헌 쳇바퀴에 타고파\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Kore",
     "scripts": [
-      "Latn",
       "Jpan",
       "Kore"
     ],
@@ -4125,7 +3879,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hans",
       "Hant"
     ],
@@ -4140,7 +3893,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hans",
       "Hant"
     ],
@@ -4155,7 +3907,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
       "Hans",
       "Hant"
     ],
@@ -4170,7 +3921,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hans",
       "Hant"
     ],
@@ -4184,7 +3934,6 @@
     "sample": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Cher",
     "scripts": [
-      "Latn",
       "Cher"
     ],
     "style": "serif",
@@ -4250,7 +3999,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "serif",
@@ -4532,7 +4280,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -4547,8 +4294,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Thai"
     ],
     "style": "sansSerif"
@@ -4610,8 +4355,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Deva"
     ],
     "style": "sansSerif",
@@ -4625,7 +4368,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "sansSerif",
@@ -4653,7 +4395,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "sansSerif",
@@ -4667,8 +4408,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -4684,7 +4423,6 @@
     "sample": "සිංහල අක්ෂර\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Sinh",
     "scripts": [
-      "Latn",
       "Sinh"
     ],
     "style": "serif",
@@ -4698,7 +4436,6 @@
     "sample": "සිංහල අක්ෂර\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Sinh",
     "scripts": [
-      "Latn",
       "Sinh"
     ],
     "style": "sansSerif"
@@ -4750,9 +4487,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -4770,9 +4504,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -4803,7 +4534,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
       "Thai"
     ],
     "style": "display",
@@ -4818,9 +4548,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -4837,9 +4564,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -4882,9 +4606,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -4924,9 +4645,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant",
@@ -4983,7 +4701,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "serif"
@@ -4996,7 +4713,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "sansSerif",
@@ -5010,7 +4726,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "serif",
@@ -5024,7 +4739,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "sansSerif",
@@ -5038,8 +4752,6 @@
     "sample": "สวัสดีชาวโลก\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Thai",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Thai"
     ],
     "style": "sansSerif"
@@ -5081,7 +4793,6 @@
     "sample": "বাংলা লিপি\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Beng",
     "scripts": [
-      "Latn",
       "Beng"
     ],
     "style": "serif",
@@ -5095,7 +4806,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "serif",
@@ -5109,7 +4819,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "serif",
@@ -5123,7 +4832,6 @@
     "sample": "नमस्ते दुनिया\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Deva",
     "scripts": [
-      "Latn",
       "Deva"
     ],
     "style": "serif",
@@ -5137,7 +4845,6 @@
     "sample": "ਗੁਰਮੁਖੀ ਲਿਪੀ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Guru",
     "scripts": [
-      "Latn",
       "Guru"
     ],
     "style": "serif",
@@ -5151,7 +4858,6 @@
     "sample": "ಕನ್ನಡ ಲಿಪಿ\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Knda",
     "scripts": [
-      "Latn",
       "Knda"
     ],
     "style": "serif",
@@ -5165,7 +4871,6 @@
     "sample": "தமிழ் எழுத்து\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Taml",
     "scripts": [
-      "Latn",
       "Taml"
     ],
     "style": "serif",
@@ -5179,7 +4884,6 @@
     "sample": "తెలుగు లిపి\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Telu",
     "scripts": [
-      "Latn",
       "Telu"
     ],
     "style": "serif",
@@ -5193,9 +4897,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5211,8 +4912,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5228,8 +4927,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5245,9 +4942,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5290,8 +4984,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans"
     ],
@@ -5306,8 +4998,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans"
     ],
@@ -5372,8 +5062,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5389,7 +5077,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
       "Hant"
     ],
     "style": "handwriting",
@@ -5415,8 +5102,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5432,8 +5117,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5486,9 +5169,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5504,9 +5184,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5535,9 +5212,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5553,9 +5227,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5570,9 +5241,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5588,8 +5256,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5605,8 +5271,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5622,9 +5286,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5640,9 +5301,6 @@
     "sample": "いろはにほへと ちりぬるを\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Jpan",
     "scripts": [
-      "Latn",
-      "Grek",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5658,8 +5316,6 @@
     "sample": "天地玄黄 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hans",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
@@ -5675,8 +5331,6 @@
     "sample": "天地玄黃 宇宙洪荒\nThe quick brown fox jumps over the lazy dog 0123456789 {}[]()<>=!&|",
     "script": "Hant",
     "scripts": [
-      "Latn",
-      "Cyrl",
       "Jpan",
       "Hans",
       "Hant"
