@@ -40,6 +40,36 @@ extension DesignStyle: Decodable {
     }
 }
 
+/// A holiday collection, from the seasonal tags Google Fonts gives its families plus a few casks from
+/// elsewhere that scripts/build-catalog.py adds. In calendar order, which the sidebar lists them in.
+enum Holiday: String, CaseIterable, Hashable, Sendable {
+    case lunarNewYear
+    case valentinesDay
+    case halloween
+    case diwali
+    case christmas
+
+    var name: LocalizedStringResource {
+        switch self {
+        case .lunarNewYear: "Lunar New Year"
+        case .valentinesDay: "Valentine’s Day"
+        case .halloween: "Halloween"
+        case .diwali: "Diwali"
+        case .christmas: "Christmas"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .lunarNewYear: "fireworks"
+        case .valentinesDay: "heart"
+        case .halloween: "theatermasks"
+        case .diwali: "flame"
+        case .christmas: "gift"
+        }
+    }
+}
+
 /// A sidebar collection. `List` selection has to be non-optional: a `nil` tag reads as "nothing
 /// selected", so an All Fonts row tagged `nil` can never become the selection.
 enum FontCollection: Hashable, Identifiable, Sendable {
@@ -51,6 +81,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
     case nerdFonts
     /// Apple's built-in and downloadable fonts rather than casks.
     case appleFonts
+    case holiday(Holiday)
 
     var id: Self { self }
 
@@ -61,6 +92,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .style(let style): style.name
         case .nerdFonts: "Nerd Fonts"
         case .appleFonts: "Apple Fonts"
+        case .holiday(let holiday): holiday.name
         }
     }
 
@@ -71,6 +103,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .style(let style): style.symbol
         case .nerdFonts: "terminal"
         case .appleFonts: "applelogo"
+        case .holiday(let holiday): holiday.symbol
         }
     }
 
@@ -81,6 +114,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case (.installed, .cask(let cask)): installed.contains(cask.id)
         case (.nerdFonts, .cask(let cask)): cask.glyphs
         case (.appleFonts, .apple): true
+        case (.holiday(let holiday), .cask(let cask)): cask.holidays?.contains(holiday.rawValue) ?? false
         default: false
         }
     }

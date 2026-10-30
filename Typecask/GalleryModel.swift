@@ -5,7 +5,8 @@ import Observation
 ///
 /// `visibleItems` is recomputed only when the search text, the collection or the installed casks
 /// change, so a body evaluation triggered by anything else — an install's progress, a rotation, a
-/// split-view resize — just reads a prepared array.
+/// split-view resize — just reads a prepared array. The sidebar's counts are likewise recounted only
+/// when the installed casks or the writing systems change.
 @MainActor
 @Observable
 final class GalleryModel {
@@ -38,9 +39,10 @@ final class GalleryModel {
     }
 
     let catalog: Catalog
-    /// The styles present in the gallery, in `DesignStyle`'s own order, with how many fonts each holds.
-    let styles: [(style: DesignStyle, count: Int)]
-    let nerdFontCount: Int
+    /// The styles present in the gallery, in `DesignStyle`'s own order.
+    let styles: [DesignStyle]
+    /// The holidays some cask suits, in `Holiday`'s own order.
+    let holidays: [Holiday]
     /// The scripts enough fonts cover to list in the script menu itself: Latin, then the rest by name.
     let scripts: [Script]
     /// The long tail of scripts, a handful of fonts each, which the menu tucks into a submenu.
@@ -63,12 +65,22 @@ final class GalleryModel {
 
     /// Mirrors FontInstaller's, which the gallery view passes in as it changes.
     var installed: Set<Cask.ID> = [] {
-        didSet { if installed != oldValue && collection == .installed { recompute() } }
+        didSet {
+            guard installed != oldValue else { return }
+            recount()
+            if collection == .installed {
+                recompute()
+            }
+        }
     }
 
     /// Fonts must cover at least one of these; empty lets every font through.
     var selectedScripts: Set<String> = [] {
-        didSet { if selectedScripts != oldValue { recompute() } }
+        didSet {
+            guard selectedScripts != oldValue else { return }
+            recount()
+            recompute()
+        }
     }
 
     var viewMode: ViewMode = .grid
@@ -78,6 +90,8 @@ final class GalleryModel {
     }
 
     private(set) var visibleItems: [GalleryItem] = []
+    /// How many fonts each sidebar collection holds that cover the selected writing systems.
+    private var counts: [FontCollection: Int] = [:]
 
     private let sortedItems: [GalleryItem]
     /// Each item's name and token, folded once here rather than on every keystroke.
@@ -94,11 +108,10 @@ final class GalleryModel {
     init(catalog: Catalog) {
         self.catalog = catalog
         let items = catalog.casks.map(GalleryItem.cask) + catalog.appleFonts.map(GalleryItem.apple)
-        let counts = Dictionary(grouping: items, by: \.style).mapValues(\.count)
-        styles = DesignStyle.allCases.compactMap { style in
-            counts[style].map { (style, $0) }
-        }
-        nerdFontCount = catalog.casks.count(where: \.glyphs)
+        let presentStyles = Set(items.map(\.style))
+        styles = DesignStyle.allCases.filter(presentStyles.contains)
+        let presentHolidays = Set(catalog.casks.flatMap { $0.holidays ?? [] })
+        holidays = Holiday.allCases.filter { presentHolidays.contains($0.rawValue) }
         let allScripts = Self.scripts(of: items)
         scripts = allScripts.filter { $0.count >= Self.listedScriptMinimum }
         moreScripts = allScripts.filter { $0.count < Self.listedScriptMinimum }
@@ -123,6 +136,7 @@ final class GalleryModel {
         }
         self.orders = orders
         visibleItems = sortedItems
+        recount()
         let descriptions = sortedItems.map { item in
             switch item {
             case .cask(let cask): cask.description ?? ""
@@ -140,13 +154,26 @@ final class GalleryModel {
     }
 
     func count(of collection: FontCollection) -> Int {
-        switch collection {
-        case .allFonts: sortedItems.count
-        case .installed: installed.count
-        case .style(let style): styles.first { $0.style == style }?.count ?? 0
-        case .nerdFonts: nerdFontCount
-        case .appleFonts: catalog.appleFonts.count
-        }
+        counts[collection] ?? 0
+    }
+
+    /// Every collection the sidebar lists, in its order.
+    var collections: [FontCollection] {
+        [.allFonts, .installed] + styles.map(FontCollection.style) + [.nerdFonts, .appleFonts]
+            + holidays.map(FontCollection.holiday)
+    }
+
+    private func coversSelectedScripts(_ index: Int) -> Bool {
+        selectedScripts.isEmpty || !selectedScripts.isDisjoint(with: scriptSets[index])
+    }
+
+    /// Counts each collection's fonts that cover the selected writing systems, so the sidebar agrees with
+    /// what picking a collection then shows.
+    private func recount() {
+        let covering = sortedItems.indices.filter(coversSelectedScripts).map { sortedItems[$0] }
+        counts = Dictionary(uniqueKeysWithValues: collections.map { collection in
+            (collection, covering.count { collection.contains($0, installed: installed) })
+        })
     }
 
     /// Fonts in the collection matching the search: those whose name matches first, then those whose
@@ -156,8 +183,7 @@ final class GalleryModel {
         var byName: [GalleryItem] = [], byDescription: [GalleryItem] = []
         for index in orders[sortOrder] ?? [] {
             let item = sortedItems[index]
-            guard collection.contains(item, installed: installed),
-                  selectedScripts.isEmpty || !selectedScripts.isDisjoint(with: scriptSets[index]) else { continue }
+            guard collection.contains(item, installed: installed), coversSelectedScripts(index) else { continue }
             if query.isEmpty || nameKeys[index].contains(query) {
                 byName.append(item)
             } else if descriptionKeys?[index].contains(query) ?? false {

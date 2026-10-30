@@ -42,7 +42,6 @@ struct Cask: Decodable, Identifiable, Hashable {
     let token: String
     let name: String
     let homepage: URL
-    let installs: Int
     let bytes: Int64
     /// How many fonts the cask holds, whether or not this build ships them.
     let fonts: Int
@@ -68,7 +67,8 @@ struct Cask: Decodable, Identifiable, Hashable {
     let description: String?
     /// The family's designers, per Google Fonts, who often wrote its description.
     let designers: [String]?
-    /// Rank by popularity across Homebrew's installs and Google Fonts' views, 1 first.
+    /// Rank by popularity across Homebrew's installs and Google Fonts' views, 1 first, which the gallery
+    /// shows as "#1".
     let popularity: Int?
     /// Rank by the last month's installs or views against the year's, among the busier casks; nil
     /// for the long tail, where growth is noise.
@@ -77,6 +77,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     let version: String?
     /// The primary face's version string, which an installed copy's is compared with to offer an update.
     let fontVersion: String?
+    /// `Holiday` raw values of the holidays the cask suits; absent for most casks. Kept as strings, so a
+    /// holiday a newer catalog adds is ignored rather than failing the catalog.
+    let holidays: [String]?
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag

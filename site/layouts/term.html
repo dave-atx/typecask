@@ -15,7 +15,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/fonts/" | relURL }}">Fonts</a></nav>
     <h1>{{ .Title }}</h1>
     <p class="lede">{{ partial "style-blurb.html" .Title }}</p>
-    <p class="fine">{{ lang.FormatNumber 0 (len $pages) }} families, ordered by installs.</p>
+    <p class="fine">{{ lang.FormatNumber 0 (len $pages) }} families, ordered by popularity across Homebrew and Google Fonts.</p>
   </div>
 
   <div class="wall">
@@ -26,7 +26,7 @@
           <b>{{ .Title }}</b>
           <span>{{ .Params.styleName }}</span>
           {{- if .Params.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
-          <span class="spec-installs">{{ lang.FormatNumber 0 .Params.installs }} brew installs</span>
+          <span class="spec-rank">#{{ lang.FormatNumber 0 .Params.popularity }}</span>
         </span>
         <span class="spec-line" style="font-family:'tc-{{ .Params.slug }}',var(--ui)">{{ .Params.line }}</span>
       </a>

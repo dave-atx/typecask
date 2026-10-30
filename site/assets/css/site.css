@@ -591,13 +591,13 @@ img {
     color: var(--hot);
 }
 
-.spec-installs {
+.spec-rank {
     margin-left: auto;
     font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 639px) {
-    .spec-installs {
+    .spec-rank {
         display: none;
     }
 }

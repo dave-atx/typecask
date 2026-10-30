@@ -71,8 +71,7 @@ private struct CaskSampleRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             SampleRowHeader(title: cask.name, status: installer.status(of: cask)) {
-                Text(cask.installs, format: .number)
-                    .monospacedDigit()
+                PopularityRank(rank: cask.popularity)
             }
             // Two lines: one line truncates after about "The quick".
             CaskSpecimen(cask: cask, catalog: catalog, size: sampleSize(horizontalSizeClass), relativeTo: .largeTitle,

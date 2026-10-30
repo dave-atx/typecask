@@ -29,7 +29,8 @@ struct GalleryView: View {
     }
 }
 
-/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts and Apple's.
+/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts and Apple's, and
+/// the holidays.
 private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
     @State private var showsAbout = false
@@ -39,13 +40,20 @@ private struct CollectionSidebar: View {
             row(.allFonts)
             row(.installed)
             Section("Design Style") {
-                ForEach(model.styles, id: \.style) { entry in
-                    row(.style(entry.style))
+                ForEach(model.styles, id: \.self) { style in
+                    row(.style(style))
                 }
             }
             Section("Collections") {
                 row(.nerdFonts)
                 row(.appleFonts)
+            }
+            if !model.holidays.isEmpty {
+                Section("Holidays") {
+                    ForEach(model.holidays, id: \.self) { holiday in
+                        row(.holiday(holiday))
+                    }
+                }
             }
         }
         .navigationTitle("Typecask")
@@ -238,13 +246,20 @@ private struct CollectionMenu: View {
                 Text(FontCollection.allFonts.name).tag(FontCollection.allFonts)
                 Text(FontCollection.installed.name).tag(FontCollection.installed)
                 Section("Design Style") {
-                    ForEach(model.styles, id: \.style) { entry in
-                        Text(entry.style.name).tag(FontCollection.style(entry.style))
+                    ForEach(model.styles, id: \.self) { style in
+                        Text(style.name).tag(FontCollection.style(style))
                     }
                 }
                 Section("Collections") {
                     Text(FontCollection.nerdFonts.name).tag(FontCollection.nerdFonts)
                     Text(FontCollection.appleFonts.name).tag(FontCollection.appleFonts)
+                }
+                if !model.holidays.isEmpty {
+                    Section("Holidays") {
+                        ForEach(model.holidays, id: \.self) { holiday in
+                            Text(holiday.name).tag(FontCollection.holiday(holiday))
+                        }
+                    }
                 }
             }
         } label: {

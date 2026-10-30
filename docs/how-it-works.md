@@ -35,7 +35,10 @@ uninstalled.
 Homebrew and Google measure different crowds: Homebrew's installs are dominated by Nerd Fonts and
 coding faces. So each cask is placed by percentile in each source that has it, Homebrew's yearly
 installs and Google Fonts' yearly views (from `fonts.google.com/metadata/stats`), and ranked by the
-better of the two.
+better of the two, so the two sources' leaders interleave. The app and the site show the rank, "#12",
+rather than either source's count. Averaging the two instead fills the top with Nerd Fonts: nearly every
+Google family is also a cask, and gets averaged with its weaker Homebrew showing, while a cask Google
+doesn't have is judged on Homebrew alone.
 
 Trending compares the last 30 days with the yearly rate, among the busiest quarter of each source,
 since growth in the long tail is noise.
@@ -46,6 +49,16 @@ A Google family takes its design style from Google's category. Other casks take 
 PANOSE data, which most Google families leave empty. A face that declares itself fixed pitch is always
 Fixed Width. The Nerd Fonts collection is every cask with Nerd Font glyphs, and its previews include a
 row of the icons.
+
+The sidebar's counts are of the fonts covering the writing systems picked in the filter, so they match
+what each collection then shows.
+
+## Holidays
+
+The Holidays collections, Lunar New Year, Valentine's Day, Halloween, Diwali and Christmas, come from the
+seasonal tags google/fonts gives its families in `tags/all/families.csv`, each scored 0 - 100. `lock`
+records a family's tags at the locked commit, and `build` keeps those scoring `HOLIDAY_MIN_SCORE` or
+more. Google tags only its own families, so `HOLIDAY_CASKS` adds casks from elsewhere by hand.
 
 ## Apple's fonts
 

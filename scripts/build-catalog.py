@@ -27,6 +27,7 @@ check-licenses fails if Licenses.deflate isn't what Licenses/ deflates to, for C
 
 import argparse
 import base64
+import csv
 import hashlib
 import json
 import logging
@@ -103,6 +104,9 @@ EXCLUDED = {
     "font-noto-color-emoji-compat-test",
     # Bundles the faces of font-noto-sans-cjk-{sc,jp,kr}, which would collide.
     "font-noto-sans-cjk",
+    # Renamed Asta Sans on Google Fonts, which font-asta-sans installs. Homebrew still has the old
+    # cask, pointing at a specimen page that's gone.
+    "font-42dot-sans",
 }
 ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font"]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
@@ -142,6 +146,24 @@ GOOGLE_METADATA_URL = "https://fonts.google.com/metadata/fonts"
 # `popularity` and `trending` are coarse buckets: Roboto, Open Sans and Lato all share popularity 2.
 GOOGLE_STATS_URL = "https://fonts.google.com/metadata/stats"
 GOOGLE_SPECIMEN = re.compile(r"fonts\.google\.com/specimen/([^/?#]+)")
+# google/fonts tags families by mood and use, each tag scored 0 - 100, including the holidays a family
+# suits under /Seasonal/. The lock keeps every family's seasonal tags; the build picks the holidays.
+GOOGLE_TAGS = "tags/all/families.csv"
+GOOGLE_SEASONAL_TAG = "/Seasonal/"
+# The app's holiday collections, by Google's seasonal tag, and the catalog's name for each.
+HOLIDAYS = {
+    "Lunar New Year": "lunarNewYear",
+    "Valentine's Day": "valentinesDay",
+    "Halloween": "halloween",
+    "Diwali": "diwali",
+    "Christmas": "christmas",
+}
+# Below this a seasonal tag is a stretch: Google tags Google Sans for Diwali at 60.
+HOLIDAY_MIN_SCORE = 80
+# Google tags only its own families, so casks from elsewhere are added by hand.
+HOLIDAY_CASKS = {
+    "lunarNewYear": ["font-lxgw-wenkai", "font-smiley-sans"],
+}
 # Casks that pull a single file out of google/fonts, rather than checking out the family directory.
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
 GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
@@ -505,6 +527,16 @@ def google_trees(commit):
     return trees
 
 
+def google_seasons(commit):
+    """Each family's seasonal tags in google/fonts at `commit`, by holiday, with their scores. Rows
+    naming a location on the family's axes score one instance, which a holiday never does."""
+    seasons = {}
+    for family, location, tag, score in csv.reader(git("show", f"{commit}:{GOOGLE_TAGS}").splitlines()):
+        if tag.startswith(GOOGLE_SEASONAL_TAG) and not location:
+            seasons.setdefault(family, {})[tag.removeprefix(GOOGLE_SEASONAL_TAG)] = round(float(score or 0))
+    return seasons
+
+
 def google_directory_of(family, cask, family_directories):
     only_path = (cask.get("url_specs") or {}).get("only_path", "") if cask else ""
     return only_path or family_directories.get(re.sub(r"[^a-z0-9]", "", family["family"].lower()))
@@ -623,6 +655,7 @@ def lock(count, google_top):
     families = google_families(casks_by_token)
     commit = update_clone()
     trees = google_trees(commit)
+    seasons = google_seasons(commit)
     family_directories = {}
     for path in trees:
         parts = path.split("/")
@@ -697,10 +730,15 @@ def lock(count, google_top):
                 continue
             source, artifacts, version = kept["source"], kept["artifacts"], kept["version"]
             held.append(f"{token} ({version or 'unversioned'})")
+        homepage = cask["homepage"]
+        # Google takes down the specimen page of a family it delists or renames, as it did 42dot Sans,
+        # though its files stay in google/fonts; Homebrew's cask still points at the page.
+        if not family and GOOGLE_SPECIMEN.search(homepage) and "google" in source:
+            homepage = f"https://github.com/google/fonts/tree/main/{source['google']}"
         entry = {
             "token": token,
             "name": cask["name"][0],
-            "homepage": cask["homepage"],
+            "homepage": homepage,
             "version": version,
             "installs": installs.get(token, 0),
             "recentInstalls": recent.get(token, 0),
@@ -718,6 +756,8 @@ def lock(count, google_top):
             }
             if directory in trees:
                 google |= {"directory": directory, "tree": trees[directory]}
+            if tags := seasons.get(family["family"]):
+                google["seasons"] = dict(sorted(tags.items()))
             entry["google"] = google
         entries.append(entry)
     if unpinned:
@@ -1567,7 +1607,13 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     undercount fonts most people get from Google.
     """
     locked = json.loads(LOCK.read_text())
-    entries = locked["casks"]
+    # `lock` leaves out EXCLUDED casks, but a lock written before a cask was excluded still names it,
+    # and a run that doesn't lock again builds from that lock: Input shipped a release after it was
+    # excluded that way. So a cask stops shipping at the next build, whichever lock it uses.
+    excluded = {
+        entry["token"]: "excluded in build-catalog.py" for entry in locked["casks"] if entry["token"] in EXCLUDED
+    }
+    entries = [entry for entry in locked["casks"] if entry["token"] not in excluded]
     keys = {entry["token"]: cache_key(entry) for entry in entries}
     destinations = {token: BUILT / token / key for token, key in keys.items()}
 
@@ -1628,7 +1674,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     write_json(FONTS / "Contents.json", CATALOG_INFO)
 
     catalog, owners, weights, licenses = [], {}, {}, {}
-    skipped, trimmed, unshippable, shadowed = {}, {}, {}, {}
+    skipped, trimmed, unshippable, shadowed = dict(excluded), {}, {}, {}
     for entry in entries:
         token, destination = entry["token"], destinations[entry["token"]]
         if not (destination / "entry.json").is_file():
@@ -1706,9 +1752,19 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             # Google's descriptions are often the designer's own words, in the first person.
             if designers := google.get("designers"):
                 record["designers"] = designers
+        seasons = google.get("seasons") or {}
+        if holidays := [
+            holiday
+            for tag, holiday in HOLIDAYS.items()
+            if seasons.get(tag, 0) >= HOLIDAY_MIN_SCORE or token in HOLIDAY_CASKS.get(holiday, [])
+        ]:
+            record["holidays"] = holidays
         catalog.append(record)
 
     rank_popularity(catalog, entries)
+    tokens = {record["token"] for record in catalog}
+    if missing := sorted(token for casks in HOLIDAY_CASKS.values() for token in casks if token not in tokens):
+        print(f"warning: HOLIDAY_CASKS names casks not in the catalog: {', '.join(missing)}")
     packs = assign_packs(weights)
     for record in catalog:
         if pack := packs.get(record["token"]):

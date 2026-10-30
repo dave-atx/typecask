@@ -55,7 +55,7 @@ private struct CaskCard: View {
             CaskSpecimen(cask: cask, catalog: catalog, size: 20, relativeTo: .title3, lineLimit: cask.glyphs ? 2 : 3)
             Spacer(minLength: 0)
             CardFooter(title: cask.name, status: installer.status(of: cask)) {
-                Text("\(cask.installs, format: .number) installs")
+                PopularityRank(rank: cask.popularity)
             }
         }
     }
@@ -79,6 +79,19 @@ struct CardFooter<Detail: View>: View {
             }
             Spacer(minLength: 0)
             InstallBadge(status: status)
+        }
+    }
+}
+
+/// A cask's rank by popularity across Homebrew and Google Fonts, as "#12".
+struct PopularityRank: View {
+    let rank: Int?
+
+    var body: some View {
+        if let rank {
+            Text("#\(rank, format: .number)")
+                .monospacedDigit()
+                .accessibilityLabel(Text("Popularity rank \(rank, format: .number)"))
         }
     }
 }

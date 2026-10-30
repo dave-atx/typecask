@@ -25,7 +25,9 @@ struct CaskDetailView: View {
                     LabeledContent("Fonts", value: cask.fonts, format: .number)
                     LabeledContent("Design Style") { Text(cask.style.name) }
                     LabeledContent("Download", value: cask.bytes, format: .byteCount(style: .file))
-                    LabeledContent("Installs, last 365 days", value: cask.installs, format: .number)
+                    if let popularity = cask.popularity {
+                        LabeledContent("Popularity") { PopularityRank(rank: popularity) }
+                    }
                 }
                 // Every cask in the catalog has a license; build-catalog.py skips those without one.
                 DisclosureGroup("License") {

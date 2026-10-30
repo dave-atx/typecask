@@ -82,8 +82,7 @@
           {{- end }}
           <dt>Faces</dt><dd>{{ int $p.faces }}</dd>
           <dt>Download</dt><dd>{{ partial "bytes.html" $p.bytes }}</dd>
-          <dt>Brew installs</dt><dd>{{ lang.FormatNumber 0 $p.installs }}<span class="fine"> / year</span></dd>
-          <dt>Popularity</dt><dd>#{{ $p.popularity }}</dd>
+          <dt>Popularity</dt><dd>#{{ lang.FormatNumber 0 $p.popularity }}</dd>
           {{- with $p.trending }}<dt>Climbing</dt><dd>#{{ . }}</dd>{{ end }}
           {{- if $p.glyphs }}<dt>Collection</dt>
             <dd><a href="{{ "/styles/nerd-fonts/" | relURL }}">Nerd Fonts</a></dd>{{ end }}

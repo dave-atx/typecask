@@ -18,8 +18,8 @@
 
   <div class="bar catalog-head">
     <h1>{{ lang.FormatNumber 0 $count }} fonts</h1>
-    <p class="lede">Every family Typecask can install, set in its own face. Ordered by how many
-      people install it, across Homebrew and Google Fonts. Tap one to read its license and what it
+    <p class="lede">Every family Typecask can install, set in its own face. Ordered by popularity,
+      across Homebrew and Google Fonts. Tap one to read its license and what it
       ships.</p>
   </div>
 
@@ -41,7 +41,7 @@
       <label class="sort">
         <span class="vh">Sort</span>
         <select id="sort">
-          <option value="popularity">Most installed</option>
+          <option value="popularity">Most popular</option>
           <option value="trending">Climbing</option>
           <option value="name">Name</option>
           <option value="bytes">Smallest</option>
@@ -73,7 +73,7 @@
           <b>{{ $v.name }}</b>
           <span>{{ $v.styleName }}</span>
           {{- if $v.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
-          <span class="spec-installs">{{ lang.FormatNumber 0 $v.installs }} brew installs</span>
+          <span class="spec-rank">#{{ lang.FormatNumber 0 .popularity }}</span>
         </span>
         <span class="spec-line" style="font-family:'tc-{{ $v.slug }}',var(--ui)">{{ $v.line }}</span>
       </a>

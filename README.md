@@ -11,7 +11,7 @@ family on [Google Fonts](https://fonts.google.com), to iOS and iPadOS. Tap Insta
 system prompt, and the font appears in Settings › General › Fonts and in apps like Pages and Keynote.
 
 - **Browse** by design style (Serif, Sans Serif, Fixed Width, Display, Handwriting), or open the
-  Nerd Fonts and Apple Fonts collections. Sort by name, popularity or what's trending, and search by
+  Nerd Fonts, Apple Fonts and holiday collections. Sort by name, popularity or what's trending, and search by
   name.
 - **Preview** every font in the gallery before you download anything.
 - **Install and uninstall** fonts system-wide. Installed fonts get their own collection.
