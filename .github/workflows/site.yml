@@ -69,11 +69,13 @@ jobs:
       - name: Check the build
         working-directory: site
         run: |
+          casks=$(python3 -c 'import json; print(len(json.load(open("data/catalog.json"))["casks"]))')
           pages=$(find public -name '*.html' | wc -l)
           fonts=$(find public/p -type f | wc -l)
-          echo "$pages pages, $fonts previews"
-          # 2,193 casks plus the home, catalog, style and document pages.
-          if [ "$pages" -lt 2200 ] || [ "$fonts" -lt 2000 ]; then
+          echo "$casks casks: $pages pages, $fonts previews"
+          # A page and a preview for each cask, plus the home, catalog, style and document pages. Counted
+          # against the catalog, since a fonts release can drop casks: 2,130 failed a floor set at 2,193.
+          if [ "$casks" -lt 1000 ] || [ "$pages" -le "$casks" ] || [ "$fonts" -lt "$casks" ]; then
             echo "The build is short; the catalog probably didn't load." >&2
             exit 1
           fi
