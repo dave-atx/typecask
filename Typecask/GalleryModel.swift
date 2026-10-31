@@ -85,6 +85,9 @@ final class GalleryModel {
 
     var viewMode: ViewMode = .grid
 
+    /// The pages pushed over the gallery: a font's, or none.
+    var path: [GalleryItem] = []
+
     var sortOrder: SortOrder = .name {
         didSet { if sortOrder != oldValue { recompute() } }
     }
@@ -153,6 +156,11 @@ final class GalleryModel {
         }
     }
 
+    /// Opens the cask's page over whatever was showing, as a shortcut installing it does.
+    func show(_ cask: Cask) {
+        path = [.cask(cask)]
+    }
+
     func count(of collection: FontCollection) -> Int {
         counts[collection] ?? 0
     }
@@ -211,7 +219,8 @@ final class GalleryModel {
     /// Scripts fewer fonts cover than this go in a submenu: over a hundred of them, most with one font.
     private static let listedScriptMinimum = 10
 
-    nonisolated private static func fold(_ text: String) -> String {
+    /// Folds case, diacritics and width away, so "Noto Sans" matches "noto sans" and "Fira Code" "Fira Côde".
+    nonisolated static func fold(_ text: String) -> String {
         text.folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: nil)
     }
 

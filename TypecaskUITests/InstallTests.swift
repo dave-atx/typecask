@@ -1,3 +1,4 @@
+import AppIntentsTesting
 import XCTest
 
 final class InstallTests: XCTestCase {
@@ -59,6 +60,33 @@ final class InstallTests: XCTestCase {
         app.buttons["update"].tap()
         XCTAssertTrue(waitForInstall(in: app))
         XCTAssertFalse(app.buttons["update"].exists)
+    }
+
+    /// Installs the cask the way Shortcuts and Siri do, through InstallFontIntent, which opens the cask's page
+    /// for the consent sheet and the download. Uninstalls it first if an earlier test left it installed, then
+    /// relaunches, so the shortcut starts from the gallery.
+    @MainActor
+    func testShortcutInstallsCask() async throws {
+        let app = Self.makeApp()
+        app.launch()
+        openCask(in: app)
+        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.buttons["uninstall"].tap()
+            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        }
+        app.terminate()
+        app.launch()
+
+        let definitions = IntentDefinitions(bundleIdentifier: "org.marquard.Typecask")
+        let fonts = definitions.entities["FontEntity"]
+        let intent = definitions.intents["InstallFontIntent"].makeIntent(font: fonts.makeReference(identifier: token))
+        let run = Task.detached { try await intent.run() }
+        XCTAssertTrue(waitForInstall(in: app))
+        // A returned entity carries its properties but not its ID, so it's checked by name.
+        let installed: String = try await run.value.value.name
+        let found = try await fonts.entities(identifiers: [token])
+        let expected: String = try XCTUnwrap(found.first).name
+        XCTAssertEqual(installed, expected)
     }
 
     /// A cask whose primary face iOS already has under the same PostScript name can't be registered (Core Text

@@ -3,13 +3,9 @@ import SwiftUI
 /// The gallery. On iPad the collections live in a sidebar, as in Font Book; where the layout is
 /// compact they move into a toolbar menu so the fonts themselves stay the root view.
 struct GalleryView: View {
-    @State private var model: GalleryModel
+    @Bindable var model: GalleryModel
     @Environment(FontInstaller.self) private var installer
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
-    init(catalog: Catalog) {
-        _model = State(wrappedValue: GalleryModel(catalog: catalog))
-    }
 
     var body: some View {
         // Both branches read the same model, so switching between them — rotating, resizing a Split View
@@ -18,7 +14,7 @@ struct GalleryView: View {
             NavigationSplitView {
                 CollectionSidebar(model: model)
             } detail: {
-                NavigationStack {
+                NavigationStack(path: $model.path) {
                     GalleryBrowser(model: model, showsCollectionMenu: false)
                 }
             }
@@ -271,12 +267,12 @@ private struct CollectionMenu: View {
     }
 }
 #Preview {
-    GalleryView(catalog: .bundled)
+    GalleryView(model: GalleryModel(catalog: .bundled))
         .environment(FontInstaller())
 }
 
 #Preview("AX5") {
-    GalleryView(catalog: .bundled)
+    GalleryView(model: GalleryModel(catalog: .bundled))
         .environment(FontInstaller())
         .dynamicTypeSize(.accessibility5)
 }

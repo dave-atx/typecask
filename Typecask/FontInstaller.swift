@@ -55,7 +55,7 @@ final class FontInstaller {
     /// The primary faces iOS has built in, found by the first refresh. They change only with iOS itself,
     /// and finding them means resolving every cask's name, so later refreshes reuse them.
     @ObservationIgnored private var builtIn: Set<String>?
-    @ObservationIgnored private var isRefreshing = false
+    @ObservationIgnored private var refreshing: Task<Void, Never>?
 
     func status(of cask: Cask) -> Status {
         statuses[cask.id] ?? .available
@@ -74,10 +74,20 @@ final class FontInstaller {
     /// An installed cask whose face declares a different version (name ID 5) from the one this build
     /// ships is offered as an update. Runs each time the app comes to the foreground, since fonts can be
     /// removed in Settings › General › Fonts meanwhile: a cask whose fonts are gone reads as available.
+    ///
+    /// A refresh already under way is waited for rather than repeated, so a shortcut run as the app launches
+    /// sees the launch's scan instead of statuses that haven't been read yet.
     func refresh(_ casks: [Cask]) async {
-        guard !isRefreshing else { return }
-        isRefreshing = true
-        defer { isRefreshing = false }
+        if let refreshing {
+            return await refreshing.value
+        }
+        let task = Task { await apply(casks) }
+        refreshing = task
+        await task.value
+        refreshing = nil
+    }
+
+    private func apply(_ casks: [Cask]) async {
         let before = statuses
         let (installed, builtIn) = await Self.scan(casks.map(\.primaryFont), builtIn: self.builtIn)
         self.builtIn = builtIn
