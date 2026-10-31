@@ -103,6 +103,7 @@ struct AppleFontDetailView: View {
                     LabeledContent("Styles", value: family.faces, format: .number)
                     LabeledContent("Design Style") { Text(family.style.name) }
                 }
+                .labeledContentStyle(.detailRow)
             }
             .padding()
         }
@@ -119,9 +120,14 @@ private struct AppleFontStatus: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if builtIn {
-                Label("Built into iOS", systemImage: "checkmark.circle.fill")
-                    .font(.headline)
-                    .foregroundStyle(.green)
+                // Green on the icon alone: green text is about 2:1 on white.
+                Label {
+                    Text("Built into iOS")
+                } icon: {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color(.installedBadge))
+                }
+                .font(.headline)
                 Text("Every app can already use this font.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)

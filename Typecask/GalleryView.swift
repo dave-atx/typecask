@@ -275,6 +275,12 @@ private struct CollectionMenu: View {
         .environment(FontInstaller())
 }
 
+#Preview("AX5") {
+    GalleryView(catalog: .bundled)
+        .environment(FontInstaller())
+        .dynamicTypeSize(.accessibility5)
+}
+
 /// The gallery filtered to fonts for Arabic or Hebrew, with the script menu's button filled.
 #Preview("Script Filter") {
     let model = GalleryModel(catalog: .bundled)

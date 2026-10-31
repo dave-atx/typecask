@@ -9,7 +9,9 @@ struct CaskDetailView: View {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 16) {
                     CaskSpecimen(cask: cask, catalog: catalog, size: 40, relativeTo: .largeTitle, lineLimit: nil)
+                    // The same line again, smaller, which VoiceOver needn't read twice.
                     CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil)
+                        .accessibilityHidden(true)
                 }
                 CaskActions(cask: cask)
                 if let description = cask.description {
@@ -29,6 +31,7 @@ struct CaskDetailView: View {
                         LabeledContent("Popularity") { PopularityRank(rank: popularity) }
                     }
                 }
+                .labeledContentStyle(.detailRow)
                 // Every cask in the catalog has a license; build-catalog.py skips those without one.
                 DisclosureGroup("License") {
                     LicenseText(token: cask.token)
@@ -41,7 +44,32 @@ struct CaskDetailView: View {
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
         .promptsForReview(after: cask)
+        .announcesInstalls(of: cask)
     }
+}
+
+/// A detail page's facts: label and value side by side, or the value under its label at accessibility sizes,
+/// where side by side hyphenated "Download" and wrapped a list of designers a word to a line.
+struct DetailRowStyle: LabeledContentStyle {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    func makeBody(configuration: Configuration) -> some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(alignment: .leading, spacing: 2) {
+                configuration.label
+                configuration.content
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+        } else {
+            LabeledContent(configuration)
+        }
+    }
+}
+
+extension LabeledContentStyle where Self == DetailRowStyle {
+    static var detailRow: DetailRowStyle { DetailRowStyle() }
 }
 
 /// A cask's license, read when the disclosure group first opens: a collapsed group doesn't build its
@@ -140,9 +168,15 @@ private struct CaskActions: View {
                 .foregroundStyle(.secondary)
         }
         if case .failed(let message) = installer.status(of: cask) {
-            Text(message)
-                .font(.footnote)
-                .foregroundStyle(.red)
+            // Red on the icon alone: red text is 3.5:1 on white, short of the 4.5:1 text needs.
+            Label {
+                Text(message)
+            } icon: {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.red)
+            }
+            .font(.footnote)
+            .foregroundStyle(.secondary)
         }
     }
 
@@ -158,11 +192,31 @@ private struct CaskActions: View {
     }
 }
 
+/// The control for the cask's status. When an install or uninstall finishes, VoiceOver's focus moves to
+/// whatever replaced the button it was on, rather than being lost with that button.
 private struct InstallControl: View {
     let cask: Cask
     @Environment(FontInstaller.self) private var installer
+    @AccessibilityFocusState private var focus: Control?
+
+    private enum Control: Hashable {
+        case install
+        case uninstall
+    }
 
     var body: some View {
+        content
+            .onChange(of: installer.status(of: cask)) { old, new in
+                guard old.isBusy else { return }
+                switch new {
+                case .installed: focus = .uninstall
+                case .available, .failed: focus = .install
+                default: break
+                }
+            }
+    }
+
+    @ViewBuilder private var content: some View {
         switch installer.status(of: cask) {
         case .available:
             installButton("Install")
@@ -189,8 +243,13 @@ private struct InstallControl: View {
             Label("Built into iOS", systemImage: "checkmark.seal")
                 .foregroundStyle(.secondary)
         case .installed:
-            Label("Installed", systemImage: "checkmark.circle.fill")
-                .foregroundStyle(.green)
+            // Green on the icon alone: green text is about 2:1 on white.
+            Label {
+                Text("Installed")
+            } icon: {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(Color(.installedBadge))
+            }
             uninstallButton
         }
     }
@@ -200,6 +259,7 @@ private struct InstallControl: View {
             Task { await installer.uninstall(cask) }
         }
         .buttonStyle(.glass)
+        .accessibilityFocused($focus, equals: .uninstall)
         .accessibilityIdentifier("uninstall")
     }
 
@@ -208,7 +268,57 @@ private struct InstallControl: View {
             Task { await installer.install(cask) }
         }
         .buttonStyle(.glassProminent)
+        .accessibilityFocused($focus, equals: .install)
         .accessibilityIdentifier("install")
+    }
+}
+
+extension View {
+    /// Tells VoiceOver how an install, update or uninstall of the cask ended; see `InstallAnnouncements`.
+    func announcesInstalls(of cask: Cask) -> some View {
+        modifier(InstallAnnouncements(cask: cask))
+    }
+}
+
+/// Announces the end of an install, update or uninstall, which otherwise only swaps one button for another,
+/// and an error that otherwise only appears as text. Only an action finishing, not a refresh finding the cask
+/// already installed. High priority, so VoiceOver restoring focus after the consent sheet doesn't cut it off.
+private struct InstallAnnouncements: ViewModifier {
+    let cask: Cask
+    @Environment(FontInstaller.self) private var installer
+    /// Whether the install under way is an update, which goes through downloading and installing like any other.
+    @State private var isUpdating = false
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: installer.status(of: cask)) { old, new in
+                if new == .updating {
+                    isUpdating = true
+                }
+                guard let announcement = announcement(from: old, to: new) else { return }
+                if !new.isBusy {
+                    isUpdating = false
+                }
+                var text = AttributedString(localized: announcement)
+                text.accessibilitySpeechAnnouncementPriority = .high
+                AccessibilityNotification.Announcement(text).post()
+            }
+    }
+
+    private func announcement(from old: FontInstaller.Status,
+                              to new: FontInstaller.Status) -> LocalizedStringResource? {
+        let name = cask.name
+        return switch (old, new) {
+        case (.installing, .installed): isUpdating ? "\(name) updated" : "\(name) installed"
+        // An update removes the old fonts before installing the new, so declining it leaves neither.
+        case (.installing, .available):
+            isUpdating ? "Update cancelled. \(name) is no longer installed." : "Install cancelled"
+        case (.uninstalling, .available): "\(name) uninstalled"
+        case (.uninstalling, .failed(let message)): "Couldn't uninstall \(name). \(message)"
+        case (_, .failed(let message)) where old.isBusy:
+            isUpdating ? "Couldn't update \(name). \(message)" : "Couldn't install \(name). \(message)"
+        default: nil
+        }
     }
 }
 

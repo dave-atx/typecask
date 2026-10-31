@@ -23,6 +23,7 @@ struct GallerySampleList: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .galleryItemAccessibility(item)
                 .accessibilityIdentifier(item.accessibilityIdentifier)
                 Divider()
             }
@@ -30,20 +31,30 @@ struct GallerySampleList: View {
     }
 }
 
-/// A sample row's name line: the name, a checkmark once installed, and a detail at the trailing edge.
+/// A sample row's name line: the name, a checkmark once installed, and a detail at the trailing edge. At
+/// accessibility sizes the detail goes under the name, which gets three lines, rather than squeezing it.
 struct SampleRowHeader<Detail: View>: View {
     let title: String
     var status: FontInstaller.Status?
     @ViewBuilder let detail: Detail
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        HStack(spacing: 6) {
-            Text(title)
-                .font(.subheadline.weight(.medium))
-                .lineLimit(1)
-            InstallBadge(status: status)
-                .font(.caption)
-            Spacer(minLength: 0)
+        let stacked = dynamicTypeSize.isAccessibilitySize
+        let layout = stacked
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+            : AnyLayout(HStackLayout(spacing: 6))
+        layout {
+            HStack(spacing: 6) {
+                Text(title)
+                    .font(.subheadline.weight(.medium))
+                    .lineLimit(stacked ? 3 : 1)
+                InstallBadge(status: status)
+                    .font(.caption)
+            }
+            if !stacked {
+                Spacer(minLength: 0)
+            }
             detail
                 .font(.caption)
                 .foregroundStyle(.secondary)
