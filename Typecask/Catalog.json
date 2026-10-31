@@ -2132,12 +2132,12 @@
       "name": "GohuFont  Nerd Font families (Gohu)",
       "homepage": "https://github.com/ryanoasis/nerd-fonts",
       "installs": 2347,
-      "bytes": 2509148,
+      "bytes": 2689628,
       "fonts": 1,
       "assets": [
-        "GohuFont11NF"
+        "GohuFontUni11NF"
       ],
-      "primaryFont": "GohuFont11NF",
+      "primaryFont": "GohuFontUni11NF",
       "style": "monospaced",
       "previewFile": "TypecaskPreview-font-gohufont-nerd-font.ttf",
       "glyphs": true,
@@ -2146,6 +2146,9 @@
       "script": "Latn",
       "scripts": [
         "Latn",
+        "Grek",
+        "Cyrl",
+        "Hebr",
         "Brai"
       ],
       "popularity": 125,
