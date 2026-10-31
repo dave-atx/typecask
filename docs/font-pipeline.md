@@ -132,6 +132,10 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   `EXCLUDED` stops shipping at the next build even from a lock written before. Watch casks whose license came from the
   GitHub API, since that reports the repository's license and can't say whether it covers the font
   files beside it.
+- **Fonts the App Store rejects.** `LEFT_OUT_FILES` leaves out a cask's files by name prefix where
+  the App Store's font validation fails them and re-saving doesn't help, which moves the primary face
+  to one that passes: GohuFont Nerd Font ships its uni11 face, since its GohuFont 11's bitmap strike
+  is malformed. An entry changes that cask's build key alone. See [checking fonts](releasing.md#check-the-fonts).
 
 ### Asset packs
 

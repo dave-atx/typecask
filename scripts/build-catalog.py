@@ -112,6 +112,14 @@ EXCLUDED = {
     # cask, pointing at a specimen page that's gone.
     "font-42dot-sans",
 }
+# Files left out of a cask, by name prefix, for faults the App Store's font validation rejects
+# (ITMS-90792) and that re-saving doesn't mend. Leaving a face out moves primary_face() to the next.
+LEFT_OUT_FILES = {
+    # Nerd Fonts 3.5.1's GohuFont 11 has a malformed bitmap strike ("'sbit' embedded bitmap
+    # structure"). Its uni11 sibling is the same 11 px design covering more of Unicode, and leaving
+    # out the 14 px files too makes it the primary face rather than GohuFont 14.
+    "font-gohufont-nerd-font": ["GohuFont11", "GohuFont14"],
+}
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
 ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
@@ -1042,8 +1050,19 @@ def subset_preview(face, token, directory, text, drop):
         # BASE, baseline offsets for mixing scripts on a line, which a one-line sample doesn't need,
         # is always dropped: fontTools can't parse Google Sans Code Nerd Font's.
         options.drop_tables += drop
+        # A symbol font, like Wingdings, maps its glyphs only in a 3.0 symbol cmap, at U+F020-F0FF,
+        # where Core Text looks up the sample's ASCII. The subsetter neither keeps that cmap by default
+        # nor reads it for the text, which left these previews no cmap at all: drawn in the system font,
+        # and rejected by the App Store's font validation.
+        symbol = None if font.getBestCmap() else next((t for t in font["cmap"].tables if t.isSymbol()), None)
+        options.symbol_cmap = symbol is not None
+        symbol_glyphs = (
+            sorted({symbol.cmap[code] for character in text if (code := 0xF000 + ord(character)) in symbol.cmap})
+            if symbol
+            else []
+        )
         subsetter = Subsetter(options)
-        subsetter.populate(text=text + (GLYPH_SAMPLE if glyphs else ""))
+        subsetter.populate(text=text + (GLYPH_SAMPLE if glyphs else ""), glyphs=symbol_glyphs)
         subsetter.subset(font)
         if "fvar" in font:
             instantiateVariableFont(font, regular_location(font["fvar"].axes), inplace=True)
@@ -1366,6 +1385,9 @@ def cache_key(entry):
     if material["google"]:
         material["google"] = {k: v for k, v in material["google"].items() if k in ("directory", "tree")}
     material["pipeline"] = PIPELINE_VERSION
+    # Only where there is one, so adding one rebuilds that cask alone.
+    if left_out := LEFT_OUT_FILES.get(entry["token"]):
+        material["leftOut"] = left_out
     return hashlib.sha256(json.dumps(material, sort_keys=True).encode()).hexdigest()[:20]
 
 
@@ -1446,10 +1468,13 @@ def build_cask(entry, destination, mirrored=frozenset()):
         if not (license := find_license(root, url, google.get("directory"))):
             # Without a license to ship alongside the fonts, there's no basis for redistributing them.
             raise Skip("no license found")
+        left_out = tuple(LEFT_OUT_FILES.get(token, ()))
         paths = [
             root / artifact
             for artifact in dict.fromkeys(entry["artifacts"])
-            if Path(artifact).suffix.lower() in FONT_SUFFIXES and (root / artifact).is_file()
+            if Path(artifact).suffix.lower() in FONT_SUFFIXES
+            and (root / artifact).is_file()
+            and not Path(artifact).name.startswith(left_out)
         ]
         faces_by_path = {}
         for path in paths:
