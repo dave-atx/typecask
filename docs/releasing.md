@@ -7,6 +7,26 @@ build `N`. Each upload needs a new `N`, or App Store Connect rejects it as a dup
 The fonts it ships are whatever `Typecask/FontsAsset.json` pins; see
 [the font pipeline](font-pipeline.md#publishing-fonts).
 
+## Check the fonts
+
+App Store Connect validates every font in the upload, including those in asset packs, at the `strict`
+level because the app has the Fonts capability, and rejects the build (ITMS-90792) for any one that
+fails. macOS 27.2 and later include the same validator, `FontValidator` 3.5, and
+`scripts/check-fonts.sh` runs it on the previews and the unpacked `Fonts.xcassets`: the sources,
+not the built app, whose asset catalogs it can't read. It prints each font it would reject and fails.
+
+```sh
+scripts/check-fonts.sh               # Previews/, ApplePreviews/ and Fonts.xcassets
+scripts/check-fonts.sh path/to/fonts # or any directories or files
+```
+
+The Fonts workflow runs it on the whole archive before publishing, and the TestFlight workflow before
+archiving. On an older macOS, which GitHub's `xcode-27` image was at 27.0.1, it warns on the run and
+checks nothing, so check on a Mac with 27.2 before tagging until the image catches up. See Apple's
+[TN3214](https://developer.apple.com/documentation/technotes/tn3214-validating-the-fonts-you-ship-in-your-app),
+and `LEFT_OUT_FILES` in [the font pipeline](font-pipeline.md#what-a-release-ships) for a cask's file
+that fails upstream.
+
 ## Setup
 
 It needs an Apple Developer Program membership, an App Store Connect record for the app's bundle ID

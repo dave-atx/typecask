@@ -162,7 +162,8 @@ tab:
 1. **build** (Ubuntu) runs `lock` unless told not to, then `scripts/publish-fonts.sh build` and
    `archive`. Built casks are kept in the Actions cache, so only casks whose source changed are
    downloaded and subset.
-2. **verify** (macOS) unpacks a spread of casks from the archive and runs the UI tests on them in the
+2. **verify** (macOS) checks every font in the archive and the previews with `scripts/check-fonts.sh`,
+   as App Store Connect will, then unpacks a spread of casks and runs the UI tests on them in the
    simulator: installs, an uninstall, an update and a font iOS already has.
 3. **publish** attaches the archive to a `fonts-YYYYMMDD-N` release, writes the pin, and opens a pull
    request with the lock, catalog, previews, licenses and pin, against the branch the run started

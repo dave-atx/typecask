@@ -71,6 +71,9 @@ scripts/build-catalog.py check-licenses
 ## Signing and releases
 
 - Verify in the simulator before publishing fonts or a release.
+- Run `scripts/check-fonts.sh` before a release; App Store Connect rejects the build for any font
+  that fails. CI runs it too, but skips with a warning while its macOS is older than 27.2 (see
+  [docs/releasing.md](docs/releasing.md#check-the-fonts)). A symbol font's preview needs its 3.0 cmap kept.
 - Never set a team in Xcode's Signing & Capabilities pane; it goes in the gitignored
   `Signing.local.xcconfig`.
 - The App Store images are pages in `scripts/app-store/`. Change a page and rerun

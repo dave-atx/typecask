@@ -107,6 +107,11 @@ jobs:
       - name: Unpack the fonts
         run: scripts/fetch-fonts-asset.sh
 
+      # App Store Connect rejects the whole upload for one font that fails its validation, and says so
+      # only by email after the archive, export and upload, so the same check runs here first.
+      - name: Check the fonts
+        run: scripts/check-fonts.sh
+
       # Ad-hoc, so nothing reaches for a distribution certificate here and the API key mints nothing.
       # The export re-signs every asset pack anyway.
       - name: Archive

@@ -144,6 +144,15 @@ jobs:
         with:
           name: fonts
 
+      # Before anything is published: App Store Connect rejects a whole upload for one font that fails
+      # its validation. The full archive is unpacked apart from the test build's, and gone after.
+      - name: Check the fonts
+        run: |
+          mkdir "$RUNNER_TEMP/fonts"
+          tar --zstd -xf ".cache/$TAG.tar.zst" -C "$RUNNER_TEMP/fonts"
+          scripts/check-fonts.sh Typecask/Previews Typecask/ApplePreviews "$RUNNER_TEMP/fonts/Fonts.xcassets"
+          rm -rf "$RUNNER_TEMP/fonts"
+
       # A whole line-up is several GB once Xcode has copied it into the app twice, more than the
       # runner has to spare, so the test build carries only the casks the tests install. The full
       # archive was checked against the catalog in the build job.
