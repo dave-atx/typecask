@@ -3,6 +3,7 @@ import SwiftUI
 
 @main
 struct TypecaskApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     @State private var installer: FontInstaller
     @State private var model: GalleryModel
     @Environment(\.scenePhase) private var scenePhase
@@ -17,6 +18,8 @@ struct TypecaskApp: App {
         AppDependencyManager.shared.add(dependency: installer)
         AppDependencyManager.shared.add(dependency: model)
         TypecaskShortcuts.updateAppShortcutParameters()
+        QuickActions.gallery = model
+        QuickActions.update()
     }
 
     var body: some Scene {

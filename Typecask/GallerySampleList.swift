@@ -10,9 +10,14 @@ func sampleSize(_ sizeClass: UserInterfaceSizeClass?) -> CGFloat {
 struct GallerySampleList: View {
     let items: [GalleryItem]
     let catalog: Catalog
+    let summary: LocalizedStringResource?
 
     var body: some View {
         LazyVStack(alignment: .leading, spacing: 0) {
+            if let summary {
+                CollectionSummary(text: summary)
+                    .padding([.horizontal, .top])
+            }
             ForEach(items) { item in
                 NavigationLink(value: item) {
                     switch item {

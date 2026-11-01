@@ -4,24 +4,50 @@ import SwiftUI
 struct GalleryGrid: View {
     let items: [GalleryItem]
     let catalog: Catalog
+    let summary: LocalizedStringResource?
 
     var body: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 16)], spacing: 16) {
-            ForEach(items) { item in
-                NavigationLink(value: item) {
-                    switch item {
-                    case .cask(let cask):
-                        CaskCard(cask: cask, catalog: catalog)
-                    case .apple(let family):
-                        AppleFontCard(family: family, sampleText: catalog.sampleText)
-                    }
+            // In the grid rather than above it, inside the one lazy container the scroll view holds.
+            Section {
+                cards
+            } header: {
+                if let summary {
+                    CollectionSummary(text: summary)
                 }
-                .buttonStyle(.card)
-                .galleryItemAccessibility(item)
-                .accessibilityIdentifier(item.accessibilityIdentifier)
             }
         }
         .padding()
+    }
+
+    private var cards: some View {
+        ForEach(items) { item in
+            NavigationLink(value: item) {
+                switch item {
+                case .cask(let cask):
+                    CaskCard(cask: cask, catalog: catalog)
+                case .apple(let family):
+                    AppleFontCard(family: family, sampleText: catalog.sampleText)
+                }
+            }
+            .buttonStyle(.card)
+            .galleryItemAccessibility(item)
+            .accessibilityIdentifier(item.accessibilityIdentifier)
+        }
+    }
+}
+
+/// What kinds of fonts a collection holds, above them.
+struct CollectionSummary: View {
+    let text: LocalizedStringResource
+
+    var body: some View {
+        Text(text)
+            .font(.callout)
+            // The system's secondary gray is 3.5:1 on white, short of the 4.5:1 text this size needs.
+            .foregroundStyle(Color(.captionText))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityIdentifier("collectionSummary")
     }
 }
 

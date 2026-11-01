@@ -20,6 +20,22 @@ enum DesignStyle: String, CaseIterable, Hashable, Sendable {
         }
     }
 
+    /// What the gallery says at the top of the style's collection.
+    var summary: LocalizedStringResource {
+        switch self {
+        case .monospaced:
+            "Every character the same width, so columns line up: fonts for code, terminals and tables."
+        case .serif:
+            "Small finishing strokes on each letter, as in most books and newspapers, for reading at length."
+        case .sansSerif:
+            "Letters without finishing strokes, plain and clean: the usual choice for screens, interfaces and signs."
+        case .display:
+            "Fonts made for headlines, posters and logos, to be set large rather than in paragraphs."
+        case .handwriting:
+            "Scripts, brush lettering and handwriting, from formal calligraphy to quick notes."
+        }
+    }
+
     var symbol: String {
         switch self {
         case .monospaced: "chevron.left.forwardslash.chevron.right"
@@ -96,6 +112,39 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .legibility: "Legibility"
         case .appleFonts: "Apple Fonts"
         case .holiday(let holiday): holiday.name
+        }
+    }
+
+    /// What the gallery says at the top of the collection, or nil for a holiday's, which needs no explaining.
+    var summary: LocalizedStringResource? {
+        switch self {
+        case .allFonts:
+            """
+            Every font in Typecask: the fonts Homebrew users install most and every Google Fonts family, free to \
+            install for every app that lets you pick a font, and Apple's own.
+            """
+        case .installed:
+            "Fonts you've installed with Typecask. Remove one here, or in Settings › General › Fonts."
+        case .style(let style):
+            style.summary
+        case .nerdFonts:
+            """
+            Coding fonts patched with Nerd Fonts' thousands of icons, for terminal prompts and editors that show \
+            file types, branches and the like.
+            """
+        case .legibility:
+            """
+            Fonts made to be easy to read, for low vision, dyslexia or beginning readers: Atkinson Hyperlegible \
+            from the Braille Institute, Lexend from research into reading fluency, B612 from Airbus's cockpit \
+            displays, and more.
+            """
+        case .appleFonts:
+            """
+            The fonts built into iOS, and those Settings › General › Fonts offers to download. Typecask can't \
+            install these: only Settings can give one of Apple's fonts to every app.
+            """
+        case .holiday:
+            nil
         }
     }
 

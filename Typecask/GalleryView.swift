@@ -104,10 +104,13 @@ private struct GalleryBrowser: View {
                     ContentUnavailableView.search(text: model.searchText)
                         .padding(.top, 60)
                 }
-            } else if model.viewMode == .grid {
-                GalleryGrid(items: model.visibleItems, catalog: model.catalog)
             } else {
-                GallerySampleList(items: model.visibleItems, catalog: model.catalog)
+                if model.viewMode == .grid {
+                    GalleryGrid(items: model.visibleItems, catalog: model.catalog, summary: model.collection.summary)
+                } else {
+                    GallerySampleList(items: model.visibleItems, catalog: model.catalog,
+                                      summary: model.collection.summary)
+                }
             }
         }
         .navigationTitle(Text(model.collection.name))
@@ -181,7 +184,12 @@ private struct SortMenu: View {
                 }
             }
         } label: {
+            // The button looks the same whatever the order, as Apple's do, with the order checked in the menu.
+            // VoiceOver says it without opening the menu, "Sort By, Trending", from the label: a toolbar drops
+            // an accessibility value. Voice Control still answers to "Sort By".
             Label("Sort By", systemImage: "arrow.up.arrow.down")
+                .accessibilityLabel(Text("Sort By, \(model.sortOrder.title)"))
+                .accessibilityInputLabels([Text("Sort By"), Text("Sort")])
         }
         .accessibilityIdentifier("sortOrder")
     }

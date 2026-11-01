@@ -172,6 +172,17 @@ final class GalleryModel {
         path = [.cask(cask)]
     }
 
+    /// Shows the collection's fonts in the order given, over whatever was showing, as the Home Screen's quick
+    /// actions do.
+    func browse(_ collection: FontCollection, sortedBy order: SortOrder? = nil) {
+        showsAbout = false
+        path = []
+        self.collection = collection
+        if let order {
+            sortOrder = order
+        }
+    }
+
     /// Searches every font for `term`, from the gallery itself, as a search from Siri or Shortcuts does.
     func search(_ term: String) {
         showsAbout = false

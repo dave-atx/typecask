@@ -48,6 +48,7 @@ struct CaskDetailView: View {
         // So Siri and Apple Intelligence take "this" to mean this font, as in "install this".
         .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
         .focusedSceneValue(\.cask, cask)
+        .onAppear { QuickActions.remember(cask) }
     }
 }
 
