@@ -41,6 +41,8 @@
         "CURRENT_PROJECT_VERSION": "1",
         "EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE[config=Debug]": "YES",
         "ENABLE_PREVIEWS": "YES",
+        "EXCLUDED_SOURCE_FILE_NAMES[config=Debug]": "Fonts.xcassets",
+        "EXCLUDED_SOURCE_FILE_NAMES[config=Release]": "DebugFonts.xcassets",
         "GENERATE_INFOPLIST_FILE": "YES",
         "INFOPLIST_KEY_CFBundleDisplayName": "Typecask",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",

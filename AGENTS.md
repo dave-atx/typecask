@@ -93,8 +93,9 @@ scripts/build-catalog.py check-licenses
   an Installed collection).
 - A cask whose primary face iOS already ships under the same PostScript name can't register (Core Text
   error 305) and shows "Built into iOS".
-- For UI work, build a copy of the project without `Fonts.xcassets`; the full one makes a 3 - 4 GB
-  debug app.
+- A debug build carries only `Typecask/DebugFonts.xcassets`, from `scripts/debug-fonts.py`, and offers
+  Install only for those casks; a release build carries only `Fonts.xcassets`, a 3 - 4 GB app
+  (`EXCLUDED_SOURCE_FILE_NAMES`). `TYPECASK_ALL_FONTS` makes a debug app offer every cask, for screenshots.
 - Screenshots lag taps by a second or two, input right after launch can be dropped, and rotation
   changes tap coordinates. Take a second screenshot before deciding a tap failed.
 - In CI, wait for `simctl bootstatus -b` before the first test; a cold boot outlasts XCTest.

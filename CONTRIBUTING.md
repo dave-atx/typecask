@@ -9,21 +9,27 @@ version and the font involved.
 ## Building the app
 
 Requires Xcode 27.2 and [uv](https://docs.astral.sh/uv/). `Catalog.json`, the previews and the licenses
-are checked in; the fonts themselves (`Typecask/Fonts.xcassets`) are not, and you have three options for
-them:
+are checked in; the fonts themselves are not. A debug build, which is what Xcode's Run makes, carries
+only a few casks' fonts, from `Typecask/DebugFonts.xcassets`, so it builds in seconds and installs a
+small app:
 
-- **None.** Open `Typecask.xcodeproj` and run. The gallery, previews and detail pages all work;
-  installing fails. This is the fastest way to work on the UI.
-- **A few casks, built locally:**
+```sh
+scripts/debug-fonts.py                          # a few casks the UI tests use
+scripts/debug-fonts.py font-inter font-lexend   # or the ones named
+```
 
-  ```sh
-  ./scripts/build-catalog.py build --fonts font-departure-mono-nerd-font font-roboto font-d2coding
-  ```
+It copies them out of `Typecask/Fonts.xcassets` if you have it, or else downloads the pinned fonts
+release once (1.4 GB) into `.cache/`. A cask in a shared On-Demand Resources pack brings the rest of
+its pack. Rerun it after pulling a fonts update. The debug app offers Install only for the casks it
+carries, and says "Fonts not included in this build" for the rest; without the script, that's every
+cask, and the rest of the app works.
 
-  This builds font assets only for the casks named (a static, a variable and a collection font), but
-  rebuilds the catalog and previews for every cask, which downloads all of them the first time.
-- **Every cask**, from the published release: `scripts/fetch-fonts-asset.sh`. That's a 1.4 GB download
-  and a 3 - 4 GB debug app, with a slow `actool` step.
+A release build, an archive, carries every cask instead, from `Typecask/Fonts.xcassets`:
+`scripts/fetch-fonts-asset.sh` unpacks the pinned release. That's a 1.4 GB download and a 3 - 4 GB
+app, with a slow `actool` step. To build a cask's fonts yourself instead,
+`./scripts/build-catalog.py build --fonts TOKEN` writes them there (and rebuilds the catalog and
+previews for every cask, which downloads all of them the first time); `scripts/debug-fonts.py TOKEN`
+then copies them for a debug build.
 
 Simulator builds need no signing team. To build for a device, put yours in `Signing.local.xcconfig`,
 which git ignores. Setting it in Xcode's Signing & Capabilities pane writes it into the project for
@@ -60,8 +66,9 @@ uvx --from actionlint-py actionlint
 
 The UI tests install a cask (accepting the system consent sheet) and check it's still installed after a
 relaunch, uninstall one, update one marked outdated, and check that a cask iOS already ships offers no
-Install button. They need that cask's fonts built (see above), and an erased simulator, since installed
-fonts outlive `simctl uninstall`:
+Install button. They need that cask in the debug build's fonts (see above; font-roboto and the default,
+font-departure-mono-nerd-font, are), and an erased simulator, since installed fonts outlive
+`simctl uninstall`:
 
 ```sh
 xcrun simctl erase 'iPad Pro 11-inch (M5)'

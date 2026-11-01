@@ -153,15 +153,13 @@ jobs:
           scripts/check-fonts.sh Typecask/Previews Typecask/ApplePreviews "$RUNNER_TEMP/fonts/Fonts.xcassets"
           rm -rf "$RUNNER_TEMP/fonts"
 
-      # A whole line-up is several GB once Xcode has copied it into the app twice, more than the
-      # runner has to spare, so the test build carries only the casks the tests install. The full
-      # archive was checked against the catalog in the build job.
+      # The test build is a debug one, which carries DebugFonts.xcassets rather than the whole line-up:
+      # only the casks the tests install, and their pack-mates. The full archive was checked against
+      # the catalog in the build job.
       - name: Unpack the casks under test
         run: |
-          groups=""
-          for token in $INSTALL; do groups="$groups Fonts.xcassets/$token"; done
-          # shellcheck disable=SC2086 # a deliberately word-split list of paths
-          tar --zstd -xf ".cache/$TAG.tar.zst" -C Typecask Fonts.xcassets/Contents.json $groups
+          # shellcheck disable=SC2086 # a deliberately word-split list of tokens
+          scripts/debug-fonts.py --archive ".cache/$TAG.tar.zst" $INSTALL
 
       # A simulator's first boot spends minutes setting itself up. Left to the first test, that ran past
       # XCTest's patience and the runner died "never finished bootstrapping", so it boots here, while

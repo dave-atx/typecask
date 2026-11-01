@@ -192,9 +192,9 @@ private struct CaskActions: View {
             HStack(spacing: 12) { buttons }
             VStack(alignment: .leading, spacing: 12) { buttons }
         }
-        if !cask.isBundled {
-            // The release left this cask's fonts out (see README), so there is no On-Demand Resources
-            // tag to download, and offering Install would just fail.
+        if !cask.isBundled, installer.status(of: cask) != .builtIn {
+            // The release left this cask's fonts out (see README), or this is a debug build carrying a few
+            // casks', so there is no On-Demand Resources tag to download, and offering Install would just fail.
             Label("Fonts not included in this build", systemImage: "arrow.down.circle.dotted")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -213,8 +213,10 @@ private struct CaskActions: View {
     }
 
     @ViewBuilder private var buttons: some View {
-        // An installed cask can be removed even when this build no longer ships it.
-        if cask.isBundled || installer.status(of: cask).isInstalled {
+        // An installed cask can be removed even when this build no longer ships it, and one iOS has built in
+        // says so whatever the build carries.
+        let status = installer.status(of: cask)
+        if cask.isBundled || status.isInstalled || status == .builtIn {
             InstallControl(cask: cask)
         }
         Link(destination: cask.homepage) {

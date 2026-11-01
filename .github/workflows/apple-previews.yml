@@ -53,10 +53,6 @@ jobs:
 
       - name: Build for testing
         run: |
-          # The project expects Fonts.xcassets, which is generated rather than committed; these
-          # tests need no fonts in it.
-          mkdir -p Typecask/Fonts.xcassets
-          echo '{"info":{"author":"xcode","version":1}}' > Typecask/Fonts.xcassets/Contents.json
           xcodebuild build-for-testing -project Typecask.xcodeproj -scheme Typecask \
             -destination "$DESTINATION" -derivedDataPath DerivedData | tail -5
 

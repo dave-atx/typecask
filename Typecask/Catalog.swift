@@ -85,8 +85,30 @@ struct Cask: Decodable, Identifiable, Hashable {
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag
-    /// to download, so only a bundled cask can be installed.
-    var isBundled: Bool { !assets.isEmpty }
+    /// to download, so only a bundled cask can be installed. A debug build carries only the few casks
+    /// scripts/debug-fonts.py put in DebugFonts.xcassets, found by their tags.
+    var isBundled: Bool {
+        #if DEBUG
+        !assets.isEmpty && (Self.debugTags?.contains(pack ?? token) ?? true)
+        #else
+        !assets.isEmpty
+        #endif
+    }
+
+    #if DEBUG
+    /// The On-Demand Resources tags this debug build carries, or nil to treat it as carrying every cask, as a
+    /// release does: in Xcode's previews, and with TYPECASK_ALL_FONTS set, for the site's screenshots.
+    private static let debugTags: Set<String>? = {
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["XCODE_RUNNING_FOR_PREVIEWS"] == nil, environment["TYPECASK_ALL_FONTS"] == nil else {
+            return nil
+        }
+        guard let url = Bundle.main.url(forResource: "OnDemandResources", withExtension: "plist"),
+              let resources = NSDictionary(contentsOf: url),
+              let tags = resources["NSBundleResourceRequestTags"] as? [String: Any] else { return [] }
+        return Set(tags.keys)
+    }()
+    #endif
 
     // By token alone: the catalog never holds two casks with one token, and hashing every field hashed
     // each description whenever a cask was a navigation value.

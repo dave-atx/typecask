@@ -62,6 +62,8 @@ final class SiteScreenshots: XCTestCase {
     @MainActor
     private func launch() -> XCUIApplication {
         let app = XCUIApplication()
+        // Install buttons, as the shipping app shows them, though a debug build carries only a few casks' fonts.
+        app.launchEnvironment["TYPECASK_ALL_FONTS"] = "1"
         app.launch()
         // Input sent right after launch can be dropped, so wait for the gallery to be up first.
         XCTAssertTrue(app.buttons["sortOrder"].waitForExistence(timeout: 30))
