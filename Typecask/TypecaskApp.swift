@@ -23,6 +23,7 @@ struct TypecaskApp: App {
         WindowGroup {
             GalleryView(model: model)
                 .environment(installer)
+                .task(priority: .background) { await FontSpotlight.update() }
         }
         .commands {
             TypecaskCommands(installer: installer)

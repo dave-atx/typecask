@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftUI
 
 struct CaskDetailView: View {
@@ -44,6 +45,8 @@ struct CaskDetailView: View {
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
         .promptsForReview(after: cask)
+        // So Siri and Apple Intelligence take "this" to mean this font, as in "install this".
+        .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
         .focusedSceneValue(\.cask, cask)
     }
 }

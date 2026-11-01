@@ -87,6 +87,9 @@ final class GalleryModel {
 
     /// The pages pushed over the gallery: a font's, or none.
     var path: [GalleryItem] = []
+    var showsAbout = false
+    /// Whether the search field is active, which a search from Siri or Shortcuts sets.
+    var isSearchPresented = false
 
     var sortOrder: SortOrder = .name {
         didSet { if sortOrder != oldValue { recompute() } }
@@ -156,9 +159,21 @@ final class GalleryModel {
         }
     }
 
-    /// Opens the cask's page over whatever was showing, as a shortcut installing it does.
+    /// Opens the cask's page over whatever was showing, as a shortcut installing or opening it does. The About
+    /// sheet goes too: left open, it covered the page and the install's progress.
     func show(_ cask: Cask) {
+        showsAbout = false
         path = [.cask(cask)]
+    }
+
+    /// Searches every font for `term`, from the gallery itself, as a search from Siri or Shortcuts does.
+    func search(_ term: String) {
+        showsAbout = false
+        path = []
+        collection = .allFonts
+        selectedScripts = []
+        isSearchPresented = true
+        searchText = term
     }
 
     func count(of collection: FontCollection) -> Int {

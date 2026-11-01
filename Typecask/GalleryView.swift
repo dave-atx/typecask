@@ -29,7 +29,6 @@ struct GalleryView: View {
 /// Apple's, and the holidays.
 private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
-    @State private var showsAbout = false
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
@@ -59,12 +58,12 @@ private struct CollectionSidebar: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("About Typecask", systemImage: "info.circle") {
-                    showsAbout = true
+                    model.showsAbout = true
                 }
                 .accessibilityIdentifier("about")
             }
         }
-        .sheet(isPresented: $showsAbout) {
+        .sheet(isPresented: $model.showsAbout) {
             AboutView(catalog: model.catalog)
         }
     }
@@ -113,7 +112,7 @@ private struct GalleryBrowser: View {
         }
         .navigationTitle(Text(model.collection.name))
         .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $model.searchText, prompt: Text("Search Fonts"))
+        .searchable(text: $model.searchText, isPresented: $model.isSearchPresented, prompt: Text("Search Fonts"))
         .toolbar {
             if showsCollectionMenu {
                 ToolbarItem(placement: .topBarLeading) {

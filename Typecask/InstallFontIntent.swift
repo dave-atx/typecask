@@ -1,5 +1,6 @@
 import AppIntents
-import Foundation
+import CoreSpotlight
+import SwiftUI
 
 /// Installs a cask from Shortcuts, Siri or Spotlight: "Install Lexend with Typecask".
 ///
@@ -34,7 +35,7 @@ struct InstallFontIntent: AppIntent {
     /// Safe to run again from the top, as the system may: a cask that's installed by then is reported, not
     /// installed twice.
     @MainActor
-    func perform() async throws -> some IntentResult & ReturnsValue<FontEntity> & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<FontEntity> & ProvidesDialog & ShowsSnippetView {
         guard let cask = Catalog.bundled.casks.first(where: { $0.token == font.id }) else {
             throw AppIntentError.Unrecoverable.entityNotFound
         }
@@ -42,9 +43,10 @@ struct InstallFontIntent: AppIntent {
         await installer.refresh(Catalog.bundled.casks)
         switch installer.status(of: cask) {
         case .installed, .updateAvailable:
-            return .result(value: font, dialog: "\(cask.name) is already installed.")
+            return .result(value: font, dialog: "\(cask.name) is already installed.", view: FontSnippet(cask: cask))
         case .builtIn:
-            return .result(value: font, dialog: "\(cask.name) is built into iOS, so every app already has it.")
+            return .result(value: font, dialog: "\(cask.name) is built into iOS, so every app already has it.",
+                           view: FontSnippet(cask: cask))
         case let status where status.isBusy:
             throw InstallFontError.busy(cask.name)
         default:
@@ -57,13 +59,74 @@ struct InstallFontIntent: AppIntent {
         await installer.install(cask)
         switch installer.status(of: cask) {
         case .installed:
-            return .result(value: font, dialog: "Installed \(cask.name) for every app that lets you pick a font.")
+            return .result(value: font, dialog: "Installed \(cask.name) for every app that lets you pick a font.",
+                           view: FontSnippet(cask: cask))
         case .failed(let message):
             throw InstallFontError.failed(cask.name, message)
         default:
             // Declined at the consent sheet.
             throw InstallFontError.cancelled(cask.name)
         }
+    }
+}
+
+/// The font's sample line under Siri's answer, so you can see you got the font you asked for and not one
+/// with a similar name.
+private struct FontSnippet: View {
+    let cask: Cask
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            CaskSpecimen(cask: cask, catalog: .bundled, size: 28, relativeTo: .title, lineLimit: 2)
+            Text(cask.name)
+                .font(.headline)
+            Text(cask.style.name)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+    }
+}
+
+/// Shows a font's page: "Show Lexend in Typecask", or a font picked in Spotlight.
+@AppIntent(schema: .system.open)
+struct OpenFontIntent: OpenIntent {
+    static let title: LocalizedStringResource = "Open Font"
+    static let description = IntentDescription("Shows a font's page in Typecask.")
+    static let supportedModes: IntentModes = .foreground(.immediate)
+
+    @Parameter(title: "Font")
+    var target: FontEntity
+
+    @Dependency private var gallery: GalleryModel
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        guard let cask = Catalog.bundled.casks.first(where: { $0.token == target.id }) else {
+            throw AppIntentError.Unrecoverable.entityNotFound
+        }
+        gallery.show(cask)
+        return .result()
+    }
+}
+
+/// Searches the gallery: "Search Typecask for rounded".
+@AppIntent(schema: .system.searchInApp)
+struct SearchFontsIntent: ShowInAppSearchResultsIntent {
+    static let title: LocalizedStringResource = "Search Fonts"
+    static let description = IntentDescription("Searches Typecask's fonts by name, or by what their descriptions say.")
+    static let supportedModes: IntentModes = .foreground(.immediate)
+
+    @Parameter(title: "Search", requestValueDialog: "What would you like to search for?")
+    var criteria: StringSearchCriteria
+
+    @Dependency private var gallery: GalleryModel
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        gallery.search(criteria.term)
+        return .result()
     }
 }
 
@@ -83,8 +146,8 @@ nonisolated enum InstallFontError: Error, CustomLocalizedStringResourceConvertib
     }
 }
 
-/// A cask, as Shortcuts and Siri know it.
-struct FontEntity: AppEntity {
+/// A cask, as Shortcuts, Siri and Spotlight know it.
+struct FontEntity: IndexedEntity {
     static let typeDisplayRepresentation: TypeDisplayRepresentation = "Font"
     static let defaultQuery = FontEntityQuery()
 
@@ -92,20 +155,40 @@ struct FontEntity: AppEntity {
     let id: String
     @Property(title: "Name") var name: String
     private let style: LocalizedStringResource
+    private let designers: [String]
+    private let summary: String?
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(title: "\(name)", subtitle: style)
+    }
+
+    /// What Spotlight finds the font by: its name, its token, which Homebrew users know it by, its style and
+    /// designers, and Google's description.
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = defaultAttributeSet
+        attributes.displayName = name
+        attributes.contentDescription = summary ?? String(localized: style)
+        attributes.authorNames = designers
+        attributes.keywords = [id, String(localized: style)]
+        return attributes
     }
 
     @MainActor
     init(_ cask: Cask) {
         id = cask.token
         style = cask.style.name
+        designers = cask.designers ?? []
+        // Plain text, without the description's Markdown links.
+        summary = cask.description.map { description in
+            let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+            return (try? AttributedString(markdown: description, options: options)).map { String($0.characters) }
+                ?? description
+        }
         name = cask.name
     }
 }
 
-nonisolated struct FontEntityQuery: EntityStringQuery {
+nonisolated struct FontEntityQuery: EntityStringQuery, IndexedEntityQuery {
     /// How many of the most popular casks Siri and Shortcuts suggest. Each one becomes a spoken phrase, out
     /// of about a thousand an app gets per language; "Install a font" still reaches the rest by name.
     private static let suggestions = 200
@@ -143,6 +226,15 @@ nonisolated struct FontEntityQuery: EntityStringQuery {
         }
     }
 
+    func reindexEntities(for identifiers: [FontEntity.ID],
+                         indexDescription: CSSearchableIndexDescription) async throws {
+        try await CSSearchableIndex.default().indexAppEntities(entities(for: identifiers))
+    }
+
+    func reindexAllEntities(indexDescription: CSSearchableIndexDescription) async throws {
+        try await FontSpotlight.index()
+    }
+
     func suggestedEntities() async throws -> [FontEntity] {
         await MainActor.run {
             Catalog.bundled.casks
@@ -166,5 +258,50 @@ nonisolated struct TypecaskShortcuts: AppShortcutsProvider {
             shortTitle: "Install Font",
             systemImageName: "arrow.down.circle"
         )
+        AppShortcut(
+            intent: OpenFontIntent(),
+            phrases: [
+                "Show \(\.$target) in \(.applicationName)",
+                "Open \(\.$target) in \(.applicationName)",
+                "Show a font in \(.applicationName)"
+            ],
+            shortTitle: "Open Font",
+            systemImageName: "textformat"
+        )
+        AppShortcut(
+            intent: SearchFontsIntent(),
+            phrases: [
+                "Search \(.applicationName)",
+                "Search for fonts in \(.applicationName)"
+            ],
+            shortTitle: "Search Fonts",
+            systemImageName: "magnifyingglass"
+        )
+    }
+}
+
+/// Keeps Spotlight's copy of the catalog in step with the app's, which changes only with a new build.
+enum FontSpotlight {
+    private static let indexedKey = "spotlightIndexedCatalog"
+
+    /// Indexes every cask, once per build of the catalog.
+    static func update() async {
+        let stamp = [Bundle.main.infoDictionary?["CFBundleVersion"] as? String, Catalog.bundled.generated]
+            .compactMap(\.self).joined(separator: " ") + " \(Catalog.bundled.casks.count)"
+        guard UserDefaults.standard.string(forKey: indexedKey) != stamp else { return }
+        do {
+            try await index()
+            UserDefaults.standard.set(stamp, forKey: indexedKey)
+        } catch {
+            // Tried again at the next launch.
+        }
+    }
+
+    /// Replaces the index, so casks a release dropped don't linger in Spotlight.
+    nonisolated static func index() async throws {
+        let entities = await MainActor.run { Catalog.bundled.casks.map(FontEntity.init) }
+        let index = CSSearchableIndex.default()
+        try await index.deleteAppEntities(ofType: FontEntity.self)
+        try await index.indexAppEntities(entities)
     }
 }
