@@ -48,6 +48,7 @@ Bug reports, font requests and pull requests are welcome. See [CONTRIBUTING.md](
 build the app and run the checks, and [docs/](docs) for how it works:
 
 - [How it works](docs/how-it-works.md): installing, updates, ranking and Apple's fonts
+- [Accessibility and Siri](docs/accessibility-and-siri.md): VoiceOver, text size, contrast, Siri and Spotlight
 - [The font pipeline](docs/font-pipeline.md): how the catalog and font assets are built and published
 - [Releasing](docs/releasing.md): TestFlight builds and signing
 - [The site](docs/site.md): typecask.app, which publishes the shipping build's catalog
