@@ -24,6 +24,9 @@ struct TypecaskApp: App {
             GalleryView(model: model)
                 .environment(installer)
         }
+        .commands {
+            TypecaskCommands(installer: installer)
+        }
         // On every return to the foreground, not just at launch: fonts can be removed in Settings ›
         // General › Fonts while the app is in the background.
         .onChange(of: scenePhase, initial: true) { _, phase in

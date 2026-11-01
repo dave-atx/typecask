@@ -57,7 +57,7 @@ struct SampleRowHeader<Detail: View>: View {
             }
             detail
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color(.captionText))
         }
     }
 }

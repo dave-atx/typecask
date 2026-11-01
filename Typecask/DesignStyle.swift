@@ -79,6 +79,8 @@ enum FontCollection: Hashable, Identifiable, Sendable {
     case style(DesignStyle)
     /// Casks patched with Nerd Fonts' icons.
     case nerdFonts
+    /// Casks made to be easy to read; see `legibleCasks`.
+    case legibility
     /// Apple's built-in and downloadable fonts rather than casks.
     case appleFonts
     case holiday(Holiday)
@@ -91,6 +93,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .installed: "Installed"
         case .style(let style): style.name
         case .nerdFonts: "Nerd Fonts"
+        case .legibility: "Legibility"
         case .appleFonts: "Apple Fonts"
         case .holiday(let holiday): holiday.name
         }
@@ -102,6 +105,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .installed: "checkmark.circle"
         case .style(let style): style.symbol
         case .nerdFonts: "terminal"
+        case .legibility: "eyeglasses"
         case .appleFonts: "applelogo"
         case .holiday(let holiday): holiday.symbol
         }
@@ -113,9 +117,38 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case (.style(let style), _): item.style == style
         case (.installed, .cask(let cask)): installed.contains(cask.id)
         case (.nerdFonts, .cask(let cask)): cask.glyphs
+        case (.legibility, .cask(let cask)): Self.legibleCasks.contains(cask.token)
         case (.appleFonts, .apple): true
         case (.holiday(let holiday), .cask(let cask)): cask.holidays?.contains(holiday.rawValue) ?? false
         default: false
         }
     }
+
+    /// Fonts their designers made to be easy to read: Atkinson Hyperlegible for the Braille Institute's
+    /// low-vision readers, Lexend and its Arabic sibling Readex Pro for reading fluency, OpenDyslexic for
+    /// dyslexia, Andika for beginning readers, B612 for Airbus's cockpit displays, Intel One Mono for
+    /// low-vision developers, and Inclusive Sans and Lexica Ultralegible for accessibility generally.
+    /// Picked by hand, so a token a later catalog drops just leaves the collection smaller.
+    static let legibleCasks: Set<String> = [
+        "font-andika",
+        "font-atkinson-hyperlegible",
+        "font-atkinson-hyperlegible-mono",
+        "font-atkinson-hyperlegible-next",
+        "font-atkynson-mono-nerd-font",
+        "font-b612",
+        "font-b612-mono",
+        "font-inclusive-sans",
+        "font-intel-one-mono",
+        "font-lexend",
+        "font-lexend-deca",
+        "font-lexend-exa",
+        "font-lexend-giga",
+        "font-lexend-mega",
+        "font-lexend-peta",
+        "font-lexend-tera",
+        "font-lexend-zetta",
+        "font-lexica-ultralegible",
+        "font-opendyslexic-nerd-font",
+        "font-readex-pro"
+    ]
 }

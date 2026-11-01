@@ -8,7 +8,7 @@ struct CaskDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 16) {
-                    CaskSpecimen(cask: cask, catalog: catalog, size: 40, relativeTo: .largeTitle, lineLimit: nil)
+                    SizedSpecimen(cask: cask, catalog: catalog)
                     // The same line again, smaller, which VoiceOver needn't read twice.
                     CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil)
                         .accessibilityHidden(true)
@@ -44,7 +44,36 @@ struct CaskDetailView: View {
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
         .promptsForReview(after: cask)
-        .announcesInstalls(of: cask)
+        .focusedSceneValue(\.cask, cask)
+    }
+}
+
+/// The sample line at a size of the reader's choosing, to judge a face at the size they'd read it. The size
+/// carries over to every font's page; until it's moved, the line follows the text size.
+private struct SizedSpecimen: View {
+    let cask: Cask
+    let catalog: Catalog
+    @AppStorage("specimenSize") private var chosenSize: Double = 0
+    @ScaledMetric(relativeTo: .largeTitle) private var standardSize: CGFloat = 40
+    private static let sizes: ClosedRange<Double> = 12...144
+
+    var body: some View {
+        let size = chosenSize > 0 ? chosenSize : min(max(standardSize, Self.sizes.lowerBound), Self.sizes.upperBound)
+        VStack(alignment: .leading, spacing: 8) {
+            CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: nil)
+            // Rounded rather than stepped: a step draws a dot for every stop along the track.
+            Slider(value: Binding { size } set: { chosenSize = $0.rounded() }, in: Self.sizes) {
+                Text("Sample Size")
+            } minimumValueLabel: {
+                Image(systemName: "textformat.size.smaller")
+                    .accessibilityHidden(true)
+            } maximumValueLabel: {
+                Image(systemName: "textformat.size.larger")
+                    .accessibilityHidden(true)
+            }
+            .accessibilityValue(Text("\(Int(size)) points"))
+            .accessibilityIdentifier("specimenSize")
+        }
     }
 }
 
@@ -189,6 +218,7 @@ private struct CaskActions: View {
             Label("Homepage", systemImage: "safari")
         }
         .buttonStyle(.glass)
+        .accessibilityIdentifier("homepage")
     }
 }
 
@@ -233,7 +263,7 @@ private struct InstallControl: View {
             ProgressView("Updating…")
         case .updateAvailable:
             Button("Update", systemImage: "arrow.down.circle") {
-                Task { await installer.update(cask) }
+                Task { await installer.run(.update, on: cask) }
             }
             .buttonStyle(.glassProminent)
             .disabled(!cask.isBundled)
@@ -256,7 +286,7 @@ private struct InstallControl: View {
 
     private var uninstallButton: some View {
         Button("Uninstall", systemImage: "trash", role: .destructive) {
-            Task { await installer.uninstall(cask) }
+            Task { await installer.run(.uninstall, on: cask) }
         }
         .buttonStyle(.glass)
         .accessibilityFocused($focus, equals: .uninstall)
@@ -265,60 +295,11 @@ private struct InstallControl: View {
 
     private func installButton(_ title: LocalizedStringKey) -> some View {
         Button(title, systemImage: "arrow.down.circle") {
-            Task { await installer.install(cask) }
+            Task { await installer.run(.install, on: cask) }
         }
         .buttonStyle(.glassProminent)
         .accessibilityFocused($focus, equals: .install)
         .accessibilityIdentifier("install")
-    }
-}
-
-extension View {
-    /// Tells VoiceOver how an install, update or uninstall of the cask ended; see `InstallAnnouncements`.
-    func announcesInstalls(of cask: Cask) -> some View {
-        modifier(InstallAnnouncements(cask: cask))
-    }
-}
-
-/// Announces the end of an install, update or uninstall, which otherwise only swaps one button for another,
-/// and an error that otherwise only appears as text. Only an action finishing, not a refresh finding the cask
-/// already installed. High priority, so VoiceOver restoring focus after the consent sheet doesn't cut it off.
-private struct InstallAnnouncements: ViewModifier {
-    let cask: Cask
-    @Environment(FontInstaller.self) private var installer
-    /// Whether the install under way is an update, which goes through downloading and installing like any other.
-    @State private var isUpdating = false
-
-    func body(content: Content) -> some View {
-        content
-            .onChange(of: installer.status(of: cask)) { old, new in
-                if new == .updating {
-                    isUpdating = true
-                }
-                guard let announcement = announcement(from: old, to: new) else { return }
-                if !new.isBusy {
-                    isUpdating = false
-                }
-                var text = AttributedString(localized: announcement)
-                text.accessibilitySpeechAnnouncementPriority = .high
-                AccessibilityNotification.Announcement(text).post()
-            }
-    }
-
-    private func announcement(from old: FontInstaller.Status,
-                              to new: FontInstaller.Status) -> LocalizedStringResource? {
-        let name = cask.name
-        return switch (old, new) {
-        case (.installing, .installed): isUpdating ? "\(name) updated" : "\(name) installed"
-        // An update removes the old fonts before installing the new, so declining it leaves neither.
-        case (.installing, .available):
-            isUpdating ? "Update cancelled. \(name) is no longer installed." : "Install cancelled"
-        case (.uninstalling, .available): "\(name) uninstalled"
-        case (.uninstalling, .failed(let message)): "Couldn't uninstall \(name). \(message)"
-        case (_, .failed(let message)) where old.isBusy:
-            isUpdating ? "Couldn't update \(name). \(message)" : "Couldn't install \(name). \(message)"
-        default: nil
-        }
     }
 }
 

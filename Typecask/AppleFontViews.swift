@@ -26,10 +26,12 @@ struct AppleFontSpecimen: View {
             Text(text)
                 .font(family.font(size: size))
                 .lineLimit(lineLimit)
+                .accessibilityIdentifier("specimen")
         } else if let file = family.previewFile {
             Text(text)
                 .font(PreviewFonts.font(file, size: size))
                 .lineLimit(lineLimit)
+                .accessibilityIdentifier("specimen")
         } else if let image = family.previewImage(kind) {
             Image(uiImage: image)
                 .renderingMode(.template)
@@ -39,10 +41,12 @@ struct AppleFontSpecimen: View {
                 .frame(maxWidth: image.size.width, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibilityLabel(text)
+                .accessibilityIdentifier("specimen")
         } else {
             Text(text)
                 .font(.system(size: size))
                 .lineLimit(lineLimit)
+                .accessibilityIdentifier("specimen")
                 .foregroundStyle(.tertiary)
         }
     }

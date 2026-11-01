@@ -8,15 +8,15 @@ final class InstallTests: XCTestCase {
 
     @MainActor
     func testInstalledCaskStaysInstalledAfterRelaunch() {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         app.buttons["install"].tap()
         XCTAssertTrue(waitForInstall(in: app))
 
         app.terminate()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         XCTAssertTrue(app.buttons["uninstall"].waitForExistence(timeout: 10))
     }
 
@@ -24,9 +24,9 @@ final class InstallTests: XCTestCase {
     /// cask: it leaves that cask uninstalled.
     @MainActor
     func testUninstalledCaskStaysUninstalledAfterRelaunch() {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         if app.buttons["install"].waitForExistence(timeout: 10) {
             app.buttons["install"].tap()
             XCTAssertTrue(waitForInstall(in: app))
@@ -36,7 +36,7 @@ final class InstallTests: XCTestCase {
 
         app.terminate()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 10))
     }
 
@@ -44,9 +44,9 @@ final class InstallTests: XCTestCase {
     /// since a real update needs two releases of the font.
     @MainActor
     func testOutdatedCaskUpdates() {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         if app.buttons["install"].waitForExistence(timeout: 10) {
             app.buttons["install"].tap()
             XCTAssertTrue(waitForInstall(in: app))
@@ -55,7 +55,7 @@ final class InstallTests: XCTestCase {
         app.terminate()
         app.launchEnvironment["TYPECASK_OUTDATED"] = token
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         XCTAssertTrue(app.buttons["update"].waitForExistence(timeout: 10))
         app.buttons["update"].tap()
         XCTAssertTrue(waitForInstall(in: app))
@@ -67,9 +67,9 @@ final class InstallTests: XCTestCase {
     /// relaunches, so the shortcut starts from the gallery.
     @MainActor
     func testShortcutInstallsCask() async throws {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         if app.buttons["uninstall"].waitForExistence(timeout: 10) {
             app.buttons["uninstall"].tap()
             XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
@@ -89,13 +89,51 @@ final class InstallTests: XCTestCase {
         XCTAssertEqual(installed, expected)
     }
 
+    /// Installs the cask from its card's menu, without opening its page, then uninstalls it the same way.
+    @MainActor
+    func testCardMenuInstallsAndUninstallsCask() {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        let card = app.findCask(token)
+        if card.value as? String == "Installed" {
+            card.press(forDuration: 1)
+            app.buttons["Uninstall"].tap()
+            XCTAssertTrue(waitForValue(nil, of: card))
+        }
+
+        card.press(forDuration: 1)
+        app.buttons["Install"].tap()
+        XCTAssertTrue(waitForInstall(in: app) { card.value as? String == "Installed" })
+
+        card.press(forDuration: 1)
+        XCTAssertFalse(app.buttons["Install"].exists)
+        app.buttons["Uninstall"].tap()
+        XCTAssertTrue(waitForValue(nil, of: card))
+    }
+
+    /// ⌘D installs the cask whose page is showing, from the File menu, and does nothing once it's installed.
+    @MainActor
+    func testKeyboardInstallsCask() {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        app.openCask(token)
+        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.buttons["uninstall"].tap()
+            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        }
+        app.typeKey("d", modifierFlags: .command)
+        XCTAssertTrue(waitForInstall(in: app))
+        app.typeKey("d", modifierFlags: .command)
+        XCTAssertFalse(app.buttons["uninstall"].waitForNonExistence(timeout: 3))
+    }
+
     /// A cask whose primary face iOS already has under the same PostScript name can't be registered (Core Text
     /// error 305, duplicated name), so the app says it's built in instead of offering an Install that fails.
     @MainActor
     func testCaskBuiltIntoIOSOffersNoInstall() {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask("font-noto-sans-armenian", in: app)
+        app.openCask("font-noto-sans-armenian")
         XCTAssertTrue(app.staticTexts["Built into iOS"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.buttons["install"].exists)
     }
@@ -103,9 +141,9 @@ final class InstallTests: XCTestCase {
     /// Opens the cask's license, which the app inflates from Licenses.deflate when it's first shown.
     @MainActor
     func testLicenseShows() {
-        let app = Self.makeApp()
+        let app = XCUIApplication.typecask()
         app.launch()
-        openCask(in: app)
+        app.openCask(token)
         let disclosure = app.buttons["License"]
         // Below the description and details, off screen on a smaller device.
         for _ in 0..<6 where !(disclosure.exists && disclosure.isHittable) {
@@ -117,12 +155,14 @@ final class InstallTests: XCTestCase {
         XCTAssertGreaterThan(license.label.count, 100)
     }
 
-    /// Waits for the Uninstall button, which only an installed cask has; with an Installed collection in the
-    /// sidebar, the word alone proves nothing. Accepts the system's font consent sheet if it appears. The system
-    /// asks only once per app, remembering the answer even across reinstalls, and the sheet ignores taps while
-    /// animating in.
+    /// Waits for `installed`, by default the Uninstall button, which only an installed cask's page has; with an
+    /// Installed collection in the sidebar, the word alone proves nothing. Accepts the system's font consent
+    /// sheet if it appears. The system asks only once per app, remembering the answer even across reinstalls,
+    /// and the sheet ignores taps while animating in.
     @MainActor
-    private func waitForInstall(in app: XCUIApplication) -> Bool {
+    private func waitForInstall(in app: XCUIApplication,
+                                until installed: (() -> Bool)? = nil) -> Bool {
+        let installed = installed ?? { app.buttons["uninstall"].exists }
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         // Excludes the app's own Install button, which can linger for a moment after being tapped.
         let consent = NSPredicate(format: "label == 'Install' AND identifier != 'install'")
@@ -130,7 +170,7 @@ final class InstallTests: XCTestCase {
         let buttons = [app, springboard].map { $0.buttons.matching(consent).firstMatch }
         let deadline = Date.now.addingTimeInterval(120)
         while Date.now < deadline {
-            if app.buttons["uninstall"].exists {
+            if installed() {
                 return true
             }
             if let button = buttons.first(where: { $0.exists && $0.isHittable }) {
@@ -141,33 +181,17 @@ final class InstallTests: XCTestCase {
         return false
     }
 
-    /// The app, with the App Store rating prompt held back: a debug build always shows it, over the next tap.
+    /// Waits for a card's status, which VoiceOver reads as its value: nil, or empty, for an available cask.
     @MainActor
-    private static func makeApp() -> XCUIApplication {
-        let app = XCUIApplication()
-        app.launchEnvironment["TYPECASK_NO_REVIEW"] = "1"
-        return app
-    }
-
-    /// Searches for the card rather than scrolling to it: sorted by name, the catalog runs to hundreds of casks.
-    @MainActor
-    private func openCask(_ token: String? = nil, in app: XCUIApplication) {
-        let token = token ?? self.token
-        let search = app.searchFields.firstMatch
-        // Where the toolbar has no room for the field, as on an 11-inch iPad, it's a Search button.
-        let searchButton = app.buttons["Search"]
-        let launched = Date.now
-        while !search.exists, !searchButton.exists, Date.now.timeIntervalSince(launched) < 30 {
-            _ = search.waitForExistence(timeout: 1)
+    private func waitForValue(_ value: String?, of card: XCUIElement, timeout: TimeInterval = 30) -> Bool {
+        let deadline = Date.now.addingTimeInterval(timeout)
+        while Date.now < deadline {
+            let current = (card.value as? String).flatMap { $0.isEmpty ? nil : $0 }
+            if current == value {
+                return true
+            }
+            _ = card.waitForNonExistence(timeout: 1)
         }
-        if !search.exists {
-            searchButton.tap()
-        }
-        XCTAssertTrue(search.waitForExistence(timeout: 10))
-        search.tap()
-        search.typeText(token)
-        let card = app.buttons[token]
-        XCTAssertTrue(card.waitForExistence(timeout: 10))
-        card.tap()
+        return false
     }
 }

@@ -25,11 +25,12 @@ struct GalleryView: View {
     }
 }
 
-/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts and Apple's, and
-/// the holidays.
+/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts, Legibility and
+/// Apple's, and the holidays.
 private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
     @State private var showsAbout = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         List(selection: $model.selectedCollection) {
@@ -42,6 +43,7 @@ private struct CollectionSidebar: View {
             }
             Section("Collections") {
                 row(.nerdFonts)
+                row(.legibility)
                 row(.appleFonts)
             }
             if !model.holidays.isEmpty {
@@ -52,6 +54,7 @@ private struct CollectionSidebar: View {
                 }
             }
         }
+        .accessibilityIdentifier("sidebar")
         .navigationTitle("Typecask")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -80,7 +83,9 @@ private struct CollectionSidebar: View {
                 Image(systemName: collection.symbol)
             }
         }
-        .badge(model.count(of: collection))
+        // No count at accessibility sizes: in the sidebar's fixed width, it broke "All Fonts" into "A", "ll",
+        // "Font" and "s".
+        .badge(dynamicTypeSize.isAccessibilitySize ? 0 : model.count(of: collection))
         .tag(collection)
     }
 }
@@ -248,6 +253,7 @@ private struct CollectionMenu: View {
                 }
                 Section("Collections") {
                     Text(FontCollection.nerdFonts.name).tag(FontCollection.nerdFonts)
+                    Text(FontCollection.legibility.name).tag(FontCollection.legibility)
                     Text(FontCollection.appleFonts.name).tag(FontCollection.appleFonts)
                 }
                 if !model.holidays.isEmpty {

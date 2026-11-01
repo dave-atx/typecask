@@ -77,9 +77,11 @@ struct CardFooter<Detail: View>: View {
                 Text(title)
                     .font(.headline)
                     .lineLimit(dynamicTypeSize.isAccessibilitySize ? 3 : 1)
+                    .accessibilityIdentifier("itemName")
+                // Darker than the system's secondary gray, which is 3.3:1 on a card where a caption needs 4.5:1.
                 detail
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color(.captionText))
             }
             Spacer(minLength: 0)
             InstallBadge(status: status)
@@ -93,9 +95,10 @@ struct PopularityRank: View {
 
     var body: some View {
         if let rank {
+            // VoiceOver reads "#12" as "number 12", after the "Popularity" a font's page and a card's custom
+            // content put before it. A longer label made the accessibility audit take the rank for clipped text.
             Text("#\(rank, format: .number)")
                 .monospacedDigit()
-                .accessibilityLabel(Text("Popularity rank \(rank, format: .number)"))
         }
     }
 }
@@ -140,7 +143,8 @@ extension FontInstaller.Status {
 }
 
 extension View {
-    /// Names a gallery card or sample row after its font, for VoiceOver and Voice Control.
+    /// Names a gallery card or sample row after its font, for VoiceOver and Voice Control, and offers a cask's
+    /// install or uninstall from there; see `caskActions(_:)`.
     func galleryItemAccessibility(_ item: GalleryItem) -> some View {
         modifier(GalleryItemAccessibility(item: item))
     }
@@ -154,6 +158,13 @@ private struct GalleryItemAccessibility: ViewModifier {
     @Environment(FontInstaller.self) private var installer
 
     func body(content: Content) -> some View {
+        switch item {
+        case .cask(let cask): described(content).caskActions(cask)
+        case .apple: described(content)
+        }
+    }
+
+    private func described(_ content: Content) -> some View {
         content
             .accessibilityLabel(Text(item.name))
             .accessibilityValue(value)
@@ -197,11 +208,24 @@ struct CaskSpecimen: View {
     }
 
     var body: some View {
+        CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: lineLimit)
+    }
+}
+
+/// `CaskSpecimen` at a size given in points, rather than one that follows the text size.
+struct CaskSpecimenText: View {
+    let cask: Cask
+    let catalog: Catalog
+    let size: CGFloat
+    let lineLimit: Int?
+
+    var body: some View {
         let font = PreviewFonts.font(cask.previewFile, size: size)
         VStack(alignment: .leading, spacing: size / 4) {
             Text(cask.sample ?? catalog.sampleText)
                 .font(font)
                 .lineLimit(lineLimit)
+                .accessibilityIdentifier("specimen")
             if cask.glyphs {
                 Text(catalog.glyphSample)
                     .font(font)
