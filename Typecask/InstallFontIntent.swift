@@ -2,7 +2,8 @@ import AppIntents
 import CoreSpotlight
 import SwiftUI
 
-/// Installs a cask from Shortcuts, Siri or Spotlight: "Install Lexend with Typecask".
+/// Installs a cask from Shortcuts, Siri or Spotlight: "Install Lexend with Typecask", or "Install this font
+/// with Typecask" on a font's page.
 ///
 /// The app comes forward first. The system's consent sheet for installing fonts needs it on screen, and
 /// the font's page, which it opens, shows the download as it goes. Shortcuts saved with this intent find
@@ -16,8 +17,10 @@ struct InstallFontIntent: AppIntent {
     /// On-Demand Resources and Core Text's consent sheet both belong to the app itself.
     static let allowedExecutionTargets: IntentExecutionTargets = .main
 
+    /// Optional, so that with none given the font on screen is the one installed. Siri sends "install this
+    /// font" to an app's own intent only through a phrase that names the app; there's no schema for it.
     @Parameter(title: "Font", requestValueDialog: "Which font?")
-    var font: FontEntity
+    var font: FontEntity?
 
     @Dependency private var installer: FontInstaller
     @Dependency private var gallery: GalleryModel
@@ -36,6 +39,7 @@ struct InstallFontIntent: AppIntent {
     /// installed twice.
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<FontEntity> & ProvidesDialog & ShowsSnippetView {
+        let font = try await chosenFont()
         guard let cask = Catalog.bundled.casks.first(where: { $0.token == font.id }) else {
             throw AppIntentError.Unrecoverable.entityNotFound
         }
@@ -67,6 +71,20 @@ struct InstallFontIntent: AppIntent {
             // Declined at the consent sheet.
             throw InstallFontError.cancelled(cask.name)
         }
+    }
+}
+
+extension InstallFontIntent {
+    /// The font given, else the one whose page is showing, else whichever the person names when asked.
+    @MainActor
+    private func chosenFont() async throws -> FontEntity {
+        if let font {
+            return font
+        }
+        if let shown = gallery.shownCask {
+            return FontEntity(shown)
+        }
+        return try await $font.requestValue("Which font?")
     }
 }
 
@@ -253,7 +271,9 @@ nonisolated struct TypecaskShortcuts: AppShortcutsProvider {
             intent: InstallFontIntent(),
             phrases: [
                 "Install \(\.$font) with \(.applicationName)",
-                "Install a font with \(.applicationName)"
+                "Install a font with \(.applicationName)",
+                "Install this font with \(.applicationName)",
+                "Install this with \(.applicationName)"
             ],
             shortTitle: "Install Font",
             systemImageName: "arrow.down.circle"

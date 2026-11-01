@@ -159,6 +159,12 @@ final class GalleryModel {
         }
     }
 
+    /// The cask whose page is showing, if one is.
+    var shownCask: Cask? {
+        guard case .cask(let cask) = path.last else { return nil }
+        return cask
+    }
+
     /// Opens the cask's page over whatever was showing, as a shortcut installing or opening it does. The About
     /// sheet goes too: left open, it covered the page and the install's progress.
     func show(_ cask: Cask) {

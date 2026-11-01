@@ -127,6 +127,27 @@ final class InstallTests: XCTestCase {
         XCTAssertFalse(app.buttons["uninstall"].waitForNonExistence(timeout: 3))
     }
 
+    /// "Install this font with Typecask" on a font's page: given no font, the intent installs the one showing.
+    @MainActor
+    func testShortcutInstallsCaskOnScreen() async throws {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        app.openCask(token)
+        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.buttons["uninstall"].tap()
+            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        }
+
+        let definitions = IntentDefinitions(bundleIdentifier: "org.marquard.Typecask")
+        let intent = definitions.intents["InstallFontIntent"].makeIntent()
+        let run = Task.detached { try await intent.run() }
+        XCTAssertTrue(waitForInstall(in: app))
+        let installed: String = try await run.value.value.name
+        let found = try await definitions.entities["FontEntity"].entities(identifiers: [token])
+        let expected: String = try XCTUnwrap(found.first).name
+        XCTAssertEqual(installed, expected)
+    }
+
     /// A cask whose primary face iOS already has under the same PostScript name can't be registered (Core Text
     /// error 305, duplicated name), so the app says it's built in instead of offering an Install that fails.
     @MainActor
