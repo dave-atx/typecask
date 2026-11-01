@@ -82,6 +82,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// `Holiday` raw values of the holidays the cask suits; absent for most casks. Kept as strings, so a
     /// holiday a newer catalog adds is ignored rather than failing the catalog.
     let holidays: [String]?
+    /// Whether the cask is in the Legibility collection, from `LEGIBLE_CASKS` in scripts/build-catalog.py;
+    /// absent for most casks.
+    let legible: Bool?
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag

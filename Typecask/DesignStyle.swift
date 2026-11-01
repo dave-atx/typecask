@@ -95,7 +95,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
     case style(DesignStyle)
     /// Casks patched with Nerd Fonts' icons.
     case nerdFonts
-    /// Casks made to be easy to read; see `legibleCasks`.
+    /// Casks made to be easy to read, which the catalog marks `legible`.
     case legibility
     /// Apple's built-in and downloadable fonts rather than casks.
     case appleFonts
@@ -166,18 +166,15 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case (.style(let style), _): item.style == style
         case (.installed, .cask(let cask)): installed.contains(cask.id)
         case (.nerdFonts, .cask(let cask)): cask.glyphs
-        case (.legibility, .cask(let cask)): Self.legibleCasks.contains(cask.token)
+        case (.legibility, .cask(let cask)): cask.legible ?? Self.legibleCasks.contains(cask.token)
         case (.appleFonts, .apple): true
         case (.holiday(let holiday), .cask(let cask)): cask.holidays?.contains(holiday.rawValue) ?? false
         default: false
         }
     }
 
-    /// Fonts their designers made to be easy to read: Atkinson Hyperlegible for the Braille Institute's
-    /// low-vision readers, Lexend and its Arabic sibling Readex Pro for reading fluency, OpenDyslexic for
-    /// dyslexia, Andika for beginning readers, B612 for Airbus's cockpit displays, Intel One Mono for
-    /// low-vision developers, and Inclusive Sans and Lexica Ultralegible for accessibility generally.
-    /// Picked by hand, so a token a later catalog drops just leaves the collection smaller.
+    /// `LEGIBLE_CASKS` from scripts/build-catalog.py, for a Catalog.json built before casks carried `legible`.
+    /// Delete it once the fonts workflow has rebuilt the catalog with it.
     static let legibleCasks: Set<String> = [
         "font-andika",
         "font-atkinson-hyperlegible",

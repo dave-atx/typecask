@@ -69,10 +69,9 @@ A card shrinks slightly when pressed, except with Reduce Motion on.
 ### The Legibility collection
 
 The sidebar's Legibility collection lists fonts their designers made to be easy to read: Atkinson
-Hyperlegible, Lexend and Readex Pro, OpenDyslexic, Andika, B612, Intel One Mono and a few more. It's a
-hand-picked list of tokens, `FontCollection.legibleCasks` in `DesignStyle.swift`, rather than something
-`build-catalog.py` works out, so it needs no catalog rebuild; a token a later catalog drops just leaves
-the collection smaller.
+Hyperlegible, Lexend and Readex Pro, OpenDyslexic, Andika, B612, Intel One Mono and a few more. They're
+picked by hand, in `LEGIBLE_CASKS` in `scripts/build-catalog.py`, which marks each in `Catalog.json` as
+`legible`; see [how it works](how-it-works.md#legibility).
 
 ### Keyboard
 

@@ -201,6 +201,33 @@ HOLIDAY_MIN_SCORE = 80
 HOLIDAY_CASKS = {
     "lunarNewYear": ["font-lxgw-wenkai", "font-smiley-sans"],
 }
+# The app's Legibility collection: fonts their designers made to be easy to read. Atkinson Hyperlegible
+# for the Braille Institute's low-vision readers, Lexend and its Arabic sibling Readex Pro for reading
+# fluency, OpenDyslexic for dyslexia, Andika for beginning readers, B612 for Airbus's cockpit displays,
+# Intel One Mono for low-vision developers, and Inclusive Sans and Lexica Ultralegible for accessibility
+# generally. Picked by hand; the catalog marks each `legible`.
+LEGIBLE_CASKS = {
+    "font-andika",
+    "font-atkinson-hyperlegible",
+    "font-atkinson-hyperlegible-mono",
+    "font-atkinson-hyperlegible-next",
+    "font-atkynson-mono-nerd-font",
+    "font-b612",
+    "font-b612-mono",
+    "font-inclusive-sans",
+    "font-intel-one-mono",
+    "font-lexend",
+    "font-lexend-deca",
+    "font-lexend-exa",
+    "font-lexend-giga",
+    "font-lexend-mega",
+    "font-lexend-peta",
+    "font-lexend-tera",
+    "font-lexend-zetta",
+    "font-lexica-ultralegible",
+    "font-opendyslexic-nerd-font",
+    "font-readex-pro",
+}
 # Casks that pull a single file out of google/fonts, rather than checking out the family directory.
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
 GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
@@ -1868,12 +1895,16 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             if seasons.get(tag, 0) >= HOLIDAY_MIN_SCORE or token in HOLIDAY_CASKS.get(holiday, [])
         ]:
             record["holidays"] = holidays
+        if token in LEGIBLE_CASKS:
+            record["legible"] = True
         catalog.append(record)
 
     rank_popularity(catalog, entries)
     tokens = {record["token"] for record in catalog}
     if missing := sorted(token for casks in HOLIDAY_CASKS.values() for token in casks if token not in tokens):
         print(f"warning: HOLIDAY_CASKS names casks not in the catalog: {', '.join(missing)}")
+    if missing := sorted(LEGIBLE_CASKS - tokens):
+        print(f"warning: LEGIBLE_CASKS names casks not in the catalog: {', '.join(missing)}")
     packs = assign_packs(weights)
     for record in catalog:
         if pack := packs.get(record["token"]):

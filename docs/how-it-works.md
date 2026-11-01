@@ -60,6 +60,14 @@ seasonal tags google/fonts gives its families in `tags/all/families.csv`, each s
 records a family's tags at the locked commit, and `build` keeps those scoring `HOLIDAY_MIN_SCORE` or
 more. Google tags only its own families, so `HOLIDAY_CASKS` adds casks from elsewhere by hand.
 
+## Legibility
+
+The Legibility collection is the fonts their designers made to be easy to read, for low vision,
+dyslexia or beginning readers, picked by hand in `LEGIBLE_CASKS`. `build` marks each `legible` in
+`Catalog.json`, and warns about any it names that the catalog doesn't have, as it does for
+`HOLIDAY_CASKS`. Like the holidays, the list is applied as `build` assembles the catalog, so changing it
+needs no `PIPELINE_VERSION` bump; the next fonts build carries it.
+
 ## Apple's fonts
 
 The Apple Fonts collection lists the fonts built into iOS and the ones offered under Settings › General
