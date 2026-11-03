@@ -856,6 +856,12 @@ def lock(count, google_top):
     if unpinned:
         print(f"warning: {len(unpinned)} casks have a source that can't be pinned: {', '.join(unpinned)}")
     report("kept at their locked version: the new download can't be had or doesn't match its hash", held)
+    # The rank is the line-up's order, which build keeps when two casks carry the same face. The file is
+    # in token order, so a week's new install counts change a line in each entry rather than moving most
+    # of them, which made a fonts pull request's diff of the lock tens of thousands of lines.
+    for rank, entry in enumerate(entries, 1):
+        entry["rank"] = rank
+    entries.sort(key=lambda entry: entry["token"])
 
     write_json(
         LOCK,
@@ -1736,7 +1742,12 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         for entry in locked["casks"]
         if is_excluded(entry["token"], entry["source"].get("url"))
     }
-    entries = [entry for entry in locked["casks"] if entry["token"] not in excluded]
+    # In the line-up's order, which `lock` records as each entry's rank; a lock from before it had ranks
+    # is in that order already, and a stable sort keeps it.
+    entries = sorted(
+        (entry for entry in locked["casks"] if entry["token"] not in excluded),
+        key=lambda entry: entry.get("rank", 0),
+    )
     keys = {entry["token"]: cache_key(entry) for entry in entries}
     destinations = {token: BUILT / token / key for token, key in keys.items()}
 
@@ -1919,7 +1930,9 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             "generated": locked["generated"],
             "sampleText": SAMPLE_TEXT,
             "glyphSample": GLYPH_SAMPLE,
-            "casks": catalog,
+            # By token, so a week's new rankings change a line or two in each record rather than move it;
+            # nothing reads the order: the app and the site sort by name or by the records' own ranks.
+            "casks": sorted(catalog, key=lambda record: record["token"]),
         },
     )
     write_license_bundle(licenses)

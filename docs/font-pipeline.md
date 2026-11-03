@@ -48,6 +48,13 @@ lock is fetched and checked too, and kept for the build; one that can't be had o
 the cask at its previous pin, listed as kept at its locked version, so a host that's down holds back an
 update instead of dropping a font.
 
+The lock lists casks by token, each with its `rank` in the line-up: Homebrew's casks by installs, then
+the Google families by Google's popularity. `build` goes through them by rank, and when two casks carry
+the same face, the higher-ranked one keeps it (Red Hat Display's faces go to `font-red-hat-display`,
+not `font-redhat`). `Catalog.json` lists casks by token too; the app and the site sort them by their
+own `popularity` and `trending`. Token order keeps a week's new install counts to a line or two per
+entry in a fonts pull request, rather than moving most entries in both files.
+
 ## Build
 
 ```sh
