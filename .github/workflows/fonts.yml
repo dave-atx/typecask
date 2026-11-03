@@ -163,25 +163,11 @@ jobs:
 
       # A simulator's first boot spends minutes setting itself up. Left to the first test, that ran past
       # XCTest's patience and the runner died "never finished bootstrapping", so it boots here, while
-      # the app builds, and the tests wait until it's done.
+      # the app builds, and the tests wait until it's done. It's on iOS 27.2, to match the SDK: the UI
+      # tests link Xcode's AppIntentsTesting, which can't load on the image's iOS 27.0 simulators, so the
+      # script downloads the runtime.
       - name: Boot the simulator
-        run: |
-          udid=$(xcrun simctl list devices available -j | python3 -c '
-          import json, sys
-          devices = json.load(sys.stdin)["devices"]
-          import itertools
-          # com.apple.CoreSimulator.SimRuntime.iOS-27-2, or iOS-27-2-iPhone19-4 for a device-specific one.
-          version = lambda runtime: [int(part) for part in itertools.takewhile(
-              str.isdigit, runtime.rsplit("iOS-", 1)[1].split("-"))]
-          for runtime in sorted((r for r in devices if ".iOS-" in r), key=version, reverse=True):
-              for device in devices[runtime]:
-                  if device["name"] == "iPad Pro 11-inch (M5)":
-                      print(device["udid"])
-                      sys.exit()
-          sys.exit("no iPad Pro 11-inch (M5) simulator")')
-          xcrun simctl boot "$udid"
-          echo "SIMULATOR=$udid" >> "$GITHUB_ENV"
-          echo "DESTINATION=platform=iOS Simulator,id=$udid" >> "$GITHUB_ENV"
+        run: scripts/boot-simulator.sh
 
       - name: Build for testing
         run: |

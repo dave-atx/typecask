@@ -25,6 +25,8 @@ jobs:
     timeout-minutes: 120
     env:
       GH_TOKEN: ${{ github.token }}
+      # As in fonts.yml: the UI tests link AppIntentsTesting, which needs the simulator on the SDK's iOS.
+      DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
     steps:
       - uses: actions/checkout@v7
 
@@ -33,23 +35,7 @@ jobs:
       # As in fonts.yml: a first boot outlasts XCTest's patience ("Timed out waiting for AX loaded
       # notification"), so the simulator boots while the tests build, and they wait until it's done.
       - name: Boot the simulator
-        run: |
-          udid=$(xcrun simctl list devices available -j | python3 -c '
-          import json, sys
-          devices = json.load(sys.stdin)["devices"]
-          import itertools
-          # com.apple.CoreSimulator.SimRuntime.iOS-27-2, or iOS-27-2-iPhone19-4 for a device-specific one.
-          version = lambda runtime: [int(part) for part in itertools.takewhile(
-              str.isdigit, runtime.rsplit("iOS-", 1)[1].split("-"))]
-          for runtime in sorted((r for r in devices if ".iOS-" in r), key=version, reverse=True):
-              for device in devices[runtime]:
-                  if device["name"] == "iPad Pro 11-inch (M5)":
-                      print(device["udid"])
-                      sys.exit()
-          sys.exit("no iPad Pro 11-inch (M5) simulator")')
-          xcrun simctl boot "$udid"
-          echo "SIMULATOR=$udid" >> "$GITHUB_ENV"
-          echo "DESTINATION=platform=iOS Simulator,id=$udid" >> "$GITHUB_ENV"
+        run: scripts/boot-simulator.sh
 
       - name: Build for testing
         run: |
