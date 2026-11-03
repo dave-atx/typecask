@@ -166,35 +166,10 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case (.style(let style), _): item.style == style
         case (.installed, .cask(let cask)): installed.contains(cask.id)
         case (.nerdFonts, .cask(let cask)): cask.glyphs
-        case (.legibility, .cask(let cask)): cask.legible ?? Self.legibleCasks.contains(cask.token)
+        case (.legibility, .cask(let cask)): cask.legible ?? false
         case (.appleFonts, .apple): true
         case (.holiday(let holiday), .cask(let cask)): cask.holidays?.contains(holiday.rawValue) ?? false
         default: false
         }
     }
-
-    /// `LEGIBLE_CASKS` from scripts/build-catalog.py, for a Catalog.json built before casks carried `legible`.
-    /// Delete it once the fonts workflow has rebuilt the catalog with it.
-    static let legibleCasks: Set<String> = [
-        "font-andika",
-        "font-atkinson-hyperlegible",
-        "font-atkinson-hyperlegible-mono",
-        "font-atkinson-hyperlegible-next",
-        "font-atkynson-mono-nerd-font",
-        "font-b612",
-        "font-b612-mono",
-        "font-inclusive-sans",
-        "font-intel-one-mono",
-        "font-lexend",
-        "font-lexend-deca",
-        "font-lexend-exa",
-        "font-lexend-giga",
-        "font-lexend-mega",
-        "font-lexend-peta",
-        "font-lexend-tera",
-        "font-lexend-zetta",
-        "font-lexica-ultralegible",
-        "font-opendyslexic-nerd-font",
-        "font-readex-pro"
-    ]
 }
