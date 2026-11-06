@@ -1,0 +1,4 @@
+# Cloudflare Workers static assets reads this. The association file has no extension, and Apple
+# expects JSON.
+/.well-known/apple-app-site-association
+  Content-Type: application/json

@@ -67,6 +67,8 @@ jobs:
         working-directory: site
         env:
           HUGO_ENVIRONMENT: production
+          # For apple-app-site-association, which links typecask.app's pages to the app.
+          HUGO_PARAMS_APPLETEAMID: ${{ vars.APPLE_TEAM_ID }}
         run: hugo --gc --minify --printPathWarnings
 
       # A page that didn't build is worth catching before Cloudflare serves it.
@@ -86,6 +88,9 @@ jobs:
           test -s public/index.html
           test -s public/fonts/index.html
           test -s public/sitemap.xml
+          if grep -q '^ *appOpensLinks = true' hugo.toml; then
+            python3 -m json.tool public/.well-known/apple-app-site-association > /dev/null
+          fi
 
       - name: Deploy
         if: github.event_name != 'pull_request'

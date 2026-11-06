@@ -80,3 +80,12 @@ The app ships previews of them, so the gallery doesn't download each one as it s
 draws built-in families itself; a downloadable one gets a subset of the font cut down to its sample, or
 an image where the font's license doesn't allow that.
 [The font pipeline](font-pipeline.md#apples-fonts) covers how those are generated.
+
+## Links from typecask.app
+
+A font's page on [typecask.app](https://typecask.app) opens that font in the app, and a style's page
+opens its collection. From anywhere but the site, that's a universal link, from the site's
+`apple-app-site-association`; on the site itself, iOS keeps taps in Safari, and Safari's Smart App
+Banner opens the app with the page's URL instead. `SiteLinks` maps either URL to the app: the site
+names a font's page by its cask's token less "font-". The site can list a font a copy of the app
+doesn't carry yet, and that link becomes a search for the font's name.

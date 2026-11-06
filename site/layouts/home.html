@@ -8,6 +8,7 @@
 {{ end }}
 
 {{ define "main" }}
+  {{- partial "app-site-association.html" . -}}
   {{- $catalog := hugo.Data.catalog -}}
   {{- $picks := partial "home-picks.html" . -}}
   {{- $count := len $catalog.casks -}}

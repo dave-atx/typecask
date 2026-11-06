@@ -133,8 +133,13 @@ the wire.
   with the rating as `aggregateRating`, on the home page, and `BreadcrumbList` on font and style
   pages. Google shows the app as a rich result only with a rating, and wants the rating visible on
   the page, which is why the home page shows it.
-- The Smart App Banner passes the page's URL as `app-argument`. The app doesn't read it yet; when it
-  does, a font page's banner can open that font.
+- Font and style pages open in the app, from a link anywhere but typecask.app itself, as universal
+  links. `_partials/app-site-association.html` writes `/.well-known/apple-app-site-association` for
+  `/fonts/*` and `/styles/*`, with the team from `HUGO_PARAMS_APPLETEAMID`, which `site.yml` sets
+  from the `APPLE_TEAM_ID` variable; a build without it writes no file, and neither does one with
+  `appOpensLinks` off, which it stays until the App Store has a build that handles the links. `static/_headers` serves it
+  as JSON. Within the site, Safari's Smart App Banner does the same job: it passes the page's URL as
+  `app-argument`. `Typecask/SiteLinks.swift` turns either into the font's page or the collection.
 - `cloudflareAnalyticsToken` is empty until the site is live. With it set, production builds load
   Cloudflare Web Analytics, which is cookieless and is what `/privacy/` describes. Local and preview
   builds load no script at all.

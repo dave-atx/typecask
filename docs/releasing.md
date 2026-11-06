@@ -30,8 +30,8 @@ that fails upstream.
 ## Setup
 
 It needs an Apple Developer Program membership, an App Store Connect record for the app's bundle ID
-whose App ID has the Fonts capability ("Install Fonts"), and these in the repository's Actions
-settings:
+whose App ID has the Fonts ("Install Fonts") and Associated Domains capabilities, and these in the
+repository's Actions settings:
 
 | Name | Kind | What it is |
 | --- | --- | --- |

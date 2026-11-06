@@ -11,8 +11,9 @@
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="theme-color" content="#141318">
 {{- if site.Params.appStoreLive }}
-{{- /* Safari's Smart App Banner. app-argument hands the app this page's URL when it opens; the app
-  doesn't read it yet, and opens where it was. */}}
+{{- /* Safari's Smart App Banner. app-argument hands the app this page's URL when it opens, and
+  Typecask/SiteLinks.swift opens the font or style it names. Universal links don't cover this: iOS
+  keeps a tap within typecask.app in Safari. */}}
 <meta name="apple-itunes-app" content="app-id={{ site.Params.appStoreID }}, app-argument={{ .Permalink }}">
 {{- end }}
 

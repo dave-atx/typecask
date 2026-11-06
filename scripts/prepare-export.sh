@@ -65,6 +65,27 @@ if ! grep -q "\"PRODUCT_BUNDLE_IDENTIFIER\": \"$bundle\"" Typecask.xcodeproj/pro
     exit 1
 fi
 
+# Every entitlement the app claims has to be one the profile grants, or the export fails at the very
+# end. A capability added to Typecask.entitlements, such as Associated Domains for typecask.app's
+# links, needs turning on for the App ID and a new profile.
+PROFILE_PLIST="$decoded" python3 - << 'PY'
+import os
+import plistlib
+import sys
+
+with open("Typecask/Typecask.entitlements", "rb") as f:
+    wanted = plistlib.load(f)
+with open(os.environ["PROFILE_PLIST"], "rb") as f:
+    granted = plistlib.load(f)["Entitlements"]
+missing = sorted(key for key in wanted if key not in granted)
+if missing:
+    sys.exit(
+        "error: the profile doesn't grant "
+        + ", ".join(missing)
+        + ". Turn the capability on for the App ID, then make a new profile."
+    )
+PY
+
 EXPIRES="$expires" python3 - << 'PY'
 import os
 import sys

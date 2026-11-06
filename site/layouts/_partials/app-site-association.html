@@ -1,0 +1,17 @@
+{{- /*
+  Writes /.well-known/apple-app-site-association, which tells iOS that typecask.app's font and style
+  pages open in the app (Typecask/SiteLinks.swift reads them). It needs the signing team, which the
+  repository keeps out of its files: site.yml passes the APPLE_TEAM_ID variable as
+  HUGO_PARAMS_APPLETEAMID. Without it, or until params.appOpensLinks is on, there's no file, and
+  links open in Safari.
+*/ -}}
+{{- with and site.Params.appOpensLinks site.Params.appleTeamID -}}
+  {{- $file := dict "applinks" (dict "details" (slice (dict
+    "appIDs" (slice (printf "%s.%s" . site.Params.appBundleID))
+    "components" (slice
+      (dict "/" "/fonts/*" "comment" "The catalog and each font's page")
+      (dict "/" "/styles/*" "comment" "Each design style's page")
+    )
+  ))) -}}
+  {{- (resources.FromString "/.well-known/apple-app-site-association" ($file | jsonify (dict "indent" "  "))).Publish -}}
+{{- end -}}

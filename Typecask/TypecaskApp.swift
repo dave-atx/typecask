@@ -27,6 +27,8 @@ struct TypecaskApp: App {
             GalleryView(model: model)
                 .environment(installer)
                 .task(priority: .background) { await FontSpotlight.update() }
+                // A typecask.app link, as a universal link or from Safari's Smart App Banner.
+                .onOpenURL { url in SiteLinks.open(url, in: model) }
         }
         .commands {
             TypecaskCommands(installer: installer)

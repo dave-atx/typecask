@@ -21,6 +21,13 @@ timeout = "180s"
   # fall back to TestFlight, or to "Coming to the App Store".
   appStoreID = "6826936046"
   appStoreLive = true
+  # The app's bundle ID, for the apple-app-site-association file. Its team comes from
+  # HUGO_PARAMS_APPLETEAMID, which site.yml sets from the APPLE_TEAM_ID variable.
+  appBundleID = "org.marquard.Typecask"
+  # Whether the site claims its font and style pages for the app. Leave it off until the App Store
+  # has a build that opens them (SiteLinks.swift); an older one opens to wherever it was, and the
+  # person loses the page they tapped.
+  appOpensLinks = false
   # A public TestFlight link, if there is one. Empty means the buttons say "coming soon" instead.
   testflightURL = ""
   minimumOS = "iOS or iPadOS 27"
