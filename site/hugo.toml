@@ -17,10 +17,10 @@ timeout = "180s"
 
 [params]
   tagline = "Thousands of free fonts, on your iPhone and iPad."
-  # The App Store record exists; the app isn't public yet. Flip appStoreLive once it is and the
-  # download buttons switch from TestFlight to the App Store on their own.
+  # With appStoreLive the download buttons link to the App Store listing; turn it off and they
+  # fall back to TestFlight, or to "Coming to the App Store".
   appStoreID = "6826936046"
-  appStoreLive = false
+  appStoreLive = true
   # A public TestFlight link, if there is one. Empty means the buttons say "coming soon" instead.
   testflightURL = ""
   minimumOS = "iOS or iPadOS 27"

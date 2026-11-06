@@ -3,7 +3,7 @@
 Install thousands of free fonts on your iPhone and iPad, and use them in any app that supports
 installed fonts.
 
-<!-- TODO: the App Store record is 6826936046; link and badge go here once the app is public. -->
+[Download on the App Store](https://apps.apple.com/app/id6826936046) ·
 [typecask.app](https://typecask.app)
 
 Typecask brings the most popular fonts from [Homebrew](https://brew.sh)'s font casks, and every

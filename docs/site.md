@@ -120,9 +120,9 @@ the wire.
 
 `site/hugo.toml` holds the lot:
 
-- `appStoreID` is 6826936046. `appStoreLive` is false while the app is TestFlight-only; the download
-  buttons read "Coming to the App Store" until either it's true or `testflightURL` is set, and they
-  never render a link to a listing that isn't public.
+- `appStoreID` is 6826936046 and `appStoreLive` is true, so the download buttons link to the App
+  Store listing. With it false they point at `testflightURL`, or read "Coming to the App Store" when
+  that's empty, and never render a link to a listing that isn't public.
 - `cloudflareAnalyticsToken` is empty until the site is live. With it set, production builds load
   Cloudflare Web Analytics, which is cookieless and is what `/privacy/` describes. Local and preview
   builds load no script at all.
