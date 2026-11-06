@@ -24,7 +24,13 @@
           {{ partial "download-button.html" (dict "page" . "small" false) }}
           <a class="btn btn-big btn-quiet" href="{{ "/fonts/" | relURL }}">Browse the catalog</a>
         </div>
-        <p class="fine">{{ site.Params.minimumOS }} or later, on iPhone and iPad.</p>
+        <p class="fine">
+          {{- with partialCached "app-store.html" . }}
+            <span class="stars" aria-hidden="true">★</span> {{ .rating }} from
+            {{ lang.FormatNumber 0 .count }} {{ cond (eq .count 1) "rating" "ratings" }} on the
+            App&nbsp;Store.
+          {{- end }}
+          {{ site.Params.minimumOS }} or later, on iPhone and iPad.</p>
       </div>
 
       <figure class="device device-phone">
@@ -126,6 +132,13 @@
         <p>A font without a license it can be redistributed under isn't in the catalog. The rest ship
           with their license text, which you can read in the app and on every font's page here.</p>
         <p><a class="more" href="{{ "/licenses/" | relURL }}">How licensing works →</a></p>
+      </div>
+      <div>
+        <h2>Free and open source</h2>
+        <p>No ads, nothing to buy, no subscription. Typecask's code is public on GitHub, so anyone
+          can check what it does with your phone. It's also the place to ask for a font or report a
+          problem.</p>
+        <p><a class="more" href="{{ site.Params.repoURL }}">Typecask on GitHub →</a></p>
       </div>
     </div>
   </section>

@@ -214,6 +214,21 @@ img {
     filter: none;
 }
 
+/* Apple's badge, shown as Apple draws it: no filter, no rounding, nothing over it. */
+.badge {
+    display: inline-flex;
+    flex: none;
+}
+
+.badge img {
+    display: block;
+    width: auto;
+}
+
+.stars {
+    color: var(--hot);
+}
+
 /* ---------- header and footer ---------- */
 
 .site-head {
@@ -242,7 +257,8 @@ img {
 }
 
 @media (max-width: 599px) {
-    .site-head .btn {
+    .site-head .btn,
+    .site-head .badge {
         display: none;
     }
 }
@@ -532,6 +548,12 @@ img {
 @media (min-width: 720px) {
     .privacy-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 980px) {
+    .privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 

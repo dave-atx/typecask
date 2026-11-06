@@ -1,0 +1,25 @@
+{{- /*
+  The app's App Store listing, from Apple's public lookup API, read once per build. Returns a dict
+  with rating and count, or an empty dict when there are no ratings yet, the app isn't live, or the
+  lookup fails: a build without the network still builds, just without the rating. The US store's
+  numbers, since that's where most of the ratings are. Call with partialCached.
+*/ -}}
+{{- $out := dict -}}
+{{- if site.Params.appStoreLive -}}
+  {{- $url := printf "https://itunes.apple.com/lookup?id=%s&country=us" site.Params.appStoreID -}}
+  {{- with try (resources.GetRemote $url) -}}
+    {{- with .Err -}}
+      {{- warnf "No App Store rating: %s" . -}}
+    {{- else with .Value -}}
+      {{- with (.Content | transform.Unmarshal).results -}}
+        {{- with index . 0 -}}
+          {{- $count := int (.userRatingCount | default 0) -}}
+          {{- if gt $count 0 -}}
+            {{- $out = dict "rating" (printf "%.1f" (float .averageUserRating)) "count" $count -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

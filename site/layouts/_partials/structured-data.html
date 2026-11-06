@@ -1,7 +1,8 @@
 {{- /*
-  JSON-LD for Google's rich results. The home page names the site and describes the app; font and
-  style pages carry the breadcrumbs their pages show. No rating goes in: Google wants one before it
-  shows the app as a rich result, and there's no honest source for it here.
+  JSON-LD for Google's rich results. The home page names the site and describes the app, with its
+  App Store rating once it has one (Google shows the app as a rich result only with a rating, and
+  wants it visible on the page too, which home.html does); font and style pages carry the
+  breadcrumbs their pages show.
 */ -}}
 {{- $fonts := dict "@type" "ListItem" "position" 1 "name" "Fonts" "item" ("/fonts/" | absURL) -}}
 {{- $data := slice -}}
@@ -20,11 +21,20 @@
     "description" site.Params.description
     "url" site.BaseURL
     "operatingSystem" site.Params.minimumOS
-    "applicationCategory" "DesignApplication"
+    "applicationCategory" "UtilitiesApplication"
     "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
   -}}
   {{- if site.Params.appStoreLive -}}
     {{- $app = merge $app (dict "installUrl" (printf "https://apps.apple.com/app/id%s" site.Params.appStoreID)) -}}
+  {{- end -}}
+  {{- with partialCached "app-store.html" . -}}
+    {{- $app = merge $app (dict "aggregateRating" (dict
+      "@type" "AggregateRating"
+      "ratingValue" .rating
+      "ratingCount" .count
+      "bestRating" 5
+      "worstRating" 1
+    )) -}}
   {{- end -}}
   {{- with resources.Get "icon.png" -}}
     {{- $app = merge $app (dict "image" (.Resize "1024x1024 png").Permalink) -}}

@@ -2,7 +2,8 @@
 #
 # The site shows the catalog the shipping app carries, not main's, so it rebuilds when a TestFlight
 # build succeeds. Cloudflare Workers Builds only triggers on branch pushes, and this has to trigger
-# on a testflight-N tag, which is why the build lives here instead.
+# on a testflight-N tag, which is why the build lives here instead. It also rebuilds daily to pick
+# up the app's App Store rating.
 #
 # Needs these in the repository's Actions settings:
 #   secrets.CLOUDFLARE_API_TOKEN    a token with Workers Scripts:Edit on the account below
@@ -24,6 +25,9 @@ on:
       - site/**
       - scripts/site-catalog.sh
       - .github/workflows/site.yml
+  # Daily, so the App Store rating the home page shows doesn't wait for the next TestFlight build.
+  schedule:
+    - cron: "23 7 * * *"
   workflow_dispatch:
 
 permissions:

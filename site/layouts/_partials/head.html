@@ -10,6 +10,11 @@
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="theme-color" content="#141318">
+{{- if site.Params.appStoreLive }}
+{{- /* Safari's Smart App Banner. app-argument hands the app this page's URL when it opens; the app
+  doesn't read it yet, and opens where it was. */}}
+<meta name="apple-itunes-app" content="app-id={{ site.Params.appStoreID }}, app-argument={{ .Permalink }}">
+{{- end }}
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.Title }}">

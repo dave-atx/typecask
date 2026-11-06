@@ -7,6 +7,7 @@
       <a href="{{ "/fonts/" | relURL }}"{{ if hasPrefix .RelPermalink "/fonts/" }} aria-current="true"{{ end }}>Fonts</a>
       <a href="{{ "/privacy/" | relURL }}"{{ if eq .RelPermalink "/privacy/" }} aria-current="true"{{ end }}>Privacy</a>
       <a href="{{ "/support/" | relURL }}"{{ if eq .RelPermalink "/support/" }} aria-current="true"{{ end }}>Support</a>
+      <a href="{{ site.Params.repoURL }}">GitHub</a>
     </nav>
     {{ partial "download-button.html" (dict "page" . "small" true) }}
   </div>

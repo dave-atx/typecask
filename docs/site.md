@@ -96,7 +96,8 @@ exports the attachments. `oxipng` shrinks the PNGs, as it does the previews.
 
 `.github/workflows/site.yml` builds and deploys. It runs when a **TestFlight** run succeeds, which
 is the point of the whole arrangement, and also on a push to main that touches `site/`, on pull
-requests that touch it (build only, no deploy), and from the Actions tab.
+requests that touch it (build only, no deploy), daily for the App Store rating, and from the
+Actions tab.
 
 Cloudflare Workers Builds would have been less machinery, but it only triggers on branch pushes and
 this has to trigger on a tag. If the trigger ever becomes a branch, the build moves there with
@@ -120,12 +121,20 @@ the wire.
 
 `site/hugo.toml` holds the lot:
 
-- `appStoreID` is 6826936046 and `appStoreLive` is true, so the download buttons link to the App
-  Store listing. With it false they point at `testflightURL`, or read "Coming to the App Store" when
-  that's empty, and never render a link to a listing that isn't public.
-- `_partials/structured-data.html` writes JSON-LD for Google: `WebSite` and `MobileApplication` on
-  the home page, `BreadcrumbList` on font and style pages. It carries no rating, which Google needs
-  before it shows the app as a rich result; `MobileApplication` doesn't take a made-up one.
+- `appStoreID` is 6826936046 and `appStoreLive` is true, so the download buttons are Apple's
+  "Download on the App Store" badge (`assets/img/app-store-badge.svg`, from Apple's marketing tools,
+  unaltered) and Safari shows its Smart App Banner. With it false they point at `testflightURL`, or
+  read "Coming to the App Store" when that's empty, and never render a link to a listing that isn't
+  public.
+- `_partials/app-store.html` reads the app's US rating from Apple's lookup API
+  (`itunes.apple.com/lookup`) at build time, which is why the site also rebuilds daily. The home page
+  shows it under the badge once there is one, and a failed lookup only drops it, with a warning.
+- `_partials/structured-data.html` writes JSON-LD for Google: `WebSite` and `MobileApplication`,
+  with the rating as `aggregateRating`, on the home page, and `BreadcrumbList` on font and style
+  pages. Google shows the app as a rich result only with a rating, and wants the rating visible on
+  the page, which is why the home page shows it.
+- The Smart App Banner passes the page's URL as `app-argument`. The app doesn't read it yet; when it
+  does, a font page's banner can open that font.
 - `cloudflareAnalyticsToken` is empty until the site is live. With it set, production builds load
   Cloudflare Web Analytics, which is cookieless and is what `/privacy/` describes. Local and preview
   builds load no script at all.
