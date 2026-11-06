@@ -123,6 +123,9 @@ the wire.
 - `appStoreID` is 6826936046 and `appStoreLive` is true, so the download buttons link to the App
   Store listing. With it false they point at `testflightURL`, or read "Coming to the App Store" when
   that's empty, and never render a link to a listing that isn't public.
+- `_partials/structured-data.html` writes JSON-LD for Google: `WebSite` and `MobileApplication` on
+  the home page, `BreadcrumbList` on font and style pages. It carries no rating, which Google needs
+  before it shows the app as a rich result; `MobileApplication` doesn't take a made-up one.
 - `cloudflareAnalyticsToken` is empty until the site is live. With it set, production builds load
   Cloudflare Web Analytics, which is cookieless and is what `/privacy/` describes. Local and preview
   builds load no script at all.

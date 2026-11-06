@@ -1,0 +1,56 @@
+{{- /*
+  JSON-LD for Google's rich results. The home page names the site and describes the app; font and
+  style pages carry the breadcrumbs their pages show. No rating goes in: Google wants one before it
+  shows the app as a rich result, and there's no honest source for it here.
+*/ -}}
+{{- $fonts := dict "@type" "ListItem" "position" 1 "name" "Fonts" "item" ("/fonts/" | absURL) -}}
+{{- $data := slice -}}
+
+{{- if .IsHome -}}
+  {{- $data = $data | append (dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "name" site.Title
+    "url" site.BaseURL
+  ) -}}
+  {{- $app := dict
+    "@context" "https://schema.org"
+    "@type" "MobileApplication"
+    "name" site.Title
+    "description" site.Params.description
+    "url" site.BaseURL
+    "operatingSystem" site.Params.minimumOS
+    "applicationCategory" "DesignApplication"
+    "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+  -}}
+  {{- if site.Params.appStoreLive -}}
+    {{- $app = merge $app (dict "installUrl" (printf "https://apps.apple.com/app/id%s" site.Params.appStoreID)) -}}
+  {{- end -}}
+  {{- with resources.Get "icon.png" -}}
+    {{- $app = merge $app (dict "image" (.Resize "1024x1024 png").Permalink) -}}
+  {{- end -}}
+  {{- $data = $data | append $app -}}
+
+{{- else if .Params.token -}}
+  {{- $style := .Params.styleName -}}
+  {{- $data = $data | append (dict
+    "@context" "https://schema.org"
+    "@type" "BreadcrumbList"
+    "itemListElement" (slice
+      $fonts
+      (dict "@type" "ListItem" "position" 2 "name" $style "item" ((printf "/styles/%s/" (urlize $style)) | absURL))
+      (dict "@type" "ListItem" "position" 3 "name" .Title)
+    )
+  ) -}}
+
+{{- else if eq .Kind "term" -}}
+  {{- $data = $data | append (dict
+    "@context" "https://schema.org"
+    "@type" "BreadcrumbList"
+    "itemListElement" (slice $fonts (dict "@type" "ListItem" "position" 2 "name" .Title))
+  ) -}}
+{{- end -}}
+
+{{- range $data }}
+<script type="application/ld+json">{{ . | jsonify | safeJS }}</script>
+{{- end }}
