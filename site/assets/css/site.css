@@ -184,9 +184,12 @@ img {
     font-size: 0.88rem;
 }
 
+/* The same height as the App Store badge beside it, and its corners. */
 .btn-big {
-    padding: 13px 26px;
+    height: 48px;
+    padding: 0 24px;
     font-size: 1rem;
+    border-radius: 9px;
 }
 
 .btn:hover {
@@ -214,14 +217,17 @@ img {
     filter: none;
 }
 
-/* Apple's badge, shown as Apple draws it: no filter, no rounding, nothing over it. */
+/* Apple's badge, shown as Apple draws it: no filter, no rounding, nothing over it. The global img rule
+   would size it from its 40-point viewBox. */
 .badge {
     display: inline-flex;
+    align-self: flex-start;
     flex: none;
 }
 
 .badge img {
     display: block;
+    height: 48px;
     width: auto;
 }
 
@@ -257,8 +263,7 @@ img {
 }
 
 @media (max-width: 599px) {
-    .site-head .btn,
-    .site-head .badge {
+    .site-head .btn {
         display: none;
     }
 }

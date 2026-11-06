@@ -1,16 +1,18 @@
 {{- /*
-  One place decides what the download button says. While params.appStoreLive is true it's Apple's
-  "Download on the App Store" badge, unaltered and at least 40 points tall as Apple's guidelines
-  ask; otherwise it points at TestFlight when there's a public link and says "Coming to the App
-  Store" when there isn't, so it never renders a dead App Store link.
+  One place decides what the download button says. While params.appStoreLive is true it links to the
+  App Store listing: as Apple's "Download on the App Store" badge, unaltered, where there's room for
+  it, and as a plain "Get the App" button in the header (small), where the badge's 40-point minimum
+  towered over the nav. Otherwise it points at TestFlight when there's a public link and says
+  "Coming to the App Store" when there isn't, so it never renders a dead App Store link.
 */ -}}
 {{- $class := cond .small "btn btn-small" "btn btn-big" -}}
-{{- if site.Params.appStoreLive -}}
-  {{- $height := cond .small 40 50 -}}
+{{- $store := printf "https://apps.apple.com/app/id%s" site.Params.appStoreID -}}
+{{- if and site.Params.appStoreLive .small -}}
+  <a class="{{ $class }}" href="{{ $store }}">Get the App</a>
+{{- else if site.Params.appStoreLive -}}
   {{- with resources.Get "img/app-store-badge.svg" | minify | fingerprint -}}
-    <a class="badge{{ if $.small }} badge-small{{ end }}" href="https://apps.apple.com/app/id{{ site.Params.appStoreID }}">
-      <img src="{{ .RelPermalink }}" alt="Download on the App Store" height="{{ $height }}"
-        width="{{ math.Round (mul $height 2.9916) }}">
+    <a class="badge" href="{{ $store }}">
+      <img src="{{ .RelPermalink }}" alt="Download on the App Store" height="48" width="144">
     </a>
   {{- end -}}
 {{- else if site.Params.testflightURL -}}
