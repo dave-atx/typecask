@@ -189,7 +189,8 @@ final class InstallTests: XCTestCase {
         let consent = NSPredicate(format: "label == 'Install' AND identifier != 'install'")
         // The sheet isn't consistently in either the app's or SpringBoard's hierarchy.
         let buttons = [app, springboard].map { $0.buttons.matching(consent).firstMatch }
-        let deadline = Date.now.addingTimeInterval(120)
+        // Long enough for a CJK cask on a slow CI runner.
+        let deadline = Date.now.addingTimeInterval(240)
         while Date.now < deadline {
             if installed() {
                 return true

@@ -190,6 +190,8 @@ jobs:
               echo "passed: $1 $2"
             else
               echo "FAILED: $1 $2"
+              # XCTest carries on after a failed assertion, so the error can be far above the tail.
+              grep ': error: ' "test-$1-$2.log"
               tail -40 "test-$1-$2.log"
               return 1
             fi
@@ -203,6 +205,14 @@ jobs:
           run_test testCaskBuiltIntoIOSOffersNoInstall font-noto-sans-armenian || status=1
           run_test testLicenseShows font-roboto || status=1
           exit $status
+
+      - name: Keep the test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          retention-days: 7
+          path: DerivedData/Logs/Test/*.xcresult
 
   publish:
     needs: [build, verify]
