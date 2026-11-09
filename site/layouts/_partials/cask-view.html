@@ -14,7 +14,7 @@
     "handwriting" "Handwriting"
 -}}
 {{- return (dict
-    "slug" (strings.TrimPrefix "font-" $c.token)
+    "slug" (partial "cask-slug.html" $c.token)
     "token" $c.token
     "name" $c.name
     "sample" $sample

@@ -1,0 +1,3 @@
+# Cloudflare's rules for the site. The M+ page lost the + from its URL; see cask-slug.html.
+/fonts/m+-nerd-font/ /fonts/m-plus-nerd-font/ 301
+/fonts/m%2B-nerd-font/ /fonts/m-plus-nerd-font/ 301

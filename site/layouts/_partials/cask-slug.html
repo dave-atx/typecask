@@ -1,0 +1,5 @@
+{{- /*
+  A cask's path under /fonts/, from its token. A + in a path doesn't survive Cloudflare, which
+  redirects it to %2B, so a page's canonical URL would be one that redirects.
+*/ -}}
+{{- return replace (strings.TrimPrefix "font-" .) "+" "-plus" -}}

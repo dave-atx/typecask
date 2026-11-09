@@ -20,7 +20,7 @@
 }}
 
 {{ range $catalog.casks }}
-  {{ $slug := strings.TrimPrefix "font-" .token }}
+  {{ $slug := partial "cask-slug.html" .token }}
   {{/* A style the catalog knows and this build doesn't falls in with sans serif, as the app does. */}}
   {{ $styleName := index $styleNames .style | default "Sans Serif" }}
   {{ $terms := slice $styleName }}
