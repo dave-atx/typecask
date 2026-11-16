@@ -513,7 +513,8 @@ def is_excluded(token, url):
 
 
 def rank_casks(analytics, casks_by_token):
-    """Returns every eligible font cask with its install count, most-installed first."""
+    """Returns every eligible font cask with its install count, most-installed first, then by token: Homebrew
+    lists equal counts in no particular order."""
     installs = {}
     for item in analytics["items"]:
         token = item["cask"]
@@ -523,7 +524,7 @@ def rank_casks(analytics, casks_by_token):
             and not is_excluded(token, casks_by_token[token]["url"])
         ):
             installs.setdefault(token, int(item["count"].replace(",", "")))
-    return [(casks_by_token[token], installs[token]) for token in sorted(installs, key=installs.get, reverse=True)]
+    return [(casks_by_token[token], installs[token]) for token in sorted(installs, key=lambda t: (-installs[t], t))]
 
 
 def google_families(casks_by_token):
@@ -779,6 +780,12 @@ def lock(count, google_top):
     # Homebrew's analytics leave out casks nobody installed in a year; required ones go on the end.
     installs = {cask["token"]: count for cask, count in ranked}
     recent = {item["cask"]: int(item["count"].replace(",", "")) for item in fetch_json(RECENT_ANALYTICS_URL)["items"]}
+    # Casks tied with the last of the top `count` come too: which side of the cut a tie fell on was
+    # arbitrary, so a cask whose installs hadn't moved could drop out when others climbed past it.
+    if 0 < count < len(ranked):
+        last = ranked[count - 1][1]
+        while count < len(ranked) and ranked[count][1] == last:
+            count += 1
     tokens = list(dict.fromkeys([cask["token"] for cask, _ in ranked[:count]] + required))
     exempt = set(required)
 

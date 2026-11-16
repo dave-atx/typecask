@@ -28,7 +28,8 @@ licenses are committed, so CI runs `scripts/build-catalog.py check-licenses`, wh
 ```
 
 `lock` writes `fonts.lock.json`, and takes under a minute. The line-up is Homebrew's 1,000
-most-installed font casks (`--count`), plus every Google Fonts family (`--google-top N` for only the
+most-installed font casks (`--count`), and every cask tied with the last of them so a tie doesn't decide
+who drops out, plus every Google Fonts family (`--google-top N` for only the
 most popular N). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
 and needs no API key. Each Google family is matched to a cask by its specimen homepage, then by the
 google/fonts directory the cask checks out, then by name, since fonts that began elsewhere, like Inter
@@ -48,7 +49,7 @@ lock is fetched and checked too, and kept for the build; one that can't be had o
 the cask at its previous pin, listed as kept at its locked version, so a host that's down holds back an
 update instead of dropping a font.
 
-The lock lists casks by token, each with its `rank` in the line-up: Homebrew's casks by installs, then
+The lock lists casks by token, each with its `rank` in the line-up: Homebrew's casks by installs (ties by token), then
 the Google families by Google's popularity. `build` goes through them by rank, and when two casks carry
 the same face, the higher-ranked one keeps it (Red Hat Display's faces go to `font-red-hat-display`,
 not `font-redhat`). `Catalog.json` lists casks by token too; the app and the site sort them by their
