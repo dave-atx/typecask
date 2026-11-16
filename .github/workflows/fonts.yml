@@ -184,9 +184,14 @@ jobs:
               -scheme Typecask -destination "$DESTINATION" -derivedDataPath DerivedData \
               -only-testing:"TypecaskUITests/InstallTests/$1" > "test-$1-$2.log" 2>&1
           }
-          # A runner that dies before the test starts is the simulator, not the fonts: try once more.
+          # A runner that dies before the test starts, or an app XCTest can't read at all, is the simulator,
+          # not the fonts: try once more. A missing element fails an assertion instead; a snapshot timeout
+          # is a cold simulator's first launch, and an app that really hangs fails again.
+          simulator_failure() {
+            grep -qE "never finished bootstrapping|Failed to get matching snapshots: Timed out" "test-$1-$2.log"
+          }
           run_test() {
-            if attempt "$1" "$2" || { grep -q "never finished bootstrapping" "test-$1-$2.log" && attempt "$1" "$2"; }; then
+            if attempt "$1" "$2" || { simulator_failure "$1" "$2" && attempt "$1" "$2"; }; then
               echo "passed: $1 $2"
             else
               echo "FAILED: $1 $2"
