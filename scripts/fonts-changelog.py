@@ -6,8 +6,8 @@
 Compares the casks that ship in Typecask/Catalog.json, those with fonts in the archive, with the ones
 at BASE (default HEAD), and lists what was added, removed, updated to a new version, or rebuilt into
 different files at the same version. A removed cask says why where it can: fonts.lock.json says
-whether it is still in the line-up, and the .cache/build-report.json that build writes says why a
-locked cask didn't ship.
+why it left the line-up (`left`, which lock writes), and the .cache/build-report.json that build
+writes says why a locked cask didn't ship.
 
 A cask that shipped at BASE and failed to build this time leads the notes with a warning, and --lost
 writes those tokens to FILE, one to a line, so the workflow can hold the pull request as a draft.
@@ -53,9 +53,9 @@ def failure(error):
     return error if len(error) <= 100 else error[:99] + "…"
 
 
-def removal_reason(token, locked, listed, report):
+def removal_reason(token, locked, left, listed, report):
     if token not in locked:
-        return "no longer in the line-up"
+        return left.get(token, "no longer in the line-up")
     if error := report.get("failed", {}).get(token):
         return f"{failure(error)}; retried next run"
     if reason := report.get("skipped", {}).get(token):
@@ -101,7 +101,10 @@ def main():
     catalog = load(CATALOG, None)
     before, after = shipping(load(CATALOG, base)), shipping(catalog)
     listed = {cask["token"] for cask in catalog.get("casks", [])}
-    locked = {entry["token"] for entry in load(LOCK, None).get("casks", [])}
+    lock = load(LOCK, None)
+    locked = {entry["token"] for entry in lock.get("casks", [])}
+    # Why `lock` dropped each cask that was in the previous line-up.
+    left = lock.get("left", {})
     report = json.loads(REPORT.read_text()) if REPORT.is_file() else {}
 
     def by_name(tokens, casks):
@@ -109,7 +112,7 @@ def main():
 
     added = [line(after[token], after[token]["version"]) for token in by_name(after.keys() - before.keys(), after)]
     removed = [
-        line(before[token], f"— {removal_reason(token, locked, listed, report)}")
+        line(before[token], f"— {removal_reason(token, locked, left, listed, report)}")
         for token in by_name(before.keys() - after.keys(), before)
     ]
     updated, rebuilt = [], []

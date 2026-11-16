@@ -29,8 +29,11 @@ licenses are committed, so CI runs `scripts/build-catalog.py check-licenses`, wh
 
 `lock` writes `fonts.lock.json`, and takes under a minute. The line-up is Homebrew's 1,000
 most-installed font casks (`--count`), and every cask tied with the last of them so a tie doesn't decide
-who drops out, plus every Google Fonts family (`--google-top N` for only the
-most popular N). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
+who drops out, plus every Google Fonts family (`--google-top N` for only the most popular N). A cask
+Homebrew has disabled, or deprecated as discontinued, is left out wherever it would rank; when Homebrew
+names a replacement, the replacement takes its installs (Iosevka Comfy's go to Aporetic). So is a Google
+family that Google classifies as Symbols (barcodes, Linefont, Wavefont), bar those in `KEPT_SYMBOLS`
+(Redacted). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
 and needs no API key. Each Google family is matched to a cask by its specimen homepage, then by the
 google/fonts directory the cask checks out, then by name, since fonts that began elsewhere, like Inter
 and JetBrains Mono, keep their upstream homepage. `EXTRA_CASKS` adds a font Homebrew has no cask for
@@ -182,7 +185,8 @@ tab:
 The release notes and the pull request both say which casks were added, removed, updated to a new
 version or rebuilt into different files, compared with main as it is when the run publishes.
 `scripts/fonts-changelog.py [BASE]` writes that from `Catalog.json` against the one at `BASE` (default
-`HEAD`), and gives each removal its reason: out of the line-up in the lock, or failed, skipped, trimmed
+`HEAD`), and gives each removal its reason: why it left the line-up, which `lock` records in the lock's
+`left` (retired by Homebrew, below the cut, excluded, its cask gone), or failed, skipped, trimmed
 or overlapping another cask in the `.cache/build-report.json` that `build` writes. Run it after a local
 build to see what a release would change. A cask that shipped before and failed to build this time
 leads them with a warning, and the pull request opens as a draft, so a release only loses a font when

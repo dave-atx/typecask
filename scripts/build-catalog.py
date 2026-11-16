@@ -103,6 +103,8 @@ EXCLUDED = {
     "font-symbols-only-nerd-font",
     "font-powerline-symbols",
     "font-fontawesome",
+    # Maps a-z to glyphs of a single point, for typing an icon's name that a ligature replaces.
+    "font-material-icons",
     "font-sketchybar-app-font",
     "font-noto-color-emoji",
     "font-noto-color-emoji-compat-test",
@@ -122,6 +124,9 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
+# Google families classified Symbols that ship anyway: Redacted's scribbles stand in for text in
+# wireframes and mockups, which is a use someone installs a font for.
+KEPT_SYMBOLS = {"font-redacted", "font-redacted-script"}
 ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
 # Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
 # takes over once it has one, and lock says so, for the entry to go.
@@ -512,18 +517,38 @@ def is_excluded(token, url):
     return token in EXCLUDED or any(host == name or host.endswith("." + name) for name in EXCLUDED_HOSTS)
 
 
+def is_retired(cask):
+    """Whether Homebrew has disabled the cask, for any reason, or deprecated it as discontinued: its font
+    is finished, and a download that still works is living on borrowed time (OpenDyslexic's host went
+    down months before Homebrew disabled it)."""
+    return bool(cask.get("disabled")) or (cask.get("deprecated") and cask.get("deprecation_reason") == "discontinued")
+
+
+def successor(token, casks_by_token):
+    """The cask standing in for `token`: itself, or for a retired cask the one Homebrew names to replace
+    it, followed until one isn't retired. None for a retired cask with no replacement."""
+    seen = set()
+    while (cask := casks_by_token.get(token)) and is_retired(cask):
+        if token in seen:
+            return None
+        seen.add(token)
+        token = cask.get("disable_replacement_cask") or cask.get("deprecation_replacement_cask")
+    return token if cask else None
+
+
 def rank_casks(analytics, casks_by_token):
     """Returns every eligible font cask with its install count, most-installed first, then by token: Homebrew
-    lists equal counts in no particular order."""
-    installs = {}
+    lists equal counts in no particular order. A retired cask's installs count for its replacement, whose
+    users they mostly are now."""
+    counts = {}
     for item in analytics["items"]:
-        token = item["cask"]
-        if (
-            token.startswith("font-")
-            and token in casks_by_token
-            and not is_excluded(token, casks_by_token[token]["url"])
-        ):
-            installs.setdefault(token, int(item["count"].replace(",", "")))
+        counts.setdefault(item["cask"], int(item["count"].replace(",", "")))
+    installs = {}
+    for token, count in counts.items():
+        heir = successor(token, casks_by_token)
+        eligible = heir and heir.startswith("font-") and not is_excluded(heir, casks_by_token[heir]["url"])
+        if token.startswith("font-") and eligible:
+            installs[heir] = installs.get(heir, 0) + count
     return [(casks_by_token[token], installs[token]) for token in sorted(installs, key=lambda t: (-installs[t], t))]
 
 
@@ -773,10 +798,22 @@ def lock(count, google_top):
                 f"no cask for {len(missing)} Google Fonts families, which have no files in google/fonts "
                 f"under those names either: {', '.join(missing)}"
             )
-        required = [token for _, token in top if token and not is_excluded(token, casks_by_token[token]["url"])]
+        required = [token for _, token in top if token]
     else:
         required = []
-    required += ALWAYS_INCLUDED
+    required = [
+        heir
+        for token in required + ALWAYS_INCLUDED
+        if (heir := successor(token, casks_by_token)) and not is_excluded(heir, casks_by_token[heir]["url"])
+    ]
+    report(
+        "retired by Homebrew, so out of the line-up (→ its replacement)",
+        [
+            f"{token} → {heir}" if (heir := successor(token, casks_by_token)) else token
+            for token, cask in sorted(casks_by_token.items())
+            if token.startswith("font-") and is_retired(cask)
+        ],
+    )
     # Homebrew's analytics leave out casks nobody installed in a year; required ones go on the end.
     installs = {cask["token"]: count for cask, count in ranked}
     recent = {item["cask"]: int(item["count"].replace(",", "")) for item in fetch_json(RECENT_ANALYTICS_URL)["items"]}
@@ -786,7 +823,20 @@ def lock(count, google_top):
         last = ranked[count - 1][1]
         while count < len(ranked) and ranked[count][1] == last:
             count += 1
-    tokens = list(dict.fromkeys([cask["token"] for cask, _ in ranked[:count]] + required))
+    # Google files barcodes, Linefont's and Wavefont's charts, knitting symbols and the like under
+    # Symbols: their letters aren't letters, and nobody installs them to set text. KEPT_SYMBOLS are
+    # the exceptions.
+    symbols = {
+        token
+        for token, family in google_by_token.items()
+        if "Symbols" in family.get("classifications", []) and token not in KEPT_SYMBOLS
+    }
+    tokens = [
+        token
+        for token in dict.fromkeys([cask["token"] for cask, _ in ranked[:count]] + required)
+        if token not in symbols
+    ]
+    report("classified Symbols by Google, so out of the line-up", sorted(symbols & (installs.keys() | set(required))))
     exempt = set(required)
 
     planned = []
@@ -862,6 +912,12 @@ def lock(count, google_top):
         entries.append(entry)
     if unpinned:
         print(f"warning: {len(unpinned)} casks have a source that can't be pinned: {', '.join(unpinned)}")
+    # A cask in the previous lock is never unpinned (it keeps its pin), so anything gone left the line-up.
+    locked = {entry["token"] for entry in entries}
+    cutoff = ranked[count - 1][1] if 0 < count <= len(ranked) else None
+    left = {
+        token: departure(token, casks_by_token, installs, cutoff, symbols) for token in sorted(previous.keys() - locked)
+    }
     report("kept at their locked version: the new download can't be had or doesn't match its hash", held)
     # The rank is the line-up's order, which build keeps when two casks carry the same face. The file is
     # in token order, so a week's new install counts change a line in each entry rather than moving most
@@ -878,9 +934,36 @@ def lock(count, google_top):
             # Every family's category, for Apple's fonts that Google also publishes.
             "googleCategories": {family["family"]: family["category"] for family, _ in families},
             "casks": entries,
+            # Why each cask in the previous lock isn't in this one, for the fonts pull request to say.
+            "left": left,
         },
     )
     print(f"locked {len(entries)} casks at google/fonts {commit[:12]}")
+
+
+def departure(token, casks_by_token, installs, cutoff, symbols):
+    """Why a cask that was in the line-up isn't any more, in a few words for the fonts pull request."""
+    if not (cask := casks_by_token.get(token)):
+        return "Homebrew removed its cask"
+    if is_retired(cask):
+        if cask.get("disabled"):
+            because = cask.get("disable_reason")
+            reason = f"Homebrew disabled it: {because.replace('_', ' ')}" if because else "Homebrew disabled it"
+        else:
+            reason = "Homebrew discontinued it"
+        heir = successor(token, casks_by_token)
+        return f"{reason}; `{heir}` replaces it" if heir else reason
+    if token in symbols:
+        return "Google classifies it as a symbols font, not text"
+    if token in EXCLUDED:
+        return "excluded by hand (see `EXCLUDED`)"
+    if is_excluded(token, cask["url"]):
+        return f"downloads from {urllib.parse.urlparse(cask['url']).hostname}, which is excluded"
+    if token not in installs:
+        return "no Homebrew installs in the last year"
+    if cutoff is not None and installs[token] < cutoff:
+        return f"{installs[token]} installs in the last year, below the line-up's {cutoff}"
+    return "no longer in the line-up"
 
 
 # MARK: - Fonts
