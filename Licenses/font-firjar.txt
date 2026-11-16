@@ -1,9 +1,8 @@
-Copyright (c) 2023, Bao Nguyen/RandomMaerks (rmforbusiness@gmail.com),
-with Reserved Font Name Overused Grotesk.
+Copyright 2025 The Firjar Project Authors (https://github.com/Mestaratype/Firjar)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-http://scripts.sil.org/OFL
+https://openfontlicense.org
 
 
 -----------------------------------------------------------

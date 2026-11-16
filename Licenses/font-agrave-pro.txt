@@ -1,10 +1,9 @@
-License of github.com/Photonico/Photonico_Code:
-
-Copyright (c) 2022, Lu Niu (https://github.com/Photonico),
+Copyright 2026 The Agràve Pro Project Authors (https://github.com/daanjobsis/agrave-pro)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-http://scripts.sil.org/OFL
+https://openfontlicense.org
+
 
 -----------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
