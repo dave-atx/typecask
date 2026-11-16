@@ -85,6 +85,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// Whether the cask is in the Legibility collection, from `LEGIBLE_CASKS` in scripts/build-catalog.py;
     /// absent for most casks.
     let legible: Bool?
+    /// Whether the cask is in the Symbols collection, from `SYMBOL_CASKS` in scripts/build-catalog.py;
+    /// absent for most casks.
+    let symbols: Bool?
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag

@@ -97,6 +97,8 @@ enum FontCollection: Hashable, Identifiable, Sendable {
     case nerdFonts
     /// Casks made to be easy to read, which the catalog marks `legible`.
     case legibility
+    /// Casks typed on a keyboard that draw something other than letters, which the catalog marks `symbols`.
+    case symbols
     /// Apple's built-in and downloadable fonts rather than casks.
     case appleFonts
     case holiday(Holiday)
@@ -110,6 +112,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .style(let style): style.name
         case .nerdFonts: "Nerd Fonts"
         case .legibility: "Legibility"
+        case .symbols: "Symbols"
         case .appleFonts: "Apple Fonts"
         case .holiday(let holiday): holiday.name
         }
@@ -138,6 +141,11 @@ enum FontCollection: Hashable, Identifiable, Sendable {
             from the Braille Institute, Lexend from research into reading fluency, B612 from Airbus's cockpit \
             displays, and more.
             """
+        case .symbols:
+            """
+            Fonts you type like any other that draw something else: scribbles and blocks that stand in for text \
+            in mockups, knitting symbols, and letters charted as stitches on a grid.
+            """
         case .appleFonts:
             """
             The fonts built into iOS, and those Settings › General › Fonts offers to download. Typecask can't \
@@ -155,6 +163,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .style(let style): style.symbol
         case .nerdFonts: "terminal"
         case .legibility: "eyeglasses"
+        case .symbols: "scribble"
         case .appleFonts: "applelogo"
         case .holiday(let holiday): holiday.symbol
         }
@@ -167,6 +176,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case (.installed, .cask(let cask)): installed.contains(cask.id)
         case (.nerdFonts, .cask(let cask)): cask.glyphs
         case (.legibility, .cask(let cask)): cask.legible ?? false
+        case (.symbols, .cask(let cask)): cask.symbols ?? false
         case (.appleFonts, .apple): true
         case (.holiday(let holiday), .cask(let cask)): cask.holidays?.contains(holiday.rawValue) ?? false
         default: false

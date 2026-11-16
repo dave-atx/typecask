@@ -68,6 +68,15 @@ dyslexia or beginning readers, picked by hand in `LEGIBLE_CASKS`. `build` marks 
 `HOLIDAY_CASKS`. Like the holidays, the list is applied as `build` assembles the catalog, so changing it
 needs no `PIPELINE_VERSION` bump; the next fonts build carries it.
 
+## Symbols
+
+The Symbols collection is fonts typed on an ordinary keyboard that draw something other than letters:
+Redacted's scribbles and Flow's blocks for mockups, Yarndings' knitting symbols, and the Charted fonts'
+letters as stitches on a grid. They're picked by hand in `SYMBOL_CASKS`, which `build` marks `symbols`
+in `Catalog.json`, as `LEGIBLE_CASKS` does `legible`. Google classifies most of them as Symbols, which
+otherwise keeps a family out of the line-up: barcodes, Linefont's charts and Noto's music and symbol
+fonts have nothing to set text in, and iOS has no way to type most of the latter, so they don't ship.
+
 ## Apple's fonts
 
 The Apple Fonts collection lists the fonts built into iOS and the ones offered under Settings › General

@@ -124,9 +124,6 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
-# Google families classified Symbols that ship anyway: Redacted's scribbles stand in for text in
-# wireframes and mockups, which is a use someone installs a font for.
-KEPT_SYMBOLS = {"font-redacted", "font-redacted-script"}
 ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
 # Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
 # takes over once it has one, and lock says so, for the entry to go.
@@ -232,6 +229,27 @@ LEGIBLE_CASKS = {
     "font-lexica-ultralegible",
     "font-opendyslexic-nerd-font",
     "font-readex-pro",
+}
+# The app's Symbols collection: fonts typed on an ordinary keyboard that draw something other than
+# letters. Redacted's scribbles and Flow's blocks stand in for text in wireframes, Yarndings draws
+# knitting symbols, and the Charted fonts draw their letters as stitches on a grid. Google classifies
+# most of them Symbols, which otherwise keeps a family out of the line-up (barcodes, Linefont), so this
+# list keeps them in too. Picked by hand; the catalog marks each `symbols`.
+SYMBOL_CASKS = {
+    "font-flow-block",
+    "font-flow-circular",
+    "font-flow-rounded",
+    "font-jacquard-12-charted",
+    "font-jacquard-24-charted",
+    "font-jacquarda-bastarda-9-charted",
+    "font-jersey-20-charted",
+    "font-micro-5-charted",
+    "font-redacted",
+    "font-redacted-script",
+    "font-yarndings-12",
+    "font-yarndings-12-charted",
+    "font-yarndings-20",
+    "font-yarndings-20-charted",
 }
 # Casks that pull a single file out of google/fonts, rather than checking out the family directory.
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
@@ -823,13 +841,13 @@ def lock(count, google_top):
         last = ranked[count - 1][1]
         while count < len(ranked) and ranked[count][1] == last:
             count += 1
-    # Google files barcodes, Linefont's and Wavefont's charts, knitting symbols and the like under
-    # Symbols: their letters aren't letters, and nobody installs them to set text. KEPT_SYMBOLS are
-    # the exceptions.
+    # Google files barcodes, Linefont's and Wavefont's charts, Unicode's music and other symbols and the
+    # like under Symbols: nothing to set text in, and on iOS no way to type most of them. The Symbols
+    # collection's casks (SYMBOL_CASKS) are the exceptions.
     symbols = {
         token
         for token, family in google_by_token.items()
-        if "Symbols" in family.get("classifications", []) and token not in KEPT_SYMBOLS
+        if "Symbols" in family.get("classifications", []) and token not in SYMBOL_CASKS
     }
     tokens = [
         token
@@ -1998,6 +2016,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             record["holidays"] = holidays
         if token in LEGIBLE_CASKS:
             record["legible"] = True
+        if token in SYMBOL_CASKS:
+            record["symbols"] = True
         catalog.append(record)
 
     rank_popularity(catalog, entries)
@@ -2006,6 +2026,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         print(f"warning: HOLIDAY_CASKS names casks not in the catalog: {', '.join(missing)}")
     if missing := sorted(LEGIBLE_CASKS - tokens):
         print(f"warning: LEGIBLE_CASKS names casks not in the catalog: {', '.join(missing)}")
+    if missing := sorted(SYMBOL_CASKS - tokens):
+        print(f"warning: SYMBOL_CASKS names casks not in the catalog: {', '.join(missing)}")
     packs = assign_packs(weights)
     for record in catalog:
         if pack := packs.get(record["token"]):

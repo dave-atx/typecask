@@ -32,8 +32,8 @@ most-installed font casks (`--count`), and every cask tied with the last of them
 who drops out, plus every Google Fonts family (`--google-top N` for only the most popular N). A cask
 Homebrew has disabled, or deprecated as discontinued, is left out wherever it would rank; when Homebrew
 names a replacement, the replacement takes its installs (Iosevka Comfy's go to Aporetic). So is a Google
-family that Google classifies as Symbols (barcodes, Linefont, Wavefont), bar those in `KEPT_SYMBOLS`
-(Redacted). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
+family that Google classifies as Symbols (barcodes, Linefont, Wavefont, Noto's music and symbol fonts),
+bar the Symbols collection's (`SYMBOL_CASKS`: Redacted, Flow, Yarndings). Popularity and categories come from `fonts.google.com/metadata/fonts`, which is public
 and needs no API key. Each Google family is matched to a cask by its specimen homepage, then by the
 google/fonts directory the cask checks out, then by name, since fonts that began elsewhere, like Inter
 and JetBrains Mono, keep their upstream homepage. `EXTRA_CASKS` adds a font Homebrew has no cask for
