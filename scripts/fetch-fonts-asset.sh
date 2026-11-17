@@ -21,8 +21,14 @@ if [ -f "$PIN" ]; then
     archive="${TMPDIR:-/tmp}/typecask-fonts.tar.zst"
 
     echo "Fetching $url"
-    # The API asset URL serves the file itself with this Accept header.
-    curl -fL --retry 3 -H "Accept: application/octet-stream" -o "$archive" "$url"
+    # The API asset URL serves the file itself with this Accept header. Anonymous API calls from a
+    # shared runner's address can be refused (403) for others' rate limit, so CI passes its token.
+    if [ -n "${GH_TOKEN:-}" ]; then
+        curl -fL --retry 3 -H "Accept: application/octet-stream" -H "Authorization: Bearer $GH_TOKEN" \
+            -o "$archive" "$url"
+    else
+        curl -fL --retry 3 -H "Accept: application/octet-stream" -o "$archive" "$url"
+    fi
     echo "$sha  $archive" | shasum -a 256 -c -
 
     # macOS's tar has no zstd of its own: it runs the zstd command, which a runner may not have.
