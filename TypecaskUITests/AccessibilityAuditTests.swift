@@ -66,10 +66,10 @@ final class AccessibilityAuditTests: XCTestCase {
             if sidebarColumn?.contains(center.x) ?? false || buttonFrames.contains(where: { $0.contains(center) }) {
                 return true
             }
-            // Specimens and names on cards and rows are cut to a few lines; VoiceOver reads the name in full,
-            // and the font's page shows the whole sample. A specimen is drawn in its own font too, so a thin
-            // face measures low contrast whatever its color.
-            if ["specimen", "itemName"].contains(element.identifier),
+            // Specimens, names and the detail line under them on cards and rows are cut to fit the card;
+            // VoiceOver reads them in full, and the font's page shows the whole sample. A specimen is drawn in
+            // its own font too, so a thin face measures low contrast whatever its color.
+            if ["specimen", "itemName", "itemDetail"].contains(element.identifier),
                [.textClipped, .dynamicType].contains(issue.auditType) {
                 return true
             }

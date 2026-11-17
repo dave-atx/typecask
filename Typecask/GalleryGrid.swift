@@ -108,6 +108,7 @@ struct CardFooter<Detail: View>: View {
                 detail
                     .font(.caption)
                     .foregroundStyle(Color(.captionText))
+                    .accessibilityIdentifier("itemDetail")
             }
             Spacer(minLength: 0)
             InstallBadge(status: status)
