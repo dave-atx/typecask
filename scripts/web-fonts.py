@@ -37,7 +37,7 @@ import logging
 import os
 import sys
 import time
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import uharfbuzz
@@ -80,6 +80,8 @@ OFF = {"liga": False, "calt": False, "clig": False}
 FORMAT = 1
 # Fonts that can't be converted, past which a run fails rather than publish a manifest without them.
 MAX_FAILURES = 25
+# Uploads to R2 at once.
+UPLOADS = 8
 
 # fontTools' complaints about the fonts it reads, a few hundred lines a run that bury the progress.
 logging.getLogger("fontTools").setLevel(logging.ERROR)
@@ -239,7 +241,11 @@ def convert(folder, out):
 class Store:
     """R2, as the run goes: each cask's faces and cache entry go up as soon as it's converted, so a run that
     fails or times out keeps what it did, and the next picks up where it stopped. Without R2's credentials,
-    as in a local run, it keeps nothing."""
+    as in a local run, it keeps nothing.
+
+    Uploads run on UPLOADS threads beside the conversions: a request takes a round trip of a tenth of a
+    second or so, and small casks convert faster than one thread could send them. A cask's entry goes up
+    only once its faces are there, those another cask's upload is still sending included."""
 
     def __init__(self):
         self.client, self.bucket = r2()
@@ -250,6 +256,10 @@ class Store:
         # Stopping short of R2_MAX_GB says it's time to clear out faces no release in use still lists.
         self.cap = float(os.environ.get("R2_MAX_GB", "8")) * 1e9
         self.uploaded = 0
+        self.pool = ThreadPoolExecutor(UPLOADS)
+        # Each face being sent, by key, for a later cask that shares it to wait on.
+        self.sending = {}
+        self.pending = []
 
     def cached(self, key):
         if f"cache/{key}.json" not in self.keys:
@@ -257,34 +267,58 @@ class Store:
         return json.loads(self.client.get_object(Bucket=self.bucket, Key=f"cache/{key}.json")["Body"].read())
 
     def keep(self, key, entry, written):
+        """Queues the cask's new faces and then its entry. Only this thread touches keys and total."""
         if not self.client:
             return
-        new = [path for path in written if f"w/{path.name}" not in self.keys]
-        size = sum(path.stat().st_size for path in new)
+        new = {f"w/{path.name}": path for path in written if f"w/{path.name}" not in self.keys}
+        size = sum(path.stat().st_size for path in new.values())
         if self.total + size > self.cap:
+            self.finish()
             sys.exit(
                 f"{self.bucket} would hold {(self.total + size) / 1e9:.1f} GB, over R2_MAX_GB's "
                 f"{self.cap / 1e9:.0f} GB: clear it out first"
             )
-        for path in new:
-            # Named by their bytes, so never changed: cached for good.
-            self.client.upload_file(
-                str(path),
-                self.bucket,
-                f"w/{path.name}",
-                ExtraArgs={"ContentType": "font/woff2", "CacheControl": "public, max-age=31536000, immutable"},
-            )
-            self.keys.add(f"w/{path.name}")
+        faces = []
+        for name, path in new.items():
+            self.sending[name] = self.pool.submit(self.send_face, name, path)
+            self.keys.add(name)
+            faces.append(self.sending[name])
+        # Faces this cask shares with one still uploading.
+        faces += [self.sending[f"w/{path.name}"] for path in written if f"w/{path.name}" in self.sending]
         self.total += size
         self.uploaded += len(new)
-        # After its faces, so an entry on R2 always has them there.
+        self.pending.append(self.pool.submit(self.send_entry, key, entry, faces))
+        self.keys.add(f"cache/{key}.json")
+        # Drop what's finished, raising the first upload that failed.
+        for future in [future for future in self.pending if future.done()]:
+            future.result()
+            self.pending.remove(future)
+
+    def send_face(self, name, path):
+        # Named by their bytes, so never changed: cached for good.
+        self.client.upload_file(
+            str(path),
+            self.bucket,
+            name,
+            ExtraArgs={"ContentType": "font/woff2", "CacheControl": "public, max-age=31536000, immutable"},
+        )
+
+    def send_entry(self, key, entry, faces):
+        # Earlier submissions, so they run first and this never waits on work queued behind it.
+        for face in faces:
+            face.result()
         self.client.put_object(
             Bucket=self.bucket,
             Key=f"cache/{key}.json",
             Body=json.dumps(entry, ensure_ascii=False).encode(),
             ContentType="application/json",
         )
-        self.keys.add(f"cache/{key}.json")
+
+    def finish(self):
+        """Waits for every upload, raising the first that failed."""
+        for future in self.pending:
+            future.result()
+        self.pool.shutdown()
 
     def publish(self, manifest, tag):
         self.client.upload_file(
@@ -328,6 +362,7 @@ def build(xcassets, out, jobs, tag=None):
             size = sum(face["bytes"] for face in entry["faces"])
             faces = len(entry["faces"])
             say(f"{progress} {token}: {faces} face{'s' * (faces != 1)}, {size / 1e6:.1f} MB, {seconds:.0f} s")
+    store.finish()
     manifest = out / "manifest.json"
     manifest.write_text(json.dumps({"casks": casks}, ensure_ascii=False, sort_keys=True) + "\n")
     say(f"{len(casks)} casks in the manifest; {store.uploaded} faces uploaded; {len(failed)} failed")
@@ -352,7 +387,9 @@ def r2():
 
     client = boto3.client(
         "s3",
-        endpoint_url=f"https://{os.environ['CLOUDFLARE_ACCOUNT_ID']}.r2.cloudflarestorage.com",
+        # R2_ENDPOINT points it at a stand-in, for a test against a local S3 server.
+        endpoint_url=os.environ.get("R2_ENDPOINT")
+        or f"https://{os.environ['CLOUDFLARE_ACCOUNT_ID']}.r2.cloudflarestorage.com",
         aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
         aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"],
         region_name="auto",
