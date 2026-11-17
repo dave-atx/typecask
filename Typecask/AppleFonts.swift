@@ -79,10 +79,11 @@ enum GalleryItem: Identifiable, Hashable {
         }
     }
 
-    /// What the UI tests find the item's card by: a cask's token, as Homebrew users know it.
+    /// What the UI tests find the item's card by: a cask's token, as Homebrew users know it, then its Nerd Font
+    /// version's after a space when the card stands for both.
     var accessibilityIdentifier: String {
         switch self {
-        case .cask(let cask): cask.token
+        case .cask(let cask): [cask.token, cask.nerdFont].compactMap(\.self).joined(separator: " ")
         case .apple(let family): family.name
         }
     }

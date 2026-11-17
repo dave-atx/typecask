@@ -65,9 +65,10 @@ uvx --from actionlint-py actionlint
 ```
 
 The UI tests install a cask (accepting the system consent sheet) and check it's still installed after a
-relaunch, uninstall one, update one marked outdated, and check that a cask iOS already ships offers no
-Install button. They need that cask in the debug build's fonts (see above; font-roboto and the default,
-font-departure-mono-nerd-font, are), and an erased simulator, since installed fonts outlive
+relaunch, uninstall one, update one marked outdated, install a Nerd Font version from its plain cask's
+page, and check that a cask iOS already ships offers no Install button. They need that cask in the debug
+build's fonts (see above; font-roboto and the default, font-departure-mono, are, with its Nerd Font
+version), and an erased simulator, since installed fonts outlive
 `simctl uninstall`:
 
 ```sh

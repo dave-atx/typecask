@@ -1,6 +1,21 @@
 import SwiftUI
 
 extension FontInstaller {
+    /// The status a card shows for the cask and its Nerd Font version together: the plain cask's, unless
+    /// that's merely available or failed while the Nerd Font version is installed, busy or out of date, so
+    /// one badge says the family is installed whichever version is.
+    func cardStatus(of cask: Cask, in catalog: Catalog) -> Status {
+        let plain = status(of: cask)
+        guard let nerd = catalog.nerdVersions[cask.token] else { return plain }
+        switch plain {
+        case .available, .failed:
+            let other = status(of: nerd)
+            return other == .available ? plain : other
+        default:
+            return plain
+        }
+    }
+
     enum Action {
         case install
         case update
@@ -44,32 +59,39 @@ extension FontInstaller {
 
 extension View {
     /// Offers the cask's install, update or uninstall, and its homepage, without opening its page: in a
-    /// menu on a long press, and as actions to VoiceOver and Voice Control.
-    func caskActions(_ cask: Cask) -> some View {
-        modifier(CaskActionsModifier(cask: cask))
+    /// menu on a long press, and as actions to VoiceOver and Voice Control. A card that also stands for a Nerd
+    /// Font version offers that version's too.
+    func caskActions(_ cask: Cask, nerdVersion: Cask? = nil) -> some View {
+        modifier(CaskActionsModifier(cask: cask, nerdVersion: nerdVersion))
     }
 }
 
 private struct CaskActionsModifier: ViewModifier {
     let cask: Cask
+    let nerdVersion: Cask?
     @Environment(FontInstaller.self) private var installer
 
     func body(content: Content) -> some View {
         // The installer is passed in rather than read from the environment, which a context menu's content
         // isn't sure to share.
         content
-            .contextMenu {
-                CaskActionButtons(cask: cask, installer: installer)
-            }
-            .accessibilityActions {
-                CaskActionButtons(cask: cask, installer: installer)
-            }
+            .contextMenu { buttons }
+            .accessibilityActions { buttons }
+    }
+
+    @ViewBuilder private var buttons: some View {
+        CaskActionButtons(cask: cask, installer: installer, isNerdVersion: false)
+        if let nerdVersion {
+            CaskActionButtons(cask: nerdVersion, installer: installer, isNerdVersion: true)
+        }
     }
 }
 
 private struct CaskActionButtons: View {
     let cask: Cask
     let installer: FontInstaller
+    /// Whether this is a paired card's Nerd Font version, whose actions say so: the card already has an Install.
+    let isNerdVersion: Bool
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -77,21 +99,29 @@ private struct CaskActionButtons: View {
         switch status {
         case .available, .failed:
             if cask.isBundled {
-                button("Install", systemImage: "arrow.down.circle", action: .install)
+                button(isNerdVersion ? "Install Nerd Font" : "Install", systemImage: "arrow.down.circle",
+                       action: .install)
             }
         case .updateAvailable:
             if cask.isBundled {
-                button("Update", systemImage: "arrow.down.circle", action: .update)
+                button(isNerdVersion ? "Update Nerd Font" : "Update", systemImage: "arrow.down.circle",
+                       action: .update)
             }
-            button("Uninstall", systemImage: "trash", action: .uninstall)
+            uninstallButton
         case .installed:
-            button("Uninstall", systemImage: "trash", action: .uninstall)
+            uninstallButton
         default:
             EmptyView()
         }
-        Button("Homepage", systemImage: "safari") {
-            openURL(cask.homepage)
+        if !isNerdVersion {
+            Button("Homepage", systemImage: "safari") {
+                openURL(cask.homepage)
+            }
         }
+    }
+
+    private var uninstallButton: some View {
+        button(isNerdVersion ? "Uninstall Nerd Font" : "Uninstall", systemImage: "trash", action: .uninstall)
     }
 
     private func button(_ title: LocalizedStringKey, systemImage: String, action: FontInstaller.Action) -> some View {

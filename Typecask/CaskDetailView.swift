@@ -15,6 +15,9 @@ struct CaskDetailView: View {
                         .accessibilityHidden(true)
                 }
                 CaskActions(cask: cask)
+                if let nerdVersion = catalog.nerdVersions[cask.token] {
+                    NerdFontVersion(cask: nerdVersion, catalog: catalog)
+                }
                 if let description = cask.description {
                     CaskDescription(markdown: description, designers: cask.designers ?? [])
                 }
@@ -107,7 +110,7 @@ extension LabeledContentStyle where Self == DetailRowStyle {
 
 /// A cask's license, read when the disclosure group first opens: a collapsed group doesn't build its
 /// content, so the detail page never pays for unpacking the licenses unless someone asks.
-private struct LicenseText: View {
+struct LicenseText: View {
     let token: String
     @State private var text: AttributedString?
     @State private var loaded = false
@@ -182,11 +185,25 @@ private struct CaskDescription: View {
 
 /// Install or Uninstall, and the homepage, as glass buttons. Not in a GlassEffectContainer: inside one,
 /// the buttons dropped out of the accessibility tree once the cask was installed, Uninstall included.
-private struct CaskActions: View {
+/// Identified by the cask's token, so the UI tests can tell a page's two sets apart, the plain cask's and its
+/// Nerd Font version's, which share their buttons' identifiers.
+struct CaskActions: View {
     let cask: Cask
+    /// Whether these are a paired page's Nerd Font version's, which leave out the homepage and name the
+    /// version to VoiceOver, so the page's two Install buttons don't sound alike.
+    var isNerdVersion = false
     @Environment(FontInstaller.self) private var installer
 
     var body: some View {
+        // The same spacing as the page's own, which these were part of before they were grouped.
+        VStack(alignment: .leading, spacing: 24) {
+            content
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("controls.\(cask.token)")
+    }
+
+    @ViewBuilder private var content: some View {
         // In a row when they fit, stacked when they don't, as on a narrow screen at an accessibility text
         // size, where a row broke every label mid-word. Stacking keeps the labels, which icons alone wouldn't.
         ViewThatFits(in: .horizontal) {
@@ -218,13 +235,15 @@ private struct CaskActions: View {
         // says so whatever the build carries.
         let status = installer.status(of: cask)
         if cask.isBundled || status.isInstalled || status == .builtIn {
-            InstallControl(cask: cask)
+            InstallControl(cask: cask, isNerdVersion: isNerdVersion)
         }
-        Link(destination: cask.homepage) {
-            Label("Homepage", systemImage: "safari")
+        if !isNerdVersion {
+            Link(destination: cask.homepage) {
+                Label("Homepage", systemImage: "safari")
+            }
+            .buttonStyle(.glass)
+            .accessibilityIdentifier("homepage")
         }
-        .buttonStyle(.glass)
-        .accessibilityIdentifier("homepage")
     }
 }
 
@@ -232,6 +251,7 @@ private struct CaskActions: View {
 /// whatever replaced the button it was on, rather than being lost with that button.
 private struct InstallControl: View {
     let cask: Cask
+    var isNerdVersion = false
     @Environment(FontInstaller.self) private var installer
     @AccessibilityFocusState private var focus: Control?
 
@@ -273,6 +293,7 @@ private struct InstallControl: View {
             }
             .buttonStyle(.glassProminent)
             .disabled(!cask.isBundled)
+            .accessibilityLabel(isNerdVersion ? "Update Nerd Font" : "Update")
             .accessibilityIdentifier("update")
             uninstallButton
         case .builtIn:
@@ -295,6 +316,7 @@ private struct InstallControl: View {
             Task { await installer.run(.uninstall, on: cask) }
         }
         .buttonStyle(.glass)
+        .accessibilityLabel(isNerdVersion ? "Uninstall Nerd Font" : "Uninstall")
         .accessibilityFocused($focus, equals: .uninstall)
         .accessibilityIdentifier("uninstall")
     }
@@ -304,6 +326,8 @@ private struct InstallControl: View {
             Task { await installer.run(.install, on: cask) }
         }
         .buttonStyle(.glassProminent)
+        // The visible title, or which version it installs on a paired page. Try Again stays as it is.
+        .accessibilityLabel(isNerdVersion && title == "Install" ? "Install Nerd Font" : title)
         .accessibilityFocused($focus, equals: .install)
         .accessibilityIdentifier("install")
     }

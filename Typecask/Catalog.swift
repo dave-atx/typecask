@@ -12,9 +12,32 @@ struct Catalog: Decodable {
     let glyphSample: String
     let casks: [Cask]
     private(set) var appleFonts: [AppleFontFamily] = []
+    /// Each paired plain cask's Nerd Font version, by the plain cask's token.
+    private(set) var nerdVersions: [String: Cask] = [:]
+    /// Each paired Nerd Font version's plain cask, by the Nerd Font version's token.
+    private(set) var plainVersions: [String: Cask] = [:]
 
     private enum CodingKeys: String, CodingKey {
         case generated, sampleText, glyphSample, casks
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        generated = try container.decodeIfPresent(String.self, forKey: .generated)
+        sampleText = try container.decode(String.self, forKey: .sampleText)
+        glyphSample = try container.decode(String.self, forKey: .glyphSample)
+        casks = try container.decode([Cask].self, forKey: .casks)
+        let byToken = Dictionary(casks.map { ($0.token, $0) }, uniquingKeysWith: { first, _ in first })
+        for cask in casks {
+            guard let token = cask.nerdFont, let nerd = byToken[token] else { continue }
+            nerdVersions[cask.token] = nerd
+            plainVersions[token] = cask
+        }
+    }
+
+    /// The cask whose card and page show `cask`: its plain cask for a paired Nerd Font version, else itself.
+    func shown(_ cask: Cask) -> Cask {
+        plainVersions[cask.token] ?? cask
     }
 
     /// Only decodes JSON. Preview fonts load as cards appear (see PreviewFonts): registering all of them
@@ -88,6 +111,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// Whether the cask is in the Symbols collection, from `SYMBOL_CASKS` in scripts/build-catalog.py;
     /// absent for most casks.
     let symbols: Bool?
+    /// The token of the cask's Nerd Font version, which shares its card and page, from `pair_nerd_fonts()` in
+    /// scripts/build-catalog.py; absent for most casks.
+    let nerdFont: String?
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag

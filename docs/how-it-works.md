@@ -68,6 +68,22 @@ dyslexia or beginning readers, picked by hand in `LEGIBLE_CASKS`. `build` marks 
 `HOLIDAY_CASKS`. Like the holidays, the list is applied as `build` assembles the catalog, so changing it
 needs no `PIPELINE_VERSION` bump; the next fonts build carries it.
 
+## Nerd Font versions
+
+A cask and its Nerd Font version share one card and one page: Fira Code's page offers Fira Code Nerd Font
+in a section of its own, with its own Install, version, size and license. `build` pairs them as it
+assembles the catalog (`pair_nerd_fonts()`), marking the plain cask's `nerdFont` with the other's token:
+a Nerd Font cask is one with `glyphs`, and it's matched by the original name Nerd Fonts gives in
+parentheses ("CaskaydiaCove Nerd Font (Cascadia Code)"), else by its token without `-nerd-font` or `-nf`.
+`NERD_FONT_PAIRS` settles the rest by hand, such as which of Cascadia Code's two Nerd Font builds pairs,
+and a plain cask with two candidates pairs with neither, with a warning. Nerd Fonts renames the families
+it patches, so the two install side by side; the card shows one Installed badge if either is installed,
+and its menu offers both. The Nerd Fonts collection lists the pair, search finds it by either name, and
+it ranks as the more popular of the two.
+
+Each cask is still its own entry everywhere else: Shortcuts and Siri find both, and opening or
+installing the Nerd Font version from a shortcut shows the shared page. The site keeps a page for each.
+
 ## Symbols
 
 The Symbols collection is fonts typed on an ordinary keyboard that draw something other than letters:

@@ -40,6 +40,14 @@ DEFAULT_CASKS = [
     "font-fira-code",  # in a shared pack
     "font-atkinson-hyperlegible-next",
     "font-lexend",
+    # For Nerd Font pairs and ligatures. Fira Code (above) and Cascadia Code have coding ligatures;
+    # Fira Code Nerd Font pairs with Fira Code and keeps them; Ioskeley Mono Term Nerd Font has them and
+    # no plain cask (Ioskeley Mono is a different variant, which mustn't pair with it); Noto Naskh
+    # Arabic's required ligatures aren't coding ones.
+    "font-fira-code-nerd-font",
+    "font-cascadia-code",
+    "font-ioskeley-mono-term-nerd-font",
+    "font-noto-naskh-arabic",
 ]
 
 ROOT_CONTENTS = {"info": {"author": "xcode", "version": 1}}

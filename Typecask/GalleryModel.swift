@@ -113,7 +113,9 @@ final class GalleryModel {
 
     init(catalog: Catalog) {
         self.catalog = catalog
-        let items = catalog.casks.map(GalleryItem.cask) + catalog.appleFonts.map(GalleryItem.apple)
+        // A paired Nerd Font version shares its plain cask's card rather than having its own.
+        let casks = catalog.casks.filter { catalog.plainVersions[$0.token] == nil }
+        let items = casks.map(GalleryItem.cask) + catalog.appleFonts.map(GalleryItem.apple)
         let presentStyles = Set(items.map(\.style))
         styles = DesignStyle.allCases.filter(presentStyles.contains)
         let presentHolidays = Set(catalog.casks.flatMap { $0.holidays ?? [] })
@@ -125,17 +127,22 @@ final class GalleryModel {
         sortedItems = items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         nameKeys = sortedItems.map { item in
             switch item {
-            // The token is worth matching too: it is what a Homebrew user already knows the cask by.
-            case .cask(let cask): Self.fold("\(cask.name) \(cask.token)")
+            // The token is worth matching too: it is what a Homebrew user already knows the cask by. A paired
+            // card answers to its Nerd Font version's name and token as well, so "Caskaydia" finds Cascadia.
+            case .cask(let cask):
+                Self.fold(([cask] + [catalog.nerdVersions[cask.token]].compactMap(\.self))
+                    .map { "\($0.name) \($0.token)" }.joined(separator: " "))
             case .apple(let family): Self.fold(family.name)
             }
         }
         scriptSets = sortedItems.map { Set($0.scripts) }
         var orders: [SortOrder: [Int]] = [.name: Array(sortedItems.indices)]
         for order in [SortOrder.popularity, .trending] {
+            // A paired card ranks as the better of its two casks.
             let ranks = sortedItems.map { item -> Int in
                 guard case .cask(let cask) = item else { return .max }
-                return (order == .popularity ? cask.popularity : cask.trending) ?? .max
+                return ([cask] + [catalog.nerdVersions[cask.token]].compactMap(\.self))
+                    .compactMap { order == .popularity ? $0.popularity : $0.trending }.min() ?? .max
             }
             // Stable on the name order, so ties and unranked items stay alphabetical.
             orders[order] = sortedItems.indices.sorted { ranks[$0] < ranks[$1] || (ranks[$0] == ranks[$1] && $0 < $1) }
@@ -165,11 +172,12 @@ final class GalleryModel {
         return cask
     }
 
-    /// Opens the cask's page over whatever was showing, as a shortcut installing or opening it does. The About
-    /// sheet goes too: left open, it covered the page and the install's progress.
+    /// Opens the cask's page over whatever was showing, as a shortcut installing or opening it does: its plain
+    /// cask's, for a paired Nerd Font version, which that page offers too. The About sheet goes as well: left
+    /// open, it covered the page and the install's progress.
     func show(_ cask: Cask) {
         showsAbout = false
-        path = [.cask(cask)]
+        path = [.cask(catalog.shown(cask))]
     }
 
     /// Shows the collection's fonts in the order given, over whatever was showing, as the Home Screen's quick

@@ -28,7 +28,7 @@ struct GallerySampleList: View {
                     }
                 }
                 .buttonStyle(.plain)
-                .galleryItemAccessibility(item)
+                .galleryItemAccessibility(item, catalog: catalog)
                 .accessibilityIdentifier(item.accessibilityIdentifier)
                 Divider()
             }
@@ -86,7 +86,7 @@ private struct CaskSampleRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            SampleRowHeader(title: cask.name, status: installer.status(of: cask)) {
+            SampleRowHeader(title: cask.name, status: installer.cardStatus(of: cask, in: catalog)) {
                 PopularityRank(rank: cask.popularity)
             }
             // Two lines: one line truncates after about "The quick".

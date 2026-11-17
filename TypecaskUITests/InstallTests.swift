@@ -4,20 +4,20 @@ import XCTest
 final class InstallTests: XCTestCase {
     /// The cask to install, which needs font assets (see README); override with
     /// `TEST_RUNNER_TYPECASK_CASK=<token> xcodebuild test`.
-    private let token = ProcessInfo.processInfo.environment["TYPECASK_CASK"] ?? "font-departure-mono-nerd-font"
+    private let token = ProcessInfo.processInfo.environment["TYPECASK_CASK"] ?? "font-departure-mono"
 
     @MainActor
     func testInstalledCaskStaysInstalledAfterRelaunch() {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        app.buttons["install"].tap()
-        XCTAssertTrue(waitForInstall(in: app))
+        app.controls(for: token).buttons["install"].tap()
+        XCTAssertTrue(waitForInstall(of: token, in: app))
 
         app.terminate()
         app.launch()
         app.openCask(token)
-        XCTAssertTrue(app.buttons["uninstall"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.controls(for: token).buttons["uninstall"].waitForExistence(timeout: 10))
     }
 
     /// Installs the cask, uninstalls it, and checks it stays uninstalled after a relaunch. Run it on its own
@@ -27,17 +27,17 @@ final class InstallTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        if app.buttons["install"].waitForExistence(timeout: 10) {
-            app.buttons["install"].tap()
-            XCTAssertTrue(waitForInstall(in: app))
+        if app.controls(for: token).buttons["install"].waitForExistence(timeout: 10) {
+            app.controls(for: token).buttons["install"].tap()
+            XCTAssertTrue(waitForInstall(of: token, in: app))
         }
-        app.buttons["uninstall"].tap()
-        XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        app.controls(for: token).buttons["uninstall"].tap()
+        XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
 
         app.terminate()
         app.launch()
         app.openCask(token)
-        XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 10))
     }
 
     /// Installs the cask, relaunches with it marked outdated, and updates it. A debug build reads TYPECASK_OUTDATED,
@@ -47,19 +47,19 @@ final class InstallTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        if app.buttons["install"].waitForExistence(timeout: 10) {
-            app.buttons["install"].tap()
-            XCTAssertTrue(waitForInstall(in: app))
+        if app.controls(for: token).buttons["install"].waitForExistence(timeout: 10) {
+            app.controls(for: token).buttons["install"].tap()
+            XCTAssertTrue(waitForInstall(of: token, in: app))
         }
 
         app.terminate()
         app.launchEnvironment["TYPECASK_OUTDATED"] = token
         app.launch()
         app.openCask(token)
-        XCTAssertTrue(app.buttons["update"].waitForExistence(timeout: 10))
-        app.buttons["update"].tap()
-        XCTAssertTrue(waitForInstall(in: app))
-        XCTAssertFalse(app.buttons["update"].exists)
+        XCTAssertTrue(app.controls(for: token).buttons["update"].waitForExistence(timeout: 10))
+        app.controls(for: token).buttons["update"].tap()
+        XCTAssertTrue(waitForInstall(of: token, in: app))
+        XCTAssertFalse(app.controls(for: token).buttons["update"].exists)
     }
 
     /// Installs the cask the way Shortcuts and Siri do, through InstallFontIntent, which opens the cask's page
@@ -70,9 +70,9 @@ final class InstallTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
-            app.buttons["uninstall"].tap()
-            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        if app.controls(for: token).buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.controls(for: token).buttons["uninstall"].tap()
+            XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
         }
         app.terminate()
         app.launch()
@@ -81,7 +81,7 @@ final class InstallTests: XCTestCase {
         let fonts = definitions.entities["FontEntity"]
         let intent = definitions.intents["InstallFontIntent"].makeIntent(font: fonts.makeReference(identifier: token))
         let run = Task.detached { try await intent.run() }
-        XCTAssertTrue(waitForInstall(in: app))
+        XCTAssertTrue(waitForInstall(of: token, in: app))
         // A returned entity carries its properties but not its ID, so it's checked by name.
         let installed: String = try await run.value.value.name
         let found = try await fonts.entities(identifiers: [token])
@@ -89,26 +89,62 @@ final class InstallTests: XCTestCase {
         XCTAssertEqual(installed, expected)
     }
 
-    /// Installs the cask from its card's menu, without opening its page, then uninstalls it the same way.
+    /// Installs the cask from its card's menu, without opening its page, then uninstalls it the same way. A paired
+    /// Nerd Font version's items say so, on its plain cask's card. Run it on its own cask: the card shows one
+    /// badge for both versions, so the other mustn't be installed.
     @MainActor
     func testCardMenuInstallsAndUninstallsCask() {
         let app = XCUIApplication.typecask()
         app.launch()
         let card = app.findCask(token)
+        let isNerdVersion = !card.identifier.hasPrefix("\(token) ") && card.identifier != token
+        let install = isNerdVersion ? "Install Nerd Font" : "Install"
+        let uninstall = isNerdVersion ? "Uninstall Nerd Font" : "Uninstall"
         if card.value as? String == "Installed" {
             card.press(forDuration: 1)
-            app.buttons["Uninstall"].tap()
+            app.buttons[uninstall].tap()
             XCTAssertTrue(waitForValue(nil, of: card))
         }
 
         card.press(forDuration: 1)
-        app.buttons["Install"].tap()
-        XCTAssertTrue(waitForInstall(in: app) { card.value as? String == "Installed" })
+        app.buttons[install].tap()
+        XCTAssertTrue(waitForInstall(of: token, in: app) { card.value as? String == "Installed" })
 
         card.press(forDuration: 1)
-        XCTAssertFalse(app.buttons["Install"].exists)
-        app.buttons["Uninstall"].tap()
+        XCTAssertFalse(app.buttons[install].exists)
+        app.buttons[uninstall].tap()
         XCTAssertTrue(waitForValue(nil, of: card))
+    }
+
+    /// A paired Nerd Font version installs from its own section of its plain cask's page, leaving the plain cask
+    /// alone, and the card's one badge then says the family is installed. Uninstalls it again after.
+    @MainActor
+    func testNerdFontVersionInstallsFromPairedPage() {
+        let nerdVersion = "font-departure-mono-nerd-font"
+        let app = XCUIApplication.typecask()
+        app.launch()
+        let card = app.findCask(nerdVersion)
+        XCTAssertEqual(card.identifier, "font-departure-mono \(nerdVersion)")
+        card.tap()
+        let nerdControls = app.controls(for: nerdVersion)
+        if nerdControls.buttons["uninstall"].waitForExistence(timeout: 10) {
+            nerdControls.buttons["uninstall"].tap()
+        }
+        XCTAssertTrue(nerdControls.buttons["install"].waitForExistence(timeout: 30))
+        let plainInstalled = app.controls(for: "font-departure-mono").buttons["uninstall"].exists
+
+        nerdControls.buttons["install"].tap()
+        XCTAssertTrue(waitForInstall(of: nerdVersion, in: app))
+        XCTAssertEqual(app.controls(for: "font-departure-mono").buttons["uninstall"].exists, plainInstalled)
+
+        app.terminate()
+        app.launch()
+        let relaunchedCard = app.findCask(nerdVersion)
+        XCTAssertTrue(waitForValue("Installed", of: relaunchedCard))
+        relaunchedCard.tap()
+        XCTAssertTrue(nerdControls.buttons["uninstall"].waitForExistence(timeout: 10))
+        nerdControls.buttons["uninstall"].tap()
+        XCTAssertTrue(nerdControls.buttons["install"].waitForExistence(timeout: 30))
     }
 
     /// ⌘D installs the cask whose page is showing, from the File menu, and does nothing once it's installed.
@@ -117,14 +153,14 @@ final class InstallTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
-            app.buttons["uninstall"].tap()
-            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        if app.controls(for: token).buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.controls(for: token).buttons["uninstall"].tap()
+            XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
         }
         app.typeKey("d", modifierFlags: .command)
-        XCTAssertTrue(waitForInstall(in: app))
+        XCTAssertTrue(waitForInstall(of: token, in: app))
         app.typeKey("d", modifierFlags: .command)
-        XCTAssertFalse(app.buttons["uninstall"].waitForNonExistence(timeout: 3))
+        XCTAssertFalse(app.controls(for: token).buttons["uninstall"].waitForNonExistence(timeout: 3))
     }
 
     /// "Install this font with Typecask" on a font's page: given no font, the intent installs the one showing.
@@ -133,15 +169,15 @@ final class InstallTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask(token)
-        if app.buttons["uninstall"].waitForExistence(timeout: 10) {
-            app.buttons["uninstall"].tap()
-            XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 30))
+        if app.controls(for: token).buttons["uninstall"].waitForExistence(timeout: 10) {
+            app.controls(for: token).buttons["uninstall"].tap()
+            XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
         }
 
         let definitions = IntentDefinitions(bundleIdentifier: "org.marquard.Typecask")
         let intent = definitions.intents["InstallFontIntent"].makeIntent()
         let run = Task.detached { try await intent.run() }
-        XCTAssertTrue(waitForInstall(in: app))
+        XCTAssertTrue(waitForInstall(of: token, in: app))
         let installed: String = try await run.value.value.name
         let found = try await definitions.entities["FontEntity"].entities(identifiers: [token])
         let expected: String = try XCTUnwrap(found.first).name
@@ -181,9 +217,9 @@ final class InstallTests: XCTestCase {
     /// sheet if it appears. The system asks only once per app, remembering the answer even across reinstalls,
     /// and the sheet ignores taps while animating in.
     @MainActor
-    private func waitForInstall(in app: XCUIApplication,
+    private func waitForInstall(of token: String, in app: XCUIApplication,
                                 until installed: (() -> Bool)? = nil) -> Bool {
-        let installed = installed ?? { app.buttons["uninstall"].exists }
+        let installed = installed ?? { app.controls(for: token).buttons["uninstall"].exists }
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         // Excludes the app's own Install button, which can linger for a moment after being tapped.
         let consent = NSPredicate(format: "label == 'Install' AND identifier != 'install'")

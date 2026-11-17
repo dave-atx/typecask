@@ -86,11 +86,11 @@ final class SiteScreenshots: XCTestCase {
     /// drag adds what the last one lost, up to 30 points.
     @MainActor
     private func scroll(_ app: XCUIApplication, to token: String, from top: String) {
-        let first = app.buttons[top]
+        let first = app.card(for: top)
         XCTAssertTrue(first.waitForExistence(timeout: 10))
         let bar = app.navigationBars.firstMatch
         let gap = first.frame.minY - bar.frame.maxY
-        let row = app.buttons[token]
+        let row = app.card(for: token)
         for _ in 0..<20 where !(row.exists && row.isHittable) {
             app.swipeUp(velocity: .slow)
         }
@@ -128,7 +128,7 @@ final class SiteScreenshots: XCTestCase {
         XCTAssertTrue(search.waitForExistence(timeout: 10))
         search.tap()
         search.typeText(token)
-        let card = app.buttons[token]
+        let card = app.card(for: token)
         XCTAssertTrue(card.waitForExistence(timeout: 10))
         card.tap()
         XCTAssertTrue(app.buttons["install"].waitForExistence(timeout: 10))

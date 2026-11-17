@@ -31,7 +31,7 @@ struct GalleryGrid: View {
                 }
             }
             .buttonStyle(.card)
-            .galleryItemAccessibility(item)
+            .galleryItemAccessibility(item, catalog: catalog)
             .accessibilityIdentifier(item.accessibilityIdentifier)
         }
     }
@@ -82,7 +82,7 @@ private struct CaskCard: View {
         VStack(alignment: .leading, spacing: 12) {
             CaskSpecimen(cask: cask, catalog: catalog, size: 20, relativeTo: .title3, lineLimit: cask.glyphs ? 2 : 3)
             Spacer(minLength: 0)
-            CardFooter(title: cask.name, status: installer.status(of: cask)) {
+            CardFooter(title: cask.name, status: installer.cardStatus(of: cask, in: catalog)) {
                 PopularityRank(rank: cask.popularity)
             }
         }
@@ -170,9 +170,9 @@ extension FontInstaller.Status {
 
 extension View {
     /// Names a gallery card or sample row after its font, for VoiceOver and Voice Control, and offers a cask's
-    /// install or uninstall from there; see `caskActions(_:)`.
-    func galleryItemAccessibility(_ item: GalleryItem) -> some View {
-        modifier(GalleryItemAccessibility(item: item))
+    /// install or uninstall from there, and its Nerd Font version's; see `caskActions(_:nerdVersion:)`.
+    func galleryItemAccessibility(_ item: GalleryItem, catalog: Catalog) -> some View {
+        modifier(GalleryItemAccessibility(item: item, catalog: catalog))
     }
 }
 
@@ -181,11 +181,12 @@ extension View {
 /// jumps over the lazy dog 0123456789" and its brackets, ahead of the name on every card.
 private struct GalleryItemAccessibility: ViewModifier {
     let item: GalleryItem
+    let catalog: Catalog
     @Environment(FontInstaller.self) private var installer
 
     func body(content: Content) -> some View {
         switch item {
-        case .cask(let cask): described(content).caskActions(cask)
+        case .cask(let cask): described(content).caskActions(cask, nerdVersion: catalog.nerdVersions[cask.token])
         case .apple: described(content)
         }
     }
@@ -202,7 +203,8 @@ private struct GalleryItemAccessibility: ViewModifier {
 
     private var value: Text {
         switch item {
-        case .cask(let cask): installer.status(of: cask).accessibilityValue.map { Text($0) } ?? Text(verbatim: "")
+        case .cask(let cask):
+            installer.cardStatus(of: cask, in: catalog).accessibilityValue.map { Text($0) } ?? Text(verbatim: "")
         case .apple(let family): Text(family.builtIn ? LocalizedStringKey("Built In") : "In Settings")
         }
     }
@@ -213,8 +215,11 @@ private struct GalleryItemAccessibility: ViewModifier {
     }
 
     private var nerdFonts: Text? {
-        guard case .cask(let cask) = item, cask.glyphs else { return nil }
-        return Text("Nerd Fonts icons")
+        guard case .cask(let cask) = item else { return nil }
+        if cask.glyphs {
+            return Text("Nerd Fonts icons")
+        }
+        return cask.nerdFont == nil ? nil : Text("A Nerd Font version")
     }
 }
 

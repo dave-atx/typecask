@@ -173,8 +173,9 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         switch (self, item) {
         case (.allFonts, _): true
         case (.style(let style), _): item.style == style
-        case (.installed, .cask(let cask)): installed.contains(cask.id)
-        case (.nerdFonts, .cask(let cask)): cask.glyphs
+        // A paired card stands for its Nerd Font version too.
+        case (.installed, .cask(let cask)): installed.contains(cask.id) || cask.nerdFont.map(installed.contains) == true
+        case (.nerdFonts, .cask(let cask)): cask.glyphs || cask.nerdFont != nil
         case (.legibility, .cask(let cask)): cask.legible ?? false
         case (.symbols, .cask(let cask)): cask.symbols ?? false
         case (.appleFonts, .apple): true

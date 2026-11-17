@@ -230,6 +230,17 @@ LEGIBLE_CASKS = {
     "font-opendyslexic-nerd-font",
     "font-readex-pro",
 }
+# Nerd Font casks whose plain cask pair_nerd_fonts() can't find by name, or finds wrongly, by token:
+# the plain cask to show it with, or None for none.
+NERD_FONT_PAIRS = {
+    # Nerd Fonts renamed Terminus, and its cask names it after the bitmap original's TTF.
+    "font-terminess-ttf-nerd-font": "font-terminus",
+    # Microsoft and GitHub publish their own Nerd Font builds, from the same release as the plain font and
+    # under its name, so those are the ones paired; Nerd Fonts' renamed patches stay cards of their own.
+    "font-caskaydia-cove-nerd-font": None,
+    "font-caskaydia-mono-nerd-font": None,
+    "font-monaspice-nerd-font": None,
+}
 # The app's Symbols collection: fonts typed on an ordinary keyboard that draw something other than
 # letters. Redacted's scribbles and Flow's blocks stand in for text in wireframes, Yarndings draws
 # knitting symbols, and the Charted fonts draw their letters as stitches on a grid. Google classifies
@@ -1774,6 +1785,48 @@ def restyle_apple_fonts(categories):
     print(f"{len(kept)} Apple font families")
 
 
+def pair_nerd_fonts(catalog):
+    """Marks each plain cask that has a Nerd Font version with that cask's token, as `nerdFont`, so the app
+    shows the two as one card with a choice of which to install.
+
+    A Nerd Font cask is one with `glyphs`. Nerd Fonts names its casks after the original in parentheses,
+    "CaskaydiaCove Nerd Font (Cascadia Code)", which finds renamed ones; otherwise the token without its
+    Nerd suffix does, as for Maple Mono's `-nf` casks. NERD_FONT_PAIRS settles the rest by hand. A
+    plain cask with two candidates gets neither, with a warning, rather than a guess.
+    """
+    plain_by_name, plain_tokens = {}, set()
+    for record in catalog:
+        if not record["glyphs"]:
+            plain_by_name.setdefault(fold_name(record["name"]), record["token"])
+            plain_tokens.add(record["token"])
+    candidates = {}
+    for record in sorted(catalog, key=lambda record: record["token"]):
+        token = record["token"]
+        if not record["glyphs"]:
+            continue
+        if token in NERD_FONT_PAIRS:
+            plain = NERD_FONT_PAIRS[token]
+        elif (original := re.search(r"\(([^)]+)\)\s*$", record["name"])) and (fold_name(original[1]) in plain_by_name):
+            plain = plain_by_name[fold_name(original[1])]
+        else:
+            plain = re.sub(r"-nerd-font$|-nf(?=-|$)", "", token)
+        if plain and plain != token and plain in plain_tokens:
+            candidates.setdefault(plain, []).append(token)
+    records = {record["token"]: record for record in catalog}
+    for plain, nerd in sorted(candidates.items()):
+        if len(nerd) == 1:
+            records[plain]["nerdFont"] = nerd[0]
+        else:
+            print(f"warning: {plain} has several Nerd Font versions, {', '.join(nerd)}; set NERD_FONT_PAIRS")
+    if missing := sorted(token for pair in NERD_FONT_PAIRS.items() for token in pair if token and token not in records):
+        print(f"warning: NERD_FONT_PAIRS names casks not in the catalog: {', '.join(missing)}")
+
+
+def fold_name(name):
+    """A family name without case, spaces or punctuation, so "Meslo LG" matches "MesloLG"."""
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
 def rank_popularity(catalog, entries):
     """Ranks the catalog by popularity and by trend, 1 first, into each record's `popularity` and
     `trending`.
@@ -2021,6 +2074,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         catalog.append(record)
 
     rank_popularity(catalog, entries)
+    pair_nerd_fonts(catalog)
     tokens = {record["token"] for record in catalog}
     if missing := sorted(token for casks in HOLIDAY_CASKS.values() for token in casks if token not in tokens):
         print(f"warning: HOLIDAY_CASKS names casks not in the catalog: {', '.join(missing)}")

@@ -31,8 +31,23 @@ extension XCUIApplication {
         XCTAssertTrue(search.waitForExistence(timeout: 10))
         search.tap()
         search.typeText(token)
-        let card = buttons[token]
+        let card = card(for: token)
         XCTAssertTrue(card.waitForExistence(timeout: 10))
         return card
+    }
+
+    /// The cask's card: its own, or for a paired Nerd Font version its plain cask's, which the app identifies by
+    /// both tokens, the plain one first.
+    @MainActor
+    func card(for token: String) -> XCUIElement {
+        buttons.matching(NSPredicate(format: "identifier == %@ OR identifier ENDSWITH %@ OR identifier BEGINSWITH %@",
+                                     token, " \(token)", "\(token) ")).firstMatch
+    }
+
+    /// The install controls of the cask on the page showing, which for a paired Nerd Font version are a section
+    /// of its plain cask's page: both have an "install" button, so tests look for one within these.
+    @MainActor
+    func controls(for token: String) -> XCUIElement {
+        descendants(matching: .any).matching(identifier: "controls.\(token)").firstMatch
     }
 }
