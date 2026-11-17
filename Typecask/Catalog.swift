@@ -117,8 +117,16 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// Whether the primary face joins coding sequences like -> and != into ligatures, which its sample then
     /// shows; absent for most casks.
     let ligatures: Bool?
+    /// When the cask's source was last published, as an ISO date (2026-11-06): Google's last change to the family,
+    /// the GitHub release's date, or the download's. Absent where the source doesn't say.
+    let updated: String?
 
     var id: String { token }
+
+    /// `updated` as a date, at midnight UTC, the day it names.
+    var updatedDate: Date? {
+        updated.flatMap { try? Date($0, strategy: .iso8601.year().month().day()) }
+    }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag
     /// to download, so only a bundled cask can be installed. A debug build carries only the few casks
     /// scripts/debug-fonts.py put in DebugFonts.xcassets, found by their tags.

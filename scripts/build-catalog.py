@@ -47,6 +47,7 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date
+from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -265,6 +266,15 @@ SYMBOL_CASKS = {
 }
 # Casks that pull a single file out of google/fonts, rather than checking out the family directory.
 GOOGLE_RAW_FILE = re.compile(r"github\.com/google/fonts/raw/[^/]+/(.+)/([^/]+)$")
+# A download from a GitHub release, or a tag's source archive: the release says when it was published.
+GITHUB_RELEASE_FILE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/releases/download/([^/]+)/")
+GITHUB_TAG_ARCHIVE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/archive/refs/tags/(.+)\.(?:zip|tar\.gz)$")
+# A branch's archive or one of its files: the last commit to touch it says when it changed.
+GITHUB_BRANCH_ARCHIVE = re.compile(r"^https://github\.com/([^/]+)/([^/]+)/archive/refs/heads/(.+)\.(?:zip|tar\.gz)$")
+GITHUB_BRANCH_FILE = re.compile(
+    r"^https://(?:raw\.)?github\.com/([^/]+)/([^/]+)/(?:raw|blob)/(?:refs/(?:heads|tags)/)?([^/]+)/(.+)$"
+)
+GITHUB_REPOSITORY = re.compile(r"^https://github\.com/([^/]+)/([^/.]+)(?:\.git)?$")
 GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
 GOOGLE_FONTS_URL = "https://github.com/google/fonts.git"
 PANGRAM = "The quick brown fox jumps over the lazy dog"
@@ -959,6 +969,7 @@ def lock(count, google_top):
         token: departure(token, casks_by_token, installs, cutoff, symbols) for token in sorted(previous.keys() - locked)
     }
     report("kept at their locked version: the new download can't be had or doesn't match its hash", held)
+    date_entries(entries, previous, google_by_token)
     # The rank is the line-up's order, which build keeps when two casks carry the same face. The file is
     # in token order, so a week's new install counts change a line in each entry rather than moving most
     # of them, which made a fonts pull request's diff of the lock tens of thousands of lines.
@@ -979,6 +990,88 @@ def lock(count, google_top):
         },
     )
     print(f"locked {len(entries)} casks at google/fonts {commit[:12]}")
+
+
+def source_date(source, family):
+    """When a source's files were published, as an ISO date, or None when it doesn't say.
+
+    Google's metadata dates each family's last change; GitHub dates a release, a tag and a commit; any
+    other host gets its download's Last-Modified header, which some send. A release's date is the whole
+    release's, so a repository that ships several families dates them all when it changes one.
+    """
+    try:
+        if "google" in source:
+            return (family or {}).get("lastModified")
+        if "git" in source:
+            if match := GITHUB_REPOSITORY.match(source["git"]):
+                owner, repo = match.groups()
+                commit = fetch_json(
+                    f"https://api.github.com/repos/{owner}/{repo}/commits/{source['commit']}", github_headers()
+                )
+                return commit["commit"]["committer"]["date"][:10]
+            return None
+        url = source["url"]
+        if match := GITHUB_RELEASE_FILE.match(url) or GITHUB_TAG_ARCHIVE.match(url):
+            owner, repo, tag = match.groups()
+            tag = urllib.parse.quote(urllib.parse.unquote(tag), safe="")
+            try:
+                release = fetch_json(
+                    f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{tag}", github_headers()
+                )
+                return release["published_at"][:10]
+            except urllib.error.HTTPError as error:
+                if error.code != 404:
+                    raise
+            # A tag with no release: the date of the commit it names.
+            commit = fetch_json(f"https://api.github.com/repos/{owner}/{repo}/commits/{tag}", github_headers())
+            return commit["commit"]["committer"]["date"][:10]
+        if match := GITHUB_BRANCH_ARCHIVE.match(url) or GITHUB_BRANCH_FILE.match(url):
+            owner, repo, branch, *path = match.groups()
+            query = urllib.parse.urlencode(
+                {"sha": urllib.parse.unquote(branch), "per_page": 1}
+                | ({"path": urllib.parse.unquote(path[0])} if path else {})
+            )
+            commits = fetch_json(f"https://api.github.com/repos/{owner}/{repo}/commits?{query}", github_headers())
+            return commits[0]["commit"]["committer"]["date"][:10] if commits else None
+        headers = {"User-Agent": USER_AGENT}
+        if source.get("referer"):
+            headers["Referer"] = source["referer"]
+        request = urllib.request.Request(url, headers=headers, method="HEAD")
+        with urllib.request.urlopen(request, timeout=30) as response:
+            modified = response.headers.get("Last-Modified")
+        return parsedate_to_datetime(modified).date().isoformat() if modified else None
+    except (urllib.error.URLError, OSError, KeyError, IndexError, TypeError, ValueError) as error:
+        print(f"no date for {source.get('url') or source.get('git') or source.get('google')}: {error}")
+        return None
+
+
+def date_entries(entries, previous, google_by_token):
+    """Gives each entry an `updated` date: its source's, kept from the previous lock while the source is
+    unchanged, so dates are looked up only for what moved.
+
+    A source that doesn't say is null, unless a lock that dated it saw the source change: then the change
+    is this lock's, and today's date says so. Dating every such cask today the first time would list the
+    lot as just updated.
+    """
+    today = date.today().isoformat()
+    stale = [
+        entry
+        for entry in entries
+        if not ((kept := previous.get(entry["token"])) and "updated" in kept and kept["source"] == entry["source"])
+    ]
+    with ThreadPoolExecutor(8) as pool:
+        dates = list(pool.map(lambda entry: source_date(entry["source"], google_by_token.get(entry["token"])), stale))
+    found = {entry["token"]: day for entry, day in zip(stale, dates)}
+    for entry in entries:
+        kept = previous.get(entry["token"]) or {}
+        if entry["token"] not in found:
+            entry["updated"] = kept["updated"]
+        elif day := found[entry["token"]]:
+            # Never later than today: a server's clock, or a date it makes up, can run ahead.
+            entry["updated"] = min(day, today)
+        else:
+            entry["updated"] = today if "updated" in kept else None
+    print(f"dated {len(stale)} casks whose source changed; {dates.count(None)} don't say when")
 
 
 def departure(token, casks_by_token, installs, cutoff, symbols):
@@ -2135,6 +2228,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             "version": cask_version(entry["version"], built["fontVersion"]),
             "fontVersion": built["fontVersion"],
         }
+        if entry.get("updated"):
+            record["updated"] = entry["updated"]
         if "sample" in built:
             record["sample"] = built["sample"]
         record |= {"script": built["script"], "scripts": filtered_scripts(built["script"], built["scripts"], token)}

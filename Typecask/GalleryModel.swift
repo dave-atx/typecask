@@ -19,12 +19,14 @@ final class GalleryModel {
         case name
         case popularity
         case trending
+        case updated
 
         var title: LocalizedStringResource {
             switch self {
             case .name: "Name"
             case .popularity: "Popularity"
             case .trending: "Trending"
+            case .updated: "Recently Updated"
             }
         }
     }
@@ -137,12 +139,12 @@ final class GalleryModel {
         }
         scriptSets = sortedItems.map { Set($0.scripts) }
         var orders: [SortOrder: [Int]] = [.name: Array(sortedItems.indices)]
-        for order in [SortOrder.popularity, .trending] {
-            // A paired card ranks as the better of its two casks.
+        for order in [SortOrder.popularity, .trending, .updated] {
+            // A paired card ranks as the better of its two casks, or the more recently updated.
             let ranks = sortedItems.map { item -> Int in
                 guard case .cask(let cask) = item else { return .max }
                 return ([cask] + [catalog.nerdVersions[cask.token]].compactMap(\.self))
-                    .compactMap { order == .popularity ? $0.popularity : $0.trending }.min() ?? .max
+                    .compactMap { Self.rank($0, by: order) }.min() ?? .max
             }
             // Stable on the name order, so ties and unranked items stay alphabetical.
             orders[order] = sortedItems.indices.sorted { ranks[$0] < ranks[$1] || (ranks[$0] == ranks[$1] && $0 < $1) }
@@ -163,6 +165,17 @@ final class GalleryModel {
             if !searchText.isEmpty {
                 recompute()
             }
+        }
+    }
+
+    /// Where the cask comes in `order`, lowest first; nil leaves it after those that have one. An update ranks by
+    /// its date, newest first, as the negated number 20261106 reads.
+    private static func rank(_ cask: Cask, by order: SortOrder) -> Int? {
+        switch order {
+        case .popularity: cask.popularity
+        case .trending: cask.trending
+        case .updated: cask.updated.flatMap { Int($0.filter(\.isNumber)) }.map { -$0 }
+        case .name: nil
         }
     }
 

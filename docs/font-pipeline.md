@@ -52,6 +52,14 @@ lock is fetched and checked too, and kept for the build; one that can't be had o
 the cask at its previous pin, listed as kept at its locked version, so a host that's down holds back an
 update instead of dropping a font.
 
+Each cask is dated `updated`, for the app's Recently Updated sort, by when its source was published: Google's
+`lastModified` for a family in google/fonts, the GitHub release's date (or the tag's, or the last commit to a
+branch's file), and otherwise the download's `Last-Modified` header. A release's date is the whole release's,
+so a repository that ships several families dates them all when it changes one, as Geist's does. The date is
+looked up only when the source changes and kept otherwise. A source that doesn't say is null the first time
+(about 25 casks), rather than every one of them reading as updated the day the dates began; when one of those
+changes later, the lock that sees it dates it that day.
+
 The lock lists casks by token, each with its `rank` in the line-up: Homebrew's casks by installs (ties by token), then
 the Google families by Google's popularity. `build` goes through them by rank, and when two casks carry
 the same face, the higher-ranked one keeps it (Red Hat Display's faces go to `font-red-hat-display`,

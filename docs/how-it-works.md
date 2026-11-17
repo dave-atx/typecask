@@ -43,6 +43,10 @@ doesn't have is judged on Homebrew alone.
 Trending compares the last 30 days with the yearly rate, among the busiest quarter of each source,
 since growth in the long tail is noise.
 
+Recently Updated sorts by the date each cask's source was published, which `lock` records
+([the font pipeline](font-pipeline.md#lock) says where it comes from); the page shows it as Updated. A
+paired card sorts by the newer of its two casks, and casks without a date come last.
+
 ## Design styles
 
 A Google family takes its design style from Google's category. Other casks take it from the font's

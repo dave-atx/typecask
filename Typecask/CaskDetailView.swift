@@ -31,6 +31,13 @@ struct CaskDetailView: View {
                     if let version = cask.version {
                         LabeledContent("Version", value: version)
                     }
+                    if let updated = cask.updatedDate {
+                        // In UTC, the zone the date was written in, so it doesn't read as the day before west of it.
+                        LabeledContent("Updated") {
+                            Text(updated.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted,
+                                                                    timeZone: .gmt)))
+                        }
+                    }
                     if let designers = cask.designers, !designers.isEmpty {
                         LabeledContent("Designer") { Text(designers, format: .list(type: .and)) }
                     }
