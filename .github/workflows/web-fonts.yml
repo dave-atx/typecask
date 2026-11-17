@@ -19,14 +19,17 @@ on:
 permissions:
   contents: read
 
+# One at a time, so a run reuses what the one before it converted instead of converting the same fonts
+# beside it.
 concurrency:
-  group: web-fonts-${{ inputs.tag }}
+  group: web-fonts
 
 jobs:
   web-fonts:
     runs-on: ubuntu-26.04
-    # Converting every face takes about 40 minutes; a release that changes a few casks, a minute or two.
-    timeout-minutes: 120
+    # Converting every face takes an hour or two; a release that changes a few casks, a minute or two. A run
+    # that runs out of time keeps what it converted.
+    timeout-minutes: 240
     env:
       TAG: ${{ inputs.tag }}
       GH_TOKEN: ${{ github.token }}
@@ -49,10 +52,9 @@ jobs:
           rm -f "$RUNNER_TEMP"/*.tar.zst
 
       # Three at a time on the runner's four cores and 16 GB: a CJK face takes a gigabyte or two to convert.
-      - name: Convert
+      # Each cask goes up to R2 as it's done, so if this fails or times out, run it again: it picks up
+      # where it stopped.
+      - name: Convert and upload
         run: >-
-          uv run --script scripts/web-fonts.py build --jobs 3
+          uv run --script scripts/web-fonts.py build --jobs 3 --tag "$TAG"
           "$RUNNER_TEMP/fonts/Fonts.xcassets" "$RUNNER_TEMP/web"
-
-      - name: Upload
-        run: uv run --script scripts/web-fonts.py upload "$RUNNER_TEMP/web" "$TAG"

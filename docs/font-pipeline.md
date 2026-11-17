@@ -235,9 +235,14 @@ don't match the ones `Catalog.json` says are installable. Without a pin it build
 Once it publishes a release, the Fonts workflow starts **Web Fonts** (`.github/workflows/web-fonts.yml`),
 which runs `scripts/web-fonts.py` on the release's archive: each face as WOFF2, named by a hash of its
 bytes, and a manifest of each cask's faces, axes and Try It Out text, put in the `typecask-fonts` R2
-bucket that fonts.typecask.app serves. The site's Try It Out reads them. A cask whose files R2 has
-converted before reuses its entry (`cache/`), so a release converts only what changed; the first run
-over every cask takes about 40 minutes. Run it by hand for an older release:
+bucket that fonts.typecask.app serves. The site's Try It Out reads them.
+
+Each cask goes up to R2 as soon as it's converted, filed (`cache/`) under a hash of its files, so a run
+that fails or times out keeps its work: run it again and it picks up where it stopped, and any later
+release converts only the casks whose files changed. The first run over every cask takes an hour or two.
+Runs go one at a time, and each cask prints a line as it finishes, with a count and about how long the
+rest will take. A font that can't be converted is a warning and goes without Try It Out; more than 25
+and the run fails without publishing the manifest. Run it by hand for an older release:
 
 ```sh
 gh workflow run web-fonts.yml -f tag=fonts-20261117-38

@@ -5,33 +5,39 @@
 # ///
 """Turns a fonts release's fonts into web fonts for the site's Try It Out, and publishes them to R2.
 
-    scripts/web-fonts.py build XCASSETS OUT       convert into OUT/w/ and write OUT/manifest.json
-    scripts/web-fonts.py upload OUT TAG           put OUT on R2, the manifest as manifests/TAG.json
+    scripts/web-fonts.py build XCASSETS OUT [--tag TAG]
 
-`build` reads a Fonts.xcassets (or DebugFonts.xcassets), one folder per cask, and makes a WOFF2 of each
-face, a collection's split into its faces, since browsers don't load collections. Each is named by a
-hash of its bytes, w/HASH.woff2, so a fonts release uploads only the faces that changed and a page never
-caches a stale one. The manifest lists each cask's faces, with their axes, and the text Try It Out starts
-with, made as the app's TryOutText makes it (Typecask/TryOutText.swift, whose lists these mirror): the
-coding sequences and fi and fl words the face joins, shaped by HarfBuzz both ways, then whichever lines
-of letters, figures and symbols it covers, box drawing, Nerd Fonts' icons and another script's letters.
-The site puts the cask's sample line first.
+Reads a Fonts.xcassets (or DebugFonts.xcassets), one folder per cask, and makes a WOFF2 of each face, a
+collection's split into its faces, since browsers don't load collections. Each is named by a hash of its
+bytes, w/HASH.woff2, so a fonts release uploads only the faces that changed and a page never caches a
+stale one. The manifest lists each cask's faces, with their axes, and the text Try It Out starts with,
+made as the app's TryOutText makes it (Typecask/TryOutText.swift, whose lists these mirror): the coding
+sequences and fi and fl words the face joins, shaped by HarfBuzz both ways, then whichever lines of
+letters, figures and symbols it covers, box drawing, Nerd Fonts' icons and another script's letters. The
+site puts the cask's sample line first.
 
-`upload` needs R2's S3 credentials (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, CLOUDFLARE_ACCOUNT_ID) and
-puts what R2 doesn't have yet in R2_BUCKET (default typecask-fonts), which fonts.typecask.app serves. It
-fails rather than take the bucket past R2_MAX_GB (default 8, short of R2's 10 GB free tier): nothing deletes
-old releases' faces, so that's the sign to clear them out.
+With R2's S3 credentials (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, CLOUDFLARE_ACCOUNT_ID), each cask's faces
+and its entry go up to R2_BUCKET (default typecask-fonts, which fonts.typecask.app serves) as soon as it's
+converted, filed under a hash of its files: a run that fails or times out keeps what it did, and every
+later run, whatever the release, reuses the casks whose files haven't changed. --tag then publishes the
+manifest as manifests/TAG.json. A font that can't be converted is reported and left out; more than
+MAX_FAILURES and the manifest isn't published. Nothing deletes old faces, so uploads stop rather than take
+the bucket past R2_MAX_GB (default 8, short of R2's 10 GB free tier): the sign to clear it out.
 
-Run it under the memory cap, as the other font scripts: python3 scripts/memcap.py 14 scripts/web-fonts.py ...
+Each cask prints a line as it finishes, with how many are done and about how long the rest will take.
+Run it locally under the memory cap, as the other font scripts:
+python3 scripts/memcap.py 14 scripts/web-fonts.py build ...
 """
 
 import argparse
 import hashlib
 import io
 import json
+import logging
 import os
 import sys
-from concurrent.futures import ProcessPoolExecutor
+import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 import uharfbuzz
@@ -66,11 +72,17 @@ ICON_RANGES = [
 ICONS_PER_SET = 24
 # Powerline's own glyphs, which a Nerd Font has and others hardly ever do.
 NERD_SIGN = range(0xE0A0, 0xE0D8)
-OTHER_SCRIPTS = [(0x0530, 0x1DFF), (0x2E80, 0xDFFF), (0xF900, 0xFDFF), (0x10000, 0x2FFFF)]
+# Short of the surrogates, U+D800 to U+DFFF, which some fonts map but no text can hold.
+OTHER_SCRIPTS = [(0x0530, 0x1DFF), (0x2E80, 0xD7FF), (0xF900, 0xFDFF), (0x10000, 0x2FFFF)]
 OTHER_SCRIPT_CHARACTERS = 240
 OFF = {"liga": False, "calt": False, "clig": False}
 # Bump when a manifest entry changes shape or its text is made differently, so cached entries are redone.
 FORMAT = 1
+# Fonts that can't be converted, past which a run fails rather than publish a manifest without them.
+MAX_FAILURES = 25
+
+# fontTools' complaints about the fonts it reads, a few hundred lines a run that bury the progress.
+logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 
 def faces_in(path):
@@ -143,7 +155,11 @@ def kept(line, covered):
 
 
 def scalars(low, high, covered):
-    return [code for code in range(low, high + 1) if code in covered and not chr(code).isspace()]
+    return [
+        code
+        for code in range(low, high + 1)
+        if code in covered and not 0xD800 <= code <= 0xDFFF and not chr(code).isspace()
+    ]
 
 
 def showcase(path, number, covered):
@@ -176,10 +192,20 @@ def showcase(path, number, covered):
 
 
 def build_cask(job):
-    """One cask's faces, written as WOFF2 into out/w/, and its manifest entry."""
+    """One cask's faces, written as WOFF2 into out/w/, and its manifest entry; or the error it hit, so one
+    font that can't be read doesn't end the run."""
     folder, out = job
+    started = time.monotonic()
+    try:
+        entry, written = convert(folder, out)
+    except Exception as error:  # noqa: BLE001 — any font can break any way; the run reports it and goes on
+        return folder.name, None, [], f"{type(error).__name__}: {error}", time.monotonic() - started
+    return folder.name, entry, written, None, time.monotonic() - started
+
+
+def convert(folder, out):
     files = sorted(path for path in folder.rglob("*") if path.suffix.lower() in FONT_SUFFIXES)
-    faces = []
+    faces, written = [], []
     for path in files:
         for number, font in faces_in(path):
             face = describe(font)
@@ -189,6 +215,7 @@ def build_cask(job):
             target = out / "w" / f"{digest}.woff2"
             if not target.exists():
                 target.write_bytes(data)
+            written.append(target)
             faces.append(
                 face
                 | {
@@ -200,41 +227,121 @@ def build_cask(job):
                 }
             )
     if not faces:
-        return folder.name, None
+        return None, []
     # Listed regular before bold and upright before italic; the text comes from the face nearest regular.
     faces.sort(key=lambda face: (face["italic"], face["weight"], face["name"]))
     regular = min(faces, key=lambda face: (face["italic"], abs(face["weight"] - 400)))
     text, ligatures = showcase(regular["_path"], regular["_number"], regular["_covered"])
     listed = [{key: value for key, value in face.items() if not key.startswith("_")} for face in faces]
-    return folder.name, {"faces": listed, "text": text, "ligatures": ligatures}
+    return {"faces": listed, "text": text, "ligatures": ligatures}, written
 
 
-def build(xcassets, out, jobs):
+class Store:
+    """R2, as the run goes: each cask's faces and cache entry go up as soon as it's converted, so a run that
+    fails or times out keeps what it did, and the next picks up where it stopped. Without R2's credentials,
+    as in a local run, it keeps nothing."""
+
+    def __init__(self):
+        self.client, self.bucket = r2()
+        stored = sizes(self.client, self.bucket) if self.client else {}
+        self.keys = set(stored)
+        self.total = sum(stored.values())
+        # R2 has no quota of its own, and nothing here deletes old releases' faces, so the bucket only grows.
+        # Stopping short of R2_MAX_GB says it's time to clear out faces no release in use still lists.
+        self.cap = float(os.environ.get("R2_MAX_GB", "8")) * 1e9
+        self.uploaded = 0
+
+    def cached(self, key):
+        if f"cache/{key}.json" not in self.keys:
+            return None
+        return json.loads(self.client.get_object(Bucket=self.bucket, Key=f"cache/{key}.json")["Body"].read())
+
+    def keep(self, key, entry, written):
+        if not self.client:
+            return
+        new = [path for path in written if f"w/{path.name}" not in self.keys]
+        size = sum(path.stat().st_size for path in new)
+        if self.total + size > self.cap:
+            sys.exit(
+                f"{self.bucket} would hold {(self.total + size) / 1e9:.1f} GB, over R2_MAX_GB's "
+                f"{self.cap / 1e9:.0f} GB: clear it out first"
+            )
+        for path in new:
+            # Named by their bytes, so never changed: cached for good.
+            self.client.upload_file(
+                str(path),
+                self.bucket,
+                f"w/{path.name}",
+                ExtraArgs={"ContentType": "font/woff2", "CacheControl": "public, max-age=31536000, immutable"},
+            )
+            self.keys.add(f"w/{path.name}")
+        self.total += size
+        self.uploaded += len(new)
+        # After its faces, so an entry on R2 always has them there.
+        self.client.put_object(
+            Bucket=self.bucket,
+            Key=f"cache/{key}.json",
+            Body=json.dumps(entry, ensure_ascii=False).encode(),
+            ContentType="application/json",
+        )
+        self.keys.add(f"cache/{key}.json")
+
+    def publish(self, manifest, tag):
+        self.client.upload_file(
+            str(manifest),
+            self.bucket,
+            f"manifests/{tag}.json",
+            ExtraArgs={"ContentType": "application/json", "CacheControl": "public, max-age=3600"},
+        )
+
+
+def build(xcassets, out, jobs, tag=None):
     (out / "w").mkdir(parents=True, exist_ok=True)
-    (out / "cache").mkdir(parents=True, exist_ok=True)
     folders = sorted(path for path in xcassets.iterdir() if path.is_dir() and path.name.startswith("font-"))
     keys = {folder.name: cask_key(folder) for folder in folders}
-    # Casks whose files R2 has seen before keep their entry, and their faces are there already.
-    client, bucket = r2()
+    store = Store()
     casks = {}
-    if client:
-        cached = listed(client, bucket, "cache/")
-        for folder in folders:
-            if f"cache/{keys[folder.name]}.json" in cached:
-                body = client.get_object(Bucket=bucket, Key=f"cache/{keys[folder.name]}.json")["Body"].read()
-                casks[folder.name] = json.loads(body)
+    for folder in folders:
+        if entry := store.cached(keys[folder.name]):
+            casks[folder.name] = entry
     pending = [folder for folder in folders if folder.name not in casks]
-    print(f"{len(casks)} casks unchanged since a release R2 has; converting {len(pending)}")
+    say(f"{len(folders)} casks: {len(casks)} done in an earlier run, {len(pending)} to convert")
+    failed = {}
+    started = time.monotonic()
     with ProcessPoolExecutor(jobs) as pool:
-        for token, entry in pool.map(build_cask, [(folder, out) for folder in pending]):
-            if entry:
-                casks[token] = entry
-                (out / "cache" / f"{keys[token]}.json").write_text(json.dumps(entry, ensure_ascii=False))
-            else:
-                print(f"{token}: no font files")
-    (out / "manifest.json").write_text(json.dumps({"casks": casks}, ensure_ascii=False, sort_keys=True) + "\n")
-    size = sum(path.stat().st_size for path in (out / "w").iterdir())
-    print(f"{len(casks)} casks; converted {len(list((out / 'w').iterdir()))} faces, {size / 1e6:.0f} MB of WOFF2")
+        futures = [pool.submit(build_cask, (folder, out)) for folder in pending]
+        for done, future in enumerate(as_completed(futures), 1):
+            token, entry, written, error, seconds = future.result()
+            elapsed = time.monotonic() - started
+            left = elapsed / done * (len(pending) - done)
+            progress = f"[{done}/{len(pending)}, {elapsed / 60:.0f} min, about {left / 60:.0f} left]"
+            if error:
+                failed[token] = error
+                say(f"::warning title=Web fonts::{token}: {error}")
+                say(f"{progress} {token} failed")
+                continue
+            if not entry:
+                say(f"{progress} {token}: no font files")
+                continue
+            store.keep(keys[token], entry, written)
+            casks[token] = entry
+            size = sum(face["bytes"] for face in entry["faces"])
+            faces = len(entry["faces"])
+            say(f"{progress} {token}: {faces} face{'s' * (faces != 1)}, {size / 1e6:.1f} MB, {seconds:.0f} s")
+    manifest = out / "manifest.json"
+    manifest.write_text(json.dumps({"casks": casks}, ensure_ascii=False, sort_keys=True) + "\n")
+    say(f"{len(casks)} casks in the manifest; {store.uploaded} faces uploaded; {len(failed)} failed")
+    # A few fonts that can't be converted only go without Try It Out. Many means something's wrong with
+    # this script, and a manifest missing them would take Try It Out off their pages.
+    if len(failed) > MAX_FAILURES:
+        sys.exit(f"{len(failed)} casks failed, more than {MAX_FAILURES}: not publishing the manifest")
+    if tag and store.client:
+        store.publish(manifest, tag)
+        say(f"published manifests/{tag}.json")
+
+
+def say(line):
+    print(line, flush=True)
 
 
 def r2():
@@ -251,10 +358,6 @@ def r2():
         region_name="auto",
     )
     return client, os.environ.get("R2_BUCKET", "typecask-fonts")
-
-
-def listed(client, bucket, prefix):
-    return set(sizes(client, bucket, prefix))
 
 
 def sizes(client, bucket, prefix=""):
@@ -275,37 +378,6 @@ def cask_key(folder):
     return digest.hexdigest()[:32]
 
 
-def upload(out, tag):
-    client, bucket = r2()
-    stored = sizes(client, bucket)
-    have = {key for key in stored if key.startswith("w/")}
-    new = [path for path in sorted((out / "w").iterdir()) if f"w/{path.name}" not in have]
-    # R2 has no quota of its own, and nothing here deletes old releases' faces, so the bucket only grows.
-    # Stopping short of R2_MAX_GB says it's time to clear out faces no release in use still lists.
-    total = sum(stored.values()) + sum(path.stat().st_size for path in new)
-    if total > (cap := float(os.environ.get("R2_MAX_GB", "8")) * 1e9):
-        sys.exit(f"{bucket} would hold {total / 1e9:.1f} GB, over R2_MAX_GB's {cap / 1e9:.0f} GB: clear it out first")
-    for path in new:
-        # Named by their bytes, so never changed: cached for good.
-        client.upload_file(
-            str(path),
-            bucket,
-            f"w/{path.name}",
-            ExtraArgs={"ContentType": "font/woff2", "CacheControl": "public, max-age=31536000, immutable"},
-        )
-    cached = listed(client, bucket, "cache/")
-    for path in sorted((out / "cache").glob("*.json")):
-        if f"cache/{path.name}" not in cached:
-            client.upload_file(str(path), bucket, f"cache/{path.name}", ExtraArgs={"ContentType": "application/json"})
-    client.upload_file(
-        str(out / "manifest.json"),
-        bucket,
-        f"manifests/{tag}.json",
-        ExtraArgs={"ContentType": "application/json", "CacheControl": "public, max-age=3600"},
-    )
-    print(f"uploaded {len(new)} new faces ({len(have)} already there) and manifests/{tag}.json")
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -313,14 +385,9 @@ def main():
     built.add_argument("xcassets", type=Path)
     built.add_argument("out", type=Path)
     built.add_argument("--jobs", type=int, default=os.cpu_count() or 1)
-    uploaded = commands.add_parser("upload")
-    uploaded.add_argument("out", type=Path)
-    uploaded.add_argument("tag")
+    built.add_argument("--tag", help="publish the manifest on R2 as manifests/TAG.json")
     arguments = parser.parse_args()
-    if arguments.command == "build":
-        build(arguments.xcassets, arguments.out, arguments.jobs)
-    else:
-        upload(arguments.out, arguments.tag)
+    build(arguments.xcassets, arguments.out, arguments.jobs, arguments.tag)
 
 
 if __name__ == "__main__":
