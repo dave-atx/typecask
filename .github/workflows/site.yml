@@ -34,8 +34,8 @@ on:
 
 permissions:
   contents: read
-  # To open an issue when a deploy moves the site to a new version.
-  issues: write
+  # To announce it in Discussions when a deploy moves the site to a new version.
+  discussions: write
 
 concurrency:
   group: site-${{ github.ref }}
@@ -108,19 +108,43 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: site
 
-      # An issue assigned to the repository's owner, which GitHub emails them about: the fonts, What's New
-      # and anything gated on the version changed with the App Store's release.
-      - name: Say the site moved to a new version
+      # A discussion in Announcements with the version's release notes, which GitHub tells everyone watching
+      # the repository about, its owner included: the fonts, What's New and anything gated on the version
+      # changed with the App Store's release.
+      - name: Announce the new version
         if: github.event_name != 'pull_request' && steps.before.outputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
           BEFORE: ${{ steps.before.outputs.version }}
-          OWNER: ${{ github.repository_owner }}
         run: |
           after=$(python3 -c 'import json; print(json.load(open("site/data/release.json"))["version"])')
-          if [ "$after" != "$BEFORE" ]; then
-            gh issue create --assignee "$OWNER" \
-              --title "typecask.app now shows Typecask $after" \
-              --body "The site moved from Typecask $BEFORE to $after, the version the App Store has, with its \
-          fonts and What's New. [This run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) deployed it."
+          if [ "$after" = "$BEFORE" ]; then
+            exit 0
           fi
+          body=$(AFTER="$after" python3 - << 'PY'
+          import json, os
+          version = os.environ["AFTER"]
+          notes = next((entry["notes"] for entry in json.load(open("site/data/notes.json")) if entry["version"] == version), "")
+          print(f"Typecask {version} is on the App Store.\n")
+          if notes:
+              print(notes.replace("• ", "- ") + "\n")
+          print("[What's new](https://typecask.app/whats-new/) · [Download on the App Store](https://apps.apple.com/app/id6826936046)")
+          PY
+          )
+          # The $s in single quotes are GraphQL's variables, not the shell's.
+          # shellcheck disable=SC2016
+          ids=$(gh api graphql -F owner="${GITHUB_REPOSITORY%/*}" -F name="${GITHUB_REPOSITORY#*/}" -f query='
+            query($owner: String!, $name: String!) {
+              repository(owner: $owner, name: $name) {
+                id
+                discussionCategory(slug: "announcements") { id }
+              }
+            }' --jq '.data.repository | "\(.id) \(.discussionCategory.id)"')
+          # shellcheck disable=SC2016
+          gh api graphql -F repository="${ids% *}" -F category="${ids#* }" -F title="Typecask $after" \
+            -F body="$body" -f query='
+            mutation($repository: ID!, $category: ID!, $title: String!, $body: String!) {
+              createDiscussion(input: {repositoryId: $repository, categoryId: $category, title: $title, body: $body}) {
+                discussion { url }
+              }
+            }' --jq '.data.createDiscussion.discussion.url'
