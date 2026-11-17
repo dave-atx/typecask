@@ -13,8 +13,13 @@ struct AboutView: View {
                 Section("Help") {
                     ForEach(HelpTopic.all) { topic in
                         DisclosureGroup(topic.question) {
-                            Text(topic.answer)
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text(topic.answer)
+                                    .foregroundStyle(.secondary)
+                                if let example = topic.example {
+                                    HelpExample(example: example, catalog: catalog)
+                                }
+                            }
                         }
                     }
                 }
@@ -114,9 +119,16 @@ private struct AboutHeader: View {
 
 /// The common questions from typecask.app/support, kept short enough to read in a list.
 private struct HelpTopic: Identifiable {
+    /// A sample drawn in a real font under an answer, where seeing it says more than describing it.
+    enum Example {
+        case ligatures
+        case nerdGlyphs
+    }
+
     let question: LocalizedStringKey
     let answer: LocalizedStringKey
     let id: String
+    var example: Example?
 
     static let all = [
         HelpTopic(question: "How do I install a font?", answer: """
@@ -136,8 +148,8 @@ private struct HelpTopic: Identifiable {
             one, tap Uninstall on its page or use Settings › General › Fonts before you delete the app.
             """, id: "remove"),
         HelpTopic(question: "How do fonts get updated?", answer: """
-            When a new release of Typecask carries a newer version of a font you've installed, its page offers \
-            Update.
+            When a new release of Typecask carries a newer version of a font you've installed, its page shows an \
+            Update button.
             """, id: "update"),
         HelpTopic(question: "A font says “Built into iOS” and won't install", answer: """
             iOS already ships a font under that same internal name, so installing another copy fails and every \
@@ -150,8 +162,63 @@ private struct HelpTopic: Identifiable {
         HelpTopic(question: "What are Nerd Fonts?", answer: """
             Fixed-width fonts patched with an extra icon set, so a shell prompt, status line or file tree renders \
             the glyphs it expects. If you don't already know what they're for, you don't need them.
-            """, id: "nerd")
+            """, id: "nerd", example: .nerdGlyphs),
+        HelpTopic(question: "What are ligatures?", answer: """
+            Some coding fonts draw a run of characters as one symbol, so -> becomes an arrow and != a not-equal \
+            sign. The characters underneath don't change, only how they're drawn, in apps that support it. The \
+            Ligatures collection lists the fonts that do.
+            """, id: "ligatures", example: .ligatures)
     ]
+}
+
+/// An answer's sample, drawn from a cask's preview font: a coding face's ligatures beside the characters they
+/// join, or a Nerd Font's icons. Nothing shows if the catalog has no such cask.
+private struct HelpExample: View {
+    let example: HelpTopic.Example
+    let catalog: Catalog
+    @ScaledMetric(relativeTo: .title2) private var size: CGFloat = 24
+
+    var body: some View {
+        switch example {
+        case .ligatures:
+            if let cask = cask(where: { $0.ligatures == true }, preferring: "font-fira-code") {
+                let sequences = "-> => != === <= >="
+                Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 6) {
+                    GridRow {
+                        Text("Typed")
+                            .foregroundStyle(.secondary)
+                        Text(verbatim: sequences)
+                            .font(PreviewFonts.font(cask.previewFile, size: size, ligatures: false))
+                    }
+                    GridRow {
+                        Text("Drawn")
+                            .foregroundStyle(.secondary)
+                        Text(verbatim: sequences)
+                            .font(PreviewFonts.font(cask.previewFile, size: size))
+                    }
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text("In \(cask.name), -> is drawn as an arrow and != as a not-equal sign."))
+            }
+        case .nerdGlyphs:
+            if let cask = cask(where: \.glyphs, preferring: "font-fira-code-nerd-font") {
+                // Powerline's branch, then GitHub, Git, Apple, Linux, a folder, code and a gear.
+                Text(verbatim: "\u{E0A0}  \u{F09B}  \u{E702}  \u{F179}  \u{F17C}  \u{F07C}  \u{F121}  \u{F013}")
+                    .font(PreviewFonts.font(cask.previewFile, size: size))
+                    .accessibilityLabel(Text("""
+                        Icons from \(cask.name): a branch, GitHub, Git, Apple, Linux, a folder, code and a gear.
+                        """))
+            }
+        }
+    }
+
+    /// The preferred cask if the catalog has it and it qualifies, else the most popular that does.
+    private func cask(where qualifies: (Cask) -> Bool, preferring token: String) -> Cask? {
+        if let preferred = catalog.casks.first(where: { $0.token == token }), qualifies(preferred) {
+            return preferred
+        }
+        return catalog.casks.filter(qualifies).min { ($0.popularity ?? .max) < ($1.popularity ?? .max) }
+    }
 }
 
 #Preview {
