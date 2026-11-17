@@ -1,6 +1,12 @@
+{{ define "expect" }}specimen{{ end }}
+
 {{ define "head" }}
+  {{- /* The specimen is the page's largest text. Without the preload its face isn't requested until
+    the text is laid out; with it, it comes down beside the stylesheet. */}}
+  {{- $preview := (printf "/p/%s" .Params.preview) | relURL }}
+  <link rel="preload" href="{{ $preview }}" as="font" crossorigin>
   <style>
-    @font-face{font-family:"tc-specimen";src:url("{{ (printf "/p/%s" .Params.preview) | relURL }}");font-display:swap}
+    @font-face{font-family:"tc-specimen";src:url("{{ $preview }}");font-display:swap}
   </style>
 {{ end }}
 
@@ -19,7 +25,7 @@
 
       <h1>{{ .Title }}</h1>
 
-      <div class="specimen">
+      <div class="specimen" id="specimen">
         <p class="specimen-big" style="font-family:'tc-specimen',var(--ui)">{{ $p.sample }}</p>
         <p class="specimen-mid" style="font-family:'tc-specimen',var(--ui)">{{ $p.sample }}</p>
         {{- if $p.glyphs }}

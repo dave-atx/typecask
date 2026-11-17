@@ -52,11 +52,20 @@
     var countEl = document.getElementById("count");
     var emptyEl = document.getElementById("empty");
     var clearEl = document.getElementById("clear");
+    var statusEl = document.getElementById("status");
     var chips = [].slice.call(document.querySelectorAll(".chip[data-style], .chip[data-nerd]"));
     var all = [].slice.call(wall.children);
     var total = all.length;
 
     var state = { q: "", style: "", nerd: false, sort: "popularity" };
+
+    // What the status line says the order is, when a change of sort is what happened.
+    var orderNames = {
+        popularity: "Most popular first",
+        trending: "Climbing fastest first",
+        name: "By name",
+        bytes: "Smallest first"
+    };
 
     function format(n) {
         return n.toLocaleString();
@@ -87,13 +96,15 @@
     // The wall arrives in popularity order, so only a change of sort moves anything.
     var painted = "popularity";
 
-    function apply() {
+    // announce is false for the first paint, which only restores what the URL asked for.
+    function apply(announce) {
         var shown = 0;
         var i;
+        var resorted = state.sort !== painted;
 
-        if (state.sort !== painted) {
+        if (resorted) {
             // Reordering 2,193 nodes costs one reflow when they go out and come back together.
-            var order = all.slice().sort(compare);
+            var order = all.toSorted(compare);
             var frag = document.createDocumentFragment();
             for (i = 0; i < order.length; i++) frag.appendChild(order[i]);
             wall.appendChild(frag);
@@ -106,9 +117,15 @@
             if (ok) shown++;
         }
 
-        countEl.textContent = shown === total
+        var count = shown === total
             ? format(total) + " fonts"
             : format(shown) + " of " + format(total) + " fonts";
+        countEl.textContent = count;
+        if (announce && statusEl) {
+            statusEl.textContent = resorted && orderNames[state.sort]
+                ? orderNames[state.sort] + ". " + count + "."
+                : count + ".";
+        }
         emptyEl.hidden = shown !== 0;
         var filtering = Boolean(state.q || state.style || state.nerd);
         clearEl.hidden = !filtering;
@@ -143,6 +160,7 @@
                 ? state.nerd
                 : chip.dataset.style === state.style && !state.nerd;
             chip.classList.toggle("is-on", on);
+            chip.setAttribute("aria-pressed", String(on));
         });
     }
 
@@ -151,7 +169,7 @@
         clearTimeout(typing);
         typing = setTimeout(function () {
             state.q = q.value.trim().toLowerCase();
-            apply();
+            apply(true);
         }, 120);
     });
 
@@ -165,14 +183,14 @@
                 state.nerd = false;
             }
             paintChips();
-            apply();
+            apply(true);
         });
     });
 
     if (sortSelect) {
         sortSelect.addEventListener("change", function () {
             state.sort = sortSelect.value;
-            apply();
+            apply(true);
         });
     }
 
@@ -182,9 +200,9 @@
         state.nerd = false;
         q.value = "";
         paintChips();
-        apply();
+        apply(true);
     });
 
     readURL();
-    apply();
+    apply(false);
 }());

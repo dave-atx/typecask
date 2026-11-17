@@ -40,3 +40,10 @@
 {{- end }}
 
 {{- partial "structured-data.html" . }}
+
+{{- /* Fetch a page once the pointer rests on its link, or a finger lands on it, so it's usually
+  there by the time the tap finishes. Prefetch rather than prerender: a prefetch runs no script, so
+  it can't count a view nobody made. Browsers without speculation rules ignore this. */}}
+<script type="speculationrules">
+  {"prefetch": [{"where": {"href_matches": "/*"}, "eagerness": "moderate"}]}
+</script>

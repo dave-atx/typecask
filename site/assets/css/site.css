@@ -30,6 +30,12 @@
     box-sizing: border-box;
 }
 
+/* A plain cross-fade from page to page where the browser can (Safari 18.2, Chrome 126). The
+   reduced-motion rule at the end turns it off again. */
+@view-transition {
+    navigation: auto;
+}
+
 html {
     -webkit-text-size-adjust: 100%;
 }
@@ -39,7 +45,7 @@ body {
     background: var(--ground);
     color: var(--ink);
     font-family: var(--ui);
-    font-size: 17px;
+    font-size: 1.0625rem;  /* 17px at the default size, and follows the reader's own */
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
 }
@@ -55,16 +61,24 @@ h3 {
 }
 
 h1 {
-    font-size: clamp(2rem, 5.5vw, 3.4rem);
+    font-size: clamp(2rem, 1rem + 3.8vw, 3.4rem);
     font-weight: 800;
 }
 
 h2 {
-    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-size: clamp(1.3rem, 0.82rem + 1.28vw, 1.7rem);
 }
 
 p {
     margin: 0;
+}
+
+/* Running text: no single word stranded on the last line. Headings balance instead, above. */
+.lede,
+.prose,
+.feat p,
+.privacy-grid p {
+    text-wrap: pretty;
 }
 
 a {
@@ -136,7 +150,7 @@ img {
 }
 
 .lede {
-    font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+    font-size: clamp(1.02rem, 0.22rem + 1.28vw, 1.18rem);
     color: var(--ink-2);
     max-width: 60ch;
 }
@@ -186,7 +200,7 @@ img {
 
 /* The same height as the App Store badge beside it, and its corners. */
 .btn-big {
-    height: 48px;
+    min-height: 48px;
     padding: 0 24px;
     font-size: 1rem;
     border-radius: 9px;
@@ -591,6 +605,11 @@ img {
     contain-intrinsic-size: auto 118px;
 }
 
+/* The first rows are on screen at load, where skipping them would only delay the first paint. */
+.spec-row:nth-child(-n + 6) {
+    content-visibility: visible;
+}
+
 .spec-row:hover {
     background: var(--ground-2);
 }
@@ -631,7 +650,7 @@ img {
 
 .spec-line {
     display: block;
-    font-size: clamp(1.5rem, 5.4vw, 3rem);
+    font-size: clamp(1.5rem, 0.4rem + 4.4vw, 3rem);
     line-height: 1.15;
     white-space: nowrap;
     overflow: hidden;
@@ -773,21 +792,21 @@ img {
 
 .specimen-big {
     white-space: pre-line;  /* a font for another script: its line, then the Latin sample */
-    font-size: clamp(1.7rem, 6vw, 3.6rem);
+    font-size: clamp(1.7rem, 0.32rem + 5.5vw, 3.6rem);
     line-height: 1.14;
     overflow-wrap: anywhere;
 }
 
 .specimen-mid {
     white-space: pre-line;
-    font-size: clamp(1rem, 2.1vw, 1.35rem);
+    font-size: clamp(1rem, 0.39rem + 1.4vw, 1.35rem);
     line-height: 1.5;
     color: var(--ink-2);
     overflow-wrap: anywhere;
 }
 
 .specimen-glyphs {
-    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    font-size: clamp(1.1rem, 0.225rem + 2vw, 1.6rem);
     color: var(--hot);
     overflow-wrap: anywhere;
 }
@@ -1014,6 +1033,10 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+
     * {
         animation: none !important;
         transition: none !important;

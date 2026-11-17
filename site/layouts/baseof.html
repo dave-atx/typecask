@@ -2,6 +2,9 @@
 <html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     {{ partial "head.html" . }}
+    {{- /* Holds the first paint, and with it the cross-page fade, until what's above the fold has
+      parsed. A page whose main runs to thousands of rows names an element nearer the top. */}}
+    <link rel="expect" href="#{{ block "expect" . }}main{{ end }}" blocking="render">
     {{ block "head" . }}{{ end }}
   </head>
   <body>

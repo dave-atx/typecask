@@ -1,3 +1,5 @@
+{{ define "expect" }}style-head{{ end }}
+
 {{ define "head" }}
   {{- /* The first rows are set before any script runs; the rest load on scroll. */ -}}
   <style>
@@ -11,7 +13,7 @@
   {{- $catalog := hugo.Data.catalog -}}
   {{- $pages := sort .Pages "Params.popularity" -}}
 
-  <div class="bar catalog-head">
+  <div class="bar catalog-head" id="style-head">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/fonts/" | relURL }}">Fonts</a></nav>
     <h1>{{ .Title }}</h1>
     <p class="lede">{{ partial "style-blurb.html" .Title }}</p>

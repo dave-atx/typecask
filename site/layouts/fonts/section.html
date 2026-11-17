@@ -1,3 +1,5 @@
+{{ define "expect" }}filters{{ end }}
+
 {{ define "head" }}
   {{- $catalog := hugo.Data.catalog -}}
   {{- /*
@@ -31,12 +33,12 @@
           autocomplete="off" spellcheck="false">
       </label>
       <div class="chips" role="group" aria-label="Filter by design style">
-        <button class="chip is-on" data-style="">All</button>
+        <button type="button" class="chip is-on" data-style="" aria-pressed="true">All</button>
         {{- range (slice "monospaced" "serif" "sansSerif" "display" "handwriting") }}
           {{- $names := dict "monospaced" "Fixed Width" "serif" "Serif" "sansSerif" "Sans Serif" "display" "Display" "handwriting" "Handwriting" }}
-          <button class="chip" data-style="{{ . }}">{{ index $names . }}</button>
+          <button type="button" class="chip" data-style="{{ . }}" aria-pressed="false">{{ index $names . }}</button>
         {{- end }}
-        <button class="chip" data-nerd="1">Nerd Fonts</button>
+        <button type="button" class="chip" data-nerd="1" aria-pressed="false">Nerd Fonts</button>
       </div>
       <label class="sort">
         <span class="vh">Sort</span>
@@ -49,9 +51,12 @@
       </label>
     </div>
     <div class="bar result-line">
-      <p id="count" aria-live="polite">{{ lang.FormatNumber 0 $count }} fonts</p>
-      <button class="chip chip-clear" id="clear" hidden>Clear filters</button>
+      <p id="count">{{ lang.FormatNumber 0 $count }} fonts</p>
+      <button type="button" class="chip chip-clear" id="clear" hidden>Clear filters</button>
     </div>
+    {{- /* The one place a change to the wall is announced, once per change: how many fonts now
+      show, and the order when that's what changed. Empty until the reader acts. */}}
+    <p class="vh" id="status" role="status"></p>
   </div>
 
   <noscript>

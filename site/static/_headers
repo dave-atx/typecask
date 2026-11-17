@@ -1,0 +1,24 @@
+# Cloudflare's response headers for the site. Rules that match the same path combine.
+#
+# No HSTS: .app is on the HSTS preload list as a whole TLD, so browsers only ever reach typecask.app
+# over HTTPS.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'none'
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Hugo names these by a hash of what's in them, so a changed file gets a new URL and an old one never
+# changes. The previews in /p/ keep their names across releases, so they keep Cloudflare's default.
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/screens/*
+  Cache-Control: public, max-age=31536000, immutable
+/icon_hu_*
+  Cache-Control: public, max-age=31536000, immutable
