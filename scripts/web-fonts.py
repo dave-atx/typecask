@@ -18,7 +18,9 @@ of letters, figures and symbols it covers, box drawing, Nerd Fonts' icons and an
 The site puts the cask's sample line first.
 
 `upload` needs R2's S3 credentials (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, CLOUDFLARE_ACCOUNT_ID) and
-puts what R2 doesn't have yet in R2_BUCKET (default typecask-fonts), which fonts.typecask.app serves.
+puts what R2 doesn't have yet in R2_BUCKET (default typecask-fonts), which fonts.typecask.app serves. It
+fails rather than take the bucket past R2_MAX_GB (default 8, short of R2's 10 GB free tier): nothing deletes
+old releases' faces, so that's the sign to clear them out.
 
 Run it under the memory cap, as the other font scripts: python3 scripts/memcap.py 14 scripts/web-fonts.py ...
 """
@@ -252,10 +254,15 @@ def r2():
 
 
 def listed(client, bucket, prefix):
-    keys = set()
+    return set(sizes(client, bucket, prefix))
+
+
+def sizes(client, bucket, prefix=""):
+    """Every object under prefix, with its size in bytes."""
+    found = {}
     for page in client.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
-        keys.update(item["Key"] for item in page.get("Contents", []))
-    return keys
+        found.update((item["Key"], item["Size"]) for item in page.get("Contents", []))
+    return found
 
 
 def cask_key(folder):
@@ -270,8 +277,14 @@ def cask_key(folder):
 
 def upload(out, tag):
     client, bucket = r2()
-    have = listed(client, bucket, "w/")
+    stored = sizes(client, bucket)
+    have = {key for key in stored if key.startswith("w/")}
     new = [path for path in sorted((out / "w").iterdir()) if f"w/{path.name}" not in have]
+    # R2 has no quota of its own, and nothing here deletes old releases' faces, so the bucket only grows.
+    # Stopping short of R2_MAX_GB says it's time to clear out faces no release in use still lists.
+    total = sum(stored.values()) + sum(path.stat().st_size for path in new)
+    if total > (cap := float(os.environ.get("R2_MAX_GB", "8")) * 1e9):
+        sys.exit(f"{bucket} would hold {total / 1e9:.1f} GB, over R2_MAX_GB's {cap / 1e9:.0f} GB: clear it out first")
     for path in new:
         # Named by their bytes, so never changed: cached for good.
         client.upload_file(
