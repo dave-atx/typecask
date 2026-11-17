@@ -34,6 +34,25 @@ final class TryItOutTests: XCTestCase {
         keep(app.screenshot(), named: "noto-naskh-arabic")
     }
 
+    /// Typing, closing the editor and leaving the app keeps it running: build 17 crashed in the background, laying
+    /// out a closed editor's text in fonts whose data had gone with the download.
+    @MainActor
+    func testClosedEditorSurvivesTheBackground() {
+        let app = open("font-fira-code")
+        let text = app.textViews["tryItOutText"]
+        text.tap()
+        text.typeText(" -> != ")
+        app.buttons["Done"].tap()
+        XCTAssertTrue(app.controls(for: "font-fira-code").buttons["tryItOut"].waitForExistence(timeout: 10))
+        XCUIDevice.shared.press(.home)
+        _ = app.wait(for: .runningBackground, timeout: 10)
+        // Long enough for UIKit's layout after the sheet has gone, and for the system to settle the app.
+        _ = app.wait(for: .unknown, timeout: 5)
+        app.activate()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        XCTAssertTrue(app.controls(for: "font-fira-code").buttons["tryItOut"].waitForExistence(timeout: 10))
+    }
+
     /// Opens the cask's page and its editor, and waits for the fonts.
     @MainActor
     private func open(_ token: String) -> XCUIApplication {

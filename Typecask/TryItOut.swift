@@ -198,9 +198,6 @@ final class TryOutLoader {
 
     private(set) var phase = Phase.loading
     private(set) var progress = 0.0
-    /// Held while the editor is open: the data assets are mapped from the tag's pack, which ending access, as
-    /// releasing the request does, unmaps from under the fonts made from them.
-    @ObservationIgnored private var request: NSBundleResourceRequest?
 
     /// Core Text's descriptors are immutable, so they can cross to the main actor.
     nonisolated private struct Prepared: Sendable {
@@ -225,8 +222,14 @@ final class TryOutLoader {
                 phase = .failed(error.localizedDescription)
                 return
             }
-            self.request = request
-            let data = cask.assets.compactMap { NSDataAsset(name: $0)?.data }
+            // Copied out of the tag's pack, which the data assets map: ending access unmaps it, and the fonts made
+            // from the mapping then read freed memory whenever anything draws them. Keeping the request while the
+            // editor was open wasn't enough: UIKit lays out a text view's selection after its sheet has gone, and
+            // build 17 crashed doing so in the background.
+            let data = cask.assets.compactMap { name in
+                NSDataAsset(name: name)?.data.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: $0.count) }
+            }
+            request.endAccessingResources()
             prepared = await Self.prepare(.files(data), sample: sample, glyphs: cask.glyphs)
         }
         guard let prepared, !prepared.faces.isEmpty else {
