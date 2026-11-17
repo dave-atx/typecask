@@ -230,6 +230,19 @@ downloads the pinned archive for an app build, checks its hash, and refuses to c
 don't match the ones `Catalog.json` says are installable. Without a pin it builds the casks named in
 `TYPECASK_CASKS` from the lock instead.
 
+### Web fonts
+
+Once it publishes a release, the Fonts workflow starts **Web Fonts** (`.github/workflows/web-fonts.yml`),
+which runs `scripts/web-fonts.py` on the release's archive: each face as WOFF2, named by a hash of its
+bytes, and a manifest of each cask's faces, axes and Try It Out text, put in the `typecask-fonts` R2
+bucket that fonts.typecask.app serves. The site's Try It Out reads them. A cask whose files R2 has
+converted before reuses its entry (`cache/`), so a release converts only what changed; the first run
+over every cask takes about 40 minutes. Run it by hand for an older release:
+
+```sh
+gh workflow run web-fonts.yml -f tag=fonts-20261117-38
+```
+
 ### The download mirror
 
 Downloads from hosts other than GitHub are kept as assets of the `font-sources` release, named by

@@ -82,7 +82,8 @@ if ! git cat-file -e "$tag:$icon" 2> /dev/null; then
 fi
 git archive "$tag" Typecask/Catalog.json Typecask/Previews Licenses "$icon" | tar -x -C "$tmp"
 
-rm -rf site/data/catalog.json site/data/release.json site/data/notes.json site/static/p site/licenses \
+rm -rf site/data/catalog.json site/data/release.json site/data/notes.json site/data/webfonts.json \
+    site/static/p site/licenses \
     site/assets/icon.png
 mkdir -p site/data site/static site/licenses site/assets
 
@@ -109,6 +110,16 @@ cat > site/data/release.json << JSON
   "date": "$(git log -1 --format=%cs "$commit")"
 }
 JSON
+
+# Try It Out's web fonts: the manifest scripts/web-fonts.py put on R2 for this version's fonts release.
+# Without one, as before the Web Fonts workflow has run on it, the pages leave Try It Out out.
+if [ -n "$fonts_tag" ] && curl -fsS --max-time 60 -o site/data/webfonts.json \
+    "https://fonts.typecask.app/manifests/$fonts_tag.json" 2> /dev/null; then
+    echo "site-catalog.sh: web fonts from $fonts_tag"
+else
+    echo '{}' > site/data/webfonts.json
+    echo "site-catalog.sh: no web fonts for ${fonts_tag:-this tag}; Try It Out is left out" >&2
+fi
 
 # What's New, every version's notes as that version had them.
 python3 scripts/release-notes.py --site "$tag" > site/data/notes.json

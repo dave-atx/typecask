@@ -226,6 +226,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      # To start Web Fonts on the release.
+      actions: write
     env:
       TAG: ${{ needs.build.outputs.tag }}
       BASE: ${{ github.ref_name }}
@@ -283,3 +285,7 @@ jobs:
             flags+=(--draft)
           fi
           gh pr create --base "$BASE" --title "Update fonts to $TAG" --body-file .cache/pr-body.md "${flags[@]}"
+
+      # The site's Try It Out reads these from R2, for whichever release the App Store's version pins.
+      - name: Make the release's web fonts
+        run: gh workflow run web-fonts.yml --ref "$BASE" -f tag="$TAG"

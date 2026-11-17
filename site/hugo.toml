@@ -24,6 +24,8 @@ timeout = "180s"
   # The first version that opens typecask:// links. Until the App Store has it (data/release.json, from
   # scripts/site-catalog.sh), font pages say to search the app instead of offering Open in Typecask.
   deepLinksSince = "1.1"
+  # Where scripts/web-fonts.py puts each fonts release's web fonts, for Try It Out: the R2 bucket.
+  webFontsURL = "https://fonts.typecask.app/"
   # A public TestFlight link, if there is one. Empty means the buttons say "coming soon" instead.
   testflightURL = ""
   minimumOS = "iOS or iPadOS 27"

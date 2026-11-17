@@ -25,11 +25,17 @@ same day, with nothing to flip by hand. From the tag it copies:
 | `site/assets/icon.png` | `docs/icon/default.png`, the app icon as `scripts/icon.sh` renders it |
 | `site/data/release.json` | the tag, version, build number (the `testflight-N` on the same commit), fonts release, commit and date |
 | `site/data/notes.json` | every version's release notes, from `docs/release-notes/`, for What's New |
+| `site/data/webfonts.json` | Try It Out's manifest for the tag's fonts release, from R2 rather than the tag |
 
 All of it is gitignored. The script runs `git archive` against the tag, so it works from a checkout
 of any revision, and it fetches the tag itself when the clone doesn't have one, which is what CI
 does. Set `TYPECASK_RELEASE_TAG` to build against a particular tag, as for a look at an unreleased
 version.
+
+Try It Out on a font page reads `site/data/webfonts.json`, the manifest `scripts/web-fonts.py` put on R2
+for the fonts release the tag pins (`fontsTag` in `release.json`), and loads the font's WOFF2 faces
+from `webFontsURL`, fonts.typecask.app, only once someone presses the button (`assets/js/try.js`). A
+release with no manifest yet leaves the section out. The bucket's CORS rule lets typecask.app load them.
 
 What depends on the version follows it too. What's New (`content/_content.gotmpl`) exists only once the
 live version has notes. `_partials/released.html` says whether the live version is at least a given one,

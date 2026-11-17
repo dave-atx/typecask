@@ -36,6 +36,39 @@
       <p class="fine specimen-note">Set in {{ .Title }} itself, from the preview the app ships.</p>
     </div>
 
+    {{- /* Try It Out, from the release's web fonts on R2 (data/webfonts.json, which site-catalog.sh fetches),
+      loaded only when asked for: the full fonts, not the preview's few dozen glyphs. assets/js/try.js. */}}
+    {{- with index ((hugo.Data.webfonts | default dict).casks | default dict) $p.token }}
+      {{- $bytes := 0 }}
+      {{- range .faces }}{{ $bytes = add $bytes .bytes }}{{ end }}
+      <section class="bar try" aria-labelledby="try-title">
+        <h2 id="try-title">Try it out</h2>
+        <p class="fine">Type in {{ $.Title }}, in every face it ships{{ if .ligatures }}, with its
+          ligatures{{ end }}. Loads {{ partial "bytes.html" $bytes }} of fonts.</p>
+        <button type="button" class="btn btn-big btn-quiet try-start">Try It Out</button>
+        <div class="try-editor" hidden>
+          <div class="try-controls">
+            <label class="try-style"{{ if eq (len .faces) 1 }} hidden{{ end }}>Style <select></select></label>
+            <label>Size <input class="try-size" type="range" min="10" max="96" value="28"></label>
+            <span class="try-axes"></span>
+            {{- if .ligatures }}
+              <label><input class="try-liga" type="checkbox" checked> Ligatures</label>
+            {{- end }}
+          </div>
+          <p class="fine try-status" role="status"></p>
+          <textarea class="try-text" spellcheck="false" autocapitalize="off" autocomplete="off"
+            aria-label="Text set in {{ $.Title }}"></textarea>
+        </div>
+        <script type="application/json" class="try-data">
+          {{- jsonify (dict "base" site.Params.webFontsURL "faces" .faces "text" (printf "%s\n\n%s" $p.sample .text)) | safeJS -}}
+        </script>
+      </section>
+      {{- with resources.Get "js/try.js" }}
+        {{- $js := . | minify | fingerprint }}
+        <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+      {{- end }}
+    {{- end }}
+
     <div class="bar font-grid">
       <div class="font-main">
         {{- if .Content }}

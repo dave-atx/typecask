@@ -1,0 +1,56 @@
+# Web fonts for the site's Try It Out: a fonts release's fonts as WOFF2 on R2, served from
+# fonts.typecask.app, with a manifest per release that the site reads. The Fonts workflow starts this
+# once it publishes a release; run it by hand for an older one (the release the App Store's version pins,
+# say). See scripts/web-fonts.py.
+#
+# Needs R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY, an R2 token's S3 credentials with read and write on the
+# bucket, and CLOUDFLARE_ACCOUNT_ID. The bucket is typecask-fonts unless the R2_BUCKET variable says
+# otherwise.
+name: Web Fonts
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The fonts release, fonts-YYYYMMDD-N
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-fonts-${{ inputs.tag }}
+
+jobs:
+  web-fonts:
+    runs-on: ubuntu-26.04
+    # Converting every face takes about 40 minutes; a release that changes a few casks, a minute or two.
+    timeout-minutes: 120
+    env:
+      TAG: ${{ inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET: ${{ vars.R2_BUCKET || 'typecask-fonts' }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.3.2
+
+      - name: Fetch the release's fonts
+        run: |
+          gh release download "$TAG" --pattern '*.tar.zst' --dir "$RUNNER_TEMP"
+          mkdir -p "$RUNNER_TEMP/fonts"
+          tar --zstd -xf "$RUNNER_TEMP"/*.tar.zst -C "$RUNNER_TEMP/fonts"
+          rm -f "$RUNNER_TEMP"/*.tar.zst
+
+      # Three at a time on the runner's four cores and 16 GB: a CJK face takes a gigabyte or two to convert.
+      - name: Convert
+        run: >-
+          uv run --script scripts/web-fonts.py build --jobs 3
+          "$RUNNER_TEMP/fonts/Fonts.xcassets" "$RUNNER_TEMP/web"
+
+      - name: Upload
+        run: uv run --script scripts/web-fonts.py upload "$RUNNER_TEMP/web" "$TAG"
