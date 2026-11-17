@@ -126,7 +126,8 @@ fi
 # a new version.
 cp site/data/release.json site/static/release.json
 
-# What's New, every version's notes as that version had them.
+# What's New: the notes of every version up to the tag's, as main has them now, so a line can be fixed
+# after a release; the fonts each counts are the tag's.
 python3 scripts/release-notes.py --site "$tag" > site/data/notes.json
 
 printf 'site-catalog.sh: %s casks, %s previews, %s licenses\n' \

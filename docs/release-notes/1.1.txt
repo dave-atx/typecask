@@ -8,5 +8,4 @@
 • New Symbols collection: fonts you type like any other that draw scribbles, blocks, knitting symbols or stitches.
 • New Legibility collection: fonts designed to be easy to read, for low vision, dyslexia and beginning readers.
 • Sort by Recently Updated, and see when each font was last updated on its page.
-• Barcode and music-notation fonts are gone: they have nothing to set text in.
 • {fonts}

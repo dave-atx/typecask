@@ -3,7 +3,7 @@
 
     scripts/release-notes.py [VERSION]                 print them, for the App Store's What's New
     scripts/release-notes.py --testflight BUILD [VERSION]
-    scripts/release-notes.py --site REF                every version's, as of REF, as JSON for the site
+    scripts/release-notes.py --site REF                versions up to REF's, as JSON for the site
 
 The notes are docs/release-notes/VERSION.txt (VERSION defaults to the project's MARKETING_VERSION),
 written by hand. Lines starting with # are left out, and {fonts} becomes how many fonts were added and
@@ -38,8 +38,12 @@ API = "https://api.appstoreconnect.apple.com/v1"
 MAX_CHARACTERS = 4000
 
 
-def marketing_version():
-    return re.search(r'"MARKETING_VERSION": "([^"]+)"', PROJECT.read_text())[1]
+def marketing_version(ref=None):
+    return re.search(r'"MARKETING_VERSION": "([^"]+)"', read(PROJECT.relative_to(ROOT).as_posix(), ref))[1]
+
+
+def version_key(version):
+    return [int(part) for part in version.split(".") if part.isdigit()]
 
 
 def read(path, ref=None):
@@ -82,7 +86,9 @@ def fonts_line(base, ref=None):
     return f"{new} and {updated:,} updated." if updated else f"{new}."
 
 
-def notes(version, ref=None):
+def notes(version, ref=None, catalog=None):
+    """The notes as written at ref (the working tree by default), {fonts} counted at catalog (ref's own by
+    default)."""
     path = NOTES / f"{version}.txt"
     if (source := read(path.relative_to(ROOT).as_posix(), ref)) is None:
         sys.exit(f"no release notes for {version}: write {path.relative_to(ROOT)}")
@@ -92,7 +98,7 @@ def notes(version, ref=None):
     if "{fonts}" in text:
         if not base:
             sys.exit(f"{path.name} uses {{fonts}} but has no '# since TAG' line")
-        text = text.replace("{fonts}", fonts_line(base, ref))
+        text = text.replace("{fonts}", fonts_line(base, catalog or ref))
     if len(text) > MAX_CHARACTERS:
         sys.exit(f"{path.name} is {len(text)} characters; App Store Connect takes {MAX_CHARACTERS}")
     return text
@@ -183,19 +189,15 @@ def main():
     parser.add_argument("--site", metavar="REF", help="print every version's notes as of REF, newest first, as JSON")
     arguments = parser.parse_args()
     if arguments.site:
-        directory = NOTES.relative_to(ROOT).as_posix()
-        listed = subprocess.run(
-            ["git", "-C", ROOT, "ls-tree", "--name-only", f"{arguments.site}:{directory}"],
-            check=False,
-            capture_output=True,
-            text=True,
-        ).stdout.split()
+        # The notes as written now, so a line can be corrected after a release, for the versions up to the
+        # one at the tag; each version's fonts are counted at the tag, the build people have.
+        released = version_key(marketing_version(arguments.site))
         versions = sorted(
-            (name.removesuffix(".txt") for name in listed if name.endswith(".txt")),
-            key=lambda version: [int(part) for part in version.split(".") if part.isdigit()],
+            (path.stem for path in NOTES.glob("*.txt") if version_key(path.stem) <= released),
+            key=version_key,
             reverse=True,
         )
-        site = [{"version": version, "notes": notes(version, arguments.site)} for version in versions]
+        site = [{"version": version, "notes": notes(version, catalog=arguments.site)} for version in versions]
         print(json.dumps(site, indent=2, ensure_ascii=False))
         return
     version = arguments.version or marketing_version()

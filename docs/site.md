@@ -26,7 +26,7 @@ which GitHub tells everyone watching the repository about. From the tag it copie
 | `site/licenses/` | `Licenses/` |
 | `site/assets/icon.png` | `docs/icon/default.png`, the app icon as `scripts/icon.sh` renders it |
 | `site/data/release.json` | the tag, version, build number (the `testflight-N` on the same commit), fonts release, commit and date |
-| `site/data/notes.json` | every version's release notes, from `docs/release-notes/`, for What's New |
+| `site/data/notes.json` | release notes of every version up to the tag's, from main's `docs/release-notes/` so a line can be fixed after a release, for What's New |
 | `site/data/webfonts.json` | Try It Out's manifest for the tag's fonts release, from R2 rather than the tag |
 
 All of it is gitignored. The script runs `git archive` against the tag, so it works from a checkout
