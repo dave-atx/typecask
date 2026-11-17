@@ -1,7 +1,5 @@
-Ark Pixel Font
-https://github.com/TakWolf/ark-pixel-font
-
-Copyright (c) 2021, TakWolf (https://takwolf.com).
+Copyright (c) 1994-2025 SIL Global (https://www.sil.org/)
+with Reserved Font Names "Doulos" and "SIL".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
