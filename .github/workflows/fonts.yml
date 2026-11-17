@@ -263,7 +263,12 @@ jobs:
           # -A, so the files of casks that are gone are deleted rather than kept.
           git add -A fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
             Typecask/Licenses.deflate Licenses Typecask/FontsAsset.json
-          git commit -q -m "Update fonts to $TAG"
+          # The message carries the list of what changed, links dropped, so `git log` shows it.
+          {
+            printf 'Update fonts to %s\n\n' "$TAG"
+            sed -E 's/\[([^]]*)\]\([^)]*\)/\1/g' ".cache/$TAG.changes.md"
+          } > .cache/commit-message.txt
+          git commit -q -F .cache/commit-message.txt
           git push -q origin "update-fonts/$TAG"
           cat > .cache/pr-body.md <<EOF
           Built and verified by [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID).
