@@ -1,0 +1,12 @@
+# What's New in Typecask 1.1, as the App Store and TestFlight show it. Lines starting with # are notes for
+# us; {fonts} becomes the count of fonts added and updated since the build named on the "since" line, the
+# last build of 1.0. Print it with scripts/release-notes.py 1.1.
+# since testflight-12
+• Try It Out: type in any font before you install it, with every style, weight and ligature it has.
+• Nerd Font versions share a card and a page with the font they're based on, with a choice of which to install.
+• New Ligatures collection: coding fonts that draw -> and != as arrows and signs, with a switch to see the characters underneath.
+• New Symbols collection: fonts you type like any other that draw scribbles, blocks, knitting symbols or stitches.
+• New Legibility collection: fonts designed to be easy to read, for low vision, dyslexia and beginning readers.
+• Sort by Recently Updated, and see when each font was last updated on its page.
+• Barcode and music-notation fonts are gone: they have nothing to set text in.
+• {fonts}

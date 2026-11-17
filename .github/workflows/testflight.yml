@@ -162,6 +162,15 @@ jobs:
           xcrun altool --upload-app --type ios --file "$RUNNER_TEMP/export/Typecask.ipa" \
             --apiKey "$KEY_ID" --apiIssuer "$ISSUER_ID"
 
+      # docs/release-notes/VERSION.txt, as the build's What to Test. Notes that can't be set aren't worth
+      # failing an uploaded build over; they can be pasted into App Store Connect instead.
+      - name: Say what to test
+        continue-on-error: true
+        timeout-minutes: 35
+        env:
+          BUILD: ${{ inputs.build || github.ref_name }}
+        run: python3 scripts/release-notes.py --testflight "${BUILD#testflight-}"
+
       # xcodebuild says little on its own, so a failure is only diagnosable from these.
       - uses: actions/upload-artifact@v7
         if: failure()

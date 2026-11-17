@@ -69,6 +69,22 @@ A green run doesn't mean the build is in TestFlight yet. `altool` returns once A
 App Store Connect then processes them, which takes several minutes before the build appears under
 Builds. A build that never appears has failed processing, and Apple reports that by email.
 
+## Release notes
+
+Each version's notes are `docs/release-notes/VERSION.txt`, written by hand for people who use the app,
+not from commit messages. Lines starting with `#` are left out; `{fonts}` becomes the count of fonts
+added and updated since the build its `# since testflight-N` line names, the previous version's last
+build, since a release is how font updates reach anyone. A new version needs a new
+`MARKETING_VERSION` too: App Store Connect closes a version to new builds once it's approved.
+
+```sh
+scripts/release-notes.py        # the current version's notes, to paste into What's New
+```
+
+The TestFlight workflow sets them as the build's What to Test once App Store Connect lists the build,
+which takes a few minutes after the upload. That step can fail without failing the run; paste the notes
+in by hand then. The App Store's What's New is pasted when the version is submitted for review.
+
 ## App Store images
 
 `scripts/screenshots.sh app-store` takes the screenshots on a 6.9-inch iPhone, a 13-inch iPad and an iPhone
