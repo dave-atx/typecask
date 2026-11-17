@@ -47,6 +47,22 @@ Recently Updated sorts by the date each cask's source was published, which `lock
 ([the font pipeline](font-pipeline.md#lock) says where it comes from); the page shows it as Updated. A
 paired card sorts by the newer of its two casks, and casks without a date come last.
 
+## Try It Out
+
+A font's page, and its Nerd Font version's section, has a Try It Out button that opens an editor set in the
+cask's full fonts, rather than the preview's few dozen glyphs. It's opt-in because it needs the fonts: an
+installed cask's are already on the device, and anything else downloads its On-Demand Resources tag, as
+Install does, but reads the fonts from its data assets without installing them, so they're the app's alone
+and go when the editor closes. The editor lists each face, has a slider for each axis of a variable font,
+and a Ligatures switch for a face that joins anything.
+
+Its text is made on the device from the font's own character set (`TryOutText`), so it never shows a line
+the face can't draw: the sample, then the coding sequences and the fi and fl words the face really joins
+(each shaped with its ligatures on and off, and kept where the glyphs differ), the alphabet, figures,
+punctuation, accented Latin, Cyrillic and Greek where the face has most of each line, currency and math
+signs, box drawing for a face with all of it, a run of each Nerd Fonts icon set for a Nerd Font, and up to
+240 letters of any other script.
+
 ## Design styles
 
 A Google family takes its design style from Google's category. Other casks take it from the font's

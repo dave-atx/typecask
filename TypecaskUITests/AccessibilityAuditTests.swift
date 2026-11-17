@@ -53,7 +53,7 @@ final class AccessibilityAuditTests: XCTestCase {
         // matched across, as its rows run on below what's on screen.
         let sidebar = app.collectionViews["sidebar"]
         let sidebarColumn = sidebar.exists ? sidebar.frame.minX...sidebar.frame.maxX : nil
-        let buttonFrames = ["install", "update", "uninstall", "homepage"]
+        let buttonFrames = ["install", "update", "uninstall", "homepage", "tryItOut"]
             // Homepage is a link, the rest buttons.
             .map { app.descendants(matching: .any).matching(identifier: $0).firstMatch }
             .filter(\.exists)

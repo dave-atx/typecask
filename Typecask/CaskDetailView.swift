@@ -267,6 +267,9 @@ struct CaskActions: View {
         if cask.isBundled || status.isInstalled || status == .builtIn {
             InstallControl(cask: cask, isNerdVersion: isNerdVersion)
         }
+        if (cask.isBundled || status.isInstalled) && status != .builtIn {
+            TryItOutButton(cask: cask)
+        }
         if !isNerdVersion {
             Link(destination: cask.homepage) {
                 Label("Homepage", systemImage: "safari")
