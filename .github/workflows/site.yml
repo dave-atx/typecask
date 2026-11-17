@@ -34,6 +34,8 @@ on:
 
 permissions:
   contents: read
+  # To open an issue when a deploy moves the site to a new version.
+  issues: write
 
 concurrency:
   group: site-${{ github.ref }}
@@ -89,6 +91,15 @@ jobs:
           test -s public/fonts/index.html
           test -s public/sitemap.xml
 
+      # Which version the live site shows, to say so when this deploy moves it to another.
+      - name: Read the version the site shows
+        if: github.event_name != 'pull_request'
+        id: before
+        run: |
+          version=$(curl -fsS --max-time 20 https://typecask.app/release.json |
+            python3 -c 'import json, sys; print(json.load(sys.stdin)["version"])' || true)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Deploy
         if: github.event_name != 'pull_request'
         uses: cloudflare/wrangler-action@v4
@@ -96,3 +107,20 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: site
+
+      # An issue assigned to the repository's owner, which GitHub emails them about: the fonts, What's New
+      # and anything gated on the version changed with the App Store's release.
+      - name: Say the site moved to a new version
+        if: github.event_name != 'pull_request' && steps.before.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BEFORE: ${{ steps.before.outputs.version }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          after=$(python3 -c 'import json; print(json.load(open("site/data/release.json"))["version"])')
+          if [ "$after" != "$BEFORE" ]; then
+            gh issue create --assignee "$OWNER" \
+              --title "typecask.app now shows Typecask $after" \
+              --body "The site moved from Typecask $BEFORE to $after, the version the App Store has, with its \
+          fonts and What's New. [This run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) deployed it."
+          fi

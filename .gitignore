@@ -17,6 +17,7 @@ site/data/catalog.json
 site/data/release.json
 site/data/notes.json
 site/data/webfonts.json
+site/static/release.json
 site/static/p/
 site/licenses/
 site/assets/icon.png

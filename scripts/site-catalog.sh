@@ -83,6 +83,7 @@ fi
 git archive "$tag" Typecask/Catalog.json Typecask/Previews Licenses "$icon" | tar -x -C "$tmp"
 
 rm -rf site/data/catalog.json site/data/release.json site/data/notes.json site/data/webfonts.json \
+    site/static/release.json \
     site/static/p site/licenses \
     site/assets/icon.png
 mkdir -p site/data site/static site/licenses site/assets
@@ -120,6 +121,10 @@ else
     echo '{}' > site/data/webfonts.json
     echo "site-catalog.sh: no web fonts for ${fonts_tag:-this tag}; Try It Out is left out" >&2
 fi
+
+# Served too, as typecask.app/release.json, so the Site workflow can tell when a deploy moves the site to
+# a new version.
+cp site/data/release.json site/static/release.json
 
 # What's New, every version's notes as that version had them.
 python3 scripts/release-notes.py --site "$tag" > site/data/notes.json

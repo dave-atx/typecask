@@ -15,7 +15,8 @@ So each version submitted for review gets a `release-VERSION` tag on the commit 
 `release-1.1` on the commit `testflight-16` built, say. `scripts/site-catalog.sh` asks Apple's lookup API
 which version is live and builds from that version's tag; if the lookup fails or the version has no tag,
 the newest `release-*` tag stands in. The site rebuilds every three hours, so a release reaches it the
-same day, with nothing to flip by hand. From the tag it copies:
+same day, with nothing to flip by hand. The site serves `release.json` too, and when a deploy moves it to
+another version the Site workflow opens an issue assigned to the repository's owner, which GitHub emails. From the tag it copies:
 
 | Written to | From the tag |
 | --- | --- |
