@@ -126,6 +126,10 @@ the wire.
   unaltered) and Safari shows its Smart App Banner. With it false they point at `testflightURL`, or
   read "Coming to the App Store" when that's empty, and never render a link to a listing that isn't
   public.
+- `deepLinks` turns on each font page's Open in Typecask link, `typecask://font/TOKEN`, shown only on
+  touch devices. Leave it off until the App Store's version of the app handles the link (1.1 does):
+  until then the page says to search the app. The Smart App Banner needs no switch: it hands the app
+  the page's own URL as `app-argument`, which 1.1 opens and earlier versions ignore.
 - `_partials/app-store.html` reads the app's US rating from Apple's lookup API
   (`itunes.apple.com/lookup`) at build time, which is why the site also rebuilds daily. The home page
   shows it under the badge once there is one, and a failed lookup only drops it, with a warning.

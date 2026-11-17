@@ -22,11 +22,23 @@ struct TypecaskApp: App {
         QuickActions.update()
     }
 
+    /// Shows the font a link names; any other link just brings the app up as it was.
+    private func open(_ url: URL) {
+        if let cask = DeepLink.cask(for: url, in: model.catalog) {
+            model.show(cask)
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             GalleryView(model: model)
                 .environment(installer)
                 .task(priority: .background) { await FontSpotlight.update() }
+                .onOpenURL { open($0) }
+                // typecask.app's pages, should they become universal links.
+                .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+                    activity.webpageURL.map(open)
+                }
         }
         .commands {
             TypecaskCommands(installer: installer)

@@ -59,8 +59,14 @@
 
         <div class="get">
           {{ partial "download-button.html" (dict "page" . "small" false) }}
+          {{- if site.Params.deepLinks }}
+            {{- /* Only where there's an iPhone or iPad to open it on: elsewhere the link goes nowhere. */}}
+            <a class="btn btn-big btn-quiet open-app" href="typecask://font/{{ $p.token }}">Open in Typecask</a>
+            <p class="fine open-app">Opens {{ .Title }}&rsquo;s page in Typecask, if you have it.</p>
+          {{- else }}
           <p class="fine">Typecask has no deep links yet. Open the app and search for
             &ldquo;{{ .Title }}&rdquo;.</p>
+          {{- end }}
         </div>
 
         <details class="license">

@@ -21,6 +21,9 @@ timeout = "180s"
   # fall back to TestFlight, or to "Coming to the App Store".
   appStoreID = "6826936046"
   appStoreLive = true
+  # Whether the App Store's version of the app opens typecask:// links, which it does from 1.1. Until
+  # that's the version people get, font pages say to search the app instead of offering Open in Typecask.
+  deepLinks = false
   # A public TestFlight link, if there is one. Empty means the buttons say "coming soon" instead.
   testflightURL = ""
   minimumOS = "iOS or iPadOS 27"

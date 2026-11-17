@@ -1043,3 +1043,10 @@ img {
         scroll-behavior: auto !important;
     }
 }
+
+/* Open in Typecask follows a typecask:// link, which only a touch device with the app can follow. */
+@media not ((hover: none) and (pointer: coarse)) {
+    .open-app {
+        display: none;
+    }
+}

@@ -44,6 +44,7 @@
         "EXCLUDED_SOURCE_FILE_NAMES[config=Debug]": "Fonts.xcassets",
         "EXCLUDED_SOURCE_FILE_NAMES[config=Release]": "DebugFonts.xcassets",
         "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "Typecask-Info.plist",
         "INFOPLIST_KEY_CFBundleDisplayName": "Typecask",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_UIApplicationSceneManifest_Generation": "YES",

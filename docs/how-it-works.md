@@ -47,6 +47,14 @@ Recently Updated sorts by the date each cask's source was published, which `lock
 ([the font pipeline](font-pipeline.md#lock) says where it comes from); the page shows it as Updated. A
 paired card sorts by the newer of its two casks, and casks without a date come last.
 
+## Links
+
+`typecask://font/TOKEN` opens a font's page, and so does its typecask.app page's URL, which the site's
+Smart App Banner hands the app when it opens it (`DeepLink`). The token may leave off its `font-`. The
+site's pages aren't universal links: those need the Associated Domains entitlement in the provisioning
+profile, and an `apple-app-site-association` file on the site, and a link on typecask.app to itself would
+still open in Safari.
+
 ## Try It Out
 
 A font's page, and its Nerd Font version's section, has a Try It Out button that opens an editor set in the
