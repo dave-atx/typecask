@@ -114,6 +114,9 @@ struct Cask: Decodable, Identifiable, Hashable {
     /// The token of the cask's Nerd Font version, which shares its card and page, from `pair_nerd_fonts()` in
     /// scripts/build-catalog.py; absent for most casks.
     let nerdFont: String?
+    /// Whether the primary face joins coding sequences like -> and != into ligatures, which its sample then
+    /// shows; absent for most casks.
+    let ligatures: Bool?
 
     var id: String { token }
     /// Whether this build carries the cask's fonts. Only a bundled cask has an On-Demand Resources tag
@@ -170,8 +173,17 @@ enum Licenses {
 enum PreviewFonts {
     private static var descriptors: [String: CTFontDescriptor] = [:]
 
-    static func font(_ file: String, size: CGFloat) -> Font {
-        guard let descriptor = descriptor(file) else { return .system(size: size) }
+    /// The preview font, with its ligatures and contextual alternates on, as Core Text draws them unasked, or
+    /// off, to show the characters a coding face's ligatures join.
+    static func font(_ file: String, size: CGFloat, ligatures: Bool = true) -> Font {
+        guard var descriptor = descriptor(file) else { return .system(size: size) }
+        if !ligatures {
+            let off = ["liga", "clig", "calt"].map { tag in
+                [kCTFontOpenTypeFeatureTag: tag, kCTFontOpenTypeFeatureValue: 0] as [CFString: Any]
+            }
+            descriptor = CTFontDescriptorCreateCopyWithAttributes(
+                descriptor, [kCTFontFeatureSettingsAttribute: off] as CFDictionary)
+        }
         return Font(CTFontCreateWithFontDescriptor(descriptor, size, nil))
     }
 

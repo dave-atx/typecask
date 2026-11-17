@@ -207,7 +207,8 @@ final class GalleryModel {
 
     /// Every collection the sidebar lists, in its order.
     var collections: [FontCollection] {
-        [.allFonts, .installed] + styles.map(FontCollection.style) + [.nerdFonts, .legibility, .symbols, .appleFonts]
+        [.allFonts, .installed] + styles.map(FontCollection.style)
+            + [.nerdFonts, .ligatures, .legibility, .symbols, .appleFonts]
             + holidays.map(FontCollection.holiday)
     }
 

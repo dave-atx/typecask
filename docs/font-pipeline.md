@@ -64,7 +64,14 @@ entry in a fonts pull request, rather than moving most entries in both files.
 ```sh
 ./scripts/build-catalog.py build                       # every cask in the lock
 ./scripts/build-catalog.py build --fonts font-roboto   # font assets only for the casks named
+./scripts/build-catalog.py try font-fira-code font-roboto   # just these casks, into .cache/try/
 ```
+
+`try` is for working on the pipeline: it builds only the casks named, from the lock, and prints what each
+built into, without the hours a full build takes. The debug build's casks (`scripts/debug-fonts.py`) are
+chosen to cover the cases worth checking. `try --apply` also copies their previews and fields into
+`Previews/` and `Catalog.json`, to look at them in the simulator; that leaves the app's generated files
+half rebuilt, so restore both with git afterwards and never commit them.
 
 Each cask builds into `.cache/built/<token>/<key>`, keyed by its locked source and `PIPELINE_VERSION`,
 so a cask whose source hasn't changed isn't downloaded and subset again. Bump
@@ -77,6 +84,13 @@ Casks with no license anywhere are skipped and remembered; a cask that fails eve
 run. Where a download has no license, `build` looks in the family's google/fonts directory and then in
 its GitHub repository, through the API. Set `GITHUB_TOKEN` before a large build: the API allows 60
 requests an hour unauthenticated and 5,000 with a token.
+
+A face has coding ligatures when HarfBuzz shapes at least `CODING_LIGATURES_MIN` of `CODING_LIGATURES`
+(`->`, `!=`, `===` and the like) differently with `liga`, `calt` and `clig` off: Fira Code and most coding
+faces build them from contextual alternates, which only shaping both ways finds. Sequences of
+punctuation only, since a cursive face's alternates join `www` and nearly every text face has `fi`. The
+catalog marks such a cask `ligatures`, and a Latin one's sample ends with the sequences in place of the
+brackets, so its card and page show them.
 
 A Google family also takes its description, and its design style from Google's category, from its
 google/fonts metadata. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no

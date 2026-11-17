@@ -83,7 +83,7 @@ private struct CaskCard: View {
             CaskSpecimen(cask: cask, catalog: catalog, size: 20, relativeTo: .title3, lineLimit: cask.glyphs ? 2 : 3)
             Spacer(minLength: 0)
             CardFooter(title: cask.name, status: installer.cardStatus(of: cask, in: catalog)) {
-                PopularityRank(rank: cask.popularity)
+                CaskCardDetail(cask: cask)
             }
         }
     }
@@ -111,6 +111,20 @@ struct CardFooter<Detail: View>: View {
             }
             Spacer(minLength: 0)
             InstallBadge(status: status)
+        }
+    }
+}
+
+/// A card's detail line: the cask's popularity, then "Ligatures" for a coding face that has them.
+struct CaskCardDetail: View {
+    let cask: Cask
+
+    var body: some View {
+        HStack(spacing: 6) {
+            PopularityRank(rank: cask.popularity)
+            if cask.ligatures == true {
+                Text("Ligatures")
+            }
         }
     }
 }
@@ -199,6 +213,7 @@ private struct GalleryItemAccessibility: ViewModifier {
             .accessibilityCustomContent(AccessibilityCustomContentKey("Design Style"), Text(item.style.name))
             .accessibilityCustomContent(AccessibilityCustomContentKey("Popularity"), popularity)
             .accessibilityCustomContent(AccessibilityCustomContentKey("Includes"), nerdFonts)
+            .accessibilityCustomContent(AccessibilityCustomContentKey("Ligatures"), ligatures)
     }
 
     private var value: Text {
@@ -212,6 +227,11 @@ private struct GalleryItemAccessibility: ViewModifier {
     private var popularity: Text? {
         guard case .cask(let cask) = item, let rank = cask.popularity else { return nil }
         return Text("#\(rank, format: .number)")
+    }
+
+    private var ligatures: Text? {
+        guard case .cask(let cask) = item, cask.ligatures == true else { return nil }
+        return Text("Joins -> and != into single symbols")
     }
 
     private var nerdFonts: Text? {
@@ -229,17 +249,20 @@ struct CaskSpecimen: View {
     let cask: Cask
     let catalog: Catalog
     let lineLimit: Int?
+    let ligatures: Bool
     @ScaledMetric private var size: CGFloat
 
-    init(cask: Cask, catalog: Catalog, size: CGFloat, relativeTo style: Font.TextStyle, lineLimit: Int?) {
+    init(cask: Cask, catalog: Catalog, size: CGFloat, relativeTo style: Font.TextStyle, lineLimit: Int?,
+         ligatures: Bool = true) {
         self.cask = cask
         self.catalog = catalog
         self.lineLimit = lineLimit
+        self.ligatures = ligatures
         _size = ScaledMetric(wrappedValue: size, relativeTo: style)
     }
 
     var body: some View {
-        CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: lineLimit)
+        CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: lineLimit, ligatures: ligatures)
     }
 }
 
@@ -249,9 +272,11 @@ struct CaskSpecimenText: View {
     let catalog: Catalog
     let size: CGFloat
     let lineLimit: Int?
+    /// Whether to draw the face's ligatures, which a coding face's page can turn off to show what they join.
+    var ligatures = true
 
     var body: some View {
-        let font = PreviewFonts.font(cask.previewFile, size: size)
+        let font = PreviewFonts.font(cask.previewFile, size: size, ligatures: ligatures)
         VStack(alignment: .leading, spacing: size / 4) {
             Text(cask.sample ?? catalog.sampleText)
                 .font(font)

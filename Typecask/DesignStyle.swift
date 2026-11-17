@@ -95,6 +95,8 @@ enum FontCollection: Hashable, Identifiable, Sendable {
     case style(DesignStyle)
     /// Casks patched with Nerd Fonts' icons.
     case nerdFonts
+    /// Coding faces that join sequences like -> and != into ligatures, which the catalog marks `ligatures`.
+    case ligatures
     /// Casks made to be easy to read, which the catalog marks `legible`.
     case legibility
     /// Casks typed on a keyboard that draw something other than letters, which the catalog marks `symbols`.
@@ -111,6 +113,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .installed: "Installed"
         case .style(let style): style.name
         case .nerdFonts: "Nerd Fonts"
+        case .ligatures: "Ligatures"
         case .legibility: "Legibility"
         case .symbols: "Symbols"
         case .appleFonts: "Apple Fonts"
@@ -134,6 +137,11 @@ enum FontCollection: Hashable, Identifiable, Sendable {
             """
             Coding fonts patched with Nerd Fonts' thousands of icons, for terminal prompts and editors that show \
             file types, branches and the like.
+            """
+        case .ligatures:
+            """
+            Coding fonts that draw sequences like -> and != as single symbols, in editors and terminals that \
+            support ligatures. A font's page can turn them off to show the characters underneath.
             """
         case .legibility:
             """
@@ -162,6 +170,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         case .installed: "checkmark.circle"
         case .style(let style): style.symbol
         case .nerdFonts: "terminal"
+        case .ligatures: "link"
         case .legibility: "eyeglasses"
         case .symbols: "scribble"
         case .appleFonts: "applelogo"
@@ -176,6 +185,7 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         // A paired card stands for its Nerd Font version too.
         case (.installed, .cask(let cask)): installed.contains(cask.id) || cask.nerdFont.map(installed.contains) == true
         case (.nerdFonts, .cask(let cask)): cask.glyphs || cask.nerdFont != nil
+        case (.ligatures, .cask(let cask)): cask.ligatures ?? false
         case (.legibility, .cask(let cask)): cask.legible ?? false
         case (.symbols, .cask(let cask)): cask.symbols ?? false
         case (.appleFonts, .apple): true

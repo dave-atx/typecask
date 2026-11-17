@@ -84,6 +84,14 @@ it ranks as the more popular of the two.
 Each cask is still its own entry everywhere else: Shortcuts and Siri find both, and opening or
 installing the Nerd Font version from a shortcut shows the shared page. The site keeps a page for each.
 
+## Ligatures
+
+The Ligatures collection is the coding fonts that draw sequences like `->` and `!=` as single symbols,
+which `build` finds by shaping them with HarfBuzz both ways (see the
+[font pipeline](font-pipeline.md#build)) and marks `ligatures`. Their cards say "Ligatures", their
+sample shows the sequences, and their page has a switch that turns the ligatures off in the samples, by
+the font descriptor's feature settings, to show the characters underneath.
+
 ## Symbols
 
 The Symbols collection is fonts typed on an ordinary keyboard that draw something other than letters:

@@ -4,15 +4,21 @@ import SwiftUI
 struct CaskDetailView: View {
     let cask: Cask
     let catalog: Catalog
+    /// Whether the samples draw a coding face's ligatures, which the page can turn off to show what they join.
+    @State private var ligatures = true
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 16) {
-                    SizedSpecimen(cask: cask, catalog: catalog)
+                    SizedSpecimen(cask: cask, catalog: catalog, ligatures: ligatures)
                     // The same line again, smaller, which VoiceOver needn't read twice.
-                    CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil)
+                    CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil,
+                                 ligatures: ligatures)
                         .accessibilityHidden(true)
+                    if cask.ligatures == true {
+                        LigaturesToggle(isOn: $ligatures)
+                    }
                 }
                 CaskActions(cask: cask)
                 if let nerdVersion = catalog.nerdVersions[cask.token] {
@@ -60,6 +66,7 @@ struct CaskDetailView: View {
 private struct SizedSpecimen: View {
     let cask: Cask
     let catalog: Catalog
+    let ligatures: Bool
     @AppStorage("specimenSize") private var chosenSize: Double = 0
     @ScaledMetric(relativeTo: .largeTitle) private var standardSize: CGFloat = 40
     private static let sizes: ClosedRange<Double> = 12...144
@@ -67,7 +74,7 @@ private struct SizedSpecimen: View {
     var body: some View {
         let size = chosenSize > 0 ? chosenSize : min(max(standardSize, Self.sizes.lowerBound), Self.sizes.upperBound)
         VStack(alignment: .leading, spacing: 8) {
-            CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: nil)
+            CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: nil, ligatures: ligatures)
             // Rounded rather than stepped: a step draws a dot for every stop along the track.
             Slider(value: Binding { size } set: { chosenSize = $0.rounded() }, in: Self.sizes) {
                 Text("Sample Size")
@@ -81,6 +88,22 @@ private struct SizedSpecimen: View {
             .accessibilityValue(Text("\(Int(size)) points"))
             .accessibilityIdentifier("specimenSize")
         }
+    }
+}
+
+/// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
+/// signs and back.
+private struct LigaturesToggle: View {
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            Text("Ligatures")
+            Text("Joins sequences like -> and != into single symbols, in editors that support them.")
+                // Darker than the system's secondary gray, which is 3.5:1 on white where text needs 4.5:1.
+                .foregroundStyle(Color(.captionText))
+        }
+        .accessibilityIdentifier("ligatures")
     }
 }
 

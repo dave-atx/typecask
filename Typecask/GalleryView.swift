@@ -25,8 +25,8 @@ struct GalleryView: View {
     }
 }
 
-/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts, Legibility,
-/// Symbols and Apple's, and the holidays.
+/// Font Book's collections: All Fonts and Installed, the design styles, then Nerd Fonts, Ligatures,
+/// Legibility, Symbols and Apple's, and the holidays.
 private struct CollectionSidebar: View {
     @Bindable var model: GalleryModel
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -42,6 +42,7 @@ private struct CollectionSidebar: View {
             }
             Section("Collections") {
                 row(.nerdFonts)
+                row(.ligatures)
                 row(.legibility)
                 row(.symbols)
                 row(.appleFonts)
@@ -261,6 +262,7 @@ private struct CollectionMenu: View {
                 }
                 Section("Collections") {
                     Text(FontCollection.nerdFonts.name).tag(FontCollection.nerdFonts)
+                    Text(FontCollection.ligatures.name).tag(FontCollection.ligatures)
                     Text(FontCollection.legibility.name).tag(FontCollection.legibility)
                     Text(FontCollection.symbols.name).tag(FontCollection.symbols)
                     Text(FontCollection.appleFonts.name).tag(FontCollection.appleFonts)

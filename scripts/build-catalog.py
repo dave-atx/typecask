@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["fonttools==4.67.0", "lxml==6.1.3"]  # lxml subsets OpenType-SVG color fonts
+# dependencies = ["fonttools==4.67.0", "lxml==6.1.3", "uharfbuzz==0.51.1"]  # lxml subsets OpenType-SVG color fonts
 # ///
 """Builds Typecask's catalog and font assets from Homebrew's font casks and Google Fonts.
 
@@ -50,6 +50,7 @@ from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 
+import uharfbuzz
 from fontTools.subset import Options, Subsetter
 from fontTools.ttLib import TTCollection, TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
@@ -268,6 +269,15 @@ GOOGLE_LICENSE_NAMES = ("OFL.txt", "LICENSE.txt", "UFL.txt", "LICENCE.txt")
 GOOGLE_FONTS_URL = "https://github.com/google/fonts.git"
 PANGRAM = "The quick brown fox jumps over the lazy dog"
 SAMPLE_TEXT = PANGRAM + " 0123456789 {}[]()<>=!&|"
+# What has_coding_ligatures() shapes, and the sample a face with them shows instead, so its card and page
+# draw them. Sequences of punctuation only: a cursive face's contextual alternates join "www", and nearly
+# every text face has "fi", neither of which is what a coding face's ligatures mean.
+CODING_LIGATURES = ("->", "=>", "!=", "===", "<=", ">=", "|>", "::")
+# A face has coding ligatures when shaping this many of CODING_LIGATURES with liga, calt and clig turned
+# off changes their glyphs. Fira Code, Cascadia Code and JetBrains Mono change all eight or nearly, a
+# handwriting face none, and an Arabic face's required ligatures none.
+CODING_LIGATURES_MIN = 3
+LIGATURE_SAMPLE_TEXT = PANGRAM + " 0123456789 " + " ".join(CODING_LIGATURES)
 # A face that has fewer of PANGRAM's letters than this has no Latin. Faces have all of them or
 # none, bar a barcode font's 81%.
 LATIN_COVERAGE = 0.8
@@ -471,7 +481,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 10
+PIPELINE_VERSION = 11
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -481,6 +491,7 @@ ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
 FONTS = APP / "Fonts.xcassets"
 PREVIEWS = APP / "Previews"
+CATALOG = APP / "Catalog.json"
 # Each cask's license as text, for review: outside the app, which ships them all in LICENSE_BUNDLE.
 LICENSES = ROOT / "Licenses"
 # Every license in one JSON object by token, raw-deflated, which NSData decompresses as .zlib: 0.8 MB
@@ -1251,6 +1262,25 @@ class Scripts:
     sample: str | None  # None for an icon, emoji or music font, which has nothing to preview
 
 
+def has_coding_ligatures(face):
+    """Whether shaping enough of CODING_LIGATURES draws them differently with the ligature features on,
+    by HarfBuzz rather than by reading GSUB: Fira Code and most coding faces build theirs from calt's
+    contextual alternates, which swap glyphs one for one rather than combining them, so only shaping both
+    ways tells."""
+    font = uharfbuzz.Font(uharfbuzz.Face(uharfbuzz.Blob.from_file_path(str(face.path)), face.number))
+    off = {"liga": False, "calt": False, "clig": False}
+
+    def glyphs(text, features):
+        buffer = uharfbuzz.Buffer()
+        buffer.add_str(text)
+        buffer.guess_segment_properties()
+        uharfbuzz.shape(font, buffer, features)
+        return [info.codepoint for info in buffer.glyph_infos]
+
+    changed = sum(glyphs(text, {}) != glyphs(text, off) for text in CODING_LIGATURES)
+    return changed >= CODING_LIGATURES_MIN
+
+
 def face_scripts(face, primary_script=None):
     """The face's own script, every script it covers, and its sample: the line in its own script,
     then SAMPLE_TEXT on the next where it has Latin letters too, or SAMPLE_TEXT alone for a Latin face.
@@ -1659,6 +1689,10 @@ def build_cask(entry, destination, mirrored=frozenset()):
         if (sample := scripts.sample) is None:
             # Icon, emoji and music fonts draw none of the samples: a card would show the system font.
             raise Skip("draws none of the sample text")
+        # A Latin face with coding ligatures shows them in place of the sample's brackets.
+        ligatures = has_coding_ligatures(primary)
+        if ligatures and sample == SAMPLE_TEXT:
+            sample = LIGATURE_SAMPLE_TEXT
         preview = write_preview(primary, token, destination, sample)
         (destination / "license.txt").write_text(license)
         built = {
@@ -1672,6 +1706,8 @@ def build_cask(entry, destination, mirrored=frozenset()):
         if sample != SAMPLE_TEXT:
             built["sample"] = sample
         built |= {"script": scripts.script, "scripts": scripts.scripts}
+        if ligatures:
+            built["ligatures"] = True
         if google.get("directory") and (description := google_description(google["directory"])):
             built["description"] = description
         write_json(destination / "entry.json", built)
@@ -1880,6 +1916,53 @@ def report(title, items):
         print(f"{title} ({len(items)}): {', '.join(items) or '-'}")
 
 
+def try_casks(tokens, apply=False):
+    """`try`: builds just these casks from fonts.lock.json into .cache/try/, to see what a pipeline change
+    makes of them without the hours a full build takes, and prints what each built into.
+
+    With `apply`, also copies their previews into Typecask/Previews and their built fields into
+    Catalog.json, for a look in the simulator. That leaves the app's generated files half from this
+    build and half from the last, so it's for a local check only: restore both with git afterwards.
+    """
+    locked = json.loads(LOCK.read_text())
+    by_token = {entry["token"]: entry for entry in locked["casks"]}
+    if unknown := [token for token in tokens if token not in by_token]:
+        sys.exit(f"not in {LOCK.name}: {', '.join(unknown)}")
+    entries = [by_token[token] for token in tokens]
+    update_clone(locked["googleFonts"])
+    checkout(
+        locked["googleFonts"],
+        {entry["source"]["google"] for entry in entries if "google" in entry["source"]}
+        | {entry["google"]["directory"] for entry in entries if (entry.get("google") or {}).get("directory")},
+    )
+    mirrored = frozenset(mirrored_hashes()) if any(mirrorable(entry["source"]) for entry in entries) else frozenset()
+    built = {}
+    for entry in entries:
+        destination = CACHE / "try" / entry["token"]
+        _, error = build_job((entry, destination, mirrored))
+        result = {"error": error} if error else json.loads((destination / "entry.json").read_text())
+        built[entry["token"]] = result
+        summary = {key: result[key] for key in ("skip", "error", "ligatures", "sample", "glyphs") if key in result}
+        print(f"{entry['token']}: {json.dumps(summary, ensure_ascii=False)}")
+    if not apply:
+        return
+    catalog = json.loads(CATALOG.read_text())
+    for record in catalog["casks"]:
+        result = built.get(record["token"])
+        if not result or "previewFile" not in result:
+            continue
+        shutil.copy(CACHE / "try" / record["token"] / result["previewFile"], PREVIEWS / result["previewFile"])
+        for key in ("previewFile", "fontVersion", "glyphs", "style"):
+            record[key] = result[key]
+        for key in ("sample", "ligatures"):
+            if key in result:
+                record[key] = result[key]
+            else:
+                record.pop(key, None)
+    write_json(CATALOG, catalog)
+    print(f"applied to {CATALOG.name} and {PREVIEWS.name}/ for a local look; restore both with git afterwards")
+
+
 def build(only=None, max_mb_per_install=None, jobs=1):
     """`build`: builds the catalog, previews, licences and font assets from fonts.lock.json.
 
@@ -2055,6 +2138,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         if "sample" in built:
             record["sample"] = built["sample"]
         record |= {"script": built["script"], "scripts": filtered_scripts(built["script"], built["scripts"], token)}
+        if built.get("ligatures"):
+            record["ligatures"] = True
         if "description" in built:
             record["description"] = built["description"]
             # Google's descriptions are often the designer's own words, in the first person.
@@ -2256,6 +2341,12 @@ def main():
         "Homebrew rank, rather than every family; 0 for none",
     )
 
+    try_command = commands.add_parser("try", help="build just these casks into .cache/try/, to try a pipeline change")
+    try_command.add_argument("tokens", nargs="+", metavar="TOKEN")
+    try_command.add_argument(
+        "--apply", action="store_true", help="copy their previews and fields into the app, for a local look only"
+    )
+
     build_command = commands.add_parser("build", help="build everything from fonts.lock.json")
     build_command.add_argument("--fonts", nargs="+", metavar="TOKEN", help="write font assets only for these casks")
     build_command.add_argument(
@@ -2287,6 +2378,8 @@ def main():
             max_mb_per_install=arguments.max_mb_per_install,
             jobs=arguments.jobs,
         )
+    elif arguments.command == "try":
+        try_casks(arguments.tokens, apply=arguments.apply)
     elif arguments.command == "mirror":
         mirror()
     elif arguments.command == "check-licenses":
