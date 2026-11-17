@@ -49,7 +49,7 @@ scripts/site-catalog.sh
 cd site && hugo server
 ```
 
-Needs Hugo 0.168 or later. [docs/site.md](docs/site.md) covers the rest.
+Needs Hugo 0.170 or later. [docs/site.md](docs/site.md) covers the rest.
 
 ## Checks
 

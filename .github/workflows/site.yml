@@ -39,7 +39,7 @@ concurrency:
 
 env:
   # Cloudflare Workers Builds reads the same variable, if the build ever moves there.
-  HUGO_VERSION: 0.168.0
+  HUGO_VERSION: 0.170.0
 
 jobs:
   site:
@@ -56,7 +56,7 @@ jobs:
         run: |
           url="https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION"
           curl -fsSL --retry 3 -o /tmp/hugo.deb \
-            "$url/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+            "$url/hugo_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i /tmp/hugo.deb
           hugo version
 
