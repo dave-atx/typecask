@@ -1,5 +1,6 @@
 {{- $title := cond .IsHome site.Title (printf "%s — %s" .Title site.Title) -}}
-{{- $desc := .Description | default site.Params.description -}}
+{{- /* A content adapter's page, like What's New, carries its description as a param. */ -}}
+{{- $desc := .Description | default .Params.description | default site.Params.description -}}
 {{- if and .Params.token (not .Description) -}}
   {{- $faces := int .Params.faces -}}
   {{- $desc = printf "Install %s on your iPhone or iPad with Typecask. %s, %d %s, free." .Title .Params.styleName $faces (cond (eq $faces 1) "face" "faces") -}}

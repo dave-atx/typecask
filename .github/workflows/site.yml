@@ -27,7 +27,9 @@ on:
       - .github/workflows/site.yml
   # Daily, so the App Store rating the home page shows doesn't wait for the next TestFlight build.
   schedule:
-    - cron: "23 7 * * *"
+    # Every three hours, so a version Apple releases reaches the site the same day: site-catalog.sh
+    # builds from the version the App Store has.
+    - cron: "23 */3 * * *"
   workflow_dispatch:
 
 permissions:

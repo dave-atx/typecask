@@ -6,13 +6,16 @@ listing points at, and publishes the whole font catalog, each family set in its 
 
 ## The catalog it shows
 
-The site shows the catalog the shipping app carries, not main's. A fonts release merges into main on
-Mondays and the app that ships it goes out whenever a `testflight-N` tag is pushed, so main's
-`Catalog.json` routinely lists fonts that no installed copy of the app has. A site built from main
-would offer people fonts they can't install.
+The site shows the version of the app the App Store has, not main's catalog, nor the newest TestFlight
+build's. A fonts release merges into main on Mondays and TestFlight builds go out whenever a
+`testflight-N` tag is pushed, so either would offer fonts people can't install yet, and say what a
+version people don't have yet does.
 
-`scripts/site-catalog.sh` reads the most recent `testflight-N` tag and copies that tag's
-`Catalog.json`, `Previews/`, `Licenses/` and app icon into `site/`, where Hugo picks them up:
+So each version submitted for review gets a `release-VERSION` tag on the commit its build came from,
+`release-1.1` on the commit `testflight-16` built, say. `scripts/site-catalog.sh` asks Apple's lookup API
+which version is live and builds from that version's tag; if the lookup fails or the version has no tag,
+the newest `release-*` tag stands in. The site rebuilds every three hours, so a release reaches it the
+same day, with nothing to flip by hand. From the tag it copies:
 
 | Written to | From the tag |
 | --- | --- |
@@ -20,13 +23,18 @@ would offer people fonts they can't install.
 | `site/static/p/` | `Typecask/Previews/` |
 | `site/licenses/` | `Licenses/` |
 | `site/assets/icon.png` | `docs/icon/default.png`, the app icon as `scripts/icon.sh` renders it |
-| `site/data/release.json` | the tag, build number, commit and date |
+| `site/data/release.json` | the tag, version, build number (the `testflight-N` on the same commit), fonts release, commit and date |
+| `site/data/notes.json` | every version's release notes, from `docs/release-notes/`, for What's New |
 
 All of it is gitignored. The script runs `git archive` against the tag, so it works from a checkout
 of any revision, and it fetches the tag itself when the clone doesn't have one, which is what CI
-does. Set `TYPECASK_RELEASE_TAG` to build against a particular tag, or `TYPECASK_RELEASE_TAGS` to
-change the pattern; point it at `release-*` once the App Store, rather than TestFlight, is what
-people get.
+does. Set `TYPECASK_RELEASE_TAG` to build against a particular tag, as for a look at an unreleased
+version.
+
+What depends on the version follows it too. What's New (`content/_content.gotmpl`) exists only once the
+live version has notes. `_partials/released.html` says whether the live version is at least a given one,
+which gates Open in Typecask on `deepLinksSince`. Templates and styles still deploy as soon as they're
+pushed, so anything new that needs a newer app has to check the version that way.
 
 ## Building it
 
@@ -126,10 +134,10 @@ the wire.
   unaltered) and Safari shows its Smart App Banner. With it false they point at `testflightURL`, or
   read "Coming to the App Store" when that's empty, and never render a link to a listing that isn't
   public.
-- `deepLinks` turns on each font page's Open in Typecask link, `typecask://font/TOKEN`, shown only on
-  touch devices. Leave it off until the App Store's version of the app handles the link (1.1 does):
-  until then the page says to search the app. The Smart App Banner needs no switch: it hands the app
-  the page's own URL as `app-argument`, which 1.1 opens and earlier versions ignore.
+- `deepLinksSince` is the first version that opens `typecask://font/TOKEN`. Once the App Store has it,
+  each font page offers Open in Typecask, on touch devices only; until then it says to search the app.
+  The Smart App Banner needs no gate: it hands the app the page's own URL as `app-argument`, which 1.1
+  opens and earlier versions ignore.
 - `_partials/app-store.html` reads the app's US rating from Apple's lookup API
   (`itunes.apple.com/lookup`) at build time, which is why the site also rebuilds daily. The home page
   shows it under the badge once there is one, and a failed lookup only drops it, with a warning.

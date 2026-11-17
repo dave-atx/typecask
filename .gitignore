@@ -15,6 +15,7 @@ site/public/
 site/resources/
 site/data/catalog.json
 site/data/release.json
+site/data/notes.json
 site/static/p/
 site/licenses/
 site/assets/icon.png

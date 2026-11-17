@@ -1,0 +1,22 @@
+{{/*
+  What's New, from the release notes of the version the App Store has (data/notes.json, which
+  scripts/site-catalog.sh writes from that version's release tag). No notes, no page: the footer only
+  links it when it exists.
+*/}}
+{{ with hugo.Data.notes }}
+  {{ $markdown := "" }}
+  {{ range . }}
+    {{ $lines := slice }}
+    {{ range split .notes "\n" }}
+      {{ $lines = $lines | append (replaceRE `^•\s*` "- " .) }}
+    {{ end }}
+    {{ $markdown = printf "%s## Typecask %s\n\n%s\n\n" $markdown .version (delimit $lines "\n") }}
+  {{ end }}
+  {{ $.AddPage (dict
+      "path" "whats-new"
+      "kind" "page"
+      "title" "What's New"
+      "params" (dict "description" "What each version of Typecask added and changed.")
+      "content" (dict "mediaType" "text/markdown" "value" $markdown)
+  ) }}
+{{ end }}

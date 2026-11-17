@@ -1,33 +1,59 @@
 #!/bin/sh
 # Copies the catalog, previews and licenses that the shipping app carries into site/, where Hugo
-# reads them.
+# reads them, with that version's release notes.
 #
-# The site has to describe the build people can install, not main. A fonts release merges into main
-# every Monday, and the app that ships it goes out whenever a testflight-N tag is pushed, so main's
-# Catalog.json routinely lists fonts no installed copy of the app has. Reading the catalog out of the
-# most recent testflight-N tag keeps the site and the app in step. Point RELEASE_TAGS at release-*
-# once the App Store, rather than TestFlight, is what people get.
+# The site has to describe the app people can install, not main, nor the newest TestFlight build. A
+# fonts release merges into main every Monday and TestFlight builds go out whenever a testflight-N tag
+# is pushed, but the App Store serves the version Apple last released. So each version submitted for
+# review gets a release-VERSION tag on the commit its build came from, and this asks Apple's lookup API
+# which version is live and builds from that version's tag: new fonts, What's New and anything gated on
+# the version go live with the release, on the next site build after it. If the lookup fails, or the
+# live version has no tag, the newest release-* tag stands in.
 #
-# Everything this writes is gitignored. Run it before hugo, locally and in CI.
+# Everything this writes is gitignored. Run it before hugo, locally and in CI. TYPECASK_RELEASE_TAG
+# builds from a particular tag, as for a look at an unreleased version.
 set -eu
 
 cd "$(dirname "$0")/.."
 
-pattern=${TYPECASK_RELEASE_TAGS:-testflight-*}
+APP_ID=6826936046
+pattern=${TYPECASK_RELEASE_TAGS:-release-*}
 tag=${TYPECASK_RELEASE_TAG:-}
 
+# Has the tag, fetching just its commit when the clone hasn't: a shallow CI clone carries no tags, and
+# the whole history is a fonts release of previews every week, none of which is needed.
+have_tag() {
+    if git rev-parse --verify --quiet "$1^{commit}" > /dev/null; then
+        return 0
+    fi
+    if git ls-remote --exit-code --tags --refs origin "$1" > /dev/null 2>&1; then
+        echo "site-catalog.sh: fetching $1"
+        git fetch -q --depth 1 origin "refs/tags/$1:refs/tags/$1"
+        return 0
+    fi
+    return 1
+}
+
+if [ -z "$tag" ] && [ "$pattern" = "release-*" ]; then
+    live=$(curl -fsS --max-time 20 "https://itunes.apple.com/lookup?id=$APP_ID&country=us" 2> /dev/null |
+        python3 -c 'import json, sys; print(json.load(sys.stdin)["results"][0]["version"])' 2> /dev/null || true)
+    if [ -n "$live" ] && have_tag "release-$live"; then
+        tag="release-$live"
+        echo "site-catalog.sh: the App Store has $live"
+    else
+        echo "site-catalog.sh: no tag for the App Store's version (${live:-lookup failed}); using the newest" >&2
+    fi
+fi
+
 if [ -z "$tag" ]; then
-    # Version sort, so testflight-10 comes after testflight-9 rather than before it.
+    # Version sort, so release-1.10 comes after release-1.9 rather than before it.
     tag=$(git tag --list "$pattern" --sort=v:refname | tail -1)
 fi
 
 if [ -z "$tag" ]; then
-    # A shallow CI clone carries no tags. Ask the remote for the newest one and fetch that one
-    # commit: the whole history is a fonts release of previews every week, and none of it is needed.
     tag=$(git ls-remote --tags --refs origin "$pattern" | sed 's|.*refs/tags/||' | sort -V | tail -1)
     if [ -n "$tag" ]; then
-        echo "site-catalog.sh: fetching $tag"
-        git fetch --depth 1 origin "refs/tags/$tag:refs/tags/$tag"
+        have_tag "$tag"
     fi
 fi
 
@@ -56,7 +82,7 @@ if ! git cat-file -e "$tag:$icon" 2> /dev/null; then
 fi
 git archive "$tag" Typecask/Catalog.json Typecask/Previews Licenses "$icon" | tar -x -C "$tmp"
 
-rm -rf site/data/catalog.json site/data/release.json site/static/p site/licenses \
+rm -rf site/data/catalog.json site/data/release.json site/data/notes.json site/static/p site/licenses \
     site/assets/icon.png
 mkdir -p site/data site/static site/licenses site/assets
 
@@ -65,16 +91,27 @@ mv "$tmp/Typecask/Previews" site/static/p
 mv "$tmp/Licenses"/*.txt site/licenses/
 mv "$tmp/$icon" site/assets/icon.png
 
-# release.json is what the footer and the font pages cite, so a visitor can tell which build of the
-# app the catalog belongs to.
+# release.json is what the footer cites, so a visitor can tell which version of the app the catalog
+# belongs to, and what pages gated on a version (deep links) compare with. The build is the
+# testflight-N tag on the same commit, where there is one. fontsTag names the web fonts on R2 that
+# match these fonts, for Try It Out.
+commit=$(git rev-parse "$tag^{commit}")
+version=$(git show "$tag:Typecask.xcodeproj/project.xcproj" | sed -n 's/.*"MARKETING_VERSION": "\([^"]*\)".*/\1/p' | head -1)
+build=$(git ls-remote --tags --refs origin 'testflight-*' | awk -v commit="$commit" '$1 == commit { sub(".*testflight-", ""); print }' | sort -n | tail -1)
+fonts_tag=$(git show "$tag:Typecask/FontsAsset.json" 2> /dev/null | python3 -c 'import json, sys; print(json.load(sys.stdin)["tag"])' 2> /dev/null || true)
 cat > site/data/release.json << JSON
 {
   "tag": "$tag",
-  "build": "${tag##*-}",
-  "commit": "$(git rev-parse "$tag^{commit}")",
-  "date": "$(git log -1 --format=%cs "$tag^{commit}")"
+  "version": "$version",
+  "build": "$build",
+  "fontsTag": "$fonts_tag",
+  "commit": "$commit",
+  "date": "$(git log -1 --format=%cs "$commit")"
 }
 JSON
+
+# What's New, every version's notes as that version had them.
+python3 scripts/release-notes.py --site "$tag" > site/data/notes.json
 
 printf 'site-catalog.sh: %s casks, %s previews, %s licenses\n' \
     "$(grep -c '"token"' site/data/catalog.json)" \

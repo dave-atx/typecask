@@ -17,6 +17,9 @@
       <a href="{{ "/privacy/" | relURL }}">Privacy</a>
       <a href="{{ "/support/" | relURL }}">Support</a>
       <a href="{{ "/licenses/" | relURL }}">Font licenses</a>
+      {{- with site.GetPage "/whats-new" }}
+        <a href="{{ .RelPermalink }}">What&rsquo;s new</a>
+      {{- end }}
       <a href="{{ site.Params.repoURL }}">Source on GitHub</a>
     </nav>
   </div>
@@ -24,7 +27,8 @@
     <p>Every font belongs to its designers and ships under its own license. Typecask isn't affiliated
       with Homebrew, Google or Apple.</p>
     <p>
-      {{- with $release }}Catalog from build {{ .build }}, {{ .date }}. {{ end -}}
+      {{- with $release }}Catalog from Typecask {{ .version }}{{ with .build }} (build {{ . }}){{ end }},
+        {{ .date }}. {{ end -}}
       <a href="{{ site.Params.repoURL }}/blob/main/LICENSE">Apache 2.0</a>
     </p>
   </div>

@@ -69,6 +69,20 @@ A green run doesn't mean the build is in TestFlight yet. `altool` returns once A
 App Store Connect then processes them, which takes several minutes before the build appears under
 Builds. A build that never appears has failed processing, and Apple reports that by email.
 
+## Submitting a version
+
+Submit the build for review in App Store Connect, paste the notes (below) into What's New, and tag the
+commit the build came from, which is its `testflight-N` tag's:
+
+```sh
+git tag release-1.1 testflight-16 && git push origin release-1.1
+```
+
+The site builds from the `release-*` tag of whatever version the App Store has (see
+[the site](site.md#the-catalog-it-shows)), so the new fonts, What's New and anything else gated on the
+version go live with the release, not with the submission. The next version needs a new
+`MARKETING_VERSION`.
+
 ## Release notes
 
 Each version's notes are `docs/release-notes/VERSION.txt`, written by hand for people who use the app,

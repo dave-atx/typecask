@@ -1,0 +1,19 @@
+{{- /*
+  Whether the App Store's version of the app, data/release.json's, is at least the version given, as
+  "1.1": numerically, part by part, so 1.10 comes after 1.9. With no release.json, false.
+*/ -}}
+{{- $live := split (hugo.Data.release.version | default "0") "." -}}
+{{- $since := split . "." -}}
+{{- $result := true -}}
+{{- $decided := false -}}
+{{- range $index, $part := $since -}}
+  {{- if not $decided -}}
+    {{- $have := int (index $live $index | default "0") -}}
+    {{- $want := int $part -}}
+    {{- if ne $have $want -}}
+      {{- $result = gt $have $want -}}
+      {{- $decided = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $result -}}
