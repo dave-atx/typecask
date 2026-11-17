@@ -332,12 +332,16 @@ class Store:
 def build(xcassets, out, jobs, tag=None):
     (out / "w").mkdir(parents=True, exist_ok=True)
     folders = sorted(path for path in xcassets.iterdir() if path.is_dir() and path.name.startswith("font-"))
+    say(f"Hashing {len(folders)} casks' files, to find those converted before")
     keys = {folder.name: cask_key(folder) for folder in folders}
     store = Store()
     casks = {}
-    for folder in folders:
-        if entry := store.cached(keys[folder.name]):
-            casks[folder.name] = entry
+    # A request apiece, so many at once: a release after the first finds nearly every cask converted.
+    known = [folder.name for folder in folders if f"cache/{keys[folder.name]}.json" in store.keys]
+    say(f"Reading {len(known)} casks' entries from R2")
+    with ThreadPoolExecutor(UPLOADS * 2) as pool:
+        for token, entry in zip(known, pool.map(lambda token: store.cached(keys[token]), known)):
+            casks[token] = entry
     pending = [folder for folder in folders if folder.name not in casks]
     say(f"{len(folders)} casks: {len(casks)} done in an earlier run, {len(pending)} to convert")
     failed = {}
