@@ -92,6 +92,9 @@ final class GalleryModel {
     var showsAbout = false
     /// Whether the search field is active, which a search from Siri or Shortcuts sets.
     var isSearchPresented = false
+    /// Bumped to put the keyboard in the search field: presenting search again when it's already presented
+    /// changes nothing, so Search Fonts from the Home Screen found the field there but not focused.
+    private(set) var searchFocusRequests = 0
 
     var sortOrder: SortOrder = .name {
         didSet { if sortOrder != oldValue { recompute() } }
@@ -198,6 +201,10 @@ final class GalleryModel {
     func browse(_ collection: FontCollection, sortedBy order: SortOrder? = nil) {
         showsAbout = false
         path = []
+        // The whole collection, not what an earlier search left of it: Installed after a search for Roboto
+        // showed "No Results for Roboto", under a search bar that hid the collection's name.
+        searchText = ""
+        isSearchPresented = false
         self.collection = collection
         if let order {
             sortOrder = order
@@ -212,6 +219,7 @@ final class GalleryModel {
         selectedScripts = []
         isSearchPresented = true
         searchText = term
+        searchFocusRequests += 1
     }
 
     func count(of collection: FontCollection) -> Int {

@@ -94,6 +94,7 @@ private struct CollectionSidebar: View {
 private struct GalleryBrowser: View {
     @Bindable var model: GalleryModel
     let showsCollectionMenu: Bool
+    @FocusState private var isSearchFocused: Bool
 
     var body: some View {
         ScrollView {
@@ -118,6 +119,14 @@ private struct GalleryBrowser: View {
         .navigationTitle(Text(model.collection.name))
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $model.searchText, isPresented: $model.isSearchPresented, prompt: Text("Search Fonts"))
+        .searchFocused($isSearchFocused)
+        // After the page over the gallery has gone, on iPhone, where the field isn't there to focus until then.
+        .onChange(of: model.searchFocusRequests) {
+            Task {
+                try? await Task.sleep(for: .milliseconds(400))
+                isSearchFocused = true
+            }
+        }
         .toolbar {
             if showsCollectionMenu {
                 ToolbarItem(placement: .topBarLeading) {

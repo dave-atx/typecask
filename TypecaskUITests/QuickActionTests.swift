@@ -35,7 +35,11 @@ final class QuickActionTests: XCTestCase {
         choose("Search Fonts")
         let field = app.searchFields.firstMatch
         XCTAssertTrue(field.waitForExistence(timeout: 10))
-        XCTAssertEqual(field.value(forKey: "hasKeyboardFocus") as? Bool, true)
+        // On iPhone the field is focused once the page over the gallery has gone, a moment after it appears.
+        let focused = NSPredicate { element, _ in
+            (element as? XCUIElement)?.value(forKey: "hasKeyboardFocus") as? Bool == true
+        }
+        XCTAssertEqual(XCTWaiter.wait(for: [expectation(for: focused, evaluatedWith: field)], timeout: 5), .completed)
     }
 
     /// Long-presses the app's icon on the Home Screen, which may be a page or two along, and picks `title`.
