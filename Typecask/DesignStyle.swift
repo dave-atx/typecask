@@ -121,14 +121,12 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         }
     }
 
-    /// What the gallery says at the top of the collection, or nil for a holiday's, which needs no explaining.
+    /// What the gallery says at the top of the collection, or nil for one that needs no explaining: all fonts,
+    /// which go straight to the fonts, and a holiday's.
     var summary: LocalizedStringResource? {
         switch self {
         case .allFonts:
-            """
-            Every font in Typecask: the fonts Homebrew users install most and every Google Fonts family, free to \
-            install for every app that lets you pick a font, and Apple's own.
-            """
+            nil
         case .installed:
             "Fonts you've installed with Typecask. Remove one here, or in Settings › General › Fonts."
         case .style(let style):
