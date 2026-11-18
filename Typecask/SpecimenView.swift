@@ -151,132 +151,31 @@ struct SpecimenSizeSlider: View {
     }
 }
 
-/// The type tester: the sample at a size of the reader's choosing, to judge a face at the size they'd read it. With
-/// the full fonts it gains rather than changes: the same line, now editable, keeps its place, and the controls
-/// specimen-builder's tester has, style, alignment, line height and a variable face's axes, are added below.
+/// The type tester: the sample at a size of the reader's choosing, to judge a face at the size they'd read it. Its
+/// one control is the size; the rest, style, alignment, line height, axes and features, are Try It Out's.
 struct TypeTester: View {
     let cask: Cask
     let catalog: Catalog
     @Binding var ligatures: Bool
-    let specimen: Specimen?
     private var size = SpecimenSize()
-    /// What's typed in place of the sample; nil for the sample itself.
-    @State private var typed: String?
-    /// The style picked, by index into the specimen's; nil for its regular.
-    @State private var style: Int?
-    /// The style's axes moved away from its own values, by axis identifier.
-    @State private var moved: [Int: Double] = [:]
-    @State private var alignment = TextAlignment.leading
-    /// Line height as a multiple of the font's own, which leaves the sample as the preview set it until moved.
-    @State private var lineHeight = 1.0
 
-    init(cask: Cask, catalog: Catalog, ligatures: Binding<Bool>, specimen: Specimen?) {
+    init(cask: Cask, catalog: Catalog, ligatures: Binding<Bool>) {
         self.cask = cask
         self.catalog = catalog
         _ligatures = ligatures
-        self.specimen = specimen
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 12) {
-                if let specimen {
-                    editor(specimen)
-                } else {
-                    CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
-                                     ligatures: ligatures)
-                }
+                CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
+                                 ligatures: ligatures)
                 SpecimenSizeSlider(size: size.binding)
             }
             if cask.ligatures == true {
                 LigaturesToggle(isOn: $ligatures)
             }
-            if let specimen {
-                controls(specimen)
-            }
         }
-    }
-
-    private var sample: String { cask.sample ?? catalog.sampleText }
-
-    /// The sample as `CaskSpecimenText` sets it, Nerd Fonts' icons and all, with the line made editable.
-    private func editor(_ specimen: Specimen) -> some View {
-        VStack(alignment: .leading, spacing: size.wrappedValue / 4) {
-            TextField("Type something", text: Binding { typed ?? sample } set: { typed = $0 == sample ? nil : $0 },
-                      axis: .vertical)
-                .font(Font(font(specimen)))
-                .lineSpacing(size.wrappedValue * (lineHeight - 1))
-                .multilineTextAlignment(alignment)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .accessibilityIdentifier("specimen")
-            if cask.glyphs {
-                Text(catalog.glyphSample)
-                    .font(PreviewFonts.font(cask.previewFile, size: size.wrappedValue))
-                    .lineLimit(1)
-                    .accessibilityLabel("Nerd Fonts icons")
-            }
-        }
-    }
-
-    @ViewBuilder private func controls(_ specimen: Specimen) -> some View {
-        let current = specimen.styles[style ?? specimen.regular]
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                if specimen.styles.count > 1 {
-                    Picker("Style", selection: Binding { style ?? specimen.regular } set: { style = $0; moved = [:] }) {
-                        ForEach(specimen.styles) { style in
-                            Text(style.name).tag(style.id)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .fixedSize()
-                    .accessibilityIdentifier("specimenStyle")
-                }
-                Spacer()
-                Picker("Alignment", selection: $alignment) {
-                    Label("Left", systemImage: "text.alignleft").tag(TextAlignment.leading)
-                    Label("Center", systemImage: "text.aligncenter").tag(TextAlignment.center)
-                    Label("Right", systemImage: "text.alignright").tag(TextAlignment.trailing)
-                }
-                .pickerStyle(.segmented)
-                .labelStyle(.iconOnly)
-                .fixedSize()
-            }
-            control("Line Height") {
-                Slider(value: $lineHeight, in: 1...2)
-                    .accessibilityValue(Text(lineHeight, format: .number.precision(.fractionLength(1))))
-            }
-            ForEach(current.face.axes) { axis in
-                let value = Binding { moved[axis.id] ?? current.variation[axis.id] ?? axis.defaultValue } set: {
-                    moved[axis.id] = $0
-                }
-                control(LocalizedStringKey(axis.name)) {
-                    Slider(value: value, in: axis.range)
-                        .accessibilityValue(Text(value.wrappedValue, format: .number.precision(.fractionLength(0))))
-                }
-            }
-            if typed != nil {
-                Button("Restore Sample Text", systemImage: "arrow.counterclockwise") { typed = nil }
-                    .font(.callout)
-            }
-        }
-    }
-
-    private func control(_ label: LocalizedStringKey, @ViewBuilder slider: () -> some View) -> some View {
-        LabeledContent {
-            slider()
-        } label: {
-            Text(label)
-                .font(.callout)
-                .frame(minWidth: 90, alignment: .leading)
-        }
-    }
-
-    private func font(_ specimen: Specimen) -> CTFont {
-        let current = specimen.styles[style ?? specimen.regular]
-        let font = CTFontCreateWithFontDescriptor(current.descriptor(moving: moved), size.wrappedValue, nil)
-        return ligatures ? font : TryOutText.withoutLigatures(font)
     }
 }
 

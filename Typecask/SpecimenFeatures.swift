@@ -98,6 +98,22 @@ nonisolated struct SpecimenFeature: Identifiable, Sendable {
         }
     }
 
+    /// The feature's name and its text, "Fractions: 1/2 3/4 7/8", for Try It Out's sample.
+    var sampleLine: String { "\(name): \(parts.map(\.text).joined())" }
+
+    /// The font with these features on and, unless `ligatures`, its ligatures off. In one set of feature settings,
+    /// since a copy's settings replace those of the font it copies.
+    static func font(_ font: CTFont, features: Set<String>, ligatures: Bool) -> CTFont {
+        var settings = features.sorted().map { [kCTFontOpenTypeFeatureTag: $0, kCTFontOpenTypeFeatureValue: 1] }
+        if !ligatures {
+            settings += ["liga", "clig", "calt"].map { [kCTFontOpenTypeFeatureTag: $0, kCTFontOpenTypeFeatureValue: 0] }
+        }
+        guard !settings.isEmpty else { return font }
+        let descriptor = CTFontDescriptorCreateWithAttributes([kCTFontFeatureSettingsAttribute: settings]
+                                                                as CFDictionary)
+        return CTFontCreateCopyWithAttributes(font, 0, nil, descriptor)
+    }
+
     /// The font with the feature turned on.
     static func font(_ font: CTFont, with tag: String) -> CTFont {
         let setting = [kCTFontOpenTypeFeatureTag: tag, kCTFontOpenTypeFeatureValue: 1] as [CFString: Any]

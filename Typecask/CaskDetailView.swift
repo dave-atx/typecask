@@ -27,7 +27,7 @@ struct CaskDetailView: View {
                     NerdFontVersion(cask: nerdVersion, catalog: catalog)
                 }
                 SpecimenSection("Tester") {
-                    TypeTester(cask: cask, catalog: catalog, ligatures: $ligatures, specimen: specimen)
+                    TypeTester(cask: cask, catalog: catalog, ligatures: $ligatures)
                 }
                 if let specimen {
                     SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)

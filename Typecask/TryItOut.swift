@@ -26,19 +26,25 @@ struct TryItOutButton: View {
 }
 
 /// An editor set in the cask's own fonts, which starts with what the face has to show off (see TryOutText): its
-/// ligatures, its icons or another script's letters. Each face of the cask can be picked, a variable font's axes
-/// moved, and a coding face's ligatures turned off.
+/// ligatures, its OpenType features, its icons or another script's letters. Any style of the cask can be picked, a
+/// variable font's named instances among them, its axes moved, its features and ligatures turned on and off, and
+/// the text sized, aligned and spaced, as specimen-builder's type tester has.
 struct TryItOutView: View {
     let cask: Cask
     @Environment(FontInstaller.self) private var installer
     @Environment(\.dismiss) private var dismiss
     @State private var loader = TryOutLoader()
     @State private var text = ""
-    @State private var face = 0
+    /// The style picked, by index into the specimen's; nil for its regular.
+    @State private var style: Int?
     @State private var size: Double = 24
     @State private var ligatures = true
-    /// Each variable axis moved away from its default, by its identifier.
-    @State private var variations: [Int: Double] = [:]
+    /// The style's axes moved away from its own values, by axis identifier.
+    @State private var moved: [Int: Double] = [:]
+    /// The OpenType features turned on, by tag.
+    @State private var features: Set<String> = []
+    @State private var alignment = TextAlignment.leading
+    @State private var lineHeight = 1.0
 
     var body: some View {
         NavigationStack {
@@ -88,11 +94,19 @@ struct TryItOutView: View {
             }
         case .loaded(let loaded):
             VStack(spacing: 0) {
-                controls(loaded)
-                    .padding()
+                // Scrolls once there's more than a third of the screen of it, so the editor keeps its room.
+                ScrollView {
+                    controls(loaded)
+                        .padding()
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .frame(maxHeight: 300)
+                .fixedSize(horizontal: false, vertical: true)
                 Divider()
                 TextEditor(text: $text)
                     .font(Font(font(loaded)))
+                    .lineSpacing(size * (lineHeight - 1))
+                    .multilineTextAlignment(alignment)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .contentMargins(.horizontal, 12, for: .scrollContent)
@@ -102,33 +116,56 @@ struct TryItOutView: View {
     }
 
     @ViewBuilder private func controls(_ loaded: TryOutLoader.Loaded) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        let specimen = loaded.specimen
+        let current = specimen.styles[style ?? specimen.regular]
+        VStack(alignment: .leading, spacing: 10) {
             ViewThatFits(in: .horizontal) {
-                HStack(spacing: 16) { faceAndSize(loaded) }
-                VStack(alignment: .leading, spacing: 8) { faceAndSize(loaded) }
+                HStack(spacing: 16) { styleAndSize(specimen) }
+                VStack(alignment: .leading, spacing: 8) { styleAndSize(specimen) }
             }
-            ForEach(loaded.faces[face].axes) { axis in
-                let value = Binding { variations[axis.id] ?? axis.defaultValue } set: { variations[axis.id] = $0 }
-                LabeledContent {
+            HStack {
+                Text("Alignment")
+                Spacer()
+                Picker("Alignment", selection: $alignment) {
+                    Label("Left", systemImage: "text.alignleft").tag(TextAlignment.leading)
+                    Label("Center", systemImage: "text.aligncenter").tag(TextAlignment.center)
+                    Label("Right", systemImage: "text.alignright").tag(TextAlignment.trailing)
+                }
+                .pickerStyle(.segmented)
+                .labelStyle(.iconOnly)
+                .fixedSize()
+            }
+            slider("Line Height") {
+                Slider(value: $lineHeight, in: 1...2)
+                    .accessibilityValue(Text(lineHeight, format: .number.precision(.fractionLength(1))))
+            }
+            ForEach(current.face.axes) { axis in
+                let value = Binding { moved[axis.id] ?? current.variation[axis.id] ?? axis.defaultValue } set: {
+                    moved[axis.id] = $0
+                }
+                slider(LocalizedStringKey(axis.name)) {
                     Slider(value: value, in: axis.range)
                         .accessibilityValue(Text(value.wrappedValue, format: .number.precision(.fractionLength(0))))
-                } label: {
-                    Text(axis.name)
-                        .frame(minWidth: 70, alignment: .leading)
                 }
             }
             if loaded.hasLigatures {
                 Toggle("Ligatures", isOn: $ligatures)
                     .accessibilityIdentifier("tryItOutLigatures")
             }
+            ForEach(specimen.features) { feature in
+                Toggle(feature.name, isOn: Binding { features.contains(feature.tag) } set: { isOn in
+                    if isOn { features.insert(feature.tag) } else { features.remove(feature.tag) }
+                })
+                .accessibilityIdentifier("tryItOutFeature.\(feature.tag)")
+            }
         }
     }
 
-    @ViewBuilder private func faceAndSize(_ loaded: TryOutLoader.Loaded) -> some View {
-        if loaded.faces.count > 1 {
-            Picker("Style", selection: Binding { face } set: { face = $0; variations = [:] }) {
-                ForEach(loaded.faces) { face in
-                    Text(face.name).tag(face.id)
+    @ViewBuilder private func styleAndSize(_ specimen: Specimen) -> some View {
+        if specimen.styles.count > 1 {
+            Picker("Style", selection: Binding { style ?? specimen.regular } set: { style = $0; moved = [:] }) {
+                ForEach(specimen.styles) { style in
+                    Text(style.name).tag(style.id)
                 }
             }
             .pickerStyle(.menu)
@@ -148,18 +185,22 @@ struct TryItOutView: View {
         .accessibilityValue(Text("\(Int(size)) points"))
     }
 
-    /// The picked face at the size picked, its axes where they've been moved, and its ligatures off if asked.
+    private func slider(_ label: LocalizedStringKey, @ViewBuilder slider: () -> some View) -> some View {
+        LabeledContent {
+            slider()
+        } label: {
+            Text(label)
+                .frame(minWidth: 90, alignment: .leading)
+        }
+    }
+
+    /// The picked style at the size picked, its axes where they've been moved, its features on and its ligatures off
+    /// as asked.
     private func font(_ loaded: TryOutLoader.Loaded) -> CTFont {
-        var attributes: [CFString: Any] = [:]
-        if !variations.isEmpty {
-            attributes[kCTFontVariationAttribute] = variations as [Int: Double] as CFDictionary
-        }
-        var descriptor = loaded.faces[face].descriptor
-        if !attributes.isEmpty {
-            descriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, attributes as CFDictionary)
-        }
+        let specimen = loaded.specimen
+        let descriptor = specimen.styles[style ?? specimen.regular].descriptor(moving: moved)
         let font = CTFontCreateWithFontDescriptor(descriptor, size, nil)
-        return ligatures ? font : TryOutText.withoutLigatures(font)
+        return SpecimenFeature.font(font, features: features, ligatures: ligatures)
     }
 }
 
@@ -298,8 +339,13 @@ final class TryOutLoader {
             return nil
         }
         let font = CTFontCreateWithFontDescriptor(regular.descriptor, 24, nil)
-        return Prepared(faces: faces, text: TryOutText.make(font: font, sample: sample, glyphs: glyphs),
-                        specimen: Specimen(faces: faces))
+        let specimen = Specimen(faces: faces)
+        let made = TryOutText.make(font: font, sample: sample, glyphs: glyphs)
+        // A line for each feature the face has, to see it change when its switch is turned on.
+        let lines = specimen.features.map(\.sampleLine)
+        let text = lines.isEmpty ? made.text : made.text + "\n\n" + lines.joined(separator: "\n")
+        return Prepared(faces: faces, text: TryOutText.Result(text: text, hasLigatures: made.hasLigatures),
+                        specimen: specimen)
     }
 
     /// A variable face's axes that it doesn't hide, each with its name and range.
