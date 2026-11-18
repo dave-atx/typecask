@@ -71,7 +71,10 @@ The catalog page carries all 2,193 rows. The first 24 get a `@font-face` rule in
 the rest load as they come near the viewport, in `assets/js/catalog.js`, so a visit downloads the
 dozen faces it actually shows instead of 34 MB. Rows use `content-visibility: auto` so the browser
 doesn't lay out what nobody has scrolled to. Search, filtering and sorting are over the DOM, with
-the state in the query string. Without JavaScript the whole catalog is still there in the system
+the state in the query string. Words in a search are alternatives, so `rubik gidole` lists both, and
+search reads descriptions too, from `fonts/search.*.json`: each description's distinct words, about
+1 MB (180 KB compressed), which the page fetches the first time someone searches rather than carrying
+it. Names that match come before descriptions that do. Without JavaScript the whole catalog is still there in the system
 face, and every font still has its own page.
 
 Apple's fonts aren't on the site. The app lists them, but `apple-previews` subsets Apple's own font

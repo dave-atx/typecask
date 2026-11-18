@@ -18,6 +18,23 @@
   {{- $casks := sort $catalog.casks "popularity" -}}
   {{- $count := len $casks -}}
 
+  {{- /*
+    Search reads descriptions from a file of its own, since they would nearly double the page:
+    each cask's description as its distinct words, without link targets or addresses, by slug.
+    catalog.js fetches it the first time someone searches.
+  */ -}}
+  {{- $words := newScratch -}}
+  {{- $words.Set "w" dict -}}
+  {{- range $casks }}
+    {{- $slug := partial "cask-slug.html" .token -}}
+    {{- with .description }}
+      {{- $text := . | replaceRE `\]\([^)]*\)` " " | replaceRE `https?://\S+|\S+@\S+` " " | lower
+        | replaceRE `[^\p{L}\p{N}]+` " " | strings.TrimSpace -}}
+      {{- $words.SetInMap "w" $slug (delimit (uniq (split $text " ")) " ") -}}
+    {{- end }}
+  {{- end }}
+  {{- $search := resources.FromString "fonts/search.json" (jsonify ($words.Get "w")) | fingerprint -}}
+
   <div class="bar catalog-head">
     <h1>{{ lang.FormatNumber 0 $count }} fonts</h1>
     <p class="lede">Every family Typecask can install, set in its own face. Ordered by popularity,
@@ -28,9 +45,9 @@
   <div class="filters" id="filters">
     <div class="bar filter-bar">
       <label class="search">
-        <span class="vh">Search fonts by name</span>
+        <span class="vh">Search fonts by name or description; separate words to find any of them</span>
         <input type="search" id="q" placeholder="Search {{ lang.FormatNumber 0 $count }} fonts"
-          autocomplete="off" spellcheck="false">
+          autocomplete="off" spellcheck="false" data-words="{{ $search.RelPermalink }}">
       </label>
       <div class="chips" role="group" aria-label="Filter by design style">
         <button type="button" class="chip is-on" data-style="" aria-pressed="true">All</button>

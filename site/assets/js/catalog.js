@@ -57,7 +57,33 @@
     var all = [].slice.call(wall.children);
     var total = all.length;
 
-    var state = { q: "", style: "", nerd: false, sort: "popularity" };
+    var state = { q: "", terms: [], style: "", nerd: false, sort: "popularity" };
+
+    // Each description's distinct words by slug, from the file section.html writes. Fetched the
+    // first time someone searches, since it outweighs the page; until it arrives, search reads names.
+    var words = null;
+    var wordsRequested = false;
+
+    function loadWords() {
+        if (wordsRequested || !q.dataset.words || !window.fetch) return;
+        wordsRequested = true;
+        fetch(q.dataset.words)
+            .then(function (response) { return response.ok ? response.json() : null; })
+            .then(function (json) {
+                if (!json) return;
+                words = json;
+                if (state.terms.length) apply(false);
+            })
+            .catch(function () {});
+    }
+
+    function setQuery(value) {
+        state.q = value.trim().toLowerCase();
+        // Words separated by spaces are alternatives, so "rubik gidole" shows both to compare.
+        state.terms = state.q.split(/\s+/).filter(function (term, i, terms) {
+            return term && terms.indexOf(term) === i;
+        });
+    }
 
     // What the status line says the order is, when a change of sort is what happened.
     var orderNames = {
@@ -71,11 +97,28 @@
         return n.toLocaleString();
     }
 
-    function matches(row) {
-        if (state.nerd && row.dataset.nerd !== "1") return false;
-        if (state.style && row.dataset.style !== state.style) return false;
-        if (state.q && row.dataset.name.indexOf(state.q) === -1) return false;
-        return true;
+    // Where a row ranks for the filters, or -1 when it doesn't match: 0 when its name holds the whole
+    // query or is one of the words, so "rubik gidole" leads with Rubik and Gidole before Rubik's
+    // dozens of display cuts; 1 when its name holds any of the words; 2 when only its description
+    // does. A description match needs three letters, so the first letters typed don't match nearly
+    // every description.
+    function rank(row) {
+        if (state.nerd && row.dataset.nerd !== "1") return -1;
+        if (state.style && row.dataset.style !== state.style) return -1;
+        if (!state.terms.length) return 0;
+        var name = row.dataset.name;
+        if (name.indexOf(state.q) !== -1 || state.terms.indexOf(name) !== -1) return 0;
+        var i;
+        for (i = 0; i < state.terms.length; i++) {
+            if (name.indexOf(state.terms[i]) !== -1) return 1;
+        }
+        var text = words && words[row.dataset.f];
+        if (text) {
+            for (i = 0; i < state.terms.length; i++) {
+                if (state.terms[i].length > 2 && text.indexOf(state.terms[i]) !== -1) return 2;
+            }
+        }
+        return -1;
     }
 
     function compare(a, b) {
@@ -93,28 +136,46 @@
         }
     }
 
-    // The wall arrives in popularity order, so only a change of sort moves anything.
-    var painted = "popularity";
+    // The wall arrives in popularity order. sorted is the rows in the chosen order; painted is the
+    // order of the rows showing, as last put in the DOM, so a change that keeps it moves nothing.
+    var sorted = all;
+    var sortedBy = "popularity";
+    var painted = all;
+
+    function sameRows(a, b) {
+        if (a.length !== b.length) return false;
+        for (var i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
+    }
 
     // announce is false for the first paint, which only restores what the URL asked for.
     function apply(announce) {
-        var shown = 0;
         var i;
-        var resorted = state.sort !== painted;
-
+        var resorted = state.sort !== sortedBy;
         if (resorted) {
-            // Reordering 2,193 nodes costs one reflow when they go out and come back together.
-            var order = all.toSorted(compare);
+            sorted = all.toSorted(compare);
+            sortedBy = state.sort;
+        }
+
+        // Name matches above description matches, each in the chosen order.
+        var tiers = [[], [], []];
+        for (i = 0; i < sorted.length; i++) {
+            var r = rank(sorted[i]);
+            sorted[i].hidden = r < 0;
+            if (r >= 0) tiers[r].push(sorted[i]);
+        }
+        var order = tiers[0].concat(tiers[1], tiers[2]);
+        var shown = order.length;
+
+        if (!sameRows(order, painted)) {
+            // Moving the rows that show costs one reflow when they go out and come back together.
+            // Hidden rows keep their places, out of sight; clearing the filters brings back every row.
             var frag = document.createDocumentFragment();
             for (i = 0; i < order.length; i++) frag.appendChild(order[i]);
             wall.appendChild(frag);
-            painted = state.sort;
-        }
-
-        for (i = 0; i < all.length; i++) {
-            var ok = matches(all[i]);
-            all[i].hidden = !ok;
-            if (ok) shown++;
+            painted = order;
         }
 
         var count = shown === total
@@ -145,7 +206,7 @@
 
     function readURL() {
         var params = new URLSearchParams(location.search);
-        state.q = (params.get("q") || "").toLowerCase();
+        setQuery(params.get("q") || "");
         state.style = params.get("style") || "";
         state.nerd = params.get("nerd") === "1";
         state.sort = params.get("sort") || "popularity";
@@ -168,7 +229,8 @@
     q.addEventListener("input", function () {
         clearTimeout(typing);
         typing = setTimeout(function () {
-            state.q = q.value.trim().toLowerCase();
+            setQuery(q.value);
+            if (state.terms.length) loadWords();
             apply(true);
         }, 120);
     });
@@ -195,7 +257,7 @@
     }
 
     clearEl.addEventListener("click", function () {
-        state.q = "";
+        setQuery("");
         state.style = "";
         state.nerd = false;
         q.value = "";
@@ -203,6 +265,9 @@
         apply(true);
     });
 
+    q.addEventListener("focus", loadWords);
+
     readURL();
+    if (state.terms.length) loadWords();
     apply(false);
 }());
