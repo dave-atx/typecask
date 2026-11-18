@@ -188,6 +188,8 @@ final class TryOutLoader {
         let faces: [Face]
         let text: String
         let hasLigatures: Bool
+        /// What a font page's full specimen shows, from the same faces.
+        let specimen: Specimen
     }
 
     enum Phase {
@@ -203,6 +205,7 @@ final class TryOutLoader {
     nonisolated private struct Prepared: Sendable {
         let faces: [Face]
         let text: TryOutText.Result
+        let specimen: Specimen
     }
 
     func load(_ cask: Cask, installed: Bool, sample: String) async {
@@ -237,7 +240,7 @@ final class TryOutLoader {
             return
         }
         phase = .loaded(Loaded(faces: prepared.faces, text: prepared.text.text,
-                               hasLigatures: prepared.text.hasLigatures))
+                               hasLigatures: prepared.text.hasLigatures, specimen: prepared.specimen))
     }
 
     nonisolated private enum Source: @unchecked Sendable {
@@ -261,9 +264,9 @@ final class TryOutLoader {
         return .installed(registered.filter { url($0).map(files.contains) ?? false })
     }
 
-    /// The faces in reading order, regular before bold and upright before italic, and the editor's text, made from
-    /// the face nearest regular. Off the main actor: a CJK face's character set and the ligature checks take a
-    /// moment.
+    /// The faces in reading order, regular before bold and upright before italic, the editor's text, made from the
+    /// face nearest regular, and the page's specimen. Off the main actor: a CJK face's character set, the ligature
+    /// checks and the language checks take a moment.
     @concurrent
     nonisolated private static func prepare(_ source: Source, sample: String, glyphs: Bool) async -> Prepared? {
         let descriptors: [CTFontDescriptor] = switch source {
@@ -295,7 +298,8 @@ final class TryOutLoader {
             return nil
         }
         let font = CTFontCreateWithFontDescriptor(regular.descriptor, 24, nil)
-        return Prepared(faces: faces, text: TryOutText.make(font: font, sample: sample, glyphs: glyphs))
+        return Prepared(faces: faces, text: TryOutText.make(font: font, sample: sample, glyphs: glyphs),
+                        specimen: Specimen(faces: faces))
     }
 
     /// A variable face's axes that it doesn't hide, each with its name and range.

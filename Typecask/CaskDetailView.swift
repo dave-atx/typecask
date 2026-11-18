@@ -1,100 +1,94 @@
 import AppIntents
 import SwiftUI
 
+/// A font's page, laid out as a type specimen: a masthead of its letters, name, Install and facts, a type tester,
+/// then, from the full fonts, each style, passages at reading sizes, the character set and the languages it covers.
+/// The full fonts are the installed copies, or the cask's On-Demand Resources tag downloaded when asked, as Try It
+/// Out does; until then the page has only the preview's few dozen glyphs.
 struct CaskDetailView: View {
     let cask: Cask
     let catalog: Catalog
+    @Environment(FontInstaller.self) private var installer
     /// Whether the samples draw a coding face's ligatures, which the page can turn off to show what they join.
     @State private var ligatures = true
+    /// The full fonts, once installed or asked for.
+    @State private var loader: TryOutLoader?
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading, spacing: 16) {
-                    SizedSpecimen(cask: cask, catalog: catalog, ligatures: ligatures)
-                    // The same line again, smaller, which VoiceOver needn't read twice.
-                    CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil,
-                                 ligatures: ligatures)
-                        .accessibilityHidden(true)
-                    if cask.ligatures == true {
-                        LigaturesToggle(isOn: $ligatures)
-                    }
+            VStack(alignment: .leading, spacing: 32) {
+                VStack(alignment: .leading, spacing: 20) {
+                    SpecimenMasthead(cask: cask, catalog: catalog)
+                    CaskActions(cask: cask)
+                    SpecimenFacts(cask: cask)
                 }
-                CaskActions(cask: cask)
                 if let nerdVersion = catalog.nerdVersions[cask.token] {
                     NerdFontVersion(cask: nerdVersion, catalog: catalog)
                 }
-                if let description = cask.description {
-                    CaskDescription(markdown: description, designers: cask.designers ?? [])
-                }
-                VStack(spacing: 8) {
-                    if let version = cask.version {
-                        LabeledContent("Version", value: version)
-                    }
-                    if let updated = cask.updatedDate {
-                        // In UTC, the zone the date was written in, so it doesn't read as the day before west of it.
-                        LabeledContent("Updated") {
-                            Text(updated.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted,
-                                                                    timeZone: .gmt)))
+                SpecimenSection("Tester") {
+                    VStack(alignment: .leading, spacing: 16) {
+                        if let specimen {
+                            SpecimenTester(specimen: specimen, sample: sample, ligatures: ligatures)
+                        } else {
+                            SizedSpecimen(cask: cask, catalog: catalog, ligatures: ligatures)
+                        }
+                        if cask.ligatures == true {
+                            LigaturesToggle(isOn: $ligatures)
                         }
                     }
-                    if let designers = cask.designers, !designers.isEmpty {
-                        LabeledContent("Designer") { Text(designers, format: .list(type: .and)) }
-                    }
-                    LabeledContent("Fonts", value: cask.fonts, format: .number)
-                    LabeledContent("Design Style") { Text(cask.style.name) }
-                    LabeledContent("Download", value: cask.bytes, format: .byteCount(style: .file))
-                    if let popularity = cask.popularity {
-                        LabeledContent("Popularity") { PopularityRank(rank: popularity) }
+                }
+                if let specimen {
+                    SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)
+                    SpecimenSetting(specimen: specimen, ligatures: ligatures)
+                    SpecimenCharacters(specimen: specimen)
+                    SpecimenLanguages(specimen: specimen)
+                } else if cask.isBundled || installer.status(of: cask).isInstalled {
+                    FullSpecimenPrompt(cask: cask, loader: loader, start: loadSpecimen)
+                }
+                if let description = cask.description {
+                    SpecimenSection("About") {
+                        CaskDescription(markdown: description, designers: cask.designers ?? [])
                     }
                 }
-                .labeledContentStyle(.detailRow)
                 // Every cask in the catalog has a license; build-catalog.py skips those without one.
-                DisclosureGroup("License") {
-                    LicenseText(token: cask.token)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 8)
+                VStack(alignment: .leading, spacing: 8) {
+                    Divider()
+                    DisclosureGroup("License") {
+                        LicenseText(token: cask.token)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 8)
+                    }
                 }
             }
             .padding()
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+        // An installed cask's fonts are on the device already, so its full specimen needs no asking.
+        .task(id: installer.status(of: cask).isInstalled) {
+            if installer.status(of: cask).isInstalled, specimen == nil {
+                loadSpecimen()
+            }
+        }
         .promptsForReview(after: cask)
         // So Siri and Apple Intelligence take "this" to mean this font, as in "install this".
         .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
         .focusedSceneValue(\.cask, cask)
         .onAppear { QuickActions.remember(cask) }
     }
-}
 
-/// The sample line at a size of the reader's choosing, to judge a face at the size they'd read it. The size
-/// carries over to every font's page; until it's moved, the line follows the text size.
-private struct SizedSpecimen: View {
-    let cask: Cask
-    let catalog: Catalog
-    let ligatures: Bool
-    @AppStorage("specimenSize") private var chosenSize: Double = 0
-    @ScaledMetric(relativeTo: .largeTitle) private var standardSize: CGFloat = 40
-    private static let sizes: ClosedRange<Double> = 12...144
+    private var sample: String { cask.sample ?? catalog.sampleText }
 
-    var body: some View {
-        let size = chosenSize > 0 ? chosenSize : min(max(standardSize, Self.sizes.lowerBound), Self.sizes.upperBound)
-        VStack(alignment: .leading, spacing: 8) {
-            CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: nil, ligatures: ligatures)
-            // Rounded rather than stepped: a step draws a dot for every stop along the track.
-            Slider(value: Binding { size } set: { chosenSize = $0.rounded() }, in: Self.sizes) {
-                Text("Sample Size")
-            } minimumValueLabel: {
-                Image(systemName: "textformat.size.smaller")
-                    .accessibilityHidden(true)
-            } maximumValueLabel: {
-                Image(systemName: "textformat.size.larger")
-                    .accessibilityHidden(true)
-            }
-            .accessibilityValue(Text("\(Int(size)) points"))
-            .accessibilityIdentifier("specimenSize")
-        }
+    private var specimen: Specimen? {
+        guard case .loaded(let loaded) = loader?.phase else { return nil }
+        return loaded.specimen
+    }
+
+    private func loadSpecimen() {
+        let loader = TryOutLoader()
+        self.loader = loader
+        let installed = installer.status(of: cask).isInstalled
+        Task { await loader.load(cask, installed: installed, sample: sample) }
     }
 }
 
