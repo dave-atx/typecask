@@ -158,6 +158,7 @@ struct TypeTester: View {
     let catalog: Catalog
     @Binding var ligatures: Bool
     private var size = SpecimenSize()
+    @Environment(\.tryOut) private var opener
 
     init(cask: Cask, catalog: Catalog, ligatures: Binding<Bool>) {
         self.cask = cask
@@ -170,7 +171,13 @@ struct TypeTester: View {
             VStack(alignment: .leading, spacing: 12) {
                 CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
                                  ligatures: ligatures)
+                    .opensTryOut(TryOutStart(source: "sample"))
                 SpecimenSizeSlider(size: size.binding)
+                if opener != nil {
+                    Label("Tap the sample, a style or a feature to type in it.", systemImage: "character.cursor.ibeam")
+                        .font(.footnote)
+                        .foregroundStyle(Color(.captionText))
+                }
             }
             if cask.ligatures == true {
                 LigaturesToggle(isOn: $ligatures)

@@ -15,16 +15,21 @@ struct SpecimenStyles: View {
         SpecimenSection("Styles", detail: Text("\(styles.count) styles")) {
             VStack(alignment: .leading, spacing: 14) {
                 ForEach(showsAll ? styles : Array(styles.prefix(Self.shown))) { style in
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(style.name)
-                            .font(.caption)
-                            .foregroundStyle(Color(.captionText))
-                        Text(line(style))
-                            .font(Font(font(style)))
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .accessibilityHidden(true)
+                    HStack {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(style.name)
+                                .font(.caption)
+                                .foregroundStyle(Color(.captionText))
+                            Text(line(style))
+                                .font(Font(font(style)))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
+                                .accessibilityHidden(true)
+                        }
+                        Spacer(minLength: 8)
+                        TryOutMark()
                     }
+                    .opensTryOut(TryOutStart(source: "style-\(style.id)", style: style.id))
                 }
                 if styles.count > Self.shown {
                     Button(showsAll ? "Show Fewer Styles" : "Show All \(styles.count) Styles") {
@@ -181,6 +186,7 @@ struct SpecimenCharacters: View {
             SpecimenSection("Characters", detail: Text("\(total) characters")) {
                 if let scalar = selected ?? specimen.characters.first?.scalars.first {
                     inspector(scalar)
+                        .opensTryOut(TryOutStart(source: "character", insert: String(scalar)))
                 }
             }
             .padding(.bottom, 12)

@@ -151,16 +151,21 @@ struct SpecimenFeatures: View {
             SpecimenSection("Features", detail: Text("\(specimen.features.count) features")) {
                 VStack(alignment: .leading, spacing: 18) {
                     ForEach(specimen.features) { feature in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(feature.name)
-                                .font(.caption)
-                                .foregroundStyle(Color(.captionText))
-                            ViewThatFits(in: .horizontal) {
-                                HStack(alignment: .firstTextBaseline, spacing: 14) { comparison(feature) }
-                                VStack(alignment: .leading, spacing: 4) { comparison(feature) }
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(feature.name)
+                                    .font(.caption)
+                                    .foregroundStyle(Color(.captionText))
+                                ViewThatFits(in: .horizontal) {
+                                    HStack(alignment: .firstTextBaseline, spacing: 14) { comparison(feature) }
+                                    VStack(alignment: .leading, spacing: 4) { comparison(feature) }
+                                }
                             }
+                            Spacer(minLength: 8)
+                            TryOutMark()
                         }
                         .accessibilityElement(children: .combine)
+                        .opensTryOut(TryOutStart(source: "feature-\(feature.tag)", feature: feature))
                     }
                 }
             }

@@ -11,8 +11,17 @@ struct CaskDetailView: View {
     @Environment(FontInstaller.self) private var installer
     /// Whether the samples draw a coding face's ligatures, which the page can turn off to show what they join.
     @State private var ligatures = true
-    /// The full fonts, once installed or asked for.
+    /// The full fonts, once installed or asked for, which Try It Out shares.
     @State private var loader: TryOutLoader?
+    /// Try It Out, while it's open, and what it opened to.
+    @State private var tryOut: TryOutStart?
+    @Namespace private var tryOutNamespace
+    private var size = SpecimenSize()
+
+    init(cask: Cask, catalog: Catalog) {
+        self.cask = cask
+        self.catalog = catalog
+    }
 
     var body: some View {
         ScrollView {
@@ -57,9 +66,21 @@ struct CaskDetailView: View {
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+        // The sample, each style and feature, the character shown large and the Try It Out button all open the
+        // editor, set up for what was tapped, zooming from it.
+        .environment(\.tryOut, canTryOut ? TryOutOpener(token: cask.token, namespace: tryOutNamespace,
+                                                        open: openTryOut) : nil)
+        .sheet(item: $tryOut) { start in
+            if let loader {
+                TryItOutView(cask: cask, loader: loader, start: start)
+                    // A page on iPad, not a form sheet: an editor wants the room.
+                    .presentationSizing(.page)
+                    .navigationTransition(.zoom(sourceID: start.source, in: tryOutNamespace))
+            }
+        }
         // An installed cask's fonts are on the device already, so its full specimen needs no asking.
         .task(id: installer.status(of: cask).isInstalled) {
-            if installer.status(of: cask).isInstalled, specimen == nil {
+            if installer.status(of: cask).isInstalled, loader == nil {
                 loadSpecimen()
             }
         }
@@ -75,6 +96,23 @@ struct CaskDetailView: View {
     private var specimen: Specimen? {
         guard case .loaded(let loaded) = loader?.phase else { return nil }
         return loaded.specimen
+    }
+
+    /// Whether Try It Out can open: as for its button, a cask this build carries or that's installed, and not one iOS
+    /// has built in.
+    private var canTryOut: Bool {
+        let status = installer.status(of: cask)
+        return (cask.isBundled || status.isInstalled) && status != .builtIn
+    }
+
+    /// Opens Try It Out at the page's sample size, starting the download the page's specimen shares if it hasn't.
+    private func openTryOut(_ start: TryOutStart) {
+        if loader == nil {
+            loadSpecimen()
+        }
+        var start = start
+        start.size = start.size ?? size.wrappedValue
+        tryOut = start
     }
 
     private func loadSpecimen() {
@@ -123,52 +161,6 @@ struct DetailRowStyle: LabeledContentStyle {
 
 extension LabeledContentStyle where Self == DetailRowStyle {
     static var detailRow: DetailRowStyle { DetailRowStyle() }
-}
-
-/// A cask's license, read when the disclosure group first opens: a collapsed group doesn't build its
-/// content, so the detail page never pays for unpacking the licenses unless someone asks.
-struct LicenseText: View {
-    let token: String
-    @State private var text: AttributedString?
-    @State private var loaded = false
-
-    var body: some View {
-        Group {
-            if let text {
-                Text(text)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-                    .accessibilityIdentifier("licenseText")
-            } else if loaded {
-                Text("The license couldn't be read.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            } else {
-                ProgressView()
-            }
-        }
-        .task(id: token) {
-            text = await Licenses.text(for: token).map(Self.linkified)
-            loaded = true
-        }
-    }
-
-    /// The license with its URLs as links, like the OFL's FAQ at https://scripts.sil.org/OFL.
-    private static func linkified(_ string: String) -> AttributedString {
-        var attributed = AttributedString(string)
-        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
-            return attributed
-        }
-        for match in detector.matches(in: string, range: NSRange(string.startIndex..., in: string)) {
-            guard let url = match.url,
-                  let range = Range(match.range, in: string),
-                  let start = AttributedString.Index(range.lowerBound, within: attributed),
-                  let end = AttributedString.Index(range.upperBound, within: attributed) else { continue }
-            attributed[start..<end].link = url
-        }
-        return attributed
-    }
 }
 
 /// Google Fonts' description, which comes as paragraphs of Markdown with links. Often the designer's

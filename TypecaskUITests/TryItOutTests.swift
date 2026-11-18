@@ -9,9 +9,10 @@ final class TryItOutTests: XCTestCase {
         let text = app.textViews["tryItOutText"]
         XCTAssertTrue((text.value as? String ?? "").contains("->"))
         keep(app.screenshot(), named: "fira-code")
-        let toggle = app.switches["tryItOutLigatures"]
+        // A chip in the row above the text, which reads as a button.
+        let toggle = app.buttons["tryItOutLigatures"]
         XCTAssertTrue(toggle.exists)
-        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.5)).tap()
+        toggle.tap()
         keep(app.screenshot(), named: "fira-code-ligatures-off")
     }
 
