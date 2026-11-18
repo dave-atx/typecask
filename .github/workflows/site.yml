@@ -31,6 +31,10 @@ on:
     # builds from the version the App Store has.
     - cron: "23 */3 * * *"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: A release-VERSION tag to build from, rather than the App Store lookup's answer
+        required: false
 
 permissions:
   contents: read
@@ -65,6 +69,8 @@ jobs:
           hugo version
 
       - name: Read the shipping app's catalog
+        env:
+          TYPECASK_RELEASE_TAG: ${{ inputs.tag }}
         run: scripts/site-catalog.sh
 
       - name: Build
@@ -118,7 +124,8 @@ jobs:
           BEFORE: ${{ steps.before.outputs.version }}
         run: |
           after=$(python3 -c 'import json; print(json.load(open("site/data/release.json"))["version"])')
-          if [ "$after" = "$BEFORE" ]; then
+          # Only a newer version: a deploy that goes back is a mistake to fix, not news.
+          if [ "$(printf '%s\n%s\n' "$after" "$BEFORE" | sort -V | tail -1)" = "$BEFORE" ]; then
             exit 0
           fi
           body=$(AFTER="$after" python3 - << 'PY'

@@ -37,6 +37,17 @@ have_tag() {
 if [ -z "$tag" ] && [ "$pattern" = "release-*" ]; then
     live=$(curl -fsS --max-time 20 "https://itunes.apple.com/lookup?id=$APP_ID&country=us" 2> /dev/null |
         python3 -c 'import json, sys; print(json.load(sys.stdin)["results"][0]["version"])' 2> /dev/null || true)
+    # The lookup can answer from a stale cache for hours after a release: on 18 November 2026 it said
+    # 1.0 again seven hours after saying 1.1, and the site went back to 1.0. The App Store never goes
+    # back a version, so neither does the site: an older answer than the version it serves gives way.
+    served=$(curl -fsS --max-time 20 https://typecask.app/release.json 2> /dev/null |
+        python3 -c 'import json, sys; print(json.load(sys.stdin)["version"])' 2> /dev/null || true)
+    if [ -n "$live" ] && [ -n "$served" ] && [ "$live" != "$served" ] &&
+        [ "$(printf '%s\n%s\n' "$live" "$served" | sort -V | tail -1)" = "$served" ] &&
+        have_tag "release-$served"; then
+        echo "site-catalog.sh: the App Store's lookup says $live, older than the site's $served; keeping $served" >&2
+        live=$served
+    fi
     if [ -n "$live" ] && have_tag "release-$live"; then
         tag="release-$live"
         echo "site-catalog.sh: the App Store has $live"
