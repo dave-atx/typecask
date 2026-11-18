@@ -136,11 +136,16 @@
         }
     }
 
-    // The wall arrives in popularity order. sorted is the rows in the chosen order; painted is the
-    // order of the rows showing, as last put in the DOM, so a change that keeps it moves nothing.
+    // The wall arrives in popularity order, and stays in the chosen sort's order but for the rows a
+    // search lifts above or drops below the rest. Moving rows in the page is what costs: Safari has
+    // taken 5 seconds to move the whole wall. So a filter only hides rows, a search moves the fewest
+    // it can, and every move happens with the wall out of the document (detached, below). sorted is
+    // the rows in the chosen order; above and below are the rows a search moved to the top and the
+    // bottom of the wall, in the order they're there.
     var sorted = all;
     var sortedBy = "popularity";
-    var painted = all;
+    var above = [];
+    var below = [];
 
     function sameRows(a, b) {
         if (a.length !== b.length) return false;
@@ -150,6 +155,36 @@
         return true;
     }
 
+    // Puts the rows a search moved back where the sort has them. From the end, so the row each goes
+    // before is already in its place.
+    function restore() {
+        if (!above.length && !below.length) return;
+        var moved = new Set(above.concat(below));
+        for (var i = sorted.length - 1; i >= 0; i--) {
+            if (moved.has(sorted[i])) wall.insertBefore(sorted[i], sorted[i + 1] || null);
+        }
+        above = [];
+        below = [];
+    }
+
+    // Runs moves on the wall out of the document. In place, Safari's cost grows with each row moved
+    // among rows that show, to seconds for a few hundred; detached, the moves are cheap and putting
+    // the wall back costs one layout. Nothing reads layout in between, so the scroll stays put.
+    function detached(moves) {
+        var parent = wall.parentNode;
+        var next = wall.nextSibling;
+        parent.removeChild(wall);
+        moves();
+        parent.insertBefore(wall, next);
+    }
+
+    function place(rows, before) {
+        if (!rows.length) return;
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < rows.length; i++) frag.appendChild(rows[i]);
+        wall.insertBefore(frag, before);
+    }
+
     // announce is false for the first paint, which only restores what the URL asked for.
     function apply(announce) {
         var i;
@@ -157,25 +192,48 @@
         if (resorted) {
             sorted = all.toSorted(compare);
             sortedBy = state.sort;
+            above = [];
+            below = [];
+            detached(function () {
+                place(sorted, null);
+            });
         }
 
         // Name matches above description matches, each in the chosen order.
         var tiers = [[], [], []];
+        var ranks = new Array(sorted.length);
         for (i = 0; i < sorted.length; i++) {
-            var r = rank(sorted[i]);
-            sorted[i].hidden = r < 0;
-            if (r >= 0) tiers[r].push(sorted[i]);
+            ranks[i] = rank(sorted[i]);
+            if (ranks[i] >= 0) tiers[ranks[i]].push(sorted[i]);
         }
-        var order = tiers[0].concat(tiers[1], tiers[2]);
-        var shown = order.length;
+        var shown = tiers[0].length + tiers[1].length + tiers[2].length;
 
-        if (!sameRows(order, painted)) {
-            // Moving the rows that show costs one reflow when they go out and come back together.
-            // Hidden rows keep their places, out of sight; clearing the filters brings back every row.
-            var frag = document.createDocumentFragment();
-            for (i = 0; i < order.length; i++) frag.appendChild(order[i]);
-            wall.appendChild(frag);
-            painted = order;
+        // The biggest tier stays where the sort has it; the tiers ranked before it go to the top of
+        // the wall and the ones after it to the bottom. Hidden rows between them show nothing.
+        var keep = 0;
+        for (i = 1; i < 3; i++) {
+            if (tiers[i].length > tiers[keep].length) keep = i;
+        }
+        var nextAbove = [].concat.apply([], tiers.slice(0, keep));
+        var nextBelow = [].concat.apply([], tiers.slice(keep + 1));
+        if (!sameRows(nextAbove, above) || !sameRows(nextBelow, below)) {
+            detached(function () {
+                restore();
+                // Before the first row that stays: a row going to the top can't be what it goes before.
+                var lifted = new Set(nextAbove);
+                var first = wall.firstChild;
+                while (first && lifted.has(first)) first = first.nextSibling;
+                place(nextAbove, first);
+                place(nextBelow, null);
+            });
+            above = nextAbove;
+            below = nextBelow;
+        }
+
+        // Shown and hidden after the moves, and only where that changes.
+        for (i = 0; i < sorted.length; i++) {
+            var hide = ranks[i] < 0;
+            if (sorted[i].hidden !== hide) sorted[i].hidden = hide;
         }
 
         var count = shown === total
