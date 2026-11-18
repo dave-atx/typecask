@@ -73,8 +73,8 @@ if [ -z "$tag" ]; then
     exit 1
 fi
 
-if ! git rev-parse --verify --quiet "$tag^{commit}" > /dev/null; then
-    echo "site-catalog.sh: tag '$tag' isn't in this clone." >&2
+if ! have_tag "$tag"; then
+    echo "site-catalog.sh: tag '$tag' isn't here or on the remote." >&2
     exit 1
 fi
 
