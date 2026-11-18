@@ -79,7 +79,10 @@ entry in a fonts pull request, rather than moving most entries in both files.
 built into, without the hours a full build takes. The debug build's casks (`scripts/debug-fonts.py`) are
 chosen to cover the cases worth checking. `try --apply` also copies their previews and fields into
 `Previews/` and `Catalog.json`, to look at them in the simulator; that leaves the app's generated files
-half rebuilt, so restore both with git afterwards and never commit them.
+half rebuilt, so restore both with git afterwards and never commit them. `try` also takes a cask from
+`EXTRA_CASKS` that the lock doesn't have yet, and `--apply` adds a cask the catalog lacks, with its license
+and its fonts in `DebugFonts.xcassets`, so it can be installed in a debug build before any release carries
+it. Run `scripts/debug-fonts.py` first, since it replaces that catalog.
 
 Each cask builds into `.cache/built/<token>/<key>`, keyed by its locked source and `PIPELINE_VERSION`,
 so a cask whose source hasn't changed isn't downloaded and subset again. Bump

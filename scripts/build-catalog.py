@@ -510,6 +510,8 @@ SKIP_VERSION = 2
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
 FONTS = APP / "Fonts.xcassets"
+# The few casks' fonts a debug build carries, from scripts/debug-fonts.py.
+DEBUG_FONTS = APP / "DebugFonts.xcassets"
 PREVIEWS = APP / "Previews"
 CATALOG = APP / "Catalog.json"
 # Each cask's license as text, for review: outside the app, which ships them all in LICENSE_BUNDLE.
@@ -1842,8 +1844,8 @@ def build_job(job):
 # MARK: - Assembling the catalog
 
 
-def write_dataset(path, asset, token):
-    group = FONTS / token
+def write_dataset(path, asset, token, catalog=FONTS):
+    group = catalog / token
     dataset = group / f"{asset}.dataset"
     dataset.mkdir(parents=True)
     # actool skips a group folder with no Contents.json, which leaves the cask's asset pack empty: the tag
@@ -2019,18 +2021,40 @@ def report(title, items):
         print(f"{title} ({len(items)}): {', '.join(items) or '-'}")
 
 
+def extra_entry(cask):
+    """A lock entry for a cask in EXTRA_CASKS, as `lock` would pin it, for `try` before `lock` has run."""
+    return {
+        "token": cask["token"],
+        "name": cask["name"][0],
+        "homepage": cask["homepage"],
+        "version": cask["version"],
+        "installs": 0,
+        "recentInstalls": 0,
+        "exempt": True,
+        "artifacts": [artifact["font"][0] for artifact in cask["artifacts"] if "font" in artifact],
+        "source": {"url": cask["url"], "sha256": cask["sha256"]},
+    }
+
+
 def try_casks(tokens, apply=False):
     """`try`: builds just these casks from fonts.lock.json into .cache/try/, to see what a pipeline change
     makes of them without the hours a full build takes, and prints what each built into.
 
+    A cask in EXTRA_CASKS that the lock doesn't have yet is built from that entry, so one can be tried
+    before `lock` runs.
+
     With `apply`, also copies their previews into Typecask/Previews and their built fields into
-    Catalog.json, for a look in the simulator. That leaves the app's generated files half from this
-    build and half from the last, so it's for a local check only: restore both with git afterwards.
+    Catalog.json, for a look in the simulator. A cask the catalog doesn't have is added, with its license,
+    and its fonts go into DebugFonts.xcassets, so run scripts/debug-fonts.py first: it replaces that
+    catalog. That leaves the app's generated files half from this build and half from the last, so it's
+    for a local check only: restore them with git afterwards.
     """
     locked = json.loads(LOCK.read_text())
     by_token = {entry["token"]: entry for entry in locked["casks"]}
+    for cask in EXTRA_CASKS:
+        by_token.setdefault(cask["token"], extra_entry(cask))
     if unknown := [token for token in tokens if token not in by_token]:
-        sys.exit(f"not in {LOCK.name}: {', '.join(unknown)}")
+        sys.exit(f"not in {LOCK.name} or EXTRA_CASKS: {', '.join(unknown)}")
     entries = [by_token[token] for token in tokens]
     update_clone(locked["googleFonts"])
     checkout(
@@ -2050,6 +2074,42 @@ def try_casks(tokens, apply=False):
     if not apply:
         return
     catalog = json.loads(CATALOG.read_text())
+    known = {record["token"] for record in catalog["casks"]}
+    licenses = None
+    for entry in entries:
+        token, result = entry["token"], built[entry["token"]]
+        if token in known or "previewFile" not in result:
+            continue
+        destination = CACHE / "try" / token
+        shipping = [file for file in result["files"] if file["shippable"]]
+        for file in shipping:
+            write_dataset(destination / "fonts" / file["file"], file["asset"], token, DEBUG_FONTS)
+        licenses = licenses or json.loads(zlib.decompress(LICENSE_BUNDLE.read_bytes(), -15))
+        licenses[token] = (destination / "license.txt").read_text()
+        shutil.copy(destination / "license.txt", LICENSES / f"{token}.txt")
+        catalog["casks"].append(
+            {
+                "token": token,
+                "name": entry["name"],
+                "homepage": entry["homepage"],
+                "installs": entry["installs"],
+                "bytes": sum(file["bytes"] for file in result["files"]),
+                "fonts": len(result["files"]),
+                "assets": [file["asset"] for file in shipping],
+                "primaryFont": result["primaryFont"],
+                "style": result["style"],
+                "previewFile": result["previewFile"],
+                "glyphs": result["glyphs"],
+                "version": cask_version(entry["version"], result["fontVersion"]),
+                "fontVersion": result["fontVersion"],
+                "script": result["script"],
+                "scripts": filtered_scripts(result["script"], result["scripts"], token),
+            }
+        )
+        print(f"{token}: added to {CATALOG.name}, with its fonts in {DEBUG_FONTS.name}")
+    catalog["casks"].sort(key=lambda record: record["token"])
+    if licenses is not None:
+        write_license_bundle(licenses)
     for record in catalog["casks"]:
         result = built.get(record["token"])
         if not result or "previewFile" not in result:
@@ -2063,7 +2123,7 @@ def try_casks(tokens, apply=False):
             else:
                 record.pop(key, None)
     write_json(CATALOG, catalog)
-    print(f"applied to {CATALOG.name} and {PREVIEWS.name}/ for a local look; restore both with git afterwards")
+    print(f"applied to {CATALOG.name} and {PREVIEWS.name}/ for a local look; restore them with git afterwards")
 
 
 def build(only=None, max_mb_per_install=None, jobs=1):
