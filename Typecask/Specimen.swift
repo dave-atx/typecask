@@ -16,6 +16,8 @@ nonisolated struct Specimen: @unchecked Sendable {
     let languages: [String]
     /// The characters the face nearest regular has, so a line it can't draw is left out.
     let covered: CharacterSet
+    /// The OpenType features the face nearest regular has that change what the specimen's text looks like.
+    let features: [SpecimenFeature]
 
     init(faces: [TryOutLoader.Face]) {
         // Every face gives at least one style, and the loader never makes a specimen of no faces.
@@ -38,6 +40,7 @@ nonisolated struct Specimen: @unchecked Sendable {
         self.covered = covered
         characters = CharacterGroup.groups(covered)
         languages = Languages.supported(by: covered)
+        features = SpecimenFeature.detected(in: font, covered: covered)
     }
 
     /// Each face's named instances, or the face itself where it has none, widest-normal first, then upright before
@@ -267,6 +270,31 @@ nonisolated enum FontTables {
             }
         }
         return best.mapValues(\.text)
+    }
+
+    /// The OpenType substitution features the font has, by tag, each with the name its designer gave it where a
+    /// stylistic set or character variant has one, like DINish's "Alternate digit 1".
+    static func substitutionFeatures(of font: CTFont) -> [String: String?] {
+        guard let table = CTFontCopyTable(font, CTFontTableTag(kCTFontTableGSUB), []) else { return [:] }
+        let gsub = Reader(data: table as Data)
+        guard let list = gsub.u16(6), let count = gsub.u16(list) else { return [:] }
+        var names: [Int: String]?
+        var features: [String: String?] = [:]
+        for index in 0..<count {
+            let record = list + 2 + index * 6
+            guard let value = gsub.u32(record), let offset = gsub.u16(record + 4) else { continue }
+            let tag = String(bytes: [24, 16, 8, 0].map { UInt8(truncatingIfNeeded: value >> $0) }, encoding: .ascii)
+            guard let tag, features[tag] == nil else { continue }
+            // A stylistic set's params are a version then a name ID; a character variant's, a format then one.
+            var name: String?
+            if tag.hasPrefix("ss") || tag.hasPrefix("cv"), let params = gsub.u16(list + offset), params != 0,
+               let nameID = gsub.u16(list + offset + params + 2) {
+                names = names ?? nameStrings(of: font)
+                name = names?[nameID]
+            }
+            features[tag] = name
+        }
+        return features
     }
 
     private static func tag(_ string: String) -> Int {

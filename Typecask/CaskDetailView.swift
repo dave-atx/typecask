@@ -16,7 +16,8 @@ struct CaskDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 32) {
+            // Lazy for the character grid's pinned header (see SpecimenCharacters).
+            LazyVStack(alignment: .leading, spacing: 32, pinnedViews: .sectionHeaders) {
                 VStack(alignment: .leading, spacing: 20) {
                     SpecimenMasthead(cask: cask, catalog: catalog)
                     CaskActions(cask: cask)
@@ -26,19 +27,11 @@ struct CaskDetailView: View {
                     NerdFontVersion(cask: nerdVersion, catalog: catalog)
                 }
                 SpecimenSection("Tester") {
-                    VStack(alignment: .leading, spacing: 16) {
-                        if let specimen {
-                            SpecimenTester(specimen: specimen, sample: sample, ligatures: ligatures)
-                        } else {
-                            SizedSpecimen(cask: cask, catalog: catalog, ligatures: ligatures)
-                        }
-                        if cask.ligatures == true {
-                            LigaturesToggle(isOn: $ligatures)
-                        }
-                    }
+                    TypeTester(cask: cask, catalog: catalog, ligatures: $ligatures, specimen: specimen)
                 }
                 if let specimen {
                     SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)
+                    SpecimenFeatures(specimen: specimen)
                     SpecimenSetting(specimen: specimen, ligatures: ligatures)
                     SpecimenCharacters(specimen: specimen)
                     SpecimenLanguages(specimen: specimen)
@@ -94,7 +87,7 @@ struct CaskDetailView: View {
 
 /// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
 /// signs and back.
-private struct LigaturesToggle: View {
+struct LigaturesToggle: View {
     @Binding var isOn: Bool
 
     var body: some View {

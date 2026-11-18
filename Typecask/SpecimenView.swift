@@ -57,12 +57,12 @@ struct SpecimenMasthead: View {
         }
     }
 
-    /// Tag, for a capital and the two lowercase letters that differ most between faces, or for a font for another
-    /// script, the first three letters of its own line.
+    /// abc, as specimen-builder's poster has, or for a font for another script, the first three letters of its own
+    /// line.
     private var poster: String {
         let line = (cask.sample ?? catalog.sampleText).split(separator: "\n").first.map(String.init) ?? ""
-        if ["T", "a", "g"].allSatisfy(line.contains) {
-            return "Tag"
+        if ["a", "b", "c"].allSatisfy(line.contains) {
+            return "abc"
         }
         return String(line.filter(\.isLetter).prefix(3))
     }
@@ -151,42 +151,80 @@ struct SpecimenSizeSlider: View {
     }
 }
 
-/// The type tester with the full fonts: the sample to edit, in any style, at any size, alignment and line height,
-/// with a variable face's axes to move, as specimen-builder's interactive controls have.
-struct SpecimenTester: View {
-    let specimen: Specimen
-    let sample: String
-    let ligatures: Bool
+/// The type tester: the sample at a size of the reader's choosing, to judge a face at the size they'd read it. With
+/// the full fonts it gains rather than changes: the same line, now editable, keeps its place, and the controls
+/// specimen-builder's tester has, style, alignment, line height and a variable face's axes, are added below.
+struct TypeTester: View {
+    let cask: Cask
+    let catalog: Catalog
+    @Binding var ligatures: Bool
+    let specimen: Specimen?
     private var size = SpecimenSize()
-    @State private var text: String
-    @State private var style: Int
+    /// What's typed in place of the sample; nil for the sample itself.
+    @State private var typed: String?
+    /// The style picked, by index into the specimen's; nil for its regular.
+    @State private var style: Int?
     /// The style's axes moved away from its own values, by axis identifier.
     @State private var moved: [Int: Double] = [:]
     @State private var alignment = TextAlignment.leading
-    @State private var lineHeight = 1.2
+    /// Line height as a multiple of the font's own, which leaves the sample as the preview set it until moved.
+    @State private var lineHeight = 1.0
 
-    init(specimen: Specimen, sample: String, ligatures: Bool) {
+    init(cask: Cask, catalog: Catalog, ligatures: Binding<Bool>, specimen: Specimen?) {
+        self.cask = cask
+        self.catalog = catalog
+        _ligatures = ligatures
         self.specimen = specimen
-        self.sample = sample
-        self.ligatures = ligatures
-        _text = State(initialValue: sample)
-        _style = State(initialValue: specimen.regular)
     }
 
     var body: some View {
-        let current = specimen.styles[style]
-        VStack(alignment: .leading, spacing: 12) {
-            TextField("Type something", text: $text, axis: .vertical)
-                .font(Font(font(current)))
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 12) {
+                if let specimen {
+                    editor(specimen)
+                } else {
+                    CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
+                                     ligatures: ligatures)
+                }
+                SpecimenSizeSlider(size: size.binding)
+            }
+            if cask.ligatures == true {
+                LigaturesToggle(isOn: $ligatures)
+            }
+            if let specimen {
+                controls(specimen)
+            }
+        }
+    }
+
+    private var sample: String { cask.sample ?? catalog.sampleText }
+
+    /// The sample as `CaskSpecimenText` sets it, Nerd Fonts' icons and all, with the line made editable.
+    private func editor(_ specimen: Specimen) -> some View {
+        VStack(alignment: .leading, spacing: size.wrappedValue / 4) {
+            TextField("Type something", text: Binding { typed ?? sample } set: { typed = $0 == sample ? nil : $0 },
+                      axis: .vertical)
+                .font(Font(font(specimen)))
                 .lineSpacing(size.wrappedValue * (lineHeight - 1))
                 .multilineTextAlignment(alignment)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
                 .accessibilityIdentifier("specimen")
-            SpecimenSizeSlider(size: size.binding)
+            if cask.glyphs {
+                Text(catalog.glyphSample)
+                    .font(PreviewFonts.font(cask.previewFile, size: size.wrappedValue))
+                    .lineLimit(1)
+                    .accessibilityLabel("Nerd Fonts icons")
+            }
+        }
+    }
+
+    @ViewBuilder private func controls(_ specimen: Specimen) -> some View {
+        let current = specimen.styles[style ?? specimen.regular]
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 if specimen.styles.count > 1 {
-                    Picker("Style", selection: Binding { style } set: { style = $0; moved = [:] }) {
+                    Picker("Style", selection: Binding { style ?? specimen.regular } set: { style = $0; moved = [:] }) {
                         ForEach(specimen.styles) { style in
                             Text(style.name).tag(style.id)
                         }
@@ -218,8 +256,8 @@ struct SpecimenTester: View {
                         .accessibilityValue(Text(value.wrappedValue, format: .number.precision(.fractionLength(0))))
                 }
             }
-            if text != sample {
-                Button("Restore Sample Text", systemImage: "arrow.counterclockwise") { text = sample }
+            if typed != nil {
+                Button("Restore Sample Text", systemImage: "arrow.counterclockwise") { typed = nil }
                     .font(.callout)
             }
         }
@@ -235,8 +273,9 @@ struct SpecimenTester: View {
         }
     }
 
-    private func font(_ style: SpecimenStyle) -> CTFont {
-        let font = CTFontCreateWithFontDescriptor(style.descriptor(moving: moved), size.wrappedValue, nil)
+    private func font(_ specimen: Specimen) -> CTFont {
+        let current = specimen.styles[style ?? specimen.regular]
+        let font = CTFontCreateWithFontDescriptor(current.descriptor(moving: moved), size.wrappedValue, nil)
         return ligatures ? font : TryOutText.withoutLigatures(font)
     }
 }
@@ -282,29 +321,6 @@ struct FullSpecimenPrompt: View {
             case .loaded:
                 EmptyView()
             }
-        }
-    }
-}
-
-/// The sample line in the preview's font, at a size of the reader's choosing, to judge a face at the size they'd
-/// read it, until the full fonts make it a full type tester.
-struct SizedSpecimen: View {
-    let cask: Cask
-    let catalog: Catalog
-    let ligatures: Bool
-    private var size = SpecimenSize()
-
-    init(cask: Cask, catalog: Catalog, ligatures: Bool) {
-        self.cask = cask
-        self.catalog = catalog
-        self.ligatures = ligatures
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
-                             ligatures: ligatures)
-            SpecimenSizeSlider(size: size.binding)
         }
     }
 }

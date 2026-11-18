@@ -158,13 +158,11 @@ struct SpecimenCharacters: View {
     /// Shown of each kind until asked for the rest: a CJK face has tens of thousands.
     private static let shown = 240
 
+    /// A section of the page's lazy stack, whose header, the title and the character tapped shown large, pins under
+    /// the navigation bar while the grid scrolls by, so a character's detail stays in sight as you go through them.
     var body: some View {
-        let total = specimen.characters.reduce(0) { $0 + $1.scalars.count }
-        SpecimenSection("Characters", detail: Text("\(total) characters")) {
+        Section {
             VStack(alignment: .leading, spacing: 20) {
-                if let scalar = selected ?? specimen.characters.first?.scalars.first {
-                    inspector(scalar)
-                }
                 ForEach(specimen.characters) { group in
                     VStack(alignment: .leading, spacing: 8) {
                         Text(group.title)
@@ -178,14 +176,23 @@ struct SpecimenCharacters: View {
                     }
                 }
             }
+        } header: {
+            let total = specimen.characters.reduce(0) { $0 + $1.scalars.count }
+            SpecimenSection("Characters", detail: Text("\(total) characters")) {
+                if let scalar = selected ?? specimen.characters.first?.scalars.first {
+                    inspector(scalar)
+                }
+            }
+            .padding(.bottom, 12)
+            .background(Color(.systemBackground))
         }
     }
 
     private func inspector(_ scalar: Unicode.Scalar) -> some View {
-        HStack(alignment: .center, spacing: 20) {
+        HStack(alignment: .center, spacing: 16) {
             Text(String(scalar))
-                .font(Font(font(size: 120)))
-                .frame(width: 160, height: 160)
+                .font(Font(font(size: 64)))
+                .frame(width: 96, height: 96)
                 .background(.fill.quaternary, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 4) {
