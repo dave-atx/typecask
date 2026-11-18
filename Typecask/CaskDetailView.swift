@@ -76,8 +76,13 @@ struct CaskDetailView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     PageToolbarActions(cask: cask)
                 }
+                // Not into the overflow menu on a narrow bar, as on iPhone Duo's outer display.
+                .visibilityPriority(.high)
             }
         }
+        // The bar holds Install and Try It Out while their own buttons are scrolled away, so it mustn't minimize
+        // on scroll, which on iPhone Duo's outer display hid them until scrolling back up.
+        .toolbarMinimizationBehavior(.never, for: .navigationBar)
         // The sample, each style and feature, the character shown large and the Try It Out button all open the
         // editor, set up for what was tapped, zooming from it.
         .environment(\.tryOut, canTryOut ? TryOutOpener(token: cask.token, namespace: tryOutNamespace,
