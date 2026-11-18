@@ -16,6 +16,8 @@ struct CaskDetailView: View {
     /// Try It Out, while it's open, and what it opened to.
     @State private var tryOut: TryOutStart?
     @Namespace private var tryOutNamespace
+    /// Whether the page's Install and Try It Out are on screen; once they aren't, the navigation bar has them.
+    @State private var actionsVisible = true
     private var size = SpecimenSize()
 
     init(cask: Cask, catalog: Catalog) {
@@ -30,6 +32,9 @@ struct CaskDetailView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     SpecimenMasthead(cask: cask, catalog: catalog)
                     CaskActions(cask: cask)
+                        .onScrollVisibilityChange(threshold: 0.3) { visible in
+                            withAnimation { actionsVisible = visible }
+                        }
                     SpecimenFacts(cask: cask)
                 }
                 if let nerdVersion = catalog.nerdVersions[cask.token] {
@@ -66,6 +71,13 @@ struct CaskDetailView: View {
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if !actionsVisible {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    PageToolbarActions(cask: cask)
+                }
+            }
+        }
         // The sample, each style and feature, the character shown large and the Try It Out button all open the
         // editor, set up for what was tapped, zooming from it.
         .environment(\.tryOut, canTryOut ? TryOutOpener(token: cask.token, namespace: tryOutNamespace,
