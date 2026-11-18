@@ -214,12 +214,24 @@ struct TryItOutView: View {
         }
     }
 
-    private func chip(_ title: String, isOn: Binding<Bool>) -> some View {
-        Toggle(title, isOn: isOn)
-            .toggleStyle(.button)
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.capsule)
-            .controlSize(.small)
+    /// A feature's switch as a chip: clear glass when off, filled with the tint and checked when on, so it reads at
+    /// a glance and not by color alone. Still a toggle to VoiceOver, which reads its state.
+    @ViewBuilder private func chip(_ title: String, isOn: Binding<Bool>) -> some View {
+        let toggle = Toggle(isOn: isOn) {
+            if isOn.wrappedValue {
+                Label(title, systemImage: "checkmark")
+            } else {
+                Text(title)
+            }
+        }
+        .toggleStyle(.button)
+        .buttonBorderShape(.capsule)
+        .controlSize(.small)
+        if isOn.wrappedValue {
+            toggle.buttonStyle(.glassProminent)
+        } else {
+            toggle.buttonStyle(.glass)
+        }
     }
 
     private func adjustments(_ specimen: Specimen) -> some View {
