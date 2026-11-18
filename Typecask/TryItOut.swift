@@ -61,6 +61,7 @@ struct TryItOutView: View {
     @State private var alignment = TextAlignment.leading
     @State private var lineHeight = 1.0
     @State private var adjusting = false
+    @FocusState private var editing: Bool
 
     init(cask: Cask, loader: TryOutLoader, start: TryOutStart? = nil) {
         self.cask = cask
@@ -82,7 +83,13 @@ struct TryItOutView: View {
                     }
                     if case .loaded(let loaded) = loader.phase {
                         ToolbarItem(placement: .primaryAction) {
-                            Button("Adjust", systemImage: "slider.horizontal.3") { adjusting.toggle() }
+                            Button("Adjust", systemImage: "slider.horizontal.3") {
+                                adjusting.toggle()
+                                // The half sheet is for watching the text change, which the keyboard would cover.
+                                if adjusting {
+                                    editing = false
+                                }
+                            }
                                 .accessibilityIdentifier("tryItOutAdjust")
                         }
                         ToolbarItem(placement: .secondaryAction) {
@@ -142,6 +149,14 @@ struct TryItOutView: View {
                     .textInputAutocapitalization(.never)
                     .contentMargins(.horizontal, 12, for: .scrollContent)
                     .accessibilityIdentifier("tryItOutText")
+                    .focused($editing)
+                    // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
+                    // panel is beside the text, and stays.
+                    .onChange(of: editing) { _, editing in
+                        if editing, sizeClass != .regular {
+                            adjusting = false
+                        }
+                    }
             }
             .inspector(isPresented: $adjusting) {
                 adjustments(loaded.specimen)
