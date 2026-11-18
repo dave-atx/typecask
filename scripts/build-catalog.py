@@ -126,7 +126,7 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
-ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
+ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif", "font-dinish"]
 # Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
 # takes over once it has one, and lock says so, for the entry to go.
 EXTRA_CASKS = [
@@ -148,6 +148,16 @@ EXTRA_CASKS = [
                 "variable/GeistSerif[ELSH].ttf",
             )
         ],
+    },
+    {
+        # Homebrew/homebrew-cask#303861, not yet merged.
+        "token": "font-dinish",
+        "name": ["DINish"],
+        "homepage": "https://github.com/playbeing/dinish",
+        "url": "https://github.com/playbeing/dinish/releases/download/v4.007/dinish-ttf.zip",
+        "version": "4.007",
+        "sha256": "a75d47e600aa9e522da59f760c269aad617b097f9eb11c9be41c1b357f9d2b3d",
+        "artifacts": [{"font": ["DINish[slnt,wdth,wght].ttf"]}],
     },
 ]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
