@@ -111,7 +111,14 @@ with no description of its own a sibling's, as Kumar One's covers Kumar One Outl
 
 A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
 its original with the icons added, then the original's description where the catalog has that cask.
-It runs after every other description is in place, so describing an original describes its variants too. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
+It runs after every other description is in place, so describing an original describes its variants too.
+
+Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
+cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license
+sections, and `draft` has Claude Haiku summarize each into `scripts/descriptions.json`, which is reviewed by
+hand before it's committed. `draft` never replaces an entry already there, and a null description marks a
+cask with no usable English source. The catalog takes a drafted description only where google/fonts has
+none, so it costs no rebuild. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:

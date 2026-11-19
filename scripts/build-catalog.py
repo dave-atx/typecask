@@ -28,6 +28,7 @@ check-licenses fails if Licenses.deflate isn't what Licenses/ deflates to, for C
 import argparse
 import base64
 import csv
+import functools
 import hashlib
 import json
 import logging
@@ -592,6 +593,9 @@ LICENSES = ROOT / "Licenses"
 LICENSE_BUNDLE = APP / "Licenses.deflate"
 APPLE_PREVIEWS = APP / "ApplePreviews"
 LOCK = ROOT / "fonts.lock.json"
+# Descriptions drafted from READMEs and homepages by scripts/descriptions.py and reviewed by hand, for
+# casks with none from google/fonts.
+DRAFTED_DESCRIPTIONS = ROOT / "scripts" / "descriptions.json"
 # Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
 LICENSE_TEXTS = ROOT / "scripts" / "licenses"
 CACHE = ROOT / ".cache"
@@ -2052,13 +2056,19 @@ def pair_nerd_fonts(catalog):
 
 
 NERD_FONTS_DESCRIPTION = (
-    "{original} with Nerd Fonts' icons added: thousands of glyphs from Font Awesome, Material Design, Devicons, "
-    "Octicons and others, and the Powerline symbols, for prompts, status lines and file trees in a terminal."
+    "{original} with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: "
+    "thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with "
+    "the Powerline symbols."
 )
 POWERLINE_DESCRIPTION = (
     "{original} with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor "
     "status lines draw with."
 )
+
+
+@functools.cache
+def drafted_descriptions():
+    return json.loads(DRAFTED_DESCRIPTIONS.read_text()) if DRAFTED_DESCRIPTIONS.is_file() else {}
 
 
 def describe_patched(catalog):
@@ -2449,6 +2459,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             # Google's descriptions are often the designer's own words, in the first person.
             if designers := google.get("designers"):
                 record["designers"] = designers
+        elif description := drafted_descriptions().get(token, {}).get("description"):
+            record["description"] = description
         seasons = google.get("seasons") or {}
         if holidays := [
             holiday
