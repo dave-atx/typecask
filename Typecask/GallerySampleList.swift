@@ -19,7 +19,7 @@ struct GallerySampleList: View {
                     .padding([.horizontal, .top])
             }
             ForEach(items) { item in
-                NavigationLink(value: item) {
+                NavigationLink(value: GalleryPage.item(item)) {
                     switch item {
                     case .cask(let cask):
                         CaskSampleRow(cask: cask, catalog: catalog)

@@ -192,3 +192,36 @@ enum FontCollection: Hashable, Identifiable, Sendable {
         }
     }
 }
+
+extension FontCollection {
+    /// The collection's name in an article's links (collection:serif) and the remembered last page, spelled
+    /// as scripts/articles.py's COLLECTIONS spells them.
+    var key: String {
+        switch self {
+        case .allFonts: "allFonts"
+        case .installed: "installed"
+        case .style(let style): style.rawValue
+        case .nerdFonts: "nerdFonts"
+        case .ligatures: "ligatures"
+        case .legibility: "legibility"
+        case .symbols: "symbols"
+        case .appleFonts: "appleFonts"
+        case .holiday(let holiday): holiday.rawValue
+        }
+    }
+
+    init?(key: String) {
+        let fixed: [FontCollection] = [
+            .allFonts, .installed, .nerdFonts, .ligatures, .legibility, .symbols, .appleFonts
+        ]
+        if let collection = fixed.first(where: { $0.key == key }) {
+            self = collection
+        } else if let style = DesignStyle(rawValue: key) {
+            self = .style(style)
+        } else if let holiday = Holiday(rawValue: key) {
+            self = .holiday(holiday)
+        } else {
+            return nil
+        }
+    }
+}

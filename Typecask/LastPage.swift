@@ -1,0 +1,74 @@
+import Foundation
+
+/// Following an article's links, and reopening where the app was last time.
+extension GalleryModel {
+    /// Follows a link in an article: to a collection, which it shows, or to a font, whose page it pushes. False
+    /// for any other link, which opens in Safari.
+    func follow(_ url: URL) -> Bool {
+        switch url.scheme {
+        case "collection":
+            guard let collection = FontCollection(key: url.absoluteString.trimmingPrefix("collection:").description)
+            else { return false }
+            browse(collection)
+            return true
+        case "font":
+            let token = url.absoluteString.trimmingPrefix("font:")
+            guard let cask = catalog.casks.first(where: { $0.token == token }) else { return false }
+            path.append(.item(.cask(catalog.shown(cask))))
+            return true
+        default:
+            return false
+        }
+    }
+
+    // MARK: The last page
+
+    /// Where the app was, as a launch argument can set it too: the root, then each page over it, joined by |,
+    /// as "start|article:start-here|font:font-inter". The UI tests start on "collection:allFonts".
+    private static let lastPageKey = "lastPage"
+
+    func remember() {
+        guard !isRestoring else { return }
+        let root = switch root {
+        case .start: "start"
+        case .collection(let collection): "collection:\(collection.key)"
+        }
+        let pages = path.map { page in
+            switch page {
+            case .article(let article): "article:\(article.slug)"
+            case .item(.cask(let cask)): "font:\(cask.token)"
+            case .item(.apple(let family)): "apple:\(family.name)"
+            }
+        }
+        UserDefaults.standard.set(([root] + pages).joined(separator: "|"), forKey: Self.lastPageKey)
+    }
+
+    /// Back where the app was last time, as far as it can still find: Start Here the first time, or when the
+    /// collection remembered is gone. A page it can't find, a font a fonts release dropped, ends the path there.
+    func restore() {
+        isRestoring = true
+        defer { isRestoring = false }
+        let parts = (UserDefaults.standard.string(forKey: Self.lastPageKey) ?? "start").split(separator: "|")
+            .map(String.init)
+        if let first = parts.first, first.hasPrefix("collection:"),
+           let collection = FontCollection(key: String(first.dropFirst("collection:".count))) {
+            self.collection = collection
+            root = .collection(collection)
+        } else {
+            root = .start
+        }
+        var pages: [GalleryPage] = []
+        for part in parts.dropFirst() {
+            let (kind, name) = (part.prefix { $0 != ":" }, part.drop { $0 != ":" }.dropFirst())
+            let page: GalleryPage? = switch kind {
+            case "article": articles.first { $0.slug == name }.map(GalleryPage.article)
+            case "font": catalog.casks.first { $0.token == name }.map { .item(.cask($0)) }
+            case "apple": catalog.appleFonts.first { $0.name == name }.map { .item(.apple($0)) }
+            default: nil
+            }
+            guard let page else { break }
+            pages.append(page)
+        }
+        path = pages
+    }
+}

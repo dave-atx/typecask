@@ -54,16 +54,39 @@ final class GalleryModel {
         didSet { if searchText != oldValue { recompute() } }
     }
 
+    /// What the gallery's stack starts from: Start Here, or a collection's fonts.
+    enum Root: Hashable {
+        case start
+        case collection(FontCollection)
+    }
+
+    /// The fonts the gallery shows. Picking one, from the sidebar, a quick action or a search, shows it.
     var collection: FontCollection = .allFonts {
-        didSet { if collection != oldValue { recompute() } }
+        didSet {
+            if collection != oldValue { recompute() }
+            if root != .collection(collection) { root = .collection(collection) }
+        }
+    }
+
+    var root: Root = .start {
+        didSet {
+            if case .collection(let collection) = root, collection != self.collection { self.collection = collection }
+            if root != oldValue { remember() }
+        }
     }
 
     /// `List` selection is optional on iOS. The tags themselves are never nil — that was the bug: a row
-    /// tagged `nil` reads as "nothing selected" and can never be picked — so nil here only means deselect.
-    var selectedCollection: FontCollection? {
-        get { collection }
-        set { collection = newValue ?? .allFonts }
+    /// tagged `nil` reads as "nothing selected" and can never be picked — so nil here only means deselect,
+    /// which an iPhone's back button to the sidebar does. That keeps the root: taking nil for Start Here
+    /// changed the selection, and the split view pushed Start Here straight back over the sidebar.
+    var selectedRoot: Root? {
+        get { root }
+        set { if let newValue { root = newValue } }
     }
+
+    let articles: [Article]
+    /// While the last page is being put back, which mustn't save the half-restored page over it.
+    @ObservationIgnored var isRestoring = false
 
     /// Mirrors FontInstaller's, which the gallery view passes in as it changes.
     var installed: Set<Cask.ID> = [] {
@@ -87,8 +110,10 @@ final class GalleryModel {
 
     var viewMode: ViewMode = .grid
 
-    /// The pages pushed over the gallery: a font's, or none.
-    var path: [GalleryItem] = []
+    /// The pages pushed over the gallery: an article, a font's, or none.
+    var path: [GalleryPage] = [] {
+        didSet { if path != oldValue { remember() } }
+    }
     var showsAbout = false
     /// Whether the search field is active, which a search from Siri or Shortcuts sets.
     var isSearchPresented = false
@@ -116,8 +141,9 @@ final class GalleryModel {
     /// them, follow the ranked ones by name.
     private let orders: [SortOrder: [Int]]
 
-    init(catalog: Catalog) {
+    init(catalog: Catalog, articles: [Article] = Article.bundled) {
         self.catalog = catalog
+        self.articles = articles
         // A paired Nerd Font version shares its plain cask's card rather than having its own.
         let casks = catalog.casks.filter { catalog.plainVersions[$0.token] == nil }
         let items = casks.map(GalleryItem.cask) + catalog.appleFonts.map(GalleryItem.apple)
@@ -155,6 +181,7 @@ final class GalleryModel {
         self.orders = orders
         visibleItems = sortedItems
         recount()
+        restore()
         let descriptions = sortedItems.map { item in
             switch item {
             case .cask(let cask): cask.description ?? ""
@@ -184,7 +211,7 @@ final class GalleryModel {
 
     /// The cask whose page is showing, if one is.
     var shownCask: Cask? {
-        guard case .cask(let cask) = path.last else { return nil }
+        guard case .item(.cask(let cask)) = path.last else { return nil }
         return cask
     }
 
@@ -193,7 +220,7 @@ final class GalleryModel {
     /// open, it covered the page and the install's progress.
     func show(_ cask: Cask) {
         showsAbout = false
-        path = [.cask(catalog.shown(cask))]
+        path = [.item(.cask(catalog.shown(cask)))]
     }
 
     /// Shows the collection's fonts in the order given, over whatever was showing, as the Home Screen's quick
@@ -290,4 +317,10 @@ final class GalleryModel {
     nonisolated private static func foldAll(_ texts: [String]) async -> [String] {
         texts.map { fold($0) }
     }
+}
+
+/// A page pushed over the gallery: an article, or a font's.
+enum GalleryPage: Hashable {
+    case article(Article)
+    case item(GalleryItem)
 }

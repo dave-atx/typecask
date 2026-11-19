@@ -184,13 +184,19 @@ enum PreviewFonts {
     /// The preview font, with its ligatures and contextual alternates on, as Core Text draws them unasked, or
     /// off, to show the characters a coding face's ligatures join.
     static func font(_ file: String, size: CGFloat, ligatures: Bool = true) -> Font {
+        font(file, size: size, features: ligatures ? [:] : ["liga": false, "clig": false, "calt": false])
+    }
+
+    /// The font with OpenType features turned on or off by tag, as an article's specimen line asks. The cut
+    /// fonts in ArticleFonts/ load here too: they're bundled beside the previews.
+    static func font(_ file: String, size: CGFloat, features: [String: Bool]) -> Font {
         guard var descriptor = descriptor(file) else { return .system(size: size) }
-        if !ligatures {
-            let off = ["liga", "clig", "calt"].map { tag in
-                [kCTFontOpenTypeFeatureTag: tag, kCTFontOpenTypeFeatureValue: 0] as [CFString: Any]
+        if !features.isEmpty {
+            let settings = features.sorted { $0.key < $1.key }.map { tag, isOn in
+                [kCTFontOpenTypeFeatureTag: tag, kCTFontOpenTypeFeatureValue: isOn ? 1 : 0] as [CFString: Any]
             }
             descriptor = CTFontDescriptorCreateCopyWithAttributes(
-                descriptor, [kCTFontFeatureSettingsAttribute: off] as CFDictionary)
+                descriptor, [kCTFontFeatureSettingsAttribute: settings] as CFDictionary)
         }
         return Font(CTFontCreateWithFontDescriptor(descriptor, size, nil))
     }

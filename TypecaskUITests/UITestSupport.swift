@@ -6,6 +6,8 @@ extension XCUIApplication {
     static func typecask() -> XCUIApplication {
         let app = XCUIApplication()
         app.launchEnvironment["TYPECASK_NO_REVIEW"] = "1"
+        // All Fonts, where the tests begin, rather than Start Here or wherever the last test left the app.
+        app.launchArguments += ["-lastPage", "collection:allFonts"]
         return app
     }
 

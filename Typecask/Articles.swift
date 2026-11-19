@@ -1,0 +1,219 @@
+import SwiftUI
+
+/// A getting-started article, from Articles.json, which scripts/articles.py writes from articles/*.md. The site
+/// publishes the same articles under /start/.
+nonisolated struct Article: Decodable, Hashable, Identifiable, Sendable {
+    let slug: String
+    let title: String
+    /// Inline Markdown, as the paragraphs are.
+    let summary: String
+    let blocks: [Block]
+
+    var id: String { slug }
+
+    var specimens: [SpecimenLine] {
+        blocks.compactMap { block in
+            if case .specimen(let line) = block { line } else { nil }
+        }
+    }
+
+    nonisolated enum Block: Decodable, Hashable, Sendable {
+        case heading(String)
+        case paragraph(String)
+        case specimen(SpecimenLine)
+
+        init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: ArticleBlockKeys.self)
+            switch try container.decode(String.self, forKey: .kind) {
+            case "heading": self = .heading(try container.decode(String.self, forKey: .text))
+            case "specimen": self = .specimen(try SpecimenLine(from: decoder))
+            // A kind a newer articles.py writes reads as a paragraph rather than failing every article.
+            default: self = .paragraph(try container.decode(String.self, forKey: .text))
+            }
+        }
+    }
+
+    /// A line set in a cask's face. `font` is a file of its own, cut to the line's characters, since a
+    /// preview font holds only the gallery's sample; it's already instanced at the line's axis values.
+    nonisolated struct SpecimenLine: Decodable, Hashable, Sendable {
+        let token: String
+        let text: String
+        let font: String
+        /// OpenType features turned on or off, by tag.
+        var features: [String: Bool]?
+    }
+
+    static let bundled: [Article] = {
+        guard let url = Bundle.main.url(forResource: "Articles", withExtension: "json") else { return [] }
+        do {
+            struct File: Decodable { let articles: [Article] }
+            return try JSONDecoder().decode(File.self, from: Data(contentsOf: url)).articles
+        } catch {
+            // An article is an extra: the gallery works without them. articles.py check catches this in CI.
+            assertionFailure("Articles.json is malformed: \(error)")
+            return []
+        }
+    }()
+
+    /// Paragraph text as the app draws it: bold, italic and links, which the site draws the same way.
+    static func markdown(_ text: String) -> AttributedString {
+        (try? AttributedString(markdown: text, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
+            ?? AttributedString(text)
+    }
+}
+
+private enum ArticleBlockKeys: String, CodingKey {
+    case kind, text
+}
+
+/// The page the app opens on the first time: the articles, each a card showing a few of its fonts.
+struct StartHereView: View {
+    @Bindable var model: GalleryModel
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("More than 2,000 free fonts. Here are some to start with.")
+                    .font(.callout)
+                    .foregroundStyle(Color(.captionText))
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 320), spacing: 16)], spacing: 16) {
+                    ForEach(model.articles) { article in
+                        NavigationLink(value: GalleryPage.article(article)) {
+                            ArticleCard(article: article)
+                        }
+                        .buttonStyle(.card)
+                        .accessibilityIdentifier("article-\(article.slug)")
+                    }
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("Start Here")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // Search lives on All Fonts; this takes you there with the field ready.
+            ToolbarItem(placement: .primaryAction) {
+                Button("Search", systemImage: "magnifyingglass") {
+                    model.search("")
+                }
+                .accessibilityIdentifier("startSearch")
+            }
+        }
+    }
+}
+
+private struct ArticleCard: View {
+    let article: Article
+    @ScaledMetric(relativeTo: .title2) private var lineSize = 26.0
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(article.title)
+                .font(.title3.weight(.semibold))
+                .multilineTextAlignment(.leading)
+            Text(Article.markdown(article.summary))
+                .font(.callout)
+                .foregroundStyle(Color(.captionText))
+                .multilineTextAlignment(.leading)
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(article.specimens.prefix(3), id: \.self) { line in
+                    Text(line.text)
+                        .font(PreviewFonts.font(line.font, size: lineSize, features: line.features ?? [:]))
+                        .lineLimit(1)
+                }
+            }
+            .accessibilityHidden(true)
+            .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// An article: its sections, each font's line set in that font, opening the font's page when tapped.
+struct ArticleView: View {
+    let article: Article
+    @Bindable var model: GalleryModel
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    /// Grows with Dynamic Type, but not without limit: at the largest sizes a line of display type broke after
+    /// every word.
+    @ScaledMetric(relativeTo: .largeTitle) private var scale = 1.0
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                Text(article.title)
+                    .font(.largeTitle.weight(.bold))
+                    .accessibilityAddTraits(.isHeader)
+                ForEach(Array(article.blocks.enumerated()), id: \.offset) { _, block in
+                    switch block {
+                    case .heading(let text):
+                        Text(Article.markdown(text))
+                            .font(.title2.weight(.semibold))
+                            .padding(.top, 16)
+                            .accessibilityAddTraits(.isHeader)
+                    case .paragraph(let text):
+                        Text(Article.markdown(text))
+                            .font(.body)
+                    case .specimen(let line):
+                        specimen(line)
+                    }
+                }
+            }
+            .frame(maxWidth: 700, alignment: .leading)
+            .padding()
+            .frame(maxWidth: .infinity)
+        }
+        .navigationTitle(article.title)
+        .navigationBarTitleDisplayMode(.inline)
+        .environment(\.openURL, OpenURLAction { url in
+            model.follow(url) ? .handled : .systemAction
+        })
+    }
+
+    @ViewBuilder
+    private func specimen(_ line: Article.SpecimenLine) -> some View {
+        if let cask = model.catalog.casks.first(where: { $0.token == line.token }) {
+            NavigationLink(value: GalleryPage.item(.cask(model.catalog.shown(cask)))) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(line.text)
+                        .font(PreviewFonts.font(line.font, size: sampleSize(sizeClass) * min(scale, 1.6),
+                                                features: line.features ?? [:]))
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(spacing: 4) {
+                        Text(cask.name)
+                        Image(systemName: "chevron.forward")
+                            .imageScale(.small)
+                    }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.tint)
+                }
+                .padding(.vertical, 8)
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text("\(line.text), set in \(cask.name)"))
+            .accessibilityHint(Text("Opens the font's page"))
+            .accessibilityAddTraits(.isLink)
+            .accessibilityIdentifier("specimen-\(line.token)")
+        }
+    }
+}
+
+#Preview("Start Here") {
+    NavigationStack {
+        StartHereView(model: GalleryModel(catalog: .bundled))
+    }
+    .environment(FontInstaller())
+}
+
+#Preview("Article") {
+    NavigationStack {
+        if let article = Article.bundled.first {
+            ArticleView(article: article, model: GalleryModel(catalog: .bundled))
+        }
+    }
+    .environment(FontInstaller())
+}

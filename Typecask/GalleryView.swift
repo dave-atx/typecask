@@ -15,7 +15,13 @@ struct GalleryView: View {
                 CollectionSidebar(model: model)
             } detail: {
                 NavigationStack(path: $model.path) {
-                    GalleryBrowser(model: model, showsCollectionMenu: false)
+                    Group {
+                        switch model.root {
+                        case .start: StartHereView(model: model)
+                        case .collection: GalleryBrowser(model: model, showsCollectionMenu: false)
+                        }
+                    }
+                    .galleryDestinations(model: model)
                 }
             }
         }
@@ -32,7 +38,12 @@ private struct CollectionSidebar: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        List(selection: $model.selectedCollection) {
+        List(selection: $model.selectedRoot) {
+            if !model.articles.isEmpty {
+                Label("Start Here", systemImage: "sparkles")
+                    .tag(GalleryModel.Root.start)
+                    .accessibilityIdentifier("startHere")
+            }
             row(.allFonts)
             row(.installed)
             Section("Design Style") {
@@ -87,7 +98,7 @@ private struct CollectionSidebar: View {
         // No count at accessibility sizes: in the sidebar's fixed width, it broke "All Fonts" into "A", "ll",
         // "Font" and "s".
         .badge(dynamicTypeSize.isAccessibilitySize ? 0 : model.count(of: collection))
-        .tag(collection)
+        .tag(GalleryModel.Root.collection(collection))
     }
 }
 
@@ -144,14 +155,6 @@ private struct GalleryBrowser: View {
             }
             .visibilityPriority(.high)
         }
-        .navigationDestination(for: GalleryItem.self) { item in
-            switch item {
-            case .cask(let cask):
-                CaskDetailView(cask: cask, catalog: model.catalog)
-            case .apple(let family):
-                AppleFontDetailView(family: family, sampleText: model.catalog.sampleText)
-            }
-        }
     }
 
     private var emptyDescription: LocalizedStringKey {
@@ -161,6 +164,22 @@ private struct GalleryBrowser: View {
             "Fonts you install appear here."
         } else {
             "Nothing in this collection."
+        }
+    }
+}
+
+extension View {
+    /// The pages the gallery's stack pushes, whichever root it starts from.
+    func galleryDestinations(model: GalleryModel) -> some View {
+        navigationDestination(for: GalleryPage.self) { page in
+            switch page {
+            case .article(let article):
+                ArticleView(article: article, model: model)
+            case .item(.cask(let cask)):
+                CaskDetailView(cask: cask, catalog: model.catalog)
+            case .item(.apple(let family)):
+                AppleFontDetailView(family: family, sampleText: model.catalog.sampleText)
+            }
         }
     }
 }
@@ -309,6 +328,7 @@ private struct CollectionMenu: View {
     model.selectedScripts = ["Arab", "Hebr"]
     return NavigationStack {
         GalleryBrowser(model: model, showsCollectionMenu: false)
+            .galleryDestinations(model: model)
     }
     .environment(FontInstaller())
 }

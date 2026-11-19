@@ -22,7 +22,7 @@ struct GalleryGrid: View {
 
     private var cards: some View {
         ForEach(items) { item in
-            NavigationLink(value: item) {
+            NavigationLink(value: GalleryPage.item(item)) {
                 switch item {
                 case .cask(let cask):
                     CaskCard(cask: cask, catalog: catalog)
