@@ -19,6 +19,7 @@ struct GalleryView: View {
                         switch model.root {
                         case .start: StartHereView(model: model)
                         case .collection: GalleryBrowser(model: model, showsCollectionMenu: false)
+                        case .makers(let kind): MakerIndex(model: model, kind: kind)
                         }
                     }
                     .galleryDestinations(model: model)
@@ -62,6 +63,20 @@ private struct CollectionSidebar: View {
                 Section("Holidays") {
                     ForEach(model.holidays, id: \.self) { holiday in
                         row(.holiday(holiday))
+                    }
+                }
+            }
+            Section("Made By") {
+                ForEach(Maker.Kind.allCases, id: \.self) { kind in
+                    if !model.makers(kind).isEmpty {
+                        Label {
+                            Text(kind.title)
+                        } icon: {
+                            Image(systemName: kind.symbol)
+                        }
+                        .badge(dynamicTypeSize.isAccessibilitySize ? 0 : model.makers(kind).count)
+                        .tag(GalleryModel.Root.makers(kind))
+                        .accessibilityIdentifier("makers-\(kind.rawValue)")
                     }
                 }
             }
@@ -179,6 +194,8 @@ extension View {
                 CaskDetailView(cask: cask, catalog: model.catalog)
             case .item(.apple(let family)):
                 AppleFontDetailView(family: family, sampleText: model.catalog.sampleText)
+            case .maker(let maker):
+                MakerPage(maker: maker, model: model)
             }
         }
     }

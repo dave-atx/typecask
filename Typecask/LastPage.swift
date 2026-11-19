@@ -40,6 +40,11 @@ extension GalleryModel {
         Task { @MainActor in path = pages }
     }
 
+    /// The maker's page, if the catalog still credits them with a font.
+    private func maker(_ maker: Maker) -> GalleryPage? {
+        items(by: maker).isEmpty ? nil : .maker(maker)
+    }
+
     // MARK: The last page
 
     /// Where the app was, as a launch argument can set it too: the root, then each page over it, joined by |,
@@ -51,12 +56,14 @@ extension GalleryModel {
         let root = switch root {
         case .start: "start"
         case .collection(let collection): "collection:\(collection.key)"
+        case .makers(let kind): "makers:\(kind.rawValue)"
         }
         let pages = path.map { page in
             switch page {
             case .article(let article): "article:\(article.slug)"
             case .item(.cask(let cask)): "font:\(cask.token)"
             case .item(.apple(let family)): "apple:\(family.name)"
+            case .maker(let maker): "\(maker.kind.rawValue):\(maker.name)"
             }
         }
         UserDefaults.standard.set(([root] + pages).joined(separator: "|"), forKey: Self.lastPageKey)
@@ -73,6 +80,9 @@ extension GalleryModel {
            let collection = FontCollection(key: String(first.dropFirst("collection:".count))) {
             self.collection = collection
             root = .collection(collection)
+        } else if let first = parts.first, first.hasPrefix("makers:"),
+                  let kind = Maker.Kind(rawValue: String(first.dropFirst("makers:".count))) {
+            root = .makers(kind)
         } else {
             root = .start
         }
@@ -83,6 +93,8 @@ extension GalleryModel {
             case "article": articles.first { $0.slug == name }.map(GalleryPage.article)
             case "font": catalog.casks.first { $0.token == name }.map { .item(.cask($0)) }
             case "apple": catalog.appleFonts.first { $0.name == name }.map { .item(.apple($0)) }
+            case "foundry", "designer": maker(Maker(kind: Maker.Kind(rawValue: String(kind)) ?? .foundry,
+                                                    name: String(name)))
             default: nil
             }
             guard let page else { break }

@@ -59,7 +59,7 @@ struct CaskDetailView: View {
                 }
                 if let description = cask.description {
                     SpecimenSection("About") {
-                        CaskDescription(markdown: description, designers: cask.designers ?? [])
+                        CaskDescription(markdown: description, designers: cask.descriptionBy ?? [])
                     }
                 }
                 // Every cask in the catalog has a license; build-catalog.py skips those without one.

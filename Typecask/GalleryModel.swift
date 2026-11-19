@@ -54,10 +54,12 @@ final class GalleryModel {
         didSet { if searchText != oldValue { recompute() } }
     }
 
-    /// What the gallery's stack starts from: Start Here, or a collection's fonts.
+    /// What the gallery's stack starts from: Start Here, a collection's fonts, or the index of foundries or
+    /// designers.
     enum Root: Hashable {
         case start
         case collection(FontCollection)
+        case makers(Maker.Kind)
     }
 
     /// The fonts the gallery shows. Picking one, from the sidebar, a quick action or a search, shows it.
@@ -129,7 +131,7 @@ final class GalleryModel {
     /// How many fonts each sidebar collection holds that cover the selected writing systems.
     private var counts: [FontCollection: Int] = [:]
 
-    private let sortedItems: [GalleryItem]
+    let sortedItems: [GalleryItem]
     /// Each item's name and token, folded once here rather than on every keystroke.
     private let nameKeys: [String]
     private let scriptSets: [Set<String>]
@@ -140,6 +142,10 @@ final class GalleryModel {
     /// `sortedItems`' indices in each sort order, worked out once: unranked items, Apple's fonts among
     /// them, follow the ranked ones by name.
     private let orders: [SortOrder: [Int]]
+    /// Every foundry and every designer, A to Z, with how many cards credit each.
+    let makerIndex: [Maker.Kind: [MakerEntry]]
+    /// Each maker's cards, as `sortedItems`' indices, most popular first.
+    let makerItems: [Maker: [Int]]
 
     init(catalog: Catalog, articles: [Article] = Article.bundled) {
         self.catalog = catalog
@@ -179,15 +185,11 @@ final class GalleryModel {
             orders[order] = sortedItems.indices.sorted { ranks[$0] < ranks[$1] || (ranks[$0] == ranks[$1] && $0 < $1) }
         }
         self.orders = orders
+        (makerItems, makerIndex) = Self.indexMakers(of: sortedItems, inOrder: orders[.popularity] ?? [])
         visibleItems = sortedItems
         recount()
         restore()
-        let descriptions = sortedItems.map { item in
-            switch item {
-            case .cask(let cask): cask.description ?? ""
-            case .apple: ""
-            }
-        }
+        let descriptions = sortedItems.map(Self.searchedText)
         Task { [weak self] in
             let folded = await Self.foldAll(descriptions)
             guard let self else { return }
@@ -319,8 +321,9 @@ final class GalleryModel {
     }
 }
 
-/// A page pushed over the gallery: an article, or a font's.
+/// A page pushed over the gallery: an article, a font's, or a foundry's or designer's.
 enum GalleryPage: Hashable {
     case article(Article)
     case item(GalleryItem)
+    case maker(Maker)
 }

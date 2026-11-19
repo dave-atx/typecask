@@ -90,8 +90,14 @@ struct Cask: Decodable, Identifiable, Hashable {
     let sample: String?
     /// Google Fonts' description of the family, as Markdown.
     let description: String?
-    /// The family's designers, per Google Fonts, who often wrote its description.
+    /// The people who designed the family, from Google Fonts or the fonts' own name tables, sorted from its
+    /// foundries by scripts/makers.json.
     let designers: [String]?
+    /// The type foundries or other organizations that made the family.
+    let foundries: [String]?
+    /// Whom Google Fonts credits with the family, people and foundries in Google's order, where the description
+    /// is Google's: often their own words, so it reads as a quote from them.
+    let descriptionBy: [String]?
     /// Rank by popularity across Homebrew's installs and Google Fonts' views, 1 first, which the gallery
     /// shows as "#1".
     let popularity: Int?
