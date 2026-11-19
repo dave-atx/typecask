@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["fonttools==4.67.0", "uharfbuzz==0.51.1"]
+# dependencies = ["fonttools==4.67.0", "lxml==6.0.2", "uharfbuzz==0.51.1"]
 # ///
 """Writes Typecask/Articles.json, the getting-started articles, from the Markdown in articles/, and the fonts
 their specimen lines are set in.
@@ -20,13 +20,16 @@ Each article is one file, articles/SLUG.md: front matter, then blocks separated 
     ---
 
     A paragraph, with **bold**, *italic* and links: [Serif](collection:serif), [Inter](font:font-inter),
-    a term from the glossary ([x-height](term:x-height)), or an https:// address.
+    a term from the glossary ([x-height](term:x-height)), another article ([Workhorses](article:workhorses)),
+    or an https:// address, which only the site shows as a link: the app keeps to its own pages.
 
     ## A section heading
 
     @font-inter: A specimen line, set in the cask's own face
     @font-fraunces {wght=900 WONK=1 +ss01 -liga face=Fraunces-9ptBlackItalic}: Axis values, features on (+)
     or off (-), and a face other than the cask's primary one, by its asset name
+    @font-amiri: مرحبا بالعالم
+    = Hello, world (a line under a specimen, starting =, is its translation, set small in the system font)
 
 articles/glossary.md isn't an article: it defines the type terms the articles link with term:, which the app
 shows in a popover and the site in an <abbr>. Each term is a ## heading and one paragraph; the link names it
@@ -132,7 +135,7 @@ def read_glossary(tokens):
     return dict(sorted(terms.items()))
 
 
-def parse(path, tokens, terms):
+def parse(path, tokens, terms, slugs):
     """One article, as Articles.json carries it, or ArticleError naming every problem in the file."""
     problems = []
     slug = path.stem
@@ -158,7 +161,7 @@ def parse(path, tokens, terms):
     blocks = []
     for number, chunk in chunks(lines, end + 1):
         try:
-            blocks.append(block(chunk, tokens, terms))
+            blocks.append(block(chunk, tokens, terms, slugs))
         except ArticleError as error:
             problems.append(f"line {number}: {error}")
     if not any(b["kind"] == "specimen" for b in blocks):
@@ -168,7 +171,7 @@ def parse(path, tokens, terms):
     return {
         "slug": slug,
         "title": meta["title"],
-        "summary": inline(meta["summary"], tokens, terms),
+        "summary": inline(meta["summary"], tokens, terms, slugs),
         "order": int(meta["order"]),
         "blocks": blocks,
     }
@@ -189,21 +192,27 @@ def chunks(lines, start):
         yield first, chunk
 
 
-def block(chunk, tokens, terms):
+def block(chunk, tokens, terms, slugs):
     head = chunk[0]
     if head.startswith("#"):
         if len(chunk) > 1 or not head.startswith("## ") or head.startswith("###"):
             raise ArticleError("a heading is one line starting ## (the title is the front matter's)")
-        return {"kind": "heading", "text": inline(head[3:].strip(), tokens, terms)}
+        return {"kind": "heading", "text": inline(head[3:].strip(), tokens, terms, slugs)}
     if head.startswith("@"):
-        if len(chunk) > 1:
-            raise ArticleError("a specimen is one line, with a blank line after it")
-        return specimen(head, tokens)
+        if len(chunk) > 2 or (len(chunk) == 2 and not chunk[1].startswith("= ")):
+            raise ArticleError("a specimen is one line, and maybe its translation (= ...), with a blank line after")
+        result = specimen(head, tokens)
+        if len(chunk) == 2:
+            # Plain text: it sits under the line in the system font, and the font's cut doesn't need it.
+            result["gloss"] = chunk[1][2:].strip()
+            if not result["gloss"] or re.search(r"[*_\[\]<`]", result["gloss"]):
+                raise ArticleError("a translation is plain text, with no Markdown")
+        return result
     if any(line.startswith(("@", "#")) for line in chunk[1:]):
         raise ArticleError("a heading or specimen needs a blank line before it")
     if re.match(r"([-*+>]|\d+[.)])\s", head):
         raise ArticleError("a list or quote, which the site would draw and the app wouldn't")
-    return {"kind": "paragraph", "text": inline(" ".join(chunk), tokens, terms)}
+    return {"kind": "paragraph", "text": inline(" ".join(chunk), tokens, terms, slugs)}
 
 
 def specimen(line, tokens):
@@ -234,7 +243,7 @@ def specimen(line, tokens):
     return result
 
 
-def inline(text, tokens, terms):
+def inline(text, tokens, terms, slugs=frozenset()):
     """Text the app's AttributedString(markdown:) and Hugo's markdownify both read the same way: bold,
     italic and links, and nothing that one of them would draw differently."""
     for target in (match["target"] for match in LINK.finditer(text)):
@@ -245,8 +254,10 @@ def inline(text, tokens, terms):
             raise ArticleError(f"{rest} isn't in the catalog")
         if scheme == "term" and rest not in terms:
             raise ArticleError(f"no term {rest!r} in {GLOSSARY.name}")
-        if scheme not in {"collection", "font", "term", "https"}:
-            raise ArticleError(f"link to {target}: links go to collection:, font:, term: or https://")
+        if scheme == "article" and rest not in slugs:
+            raise ArticleError(f"no article {rest!r} in {SOURCE.name}/")
+        if scheme not in {"collection", "font", "term", "article", "https"}:
+            raise ArticleError(f"link to {target}: links go to collection:, font:, term:, article: or https://")
     bare = LINK.sub(r"\g<text>", text)
     if "](" in bare or "![" in text:
         raise ArticleError("a link that doesn't parse, or an image")
@@ -259,11 +270,11 @@ def inline(text, tokens, terms):
 
 def read_articles(catalog, terms):
     articles, problems = [], []
-    for path in sorted(SOURCE.glob("*.md")):
-        if path == GLOSSARY:
-            continue
+    paths = [path for path in sorted(SOURCE.glob("*.md")) if path != GLOSSARY]
+    slugs = frozenset(path.stem for path in paths)
+    for path in paths:
         try:
-            articles.append(parse(path, catalog.keys(), terms))
+            articles.append(parse(path, catalog.keys(), terms, slugs))
         except ArticleError as error:
             problems.append(str(error))
     orders = sorted(article["order"] for article in articles)
