@@ -22,40 +22,54 @@ nonisolated struct SpecimenFeature: Identifiable, Sendable {
     private struct Demo {
         let tag: String
         let name: String.LocalizationValue
-        let parts: [Part]
+        /// The text in pieces, a word or a formula each, of which the specimen shows only the ones the feature
+        /// changes: Geist Pixel's fractions make ½ and ¾ but leave 7/8 as it is, so it shows 1/2 3/4.
+        let segments: [[Part]]
+        /// Whether a piece shows only if the feature changes every featured character in it, not just one: Geist
+        /// Pixel's superscripts have ¹ but no superior zero, so x10 came out x¹0.
+        let changesEvery: Bool
 
         init(_ tag: String, _ name: String.LocalizationValue, _ parts: [Part]) {
+            self.init(tag, name, segments: [parts])
+        }
+
+        init(_ tag: String, _ name: String.LocalizationValue, words: String) {
+            self.init(tag, name, segments: words.split(separator: " ").map { [Part(text: String($0), featured: true)] })
+        }
+
+        init(_ tag: String, _ name: String.LocalizationValue, segments: [[Part]], changesEvery: Bool = false) {
             self.tag = tag
             self.name = name
-            self.parts = parts
+            self.segments = segments
+            self.changesEvery = changesEvery
         }
     }
 
     private static let demos: [Demo] = [
-        Demo("frac", "Fractions", [Part(text: "1/2 3/4 7/8", featured: true)]),
+        Demo("frac", "Fractions", words: "1/2 3/4 7/8"),
         Demo("lnum", "Lining Figures", [Part(text: "0123456789", featured: true)]),
         Demo("onum", "Oldstyle Figures", [Part(text: "0123456789", featured: true)]),
         Demo("tnum", "Tabular Figures", [Part(text: "1,111.10 / 9,876.54", featured: true)]),
         Demo("pnum", "Proportional Figures", [Part(text: "1,111.10 / 9,876.54", featured: true)]),
         Demo("zero", "Slashed Zero", [Part(text: "0 10 100", featured: true)]),
-        Demo("sups", "Superscripts", [
-            Part(text: "E = mc", featured: false), Part(text: "2", featured: true),
-            Part(text: " x", featured: false), Part(text: "10", featured: true)
-        ]),
-        Demo("subs", "Subscripts", [
-            Part(text: "H", featured: false), Part(text: "2", featured: true), Part(text: "O CO", featured: false),
-            Part(text: "2", featured: true)
-        ]),
-        Demo("sinf", "Scientific Inferiors", [
+        Demo("sups", "Superscripts", segments: [
+            [Part(text: "E = mc", featured: false), Part(text: "2", featured: true)],
+            [Part(text: "x", featured: false), Part(text: "10", featured: true)]
+        ], changesEvery: true),
+        Demo("subs", "Subscripts", segments: [
+            [Part(text: "H", featured: false), Part(text: "2", featured: true), Part(text: "O", featured: false)],
+            [Part(text: "CO", featured: false), Part(text: "2", featured: true)]
+        ], changesEvery: true),
+        Demo("sinf", "Scientific Inferiors", segments: [[
             Part(text: "C", featured: false), Part(text: "6", featured: true), Part(text: "H", featured: false),
             Part(text: "12", featured: true), Part(text: "O", featured: false), Part(text: "6", featured: true)
-        ]),
+        ]], changesEvery: true),
         Demo("ordn", "Ordinals", [Part(text: "1a 2o No. 3", featured: true)]),
         Demo("case", "Case-Sensitive Forms", [Part(text: "(HELLO) [WORLD] ¿QUÉ? A-Z", featured: true)]),
         Demo("smcp", "Small Capitals", [Part(text: "Small Capitals", featured: true)]),
         Demo("c2sc", "Capitals to Small Capitals", [Part(text: "NASA AND UNESCO", featured: true)]),
-        Demo("dlig", "Discretionary Ligatures", [Part(text: "ct st sp Th", featured: true)]),
-        Demo("hlig", "Historical Ligatures", [Part(text: "ct st ſt", featured: true)]),
+        Demo("dlig", "Discretionary Ligatures", words: "ct st sp Th"),
+        Demo("hlig", "Historical Ligatures", words: "ct st ſt"),
         Demo("titl", "Titling Alternates", [Part(text: "TITLING", featured: true)])
     ]
 
@@ -67,10 +81,14 @@ nonisolated struct SpecimenFeature: Identifiable, Sendable {
     static func detected(in font: CTFont, covered: CharacterSet) -> [SpecimenFeature] {
         let tags = FontTables.substitutionFeatures(of: font)
         var features = demos.compactMap { demo -> SpecimenFeature? in
-            guard tags.keys.contains(demo.tag),
-                  TryOutText.draws(demo.parts.map(\.text).joined(), covered),
-                  changes(demo.parts, demo.tag, font) else { return nil }
-            return SpecimenFeature(tag: demo.tag, name: String(localized: demo.name), parts: demo.parts)
+            guard tags.keys.contains(demo.tag) else { return nil }
+            let shown = demo.segments.filter { segment in
+                TryOutText.draws(segment.map(\.text).joined(), covered)
+                    && (demo.changesEvery ? changesEvery(segment, demo.tag, font) : changes(segment, demo.tag, font))
+            }
+            guard !shown.isEmpty else { return nil }
+            let parts = Array(shown.joined(separator: [Part(text: " ", featured: false)]))
+            return SpecimenFeature(tag: demo.tag, name: String(localized: demo.name), parts: parts)
         }
         // Sets and variants after the rest, in tag order: ss01, ss02, then cv01.
         let numbered = tags.keys.filter { $0.hasPrefix("ss") || $0.hasPrefix("cv") }.sorted { lhs, rhs in
@@ -129,6 +147,22 @@ nonisolated struct SpecimenFeature: Identifiable, Sendable {
         let plain = shaped(parts, font, featured: font)
         let featured = shaped(parts, font, featured: Self.font(font, with: tag))
         return featured.glyphs != plain.glyphs && featured.blanks <= plain.blanks
+    }
+
+    /// Whether the feature changes each featured character on its own, in its place in the text.
+    private static func changesEvery(_ parts: [Part], _ tag: String, _ font: CTFont) -> Bool {
+        parts.indices.filter { parts[$0].featured }.allSatisfy { featured in
+            parts[featured].text.indices.allSatisfy { character in
+                let alone = parts.indices.flatMap { index -> [Part] in
+                    let text = parts[index].text
+                    guard index == featured else { return [Part(text: text, featured: false)] }
+                    return [Part(text: String(text[..<character]), featured: false),
+                            Part(text: String(text[character]), featured: true),
+                            Part(text: String(text[text.index(after: character)...]), featured: false)]
+                }
+                return changes(alone.filter { !$0.text.isEmpty }, tag, font)
+            }
+        }
     }
 
     /// The glyphs the text shapes to, and how many of them draw nothing, as a space doesn't.
