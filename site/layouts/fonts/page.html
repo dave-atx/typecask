@@ -142,6 +142,24 @@
       </aside>
     </div>
 
+    {{- range partial "maker-related.html" . }}
+      <div class="bar related">
+        <h2>More from {{ .name }}</h2>
+        <div class="related-grid">
+          {{- range .cards }}
+            <a class="related-card" href="{{ (printf "/fonts/%s/" .slug) | relURL }}">
+              <span class="related-spec" data-f="{{ .slug }}" data-p="{{ .previewFile }}"
+                style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</span>
+              <span class="related-name">{{ .name }}</span>
+            </a>
+          {{- end }}
+        </div>
+        {{- if gt .count (add (len .cards) 1) }}
+          <p><a class="more" href="{{ .url }}">All {{ lang.FormatNumber 0 .count }} from {{ .name }} →</a></p>
+        {{- end }}
+      </div>
+    {{- end }}
+
     {{- $related := partial "related.html" . }}
     {{- with $related }}
       <div class="bar related">
