@@ -103,7 +103,7 @@ typecask.app/start/SLUG/, which the Smart App Banner hands the app, open an arti
 catalog, into `site/data/articles.json` and `site/static/a/`. `content/start/_content.gotmpl` makes
 `/start/` and a page per article from them, and `layouts/start/` lays them out as the app does: shaded
 boxes, the font's name above its line and a link to its page, and the translation under it. The cut fonts
-are served as they are, a few KB each. A release from before the articles has none, so `/start/` and its
+are served as WOFF2, which `articles.py web` makes of the release's cuts, a few KB each. A release from before the articles has none, so `/start/` and its
 link in the header appear with the first App Store version that has them, and Open in Typecask needs no
 version check of its own.
 

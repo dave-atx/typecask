@@ -68,6 +68,9 @@ jobs:
           sudo dpkg -i /tmp/hugo.deb
           hugo version
 
+      # For scripts/articles.py, which site-catalog.sh runs to turn the articles' fonts into WOFF2.
+      - uses: astral-sh/setup-uv@v10.3.2
+
       - name: Read the shipping app's catalog
         env:
           TYPECASK_RELEASE_TAG: ${{ inputs.tag }}

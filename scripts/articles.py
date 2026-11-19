@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["fonttools==4.67.0", "lxml==6.0.2", "uharfbuzz==0.51.1"]
+# dependencies = ["brotli==1.2.0", "fonttools==4.67.0", "lxml==6.0.2", "uharfbuzz==0.51.1"]
 # ///
 """Writes Typecask/Articles.json, the getting-started articles, from the Markdown in articles/, and the fonts
 their specimen lines are set in.
@@ -9,6 +9,7 @@ their specimen lines are set in.
     scripts/articles.py fonts [--from XCASSETS]   # cut each specimen's font, then build
     scripts/articles.py build                     # write Typecask/Articles.json
     scripts/articles.py check                     # what CI runs: validate, and fail if anything is stale
+    scripts/articles.py web FONTS                 # the site's copies of the cut fonts in FONTS, as WOFF2
 
 The app's Start Here page and the site's /start/ pages both read Articles.json, so the two never disagree.
 Each article is one file, articles/SLUG.md: front matter, then blocks separated by blank lines.
@@ -461,6 +462,19 @@ def check(articles, catalog):
         raise ArticleError("\n".join(problems))
 
 
+def web_fonts(directory):
+    """Rewrites each cut font in the directory, the site's copy of a release's, as WOFF2 and removes the
+    original: site/static/a/, from scripts/site-catalog.sh. Brotli takes a third to a half off a TrueType
+    cut; the app bundles the plain files, which Core Text reads directly."""
+    from fontTools.ttLib import TTFont
+
+    for path in sorted(p for p in directory.iterdir() if p.suffix in FONT_SUFFIXES):
+        with TTFont(path, recalcTimestamp=False) as font:
+            font.flavor = "woff2"
+            font.save(path.with_suffix(".woff2"), reorderTables=False)
+        path.unlink()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -468,7 +482,12 @@ def main():
     fonts.add_argument("--from", dest="xcassets", type=pathlib.Path, default=XCASSETS, help="a Fonts.xcassets")
     commands.add_parser("build", help="write Typecask/Articles.json")
     commands.add_parser("check", help="validate the articles, their fonts, and that Articles.json is current")
+    web = commands.add_parser("web", help="rewrite the cut fonts in a directory as WOFF2, for the site")
+    web.add_argument("directory", type=pathlib.Path)
     arguments = parser.parse_args()
+    if arguments.command == "web":
+        web_fonts(arguments.directory)
+        return
     try:
         if arguments.command == "fonts":
             cut_fonts(arguments.xcassets)

@@ -111,6 +111,8 @@ if git cat-file -e "$tag:Typecask/Articles.json" 2> /dev/null; then
     git archive "$tag" Typecask/Articles.json Typecask/ArticleFonts | tar -x -C "$tmp"
     mv "$tmp/Typecask/Articles.json" site/data/articles.json
     mv "$tmp/Typecask/ArticleFonts" site/static/a
+    # As WOFF2, a third to a half smaller; articles.py from this checkout, as it reads any release's cuts.
+    scripts/articles.py web site/static/a
     echo "site-catalog.sh: $(python3 -c 'import json, sys; print(len(json.load(sys.stdin)["articles"]))' < site/data/articles.json) articles"
 else
     echo "site-catalog.sh: $tag has no articles; /start/ is left out"

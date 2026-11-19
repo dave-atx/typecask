@@ -2,12 +2,14 @@
 
 {{ define "head" }}
   {{- /* Each specimen line's font, cut by scripts/articles.py to the line's characters and instanced at its
-    axis values: a few KB each, where the font's preview holds only its sample. */}}
+    axis values: a few KB each, where the font's preview holds only its sample. site-catalog.sh turns the
+    release's cuts into WOFF2. */}}
   {{- $css := "" }}
   {{- range $index, $block := .Params.blocks }}
     {{- if eq .kind "specimen" }}
-      {{- $css = printf "%s@font-face{font-family:\"tc-a%d\";src:url(\"%s\");font-display:swap}\n" $css $index
-          ((printf "/a/%s" .font) | relURL) }}
+      {{- $file := replaceRE `\.(ttf|otf)$` ".woff2" .font }}
+      {{- $css = printf "%s@font-face{font-family:\"tc-a%d\";src:url(\"%s\") format(\"woff2\");font-display:swap}\n"
+          $css $index ((printf "/a/%s" $file) | relURL) }}
     {{- end }}
   {{- end }}
   <style>{{ $css | safeCSS }}</style>

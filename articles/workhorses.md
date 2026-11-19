@@ -110,5 +110,5 @@ pick a font.
 
 **Libertinus Serif** is a fork of [Linux Libertine](https://en.wikipedia.org/wiki/Linux_Libertine), the
 typeface in Wikipedia's wordmark. It keeps Libertine's bookish look and adds wide coverage of Greek,
-Cyrillic, and math symbols, which makes it a favorite for academic papers. Libertinus Sans is in the catalog
+Cyrillic, and math symbols, which makes it a favorite for academic papers. [Libertinus Sans](font:font-libertinus) is in the catalog
 too.
