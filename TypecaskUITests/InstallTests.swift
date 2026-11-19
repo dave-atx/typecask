@@ -202,8 +202,9 @@ final class InstallTests: XCTestCase {
         app.launch()
         app.openCask(token)
         let disclosure = app.buttons["License"]
-        // Below the description and details, off screen on a smaller device.
-        for _ in 0..<6 where !(disclosure.exists && disclosure.isHittable) {
+        // At the end of the page, after the full specimen an installed cask's page shows: every style, passage and
+        // character, which the lazy page builds only as they near.
+        for _ in 0..<60 where !(disclosure.exists && disclosure.isHittable) {
             app.swipeUp()
         }
         disclosure.tap()
