@@ -2,8 +2,8 @@ import Foundation
 
 /// Following an article's links, and reopening where the app was last time.
 extension GalleryModel {
-    /// Follows a link in an article: to a collection, which it shows, or to a font or another article, whose page
-    /// it pushes. False for any other link, which opens in Safari.
+    /// Follows a link in an article: to a collection, which it shows, or to a font, a foundry, a designer or another
+    /// article, whose page it pushes. False for any other link, which opens in Safari.
     func follow(_ url: URL) -> Bool {
         switch url.scheme {
         case "collection":
@@ -15,6 +15,12 @@ extension GalleryModel {
             let token = url.absoluteString.trimmingPrefix("font:")
             guard let cask = catalog.casks.first(where: { $0.token == token }) else { return false }
             path.append(.item(.cask(catalog.shown(cask))))
+            return true
+        case "foundry", "designer":
+            let kind: Maker.Kind = url.scheme == "foundry" ? .foundry : .designer
+            let slug = String(url.absoluteString.drop { $0 != ":" }.dropFirst())
+            guard let entry = makers(kind).first(where: { Maker.slug(of: $0.maker.name) == slug }) else { return false }
+            path.append(.maker(entry.maker))
             return true
         case "article":
             let slug = url.absoluteString.trimmingPrefix("article:")

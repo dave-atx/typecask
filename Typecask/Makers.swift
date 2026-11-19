@@ -38,6 +38,12 @@ struct Maker: Hashable, Identifiable, Sendable {
 
     var id: Self { self }
 
+    /// The name as an article's link spells it, "foundry:the-league-of-moveable-type": lower case, with each run of
+    /// anything but letters and digits a hyphen, as scripts/articles.py's maker_slug() makes it.
+    static func slug(of name: String) -> String {
+        name.lowercased().split { !($0.isLetter || $0.isNumber) }.joined(separator: "-")
+    }
+
     /// The names a cask credits as this kind of maker.
     static func names(_ kind: Kind, of cask: Cask) -> [String] {
         switch kind {

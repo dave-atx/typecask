@@ -33,6 +33,22 @@ final class MakerTests: XCTestCase {
         XCTAssertTrue(app.card(for: "font-lato").waitForExistence(timeout: 10))
     }
 
+    /// A designer's name in an article opens the designer's page.
+    @MainActor
+    func testArticleLinksToItsDesigner() {
+        let app = XCUIApplication.typecask()
+        app.launchArguments += ["-lastPage", "start|article:start-here"]
+        app.launch()
+        let link = app.links["Rasmus Andersson"]
+        for _ in 0..<10 where !(link.exists && link.isHittable) {
+            app.swipeUp(velocity: .slow)
+        }
+        XCTAssertTrue(link.waitForExistence(timeout: 10), "Start Here has no link to Rasmus Andersson")
+        link.tap()
+        XCTAssertTrue(app.navigationBars["Rasmus Andersson"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.card(for: "font-inter").waitForExistence(timeout: 10))
+    }
+
     /// A maker's page is where the app reopens, as any other page is.
     @MainActor
     func testMakerPageIsRemembered() {

@@ -30,7 +30,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Inter](font:font-inter)** was drawn by [Rasmus Andersson](https://rsms.me/) for screens, with a tall [x-height](term:x-height) that keeps small text readable. It's the one to reach for when you don't want to think about the font at all. Look in its features for a slashed zero and tabular numbers, which line figures up in a column."
+          "text": "**[Inter](font:font-inter)** was drawn by [Rasmus Andersson](designer:rasmus-andersson) for screens, with a tall [x-height](term:x-height) that keeps small text readable. It's the one to reach for when you don't want to think about the font at all. Look in its features for a slashed zero and tabular numbers, which line figures up in a column."
         },
         {
           "kind": "specimen",
@@ -40,7 +40,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[IBM Plex Sans](font:font-ibm-plex-sans)** is [IBM's own typeface](https://www.ibm.com/plex/), designed by Mike Abbink with the Dutch foundry [Bold Monday](https://www.boldmonday.com/). It's neutral but warmer than Inter, and its italics have more character than you'd expect. Plex also comes as Serif, Mono, and Condensed, so one family can cover a whole document."
+          "text": "**[IBM Plex Sans](font:font-ibm-plex-sans)** is [IBM's own typeface](https://www.ibm.com/plex/), designed by [Mike Abbink](designer:mike-abbink) with the Dutch foundry [Bold Monday](foundry:bold-monday). It's neutral but warmer than Inter, and its italics have more character than you'd expect. Plex also comes as Serif, Mono, and Condensed, so one family can cover a whole document."
         },
         {
           "kind": "heading",
@@ -64,7 +64,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Source Serif 4](font:font-source-serif-4)** is Adobe's, designed by Frank Grießhammer after the French typefounder [Pierre Simon Fournier](https://en.wikipedia.org/wiki/Pierre_Simon_Fournier). It's sturdier than Garamond and holds up better at small sizes and on screen. It was made as a partner for [Source Sans 3](font:font-source-sans-3), so the two pair without any fuss."
+          "text": "**[Source Serif 4](font:font-source-serif-4)** is [Adobe](foundry:adobe)'s, designed by [Frank Grießhammer](designer:frank-grießhammer) after the French typefounder [Pierre Simon Fournier](https://en.wikipedia.org/wiki/Pierre_Simon_Fournier). It's sturdier than Garamond and holds up better at small sizes and on screen. It was made as a partner for [Source Sans 3](font:font-source-sans-3), so the two pair without any fuss."
         },
         {
           "kind": "heading",
@@ -78,7 +78,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[JetBrains Mono](font:font-jetbrains-mono)** is about as popular as coding fonts get. JetBrains made it for their code editors: every character is the same width, so columns line up, and pairs like -> and != join into a single symbol ([ligatures](term:ligature) you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find more like it under [Fixed Width](collection:monospaced)."
+          "text": "**[JetBrains Mono](font:font-jetbrains-mono)** is about as popular as coding fonts get. [JetBrains](foundry:jetbrains) made it for their code editors: every character is the same width, so columns line up, and pairs like -> and != join into a single symbol ([ligatures](term:ligature) you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find more like it under [Fixed Width](collection:monospaced)."
         },
         {
           "kind": "heading",
@@ -92,7 +92,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Bebas Neue](font:font-bebas-neue)** is tall, narrow, and all capitals, by Ryoichi Tsunekawa of [Dharma Type](https://dharmatype.com/). It fits a lot of words across a slide or a poster and still reads from the back of the room. Keep it big; it isn't meant for paragraphs."
+          "text": "**[Bebas Neue](font:font-bebas-neue)** is tall, narrow, and all capitals, by [Ryoichi Tsunekawa](designer:ryoichi-tsunekawa) of [Dharma Type](https://dharmatype.com/). It fits a lot of words across a slide or a poster and still reads from the back of the room. Keep it big; it isn't meant for paragraphs."
         },
         {
           "kind": "specimen",
@@ -102,7 +102,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Fraunces](font:font-fraunces)** is a soft, slightly goofy serif from [Undercase Type](https://undercase.xyz/), inspired by early 20th-century faces like Windsor and Cooper. Its \"wonky\" letters lean a little, so a title in it looks friendly rather than formal. Try it heavy and large."
+          "text": "**[Fraunces](font:font-fraunces)** is a soft, slightly goofy serif from [Undercase Type](foundry:undercase-type), inspired by early 20th-century faces like Windsor and Cooper. Its \"wonky\" letters lean a little, so a title in it looks friendly rather than formal. Try it heavy and large."
         },
         {
           "kind": "heading",
@@ -116,7 +116,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Shantell Sans](font:font-shantell-sans)** comes from the handwriting of the artist [Shantell Martin](https://shantellmartin.art/), whose drawings have covered the Oculus at the World Trade Center and the screens of Times Square. She made it with Stephen Nixon of [Arrow Type](https://www.arrowtype.com/) to get people having fun with words. It's bouncy without being hard to read, which makes it good for notes, invitations, and kids' worksheets."
+          "text": "**[Shantell Sans](font:font-shantell-sans)** comes from the handwriting of the artist [Shantell Martin](designer:shantell-martin), whose drawings have covered the Oculus at the World Trade Center and the screens of Times Square. She made it with [Stephen Nixon](designer:stephen-nixon) of [Arrow Type](foundry:arrow-type) to get people having fun with words. It's bouncy without being hard to read, which makes it good for notes, invitations, and kids' worksheets."
         },
         {
           "kind": "specimen",
@@ -136,7 +136,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Caveat](font:font-caveat)**, from Impallari Type, looks like quick, neat handwriting. It's the place to start in the [Handwriting](collection:handwriting) category."
+          "text": "**[Caveat](font:font-caveat)**, from [Impallari Type](foundry:impallari-type), looks like quick, neat handwriting. It's the place to start in the [Handwriting](collection:handwriting) category."
         },
         {
           "kind": "heading",
@@ -150,7 +150,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Atkinson Hyperlegible Next](font:font-atkinson-hyperlegible-next)** was made for the [Braille Institute](https://www.brailleinstitute.org/freefont/), to help readers with low vision. Letters that are easy to mix up, like I, l, and 1, or O and 0, are drawn to look clearly different. It's a refined version of the original [Atkinson Hyperlegible](font:font-atkinson-hyperlegible), with more weights and languages. It's in the [Legibility](collection:legibility) collection, with other fonts designed to be easy to read."
+          "text": "**[Atkinson Hyperlegible Next](font:font-atkinson-hyperlegible-next)** was made for the [Braille Institute](foundry:braille-institute), to help readers with low vision. Letters that are easy to mix up, like I, l, and 1, or O and 0, are drawn to look clearly different. It's a refined version of the original [Atkinson Hyperlegible](font:font-atkinson-hyperlegible), with more weights and languages. It's in the [Legibility](collection:legibility) collection, with other fonts designed to be easy to read."
         },
         {
           "kind": "heading",
@@ -188,7 +188,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Inter](font:font-inter)**, by [Rasmus Andersson](https://rsms.me/), started out in 2017 as a font for user interfaces (its first name was Interface). It has a tall [x-height](term:x-height) for small text on screens, plus extras that matter in a spreadsheet: tabular numbers, a slashed zero, and punctuation that adjusts to the letters around it. A lot of the apps and websites you use every day are set in it. [Inter Tight](font:font-inter-tight), spaced closer for headlines, is in the catalog too."
+          "text": "**[Inter](font:font-inter)**, by [Rasmus Andersson](designer:rasmus-andersson), started out in 2017 as a font for user interfaces (its first name was Interface). It has a tall [x-height](term:x-height) for small text on screens, plus extras that matter in a spreadsheet: tabular numbers, a slashed zero, and punctuation that adjusts to the letters around it. A lot of the apps and websites you use every day are set in it. [Inter Tight](font:font-inter-tight), spaced closer for headlines, is in the catalog too."
         },
         {
           "kind": "specimen",
@@ -198,7 +198,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Roboto](font:font-roboto)**, drawn by Christian Robertson at Google, has been [Android's system font since 2011](https://en.wikipedia.org/wiki/Roboto), so there's a decent chance you've read more words in it than in any other font. Google describes it as having a dual nature: a mechanical skeleton with friendly, open curves. The catalog has the whole extended family, including [Condensed](font:font-roboto-condensed), [Flex](font:font-roboto-flex), [Slab](font:font-roboto-slab), [Serif](font:font-roboto-serif), and [Mono](font:font-roboto-mono)."
+          "text": "**[Roboto](font:font-roboto)**, drawn by [Christian Robertson](designer:christian-robertson) at [Google](foundry:google), has been [Android's system font since 2011](https://en.wikipedia.org/wiki/Roboto), so there's a decent chance you've read more words in it than in any other font. Google describes it as having a dual nature: a mechanical skeleton with friendly, open curves. The catalog has the whole extended family, including [Condensed](font:font-roboto-condensed), [Flex](font:font-roboto-flex), [Slab](font:font-roboto-slab), [Serif](font:font-roboto-serif), and [Mono](font:font-roboto-mono)."
         },
         {
           "kind": "specimen",
@@ -208,7 +208,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Open Sans](font:font-open-sans)** is by Steve Matteson, who also drew Droid Sans, the font Roboto replaced on Android. It's a [humanist](term:humanist) sans serif with open shapes and an upright, neutral-but-friendly feel, and for years it was one of the most-used fonts on the web."
+          "text": "**[Open Sans](font:font-open-sans)** is by [Steve Matteson](designer:steve-matteson), who also drew Droid Sans, the font Roboto replaced on Android. It's a [humanist](term:humanist) sans serif with open shapes and an upright, neutral-but-friendly feel, and for years it was one of the most-used fonts on the web."
         },
         {
           "kind": "specimen",
@@ -218,7 +218,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Source Sans 3](font:font-source-sans-3)**, by Paul D. Hunt, was Adobe's first open-source typeface, released in 2012 as Source Sans Pro. It takes its cue from the American gothics of the early 1900s, like Franklin Gothic (see [Inspired by the classics](article:inspired-by-the-classics)), tuned for user interfaces. The 3 arrived with version 3, when Adobe rebuilt the family and renamed it so it wouldn't trip over documents set in the old one."
+          "text": "**[Source Sans 3](font:font-source-sans-3)**, by [Paul D. Hunt](designer:paul-d-hunt), was [Adobe](foundry:adobe)'s first open-source typeface, released in 2012 as Source Sans Pro. It takes its cue from the American gothics of the early 1900s, like Franklin Gothic (see [Inspired by the classics](article:inspired-by-the-classics)), tuned for user interfaces. The 3 arrived with version 3, when Adobe rebuilt the family and renamed it so it wouldn't trip over documents set in the old one."
         },
         {
           "kind": "specimen",
@@ -228,7 +228,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[IBM Plex Sans](font:font-ibm-plex-sans)** replaced Helvetica Neue as [IBM's corporate typeface](https://www.ibm.com/plex/) in 2017. Mike Abbink designed it at IBM with [Bold Monday](https://www.boldmonday.com/), a Dutch foundry, to capture \"the unique relationship between mankind and machine.\" It's a friendly [grotesque](term:grotesque) with unusually expressive italics, and the family adds a [Serif](font:font-ibm-plex-serif), a [Mono](font:font-ibm-plex-mono), a [Condensed](font:font-ibm-plex-sans-condensed), and versions for Arabic, Hebrew, Devanagari, Thai, Japanese, Korean, and Chinese."
+          "text": "**[IBM Plex Sans](font:font-ibm-plex-sans)** replaced Helvetica Neue as [IBM's corporate typeface](https://www.ibm.com/plex/) in 2017. [Mike Abbink](designer:mike-abbink) designed it at [IBM](foundry:ibm) with [Bold Monday](foundry:bold-monday), a Dutch foundry, to capture \"the unique relationship between mankind and machine.\" It's a friendly [grotesque](term:grotesque) with unusually expressive italics, and the family adds a [Serif](font:font-ibm-plex-serif), a [Mono](font:font-ibm-plex-mono), a [Condensed](font:font-ibm-plex-sans-condensed), and versions for Arabic, Hebrew, Devanagari, Thai, Japanese, Korean, and Chinese."
         },
         {
           "kind": "specimen",
@@ -248,7 +248,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Work Sans](font:font-work-sans)**, by Wei Huang (who also made Fragment Mono, from the Helvetica section of [Inspired by the classics](article:inspired-by-the-classics)), is loosely based on the grotesques of 19th-century British and German foundries. The middle weights are tuned for text on screens, and the extremes, Hairline and Black, for headlines."
+          "text": "**[Work Sans](font:font-work-sans)**, by [Wei Huang](designer:wei-huang) (who also made Fragment Mono, from the Helvetica section of [Inspired by the classics](article:inspired-by-the-classics)), is loosely based on the grotesques of 19th-century British and German foundries. The middle weights are tuned for text on screens, and the extremes, Hairline and Black, for headlines."
         },
         {
           "kind": "specimen",
@@ -258,7 +258,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Geist](font:font-geist)** comes from [Vercel](https://vercel.com/font), the company behind Next.js, made with Basement Studio and inspired by Swiss design. Geist is German for \"spirit\" (or \"ghost\"). Its siblings are [Geist Mono](font:font-geist-mono), for code, and [Geist Serif](font:font-geist-serif)."
+          "text": "**[Geist](font:font-geist)** comes from [Vercel](foundry:vercel), the company behind Next.js, made with Basement Studio and inspired by Swiss design. Geist is German for \"spirit\" (or \"ghost\"). Its siblings are [Geist Mono](font:font-geist-mono), for code, and [Geist Serif](font:font-geist-serif)."
         },
         {
           "kind": "specimen",
@@ -268,7 +268,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Figtree](font:font-figtree)**, by [Erik Kennedy](https://www.erikdkennedy.com/projects/figtree.html), is a clean, [geometric](term:geometric) sans serif made for websites and apps. It's friendly in text and still has punch in all caps, which makes it good for buttons and short labels."
+          "text": "**[Figtree](font:font-figtree)**, by [Erik Kennedy](designer:erik-kennedy), is a clean, [geometric](term:geometric) sans serif made for websites and apps. It's friendly in text and still has punch in all caps, which makes it good for buttons and short labels."
         },
         {
           "kind": "heading",
@@ -282,7 +282,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Source Serif 4](font:font-source-serif-4)** is the serif partner to Source Sans, designed by Frank Grießhammer at Adobe. It's loosely based on the work of [Pierre-Simon Fournier](https://en.wikipedia.org/wiki/Pierre_Simon_Fournier), an 18th-century French typefounder, down to quirks like the serif at the bottom of the b. [Optical sizes](term:optical-size) keep it sturdy in small text and refined in headings."
+          "text": "**[Source Serif 4](font:font-source-serif-4)** is the serif partner to Source Sans, designed by [Frank Grießhammer](designer:frank-grießhammer) at Adobe. It's loosely based on the work of [Pierre-Simon Fournier](https://en.wikipedia.org/wiki/Pierre_Simon_Fournier), an 18th-century French typefounder, down to quirks like the serif at the bottom of the b. [Optical sizes](term:optical-size) keep it sturdy in small text and refined in headings."
         },
         {
           "kind": "specimen",
@@ -292,7 +292,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Merriweather](font:font-merriweather)**, by Eben Sorkin of [Sorkin Type](https://sorkintype.com/), was designed to be pleasant to read on screens: a very large x-height, slightly condensed letters, and sturdy serifs. [Merriweather Sans](font:font-merriweather-sans) is its matching sans serif."
+          "text": "**[Merriweather](font:font-merriweather)**, by [Eben Sorkin](designer:eben-sorkin) of [Sorkin Type](foundry:sorkin-type), was designed to be pleasant to read on screens: a very large x-height, slightly condensed letters, and sturdy serifs. [Merriweather Sans](font:font-merriweather-sans) is its matching sans serif."
         },
         {
           "kind": "specimen",
@@ -302,7 +302,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Lora](font:font-lora)**, from [Cyreal](https://cyreal.org/), is a text serif with roots in calligraphy: brushed curves against sharp, driving serifs. It's a good pick for stories and essays that want a little warmth."
+          "text": "**[Lora](font:font-lora)**, from [Cyreal](foundry:cyreal), is a text serif with roots in calligraphy: brushed curves against sharp, driving serifs. It's a good pick for stories and essays that want a little warmth."
         },
         {
           "kind": "specimen",
@@ -312,7 +312,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Literata](font:font-literata)** started as the house font of Google Play Books, made by [TypeTogether](https://www.type-together.com/) to read comfortably on any device. Its third version is variable, with optical sizes that run from captions to headlines. Try it in any reading app that lets you pick a font."
+          "text": "**[Literata](font:font-literata)** started as the house font of Google Play Books, made by [TypeTogether](foundry:typetogether) to read comfortably on any device. Its third version is variable, with optical sizes that run from captions to headlines. Try it in any reading app that lets you pick a font."
         },
         {
           "kind": "specimen",
@@ -374,7 +374,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Libre Baskerville](font:font-libre-baskerville)**, from Impallari Type, is based on American Type Founders' 1941 version. It has a taller [x-height](term:x-height), wider [counters](term:counter), and a little less contrast than the original, which helps it read well on a screen at body text sizes. Choose it over the built-in Baskerville when the text is long and the type is small."
+          "text": "**[Libre Baskerville](font:font-libre-baskerville)**, from [Impallari Type](foundry:impallari-type), is based on American Type Founders' 1941 version. It has a taller [x-height](term:x-height), wider [counters](term:counter), and a little less contrast than the original, which helps it read well on a screen at body text sizes. Choose it over the built-in Baskerville when the text is long and the type is small."
         },
         {
           "kind": "heading",
@@ -392,7 +392,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Bodoni Moda](font:font-bodoni-moda)**, by Owen Earl of [indestructible type](https://indestructibletype.com/), is a full Bodoni family with every weight, italics, and optical sizes, so the hairlines stay delicate in a headline and sturdy enough in smaller text."
+          "text": "**[Bodoni Moda](font:font-bodoni-moda)**, by [Owen Earl](designer:owen-earl) of [indestructible type](https://indestructibletype.com/), is a full Bodoni family with every weight, italics, and optical sizes, so the hairlines stay delicate in a headline and sturdy enough in smaller text."
         },
         {
           "kind": "specimen",
@@ -402,7 +402,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Playfair Display](font:font-playfair-display)**, by Claus Eggers Sørensen, isn't a revival of any one typeface. It takes its cues from the late 18th century, when pointed steel pens replaced broad quills, and mixes in Baskerville and Scotch Roman. Set it big; it's made for titles."
+          "text": "**[Playfair Display](font:font-playfair-display)**, by [Claus Eggers Sørensen](designer:claus-eggers-sørensen), isn't a revival of any one typeface. It takes its cues from the late 18th century, when pointed steel pens replaced broad quills, and mixes in Baskerville and Scotch Roman. Set it big; it's made for titles."
         },
         {
           "kind": "heading",
@@ -448,7 +448,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[League Gothic](font:font-league-gothic)** is a revival of Alternate Gothic No. 1 by [The League of Moveable Type](https://www.theleagueofmoveabletype.com/), one of the first open-source type foundries. It's tall and tightly packed, so a long title fits on one line of a slide or a poster."
+          "text": "**[League Gothic](font:font-league-gothic)** is a revival of Alternate Gothic No. 1 by [The League of Moveable Type](foundry:the-league-of-moveable-type), one of the first open-source type foundries. It's tall and tightly packed, so a long title fits on one line of a slide or a poster."
         },
         {
           "kind": "heading",
@@ -492,7 +492,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "Howard Kettler designed [Courier](https://en.wikipedia.org/wiki/Courier_%28typeface%29) for IBM's electric typewriters, and it became the sound of a typewriter on paper. Screenplays are still set in it, since one page of Courier works out to about a minute of screen time. iOS includes Courier New, a thinner version made for computers."
+          "text": "Howard Kettler designed [Courier](https://en.wikipedia.org/wiki/Courier_%28typeface%29) for [IBM](foundry:ibm)'s electric typewriters, and it became the sound of a typewriter on paper. Screenplays are still set in it, since one page of Courier works out to about a minute of screen time. iOS includes Courier New, a thinner version made for computers."
         },
         {
           "kind": "specimen",
@@ -502,7 +502,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Courier Prime](font:font-courier-prime)** was made for screenwriters by [Quote-Unquote Apps](https://quoteunquoteapps.com/courierprime/). Its serifs are crisper, its counters a little wider, its bold darker, and its italics more cursive. If you write scripts in an app that lets you pick a font, this is the one."
+          "text": "**[Courier Prime](font:font-courier-prime)** was made for screenwriters by [Quote-Unquote Apps](foundry:quote-unquote-apps). Its serifs are crisper, its counters a little wider, its bold darker, and its italics more cursive. If you write scripts in an app that lets you pick a font, this is the one."
         },
         {
           "kind": "heading",
@@ -530,7 +530,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Fragment Mono](font:font-fragment-mono)**, by Wei Huang, asks what Helvetica would look like as a coding font. It's built on Nimbus Sans, URW's long-standing Helvetica clone, with every character redrawn to the same width."
+          "text": "**[Fragment Mono](font:font-fragment-mono)**, by [Wei Huang](designer:wei-huang), asks what Helvetica would look like as a coding font. It's built on Nimbus Sans, URW's long-standing Helvetica clone, with every character redrawn to the same width."
         },
         {
           "kind": "heading",
@@ -538,7 +538,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "Vincent Connare drew [Comic Sans](https://en.wikipedia.org/wiki/Comic_Sans) at Microsoft for the speech balloons of a cartoon assistant, and it escaped onto every bake sale flyer in the world. Designers love to hate it, but its loose, open letters are easy for many people to read. Apple offers Comic Sans MS itself as a free download."
+          "text": "Vincent Connare drew [Comic Sans](https://en.wikipedia.org/wiki/Comic_Sans) at [Microsoft](foundry:microsoft) for the speech balloons of a cartoon assistant, and it escaped onto every bake sale flyer in the world. Designers love to hate it, but its loose, open letters are easy for many people to read. Apple offers Comic Sans MS itself as a free download."
         },
         {
           "kind": "specimen",
@@ -548,7 +548,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Comic Neue](font:font-comic-neue)**, by Craig Rozynski, keeps the honest, casual feel of Comic Sans and beats its squashed, wonky letters into shape. It's the version to use when you want friendly without looking like a mistake."
+          "text": "**[Comic Neue](font:font-comic-neue)**, by [Craig Rozynski](designer:craig-rozynski), keeps the honest, casual feel of Comic Sans and beats its squashed, wonky letters into shape. It's the version to use when you want friendly without looking like a mistake."
         },
         {
           "kind": "specimen",
@@ -558,7 +558,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Comic Shanns Mono](font:font-comic-shanns-mono)** is Jesus Gonzalez's [monospaced](term:monospaced) take on Comic Shanns, Shannon Miwa's Comic Sans–inspired font. Every letter is the same width, so it works in a terminal or a code editor."
+          "text": "**[Comic Shanns Mono](font:font-comic-shanns-mono)** is [Jesus Gonzalez](designer:jesus-gonzalez)'s [monospaced](term:monospaced) take on Comic Shanns, [Shannon Miwa](designer:shannon-miwa)'s Comic Sans–inspired font. Every letter is the same width, so it works in a terminal or a code editor."
         },
         {
           "kind": "heading",
@@ -576,7 +576,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Ioskeley Mono](font:font-ioskeley-mono)** began when Ahmed Hatem admired Berkeley Mono but couldn't justify buying it. He built his own on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by letter, and tuned it until it became its own typeface rather than a clone. It comes in ten weights and two widths, and if you like Berkeley Mono, the designer suggests supporting the original too."
+          "text": "**[Ioskeley Mono](font:font-ioskeley-mono)** began when [Ahmed Hatem](designer:ahmed-hatem) admired Berkeley Mono but couldn't justify buying it. He built his own on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by letter, and tuned it until it became its own typeface rather than a clone. It comes in ten weights and two widths, and if you like Berkeley Mono, the designer suggests supporting the original too."
         }
       ]
     },
@@ -606,7 +606,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Overpass](font:font-overpass)**, by [Delve Fonts](https://delvefonts.com/) and sponsored by Red Hat, adapts Highway Gothic for screens, adjusting the letters so they read well at small sizes and in lighter weights. It works for everything from body text to posters, and there's an [Overpass Mono](font:font-overpass-mono) for code."
+          "text": "**[Overpass](font:font-overpass)**, by [Delve Fonts](https://delvefonts.com/) and sponsored by [Red Hat](foundry:red-hat), adapts Highway Gothic for screens, adjusting the letters so they read well at small sizes and in lighter weights. It works for everything from body text to posters, and there's an [Overpass Mono](font:font-overpass-mono) for code."
         },
         {
           "kind": "heading",
@@ -620,7 +620,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Barlow](font:font-barlow)**, by San Francisco designer [Jeremy Tribby](https://tribby.com/), borrows from California's public lettering: its license plates, highway signs, buses, and trains. It's slightly rounded and low in [contrast](term:contrast), and comes in three widths (Barlow, Semi Condensed, and Condensed) with nine weights each."
+          "text": "**[Barlow](font:font-barlow)**, by San Francisco designer [Jeremy Tribby](designer:jeremy-tribby), borrows from California's public lettering: its license plates, highway signs, buses, and trains. It's slightly rounded and low in [contrast](term:contrast), and comes in three widths (Barlow, Semi Condensed, and Condensed) with nine weights each."
         },
         {
           "kind": "heading",
@@ -634,7 +634,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Montserrat](font:font-montserrat)** started with the old posters and storefront signs of Montserrat, one of the oldest neighborhoods in Buenos Aires. Julieta Ulanovsky drew it to save the look of the neighborhood's early 20th-century lettering before redevelopment erased it, and released it under a free license so anyone could use it. It's now one of the most popular fonts on the web. [Montserrat Alternates](font:font-montserrat-alternates), also in the catalog, keeps more of the quirky letters from the original signs."
+          "text": "**[Montserrat](font:font-montserrat)** started with the old posters and storefront signs of Montserrat, one of the oldest neighborhoods in Buenos Aires. [Julieta Ulanovsky](designer:julieta-ulanovsky) drew it to save the look of the neighborhood's early 20th-century lettering before redevelopment erased it, and released it under a free license so anyone could use it. It's now one of the most popular fonts on the web. [Montserrat Alternates](font:font-montserrat-alternates), also in the catalog, keeps more of the quirky letters from the original signs."
         },
         {
           "kind": "heading",
@@ -652,7 +652,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Bungee](font:font-bungee)**, by [David Jonathan Ross](https://djr.com/bungee/), celebrates those signs. It sets text horizontally or vertically, and its round and diagonal letters are straight-sided so a vertical word has clean edges. The catalog has the whole layered family: [Inline](font:font-bungee-inline), [Outline](font:font-bungee-outline), [Shade](font:font-bungee-shade), [Hairline](font:font-bungee-hairline), and the [color fonts](term:color-font) [Spice](font:font-bungee-spice) and [Tint](font:font-bungee-tint)."
+          "text": "**[Bungee](font:font-bungee)**, by [David Jonathan Ross](designer:david-jonathan-ross), celebrates those signs. It sets text horizontally or vertically, and its round and diagonal letters are straight-sided so a vertical word has clean edges. The catalog has the whole layered family: [Inline](font:font-bungee-inline), [Outline](font:font-bungee-outline), [Shade](font:font-bungee-shade), [Hairline](font:font-bungee-hairline), and the [color fonts](term:color-font) [Spice](font:font-bungee-spice) and [Tint](font:font-bungee-tint)."
         },
         {
           "kind": "heading",
@@ -680,7 +680,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Special Elite](font:font-special-elite)**, from Astigmatic, copies two real typewriters, the Smith Corona Special Elite Type No. NR6 and the Remington Noiseless, smudges and all. For a clean typewriter look, use [Courier Prime](font:font-courier-prime) from [Inspired by the classics](article:inspired-by-the-classics); use this one when the page should look like it's been in a filing cabinet since 1962."
+          "text": "**[Special Elite](font:font-special-elite)**, from [Astigmatic](foundry:astigmatic), copies two real typewriters, the Smith Corona Special Elite Type No. NR6 and the Remington Noiseless, smudges and all. For a clean typewriter look, use [Courier Prime](font:font-courier-prime) from [Inspired by the classics](article:inspired-by-the-classics); use this one when the page should look like it's been in a filing cabinet since 1962."
         },
         {
           "kind": "heading",
@@ -714,7 +714,7 @@
       "blocks": [
         {
           "kind": "paragraph",
-          "text": "Before screens had millions of pixels, every letter was drawn on a grid small enough to count. These fonts bring that look back, from arcade cabinets and home computers to the terminals wired to IBM mainframes. Use them for headings, game nights, invitations, and anything that should look like it's loading from a floppy disk."
+          "text": "Before screens had millions of pixels, every letter was drawn on a grid small enough to count. These fonts bring that look back, from arcade cabinets and home computers to the terminals wired to [IBM](foundry:ibm) mainframes. Use them for headings, game nights, invitations, and anything that should look like it's loading from a floppy disk."
         },
         {
           "kind": "heading",
@@ -728,7 +728,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Press Start 2P](font:font-press-start-2p)**, by Cody \"CodeMan38\" Boisclair, recreates the screen font of Namco's 1980s arcade games. The capitals and numbers go back to Atari's Sprint in 1977; the rest comes from Return of Ishtar (1986), one of the first games to use lowercase letters regularly. It's drawn on an 8-pixel grid, so it's crispest at sizes that are multiples of 8."
+          "text": "**[Press Start 2P](font:font-press-start-2p)**, by Cody \"[CodeMan38](designer:codeman38)\" Boisclair, recreates the screen font of Namco's 1980s arcade games. The capitals and numbers go back to Atari's Sprint in 1977; the rest comes from Return of Ishtar (1986), one of the first games to use lowercase letters regularly. It's drawn on an 8-pixel grid, so it's crispest at sizes that are multiples of 8."
         },
         {
           "kind": "heading",
@@ -826,7 +826,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Space Mono](font:font-space-mono)**, from [Colophon Foundry](https://www.colophon-foundry.org/) for Google Design, brings those 1960s headline faces to a monospaced family meant for editorial headlines. It has old-style figures, arrows, and a pile of alternates."
+          "text": "**[Space Mono](font:font-space-mono)**, from [Colophon Foundry](foundry:colophon-foundry) for Google Design, brings those 1960s headline faces to a monospaced family meant for editorial headlines. It has old-style figures, arrows, and a pile of alternates."
         },
         {
           "kind": "specimen",
@@ -836,7 +836,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Orbitron](font:font-orbitron)**, by Matt McInerney of [The League of Moveable Type](https://www.theleagueofmoveabletype.com/), was made so future designers have an alternative to Eurostile and Bank Gothic. Its own description explains the need: in every sci-fi movie, \"all other fonts have been lost or destroyed in the apocalypse that led humans to flee earth.\" It's for spaceship hulls, space station signs, and the posters for those movies."
+          "text": "**[Orbitron](font:font-orbitron)**, by [Matt McInerney](designer:matt-mcinerney) of [The League of Moveable Type](foundry:the-league-of-moveable-type), was made so future designers have an alternative to Eurostile and Bank Gothic. Its own description explains the need: in every sci-fi movie, \"all other fonts have been lost or destroyed in the apocalypse that led humans to flee earth.\" It's for spaceship hulls, space station signs, and the posters for those movies."
         }
       ]
     },
@@ -870,7 +870,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[JetBrains Mono](font:font-jetbrains-mono)** comes from [JetBrains](https://www.jetbrains.com/lp/mono/), the makers of IntelliJ IDEA and PyCharm, designed by Philipp Nurullin and Konstantin Bulenkov for the specific needs of developers. It's the default in JetBrains' own editors, and it has a tall [x-height](term:x-height) and plain, simple shapes that stay clear at small sizes."
+          "text": "**[JetBrains Mono](font:font-jetbrains-mono)** comes from [JetBrains](foundry:jetbrains), the makers of IntelliJ IDEA and PyCharm, designed by [Philipp Nurullin](designer:philipp-nurullin) and [Konstantin Bulenkov](designer:konstantin-bulenkov) for the specific needs of developers. It's the default in JetBrains' own editors, and it has a tall [x-height](term:x-height) and plain, simple shapes that stay clear at small sizes."
         },
         {
           "kind": "specimen",
@@ -880,7 +880,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Fira Code](font:font-fira-code)**, by [Nikita Prokopov](https://github.com/tonsky/FiraCode), adds programming [ligatures](term:ligature) to [Fira Mono](font:font-fira-mono) (the coding sibling of Fira Sans, from [Workhorses](article:workhorses)). Sequences like != and => are drawn as single symbols, so your eye reads one token instead of parsing two characters. It's only a display trick: the file still holds plain ASCII."
+          "text": "**[Fira Code](font:font-fira-code)**, by [Nikita Prokopov](designer:nikita-prokopov), adds programming [ligatures](term:ligature) to [Fira Mono](font:font-fira-mono) (the coding sibling of Fira Sans, from [Workhorses](article:workhorses)). Sequences like != and => are drawn as single symbols, so your eye reads one token instead of parsing two characters. It's only a display trick: the file still holds plain ASCII."
         },
         {
           "kind": "specimen",
@@ -900,7 +900,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Source Code Pro](font:font-source-code-pro)** is Paul D. Hunt's [monospaced](term:monospaced) version of [Source Sans](font:font-source-sans-3) (see [Workhorses](article:workhorses)), made because people asked Adobe for one. It keeps Source Sans's proportions and comes in the same full range of weights."
+          "text": "**[Source Code Pro](font:font-source-code-pro)** is [Paul D. Hunt](designer:paul-d-hunt)'s [monospaced](term:monospaced) version of [Source Sans](font:font-source-sans-3) (see [Workhorses](article:workhorses)), made because people asked [Adobe](foundry:adobe) for one. It keeps Source Sans's proportions and comes in the same full range of weights."
         },
         {
           "kind": "specimen",
@@ -910,7 +910,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Hack](font:font-hack)** is built on the open-source Bitstream Vera and DejaVu Sans Mono, aiming to be a workhorse for source code. It was made by [Chris Simpkins](https://sourcefoundry.org/hack/), and it ships with the Powerline symbols that fancy terminal prompts use."
+          "text": "**[Hack](font:font-hack)** is built on the open-source Bitstream Vera and DejaVu Sans Mono, aiming to be a workhorse for source code. It was made by [Chris Simpkins](designer:chris-simpkins), and it ships with the Powerline symbols that fancy terminal prompts use."
         },
         {
           "kind": "heading",
@@ -934,7 +934,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Geist Mono](font:font-geist-mono)** is the coding partner to [Geist](font:font-geist), Vercel's sans serif from [Workhorses](article:workhorses). Clean, Swiss-inspired, and very at home in a terminal."
+          "text": "**[Geist Mono](font:font-geist-mono)** is the coding partner to [Geist](font:font-geist), [Vercel](foundry:vercel)'s sans serif from [Workhorses](article:workhorses). Clean, Swiss-inspired, and very at home in a terminal."
         },
         {
           "kind": "specimen",
@@ -944,7 +944,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Commit Mono](font:font-commit-mono)**, by Eigil Nikolajsen, calls itself an \"anonymous and neutral\" coding font. It's built to stay out of the way, and [its website](https://commitmono.com/) lets you pick your own alternate letters before you download."
+          "text": "**[Commit Mono](font:font-commit-mono)**, by [Eigil Nikolajsen](designer:eigil-nikolajsen), calls itself an \"anonymous and neutral\" coding font. It's built to stay out of the way, and [its website](https://commitmono.com/) lets you pick your own alternate letters before you download."
         },
         {
           "kind": "specimen",
@@ -964,7 +964,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[0xProto](font:font-0xproto)**, from [0xType](https://github.com/0xType/0xProto), focuses on legibility: look-alike characters get clearly different shapes, the insides of letters stay open at small sizes, and its ligatures never squash the characters they join. It borrows texture healing from Monaspace."
+          "text": "**[0xProto](font:font-0xproto)**, from [0xType](foundry:0xtype), focuses on legibility: look-alike characters get clearly different shapes, the insides of letters stay open at small sizes, and its ligatures never squash the characters they join. It borrows texture healing from Monaspace."
         },
         {
           "kind": "specimen",
@@ -975,7 +975,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Victor Mono](font:font-victor-mono)**, by [Rune Bjørnerås](https://rubjo.github.io/victor-mono/), is slender and narrow, so a lot of code fits on a line. The fun part is its italic, a semi-connected cursive that makes comments look handwritten."
+          "text": "**[Victor Mono](font:font-victor-mono)**, by [Rune Bjørnerås](designer:rune-bjørnerås), is slender and narrow, so a lot of code fits on a line. The fun part is its italic, a semi-connected cursive that makes comments look handwritten."
         },
         {
           "kind": "specimen",
@@ -1033,7 +1033,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Shantell Sans](font:font-shantell-sans)** comes from the British artist [Shantell Martin](https://shantellmartin.art/), known for drawing with words on everything from the Oculus at the World Trade Center to the screens of Times Square. Reading and writing were a struggle for her at school, and she made this font with Stephen Nixon of [Arrow Type](https://www.arrowtype.com/) to help people have fun with words. Its Bounce setting jiggles the letters up and down, and its Informality setting goes from tidy marker to full scribble."
+          "text": "**[Shantell Sans](font:font-shantell-sans)** comes from the British artist [Shantell Martin](designer:shantell-martin), known for drawing with words on everything from the Oculus at the World Trade Center to the screens of Times Square. Reading and writing were a struggle for her at school, and she made this font with [Stephen Nixon](designer:stephen-nixon) of [Arrow Type](foundry:arrow-type) to help people have fun with words. Its Bounce setting jiggles the letters up and down, and its Informality setting goes from tidy marker to full scribble."
         },
         {
           "kind": "specimen",
@@ -1064,7 +1064,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Fraunces](font:font-fraunces)**, by Phaedra Charles and Flavia Zimbardi of [Undercase Type](https://undercase.xyz/), is a soft, chunky [old-style](term:old-style) serif in the spirit of Windsor, Souvenir, and Cooper, the fonts of 1970s album covers. Its Softness setting makes the letters look inkier, and its Wonky setting swaps in letters that lean, like the h, n, and m. It's playful, but tame it and it's a fine headline font too."
+          "text": "**[Fraunces](font:font-fraunces)**, by [Phaedra Charles](designer:phaedra-charles) and [Flavia Zimbardi](designer:flavia-zimbardi) of [Undercase Type](foundry:undercase-type), is a soft, chunky [old-style](term:old-style) serif in the spirit of Windsor, Souvenir, and Cooper, the fonts of 1970s album covers. Its Softness setting makes the letters look inkier, and its Wonky setting swaps in letters that lean, like the h, n, and m. It's playful, but tame it and it's a fine headline font too."
         },
         {
           "kind": "heading",
@@ -1078,7 +1078,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Nabla](font:font-nabla)** is a [color font](term:color-font) inspired by isometric video games, with gradients, highlights, and shadows built into the letters. [Arthur Reinders Folmer](https://typearture.com/) drew it, and Just van Rossum (Python creator Guido's brother) did the font engineering. Typecask shows it in full color."
+          "text": "**[Nabla](font:font-nabla)** is a [color font](term:color-font) inspired by isometric video games, with gradients, highlights, and shadows built into the letters. [Arthur Reinders Folmer](designer:arthur-reinders-folmer) drew it, and [Just van Rossum](designer:just-van-rossum) (Python creator Guido's brother) did the font engineering. Typecask shows it in full color."
         },
         {
           "kind": "heading",
@@ -1092,7 +1092,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Playwrite](font:font-playwrite-us-trad)** is a collection of the handwriting styles children are taught at school, made by [TypeTogether](https://www.type-together.com/) (who also made Literata, from [Workhorses](article:workhorses)) for Google. The catalog has 52 of them, from Argentina to Vietnam, plus a [Guides](font:font-playwrite-us-trad-guides) version of each with ruled practice lines, which makes them perfect for homemade worksheets."
+          "text": "**[Playwrite](font:font-playwrite-us-trad)** is a collection of the handwriting styles children are taught at school, made by [TypeTogether](foundry:typetogether) (who also made Literata, from [Workhorses](article:workhorses)) for [Google](foundry:google). The catalog has 52 of them, from Argentina to Vietnam, plus a [Guides](font:font-playwrite-us-trad-guides) version of each with ruled practice lines, which makes them perfect for homemade worksheets."
         },
         {
           "kind": "specimen",
@@ -1102,7 +1102,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Fantasque Sans Mono](font:font-fantasque-sans-mono)**, by [Jany Belluz](https://github.com/belluzj/fantasque-sans), is a coding font with \"some wibbly-wobbly handwriting-like fuzziness.\" It used to be called Cosmic Sans Neue Mono, because its designer thought it looked like \"the mutant child of Comic Sans and Helvetica Neue,\" but people's feelings about Comic Sans rubbed off on it, so it got a new name."
+          "text": "**[Fantasque Sans Mono](font:font-fantasque-sans-mono)**, by [Jany Belluz](designer:jany-belluz), is a coding font with \"some wibbly-wobbly handwriting-like fuzziness.\" It used to be called Cosmic Sans Neue Mono, because its designer thought it looked like \"the mutant child of Comic Sans and Helvetica Neue,\" but people's feelings about Comic Sans rubbed off on it, so it got a new name."
         },
         {
           "kind": "heading",
@@ -1136,7 +1136,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Bebas Neue](font:font-bebas-neue)**, by Ryoichi Tsunekawa of [Dharma Type](https://dharmatype.com/), is a tall, [condensed](term:condensed), all-caps sans serif based on his earlier Bebas. It's been on so many posters, packages, and title cards that it may be the most recognizable free [display font](term:display-font) around."
+          "text": "**[Bebas Neue](font:font-bebas-neue)**, by [Ryoichi Tsunekawa](designer:ryoichi-tsunekawa) of [Dharma Type](https://dharmatype.com/), is a tall, [condensed](term:condensed), all-caps sans serif based on his earlier Bebas. It's been on so many posters, packages, and title cards that it may be the most recognizable free [display font](term:display-font) around."
         },
         {
           "kind": "specimen",
@@ -1160,7 +1160,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[League Spartan](font:font-league-spartan)** is [The League of Moveable Type](https://www.theleagueofmoveabletype.com/)'s take on Matt Bailey's Spartan, which goes back to the American [geometric](term:geometric) sans serifs of the early 20th century (Futura's American cousins; see [Inspired by the classics](article:inspired-by-the-classics)). Set it in its heaviest weights for maximum effect."
+          "text": "**[League Spartan](font:font-league-spartan)** is [The League of Moveable Type](foundry:the-league-of-moveable-type)'s take on [Matt Bailey](designer:matt-bailey)'s Spartan, which goes back to the American [geometric](term:geometric) sans serifs of the early 20th century (Futura's American cousins; see [Inspired by the classics](article:inspired-by-the-classics)). Set it in its heaviest weights for maximum effect."
         },
         {
           "kind": "specimen",
@@ -1170,7 +1170,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Space Grotesk](font:font-space-grotesk)**, by Florian Karsten, is the proportional version of [Space Mono](font:font-space-mono), from [Screens of the past](article:screens-of-the-past). It keeps the mono's quirky details, like the squared-off curves, in a font made for headings and short text."
+          "text": "**[Space Grotesk](font:font-space-grotesk)**, by [Florian Karsten](designer:florian-karsten), is the proportional version of [Space Mono](font:font-space-mono), from [Screens of the past](article:screens-of-the-past). It keeps the mono's quirky details, like the squared-off curves, in a font made for headings and short text."
         },
         {
           "kind": "heading",
@@ -1194,7 +1194,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Zilla Slab](font:font-zilla-slab)** is Mozilla's own typeface, the one in its moz://a logo. It's a contemporary [slab serif](term:slab-serif) from [Typotheque](https://www.typotheque.com/), based on their Tesla, with a sturdy, slightly industrial look that's surprisingly friendly."
+          "text": "**[Zilla Slab](font:font-zilla-slab)** is Mozilla's own typeface, the one in its moz://a logo. It's a contemporary [slab serif](term:slab-serif) from [Typotheque](foundry:typotheque), based on their Tesla, with a sturdy, slightly industrial look that's surprisingly friendly."
         },
         {
           "kind": "heading",
@@ -1208,7 +1208,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Cormorant](font:font-cormorant)**, by Christian Thalmann of [Catharsis Fonts](https://github.com/CatharsisFonts/Cormorant), is a display family inspired by Garamond (see [Inspired by the classics](article:inspired-by-the-classics)), but drawn almost entirely from scratch: when he needed a reference, he searched for \"Garamond\" and skimmed the results for a general impression. It has nine styles, including an upright cursive and a unicase, and its delicate details shine at large sizes."
+          "text": "**[Cormorant](font:font-cormorant)**, by [Christian Thalmann](designer:christian-thalmann) of [Catharsis Fonts](https://github.com/CatharsisFonts/Cormorant), is a display family inspired by Garamond (see [Inspired by the classics](article:inspired-by-the-classics)), but drawn almost entirely from scratch: when he needed a reference, he searched for \"Garamond\" and skimmed the results for a general impression. It has nine styles, including an upright cursive and a unicase, and its delicate details shine at large sizes."
         },
         {
           "kind": "heading",
@@ -1246,7 +1246,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Atkinson Hyperlegible](font:font-atkinson-hyperlegible)** comes from the [Braille Institute](https://www.brailleinstitute.org/freefont/) and is named after its founder, J. Robert Atkinson. It starts from a traditional [grotesque](term:grotesque) sans serif and then breaks the rules wherever a letter could be mistaken for another, which sometimes means unexpected shapes. [Atkinson Hyperlegible Next](font:font-atkinson-hyperlegible-next) adds more weights and languages, and [Atkinson Hyperlegible Mono](font:font-atkinson-hyperlegible-mono) is a coding version."
+          "text": "**[Atkinson Hyperlegible](font:font-atkinson-hyperlegible)** comes from the [Braille Institute](foundry:braille-institute) and is named after its founder, J. Robert Atkinson. It starts from a traditional [grotesque](term:grotesque) sans serif and then breaks the rules wherever a letter could be mistaken for another, which sometimes means unexpected shapes. [Atkinson Hyperlegible Next](font:font-atkinson-hyperlegible-next) adds more weights and languages, and [Atkinson Hyperlegible Mono](font:font-atkinson-hyperlegible-mono) is a coding version."
         },
         {
           "kind": "specimen",
@@ -1271,7 +1271,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Lexend](font:font-lexend)** was created by [Bonnie Shaver-Troup](https://www.lexend.com/) to reduce visual stress and improve reading, at first with dyslexia and struggling readers in mind. Thomas Jockin drew it in a range of widths that get wider and more spaced out, named after metric prefixes: [Deca](font:font-lexend-deca), [Exa](font:font-lexend-exa), [Giga](font:font-lexend-giga), [Mega](font:font-lexend-mega), [Peta](font:font-lexend-peta), [Tera](font:font-lexend-tera), and [Zetta](font:font-lexend-zetta)."
+          "text": "**[Lexend](font:font-lexend)** was created by [Bonnie Shaver-Troup](designer:bonnie-shaver-troup) to reduce visual stress and improve reading, at first with dyslexia and struggling readers in mind. [Thomas Jockin](designer:thomas-jockin) drew it in a range of widths that get wider and more spaced out, named after metric prefixes: [Deca](font:font-lexend-deca), [Exa](font:font-lexend-exa), [Giga](font:font-lexend-giga), [Mega](font:font-lexend-mega), [Peta](font:font-lexend-peta), [Tera](font:font-lexend-tera), and [Zetta](font:font-lexend-zetta)."
         },
         {
           "kind": "specimen",
@@ -1281,7 +1281,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[OpenDyslexic](font:font-opendyslexic)**, by [Abbie Gonzalez](https://opendyslexic.org/), gives every letter a heavier bottom, so it's easier to tell which way is down and harder for letters like b and d to flip in your mind. It's one of the best-known fonts made for dyslexia, and it's free."
+          "text": "**[OpenDyslexic](font:font-opendyslexic)**, by [Abbie Gonzalez](designer:abbie-gonzalez), gives every letter a heavier bottom, so it's easier to tell which way is down and harder for letters like b and d to flip in your mind. It's one of the best-known fonts made for dyslexia, and it's free."
         },
         {
           "kind": "heading",
@@ -1295,7 +1295,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Intel One Mono](font:font-intel-one-mono)** was designed by [Frere-Jones Type](https://frerejones.com/) with Intel for developers with low vision, to cut eye strain and coding errors. A panel of low-vision and legally blind developers gave feedback at every stage of the design."
+          "text": "**[Intel One Mono](font:font-intel-one-mono)** was designed by [Frere-Jones Type](foundry:frere-jones-type) with [Intel](foundry:intel) for developers with low vision, to cut eye strain and coding errors. A panel of low-vision and legally blind developers gave feedback at every stage of the design."
         },
         {
           "kind": "specimen",
@@ -1334,12 +1334,12 @@
         {
           "kind": "specimen",
           "token": "font-noto-sans",
-          "text": "Hello · Γειά σου · Привет · Xin chào",
-          "font": "TypecaskArticle-0c1b4f53bbd6.ttf"
+          "text": "Typeface · Γραμματοσειρά · Шрифт · Kiểu chữ",
+          "font": "TypecaskArticle-c0696ea00249.ttf"
         },
         {
           "kind": "paragraph",
-          "text": "**[Noto](font:font-noto-sans)** is [Google's project](https://fonts.google.com/noto) to cover every script in Unicode. The name comes from \"no tofu\": tofu is what type designers call the blank boxes you see when a font is missing a character. Noto Sans covers Latin, Greek, and Cyrillic, and the catalog has over 200 other Noto casks, most of them for a single script."
+          "text": "**[Noto](font:font-noto-sans)** is [Google's project](https://fonts.google.com/noto) to cover every script in Unicode. The name comes from \"no tofu\": tofu is what type designers call the blank boxes you see when a font is missing a character. Noto Sans covers Latin, Greek, and Cyrillic, and the catalog has over 200 other Noto casks, most of them for a single script. The specimen is \"typeface\" in English, Greek, Russian, and Vietnamese."
         },
         {
           "kind": "heading",
@@ -1348,9 +1348,9 @@
         {
           "kind": "specimen",
           "token": "font-noto-sans-cjk-sc",
-          "text": "你好，世界",
-          "font": "TypecaskArticle-e2e45c1fcadc.otf",
-          "gloss": "Hello, world"
+          "text": "千里之行，始于足下",
+          "font": "TypecaskArticle-2df03177633f.otf",
+          "gloss": "A journey of a thousand miles begins beneath your feet."
         },
         {
           "kind": "specimen",
@@ -1361,7 +1361,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Noto Sans CJK](font:font-noto-sans-cjk-sc)** and **[Source Han Sans](font:font-source-han-sans-vf)** are the same typeface under two names. Adobe and Google made it together and released it in 2014, and each name's version carries about 65,000 glyphs, the most a single font file can hold. A serif version followed in 2017, [Noto Serif CJK](font:font-noto-serif-cjk-jp) and [Source Han Serif](font:font-source-han-serif-vf). The catalog's [JP](font:font-noto-sans-cjk-jp), [KR](font:font-noto-sans-cjk-kr), [SC](font:font-noto-sans-cjk-sc), and [TC](font:font-noto-sans-cjk-tc) versions differ in which regional forms of shared characters they use by default."
+          "text": "**[Noto Sans CJK](font:font-noto-sans-cjk-sc)** and **[Source Han Sans](font:font-source-han-sans-vf)** are the same typeface under two names. [Adobe](foundry:adobe) and [Google](foundry:google) made it together and released it in 2014, and each name's version carries about 65,000 glyphs, the most a single font file can hold. A serif version followed in 2017, [Noto Serif CJK](font:font-noto-serif-cjk-jp) and [Source Han Serif](font:font-source-han-serif-vf). The catalog's [JP](font:font-noto-sans-cjk-jp), [KR](font:font-noto-sans-cjk-kr), [SC](font:font-noto-sans-cjk-sc), and [TC](font:font-noto-sans-cjk-tc) versions differ in which regional forms of shared characters they use by default."
         },
         {
           "kind": "specimen",
@@ -1372,7 +1372,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[LXGW WenKai](font:font-lxgw-wenkai)** is a Chinese font in kaishu, or [regular script](https://en.wikipedia.org/wiki/Regular_script), the style of careful brush writing taught in school. It grew out of [Klee One](font:font-klee-one), a Japanese font from Fontworks, which its designer extended with Simplified and Traditional Chinese characters. He thinks it suits poetry better than long passages, so the specimen is the opening of Li Bai's \"[Quiet Night Thoughts](https://en.wikipedia.org/wiki/Quiet_Night_Thought).\""
+          "text": "**[LXGW WenKai](font:font-lxgw-wenkai)** is a Chinese font in kaishu, or [regular script](https://en.wikipedia.org/wiki/Regular_script), the style of careful brush writing taught in school. It grew out of [Klee One](font:font-klee-one), a Japanese font from [Fontworks](foundry:fontworks), which its designer extended with Simplified and Traditional Chinese characters. He thinks it suits poetry better than long passages, so the specimen is the opening of Li Bai's \"[Quiet Night Thoughts](https://en.wikipedia.org/wiki/Quiet_Night_Thought).\""
         },
         {
           "kind": "specimen",
@@ -1403,20 +1403,20 @@
         {
           "kind": "specimen",
           "token": "font-amiri",
-          "text": "مرحبا بالعالم",
-          "font": "TypecaskArticle-b34d919e3bc5.ttf",
-          "gloss": "Hello, world"
+          "text": "الخيل والليل والبيداء تعرفني",
+          "font": "TypecaskArticle-bf18b07068d6.ttf",
+          "gloss": "The horses, the night, and the desert know me."
         },
         {
           "kind": "paragraph",
-          "text": "**[Amiri](font:font-amiri)** is a classical Arabic typeface in the [Naskh](https://en.wikipedia.org/wiki/Naskh_%28script%29) style, for books and other long text. It revives the type of the Bulaq Press in Cairo, known as the Amiria Press, from the early 20th century, and is named after it."
+          "text": "**[Amiri](font:font-amiri)** is a classical Arabic typeface in the [Naskh](https://en.wikipedia.org/wiki/Naskh_%28script%29) style, for books and other long text. It revives the type of the Bulaq Press in Cairo, known as the Amiria Press, from the early 20th century, and is named after it. The specimen is a line by the 10th-century poet [al-Mutanabbi](https://en.wikipedia.org/wiki/Al-Mutanabbi)."
         },
         {
           "kind": "specimen",
           "token": "font-vazirmatn",
-          "text": "سلام دنیا",
-          "font": "TypecaskArticle-8b45f33f5b31.ttf",
-          "gloss": "Hello, world"
+          "text": "قطره قطره جمع گردد، وانگهی دریا شود",
+          "font": "TypecaskArticle-cba1ffd1630f.ttf",
+          "gloss": "Drop by drop it gathers, and then it becomes a sea: a Persian proverb."
         },
         {
           "kind": "paragraph",
@@ -1429,9 +1429,9 @@
         {
           "kind": "specimen",
           "token": "font-ibm-plex-sans-hebrew",
-          "text": "שלום עולם",
-          "font": "TypecaskArticle-dfb2da68e276.otf",
-          "gloss": "Hello, world"
+          "text": "דג סקרן שט בים מאוכזב ולפתע מצא חברה",
+          "font": "TypecaskArticle-1729f55046a1.otf",
+          "gloss": "A curious fish swam in the sea, disappointed, and suddenly found company: a Hebrew pangram."
         },
         {
           "kind": "paragraph",
@@ -1440,23 +1440,24 @@
         {
           "kind": "specimen",
           "token": "font-poppins",
-          "text": "नमस्ते दुनिया · Hello, world",
-          "font": "TypecaskArticle-f96e6a5eb05b.otf"
+          "text": "जितनी चादर हो, उतने ही पैर फैलाओ",
+          "font": "TypecaskArticle-6f2801734689.otf",
+          "gloss": "Stretch your legs only as far as your blanket goes: a Hindi proverb."
         },
         {
           "kind": "paragraph",
-          "text": "**[Poppins](font:font-poppins)**, from the [Indian Type Foundry](https://www.indiantypefoundry.com/), was the first [geometric](term:geometric) Devanagari typeface with a full range of weights when it came out in 2015. Ninad Kale drew the Devanagari and Jonny Pinhorn the Latin, and the Latin has become a favorite for headlines too."
+          "text": "**[Poppins](font:font-poppins)**, from the [Indian Type Foundry](foundry:indian-type-foundry), was the first [geometric](term:geometric) Devanagari typeface with a full range of weights when it came out in 2015. [Ninad Kale](designer:ninad-kale) drew the Devanagari and [Jonny Pinhorn](designer:jonathan-pinhorn) the Latin, and the Latin has become a favorite for headlines too."
         },
         {
           "kind": "specimen",
           "token": "font-gentium-plus",
-          "text": "Ἐν ἀρχῇ ἦν ὁ λόγος · [en arkʰɛ̂ː ɛ̂ːn ho lóɡos]",
-          "font": "TypecaskArticle-c794577b0931.ttf",
-          "gloss": "In the beginning was the Word"
+          "text": "πάντα ῥεῖ · [pán.ta r̥êː]",
+          "font": "TypecaskArticle-770801a3de75.ttf",
+          "gloss": "Everything flows, as Heraclitus is remembered for saying, with how a Greek of his time said it."
         },
         {
           "kind": "paragraph",
-          "text": "**[Gentium Plus](font:font-gentium-plus)**, by Victor Gaultney at [SIL International](https://software.sil.org/gentium/), is made for linguists and scholars: it covers Latin, Cyrillic, modern and ancient Greek, and the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet). Gentium is Latin for \"of the nations.\""
+          "text": "**[Gentium Plus](font:font-gentium-plus)**, by [Victor Gaultney](designer:victor-gaultney) at [SIL International](foundry:sil-global), is made for linguists and scholars: it covers Latin, Cyrillic, modern and ancient Greek, and the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet). Gentium is Latin for \"of the nations.\""
         }
       ]
     }

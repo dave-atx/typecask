@@ -19,14 +19,14 @@ Shantell Sans's Bounce. Try It Out shows every slider a font has, along with swi
 
 @font-inter: The font you’ll forget you picked
 
-**Inter** was drawn by [Rasmus Andersson](https://rsms.me/) for screens, with a tall [x-height](term:x-height)
+**Inter** was drawn by [Rasmus Andersson](designer:rasmus-andersson) for screens, with a tall [x-height](term:x-height)
 that keeps small text readable. It's the one to reach for when you don't want to think about the font at
 all. Look in its features for a slashed zero and tabular numbers, which line figures up in a column.
 
 @font-ibm-plex-sans: Neutral, friendly and ready for the whole report
 
-**IBM Plex Sans** is [IBM's own typeface](https://www.ibm.com/plex/), designed by Mike Abbink with the Dutch
-foundry [Bold Monday](https://www.boldmonday.com/). It's neutral but warmer than Inter, and its italics have
+**IBM Plex Sans** is [IBM's own typeface](https://www.ibm.com/plex/), designed by [Mike Abbink](designer:mike-abbink) with the Dutch
+foundry [Bold Monday](foundry:bold-monday). It's neutral but warmer than Inter, and its italics have
 more character than you'd expect. Plex also comes as Serif, Mono, and Condensed, so one family can cover a
 whole document.
 
@@ -40,7 +40,7 @@ is, and this is the best free one. Set a long essay or a wedding invitation in i
 
 @font-source-serif-4: Chapter One, read comfortably on a small screen
 
-**Source Serif 4** is Adobe's, designed by Frank Grießhammer after the French typefounder
+**Source Serif 4** is [Adobe](foundry:adobe)'s, designed by [Frank Grießhammer](designer:frank-grießhammer) after the French typefounder
 [Pierre Simon Fournier](https://en.wikipedia.org/wiki/Pierre_Simon_Fournier). It's sturdier than Garamond
 and holds up better at small sizes and on screen. It was made as a partner for
 [Source Sans 3](font:font-source-sans-3), so the two pair without any fuss.
@@ -49,7 +49,7 @@ and holds up better at small sizes and on screen. It was made as a partner for
 
 @font-jetbrains-mono: if (total != 0) -> average = sum / total
 
-**JetBrains Mono** is about as popular as coding fonts get. JetBrains made it for their code editors: every
+**JetBrains Mono** is about as popular as coding fonts get. [JetBrains](foundry:jetbrains) made it for their code editors: every
 character is the same width, so columns line up, and pairs like -> and != join into a single symbol
 ([ligatures](term:ligature) you can switch off in Try It Out). It's just as good for a table of numbers in
 Numbers. You'll find more like it under [Fixed Width](collection:monospaced).
@@ -58,13 +58,13 @@ Numbers. You'll find more like it under [Fixed Width](collection:monospaced).
 
 @font-bebas-neue: SLIDE TITLES THAT READ FROM THE BACK
 
-**Bebas Neue** is tall, narrow, and all capitals, by Ryoichi Tsunekawa of
+**Bebas Neue** is tall, narrow, and all capitals, by [Ryoichi Tsunekawa](designer:ryoichi-tsunekawa) of
 [Dharma Type](https://dharmatype.com/). It fits a lot of words across a slide or a poster and still reads
 from the back of the room. Keep it big; it isn't meant for paragraphs.
 
 @font-fraunces: Wonky, warm and a little goofy
 
-**Fraunces** is a soft, slightly goofy serif from [Undercase Type](https://undercase.xyz/), inspired by
+**Fraunces** is a soft, slightly goofy serif from [Undercase Type](foundry:undercase-type), inspired by
 early 20th-century faces like Windsor and Cooper. Its "wonky" letters lean a little, so a title in it looks
 friendly rather than formal. Try it heavy and large.
 
@@ -72,9 +72,9 @@ friendly rather than formal. Try it heavy and large.
 
 @font-shantell-sans: Notes, doodles and birthday cards!
 
-**Shantell Sans** comes from the handwriting of the artist [Shantell Martin](https://shantellmartin.art/),
+**Shantell Sans** comes from the handwriting of the artist [Shantell Martin](designer:shantell-martin),
 whose drawings have covered the Oculus at the World Trade Center and the screens of Times Square. She made
-it with Stephen Nixon of [Arrow Type](https://www.arrowtype.com/) to get people having fun with words. It's
+it with [Stephen Nixon](designer:stephen-nixon) of [Arrow Type](foundry:arrow-type) to get people having fun with words. It's
 bouncy without being hard to read, which makes it good for notes, invitations, and kids' worksheets.
 
 @font-recursive: Open late · Fresh coffee · Hand-painted signs
@@ -84,14 +84,14 @@ painters. It's relaxed enough for a flyer and tidy enough for a document.
 
 @font-caveat: Don’t forget the milk (and the cake)
 
-**Caveat**, from Impallari Type, looks like quick, neat handwriting. It's the
+**Caveat**, from [Impallari Type](foundry:impallari-type), looks like quick, neat handwriting. It's the
 place to start in the [Handwriting](collection:handwriting) category.
 
 ## Made to be read
 
 @font-atkinson-hyperlegible-next: Il1 O0: easy to tell apart
 
-**Atkinson Hyperlegible Next** was made for the [Braille Institute](https://www.brailleinstitute.org/freefont/),
+**Atkinson Hyperlegible Next** was made for the [Braille Institute](foundry:braille-institute),
 to help readers with low vision. Letters that are easy to mix up, like I, l, and 1, or O and 0, are drawn to
 look clearly different. It's a refined version of the original
 [Atkinson Hyperlegible](font:font-atkinson-hyperlegible), with more weights and languages. It's in the

@@ -22,7 +22,8 @@ Each article is one file, articles/SLUG.md: front matter, then blocks separated 
 
     A paragraph, with **bold**, *italic* and links: [Serif](collection:serif), [Inter](font:font-inter),
     a term from the glossary ([x-height](term:x-height)), another article ([Workhorses](article:workhorses)),
-    or an https:// address, which only the site shows as a link: the app keeps to its own pages.
+    a foundry or a designer ([Arrow Type](foundry:arrow-type), [Stephen Nixon](designer:stephen-nixon)), or
+    an https:// address, which only the site shows as a link: the app keeps to its own pages.
 
     ## A section heading
 
@@ -55,6 +56,7 @@ a fonts release can change a face; rerun `fonts` against that release to bring t
 """
 
 import argparse
+import functools
 import hashlib
 import itertools
 import json
@@ -93,6 +95,23 @@ class ArticleError(Exception):
 
 def load_catalog():
     return {cask["token"]: cask for cask in json.loads(CATALOG.read_text(encoding="utf-8"))["casks"]}
+
+
+def maker_slug(name):
+    """A foundry's or a designer's name as a link names it, "foundry:the-league-of-moveable-type": lower case,
+    with each run of anything but letters and digits a hyphen. The app and the site's render-link.html slug
+    names the same way to find the page."""
+    return re.sub(r"[\W_]+", "-", name.lower()).strip("-")
+
+
+@functools.cache
+def maker_slugs():
+    """Each kind of maker's slugs, from the catalog's foundries and designers."""
+    casks = load_catalog().values()
+    return {
+        kind: {maker_slug(name) for cask in casks for name in cask.get(field, [])}
+        for kind, field in (("foundry", "foundries"), ("designer", "designers"))
+    }
 
 
 def term_slug(term):
@@ -257,8 +276,12 @@ def inline(text, tokens, terms, slugs=frozenset()):
             raise ArticleError(f"no term {rest!r} in {GLOSSARY.name}")
         if scheme == "article" and rest not in slugs:
             raise ArticleError(f"no article {rest!r} in {SOURCE.name}/")
-        if scheme not in {"collection", "font", "term", "article", "https"}:
-            raise ArticleError(f"link to {target}: links go to collection:, font:, term:, article: or https://")
+        if scheme in {"foundry", "designer"} and rest not in maker_slugs()[scheme]:
+            raise ArticleError(f"no {scheme} {rest!r} in the catalog")
+        if scheme not in {"collection", "font", "term", "article", "foundry", "designer", "https"}:
+            raise ArticleError(
+                f"link to {target}: links go to collection:, font:, term:, article:, foundry:, designer: or https://"
+            )
     bare = LINK.sub(r"\g<text>", text)
     if "](" in bare or "![" in text:
         raise ArticleError("a link that doesn't parse, or an image")

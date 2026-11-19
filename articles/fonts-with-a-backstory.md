@@ -18,7 +18,7 @@ so a long town name still fits on the sign.
 
 @font-overpass: EXIT 42 – Barstow, next services 23 mi
 
-**Overpass**, by [Delve Fonts](https://delvefonts.com/) and sponsored by Red Hat, adapts Highway Gothic for
+**Overpass**, by [Delve Fonts](https://delvefonts.com/) and sponsored by [Red Hat](foundry:red-hat), adapts Highway Gothic for
 screens, adjusting the letters so they read well at small sizes and in lighter weights. It works for
 everything from body text to posters, and there's an [Overpass Mono](font:font-overpass-mono) for code.
 
@@ -26,7 +26,7 @@ everything from body text to posters, and there's an [Overpass Mono](font:font-o
 
 @font-barlow: Next train to San Francisco: 4 min
 
-**Barlow**, by San Francisco designer [Jeremy Tribby](https://tribby.com/), borrows from California's public
+**Barlow**, by San Francisco designer [Jeremy Tribby](designer:jeremy-tribby), borrows from California's public
 lettering: its license plates, highway signs, buses, and trains. It's slightly rounded and low in
 [contrast](term:contrast), and comes in three widths (Barlow, Semi Condensed, and Condensed) with nine weights
 each.
@@ -36,7 +36,7 @@ each.
 @font-montserrat: Café Tortoni · Avenida de Mayo 825
 
 **Montserrat** started with the old posters and storefront signs of Montserrat, one of the oldest
-neighborhoods in Buenos Aires. Julieta Ulanovsky drew it to save the look of the neighborhood's early
+neighborhoods in Buenos Aires. [Julieta Ulanovsky](designer:julieta-ulanovsky) drew it to save the look of the neighborhood's early
 20th-century lettering before redevelopment erased it, and released it under a free license so anyone could
 use it. It's now one of the most popular fonts on the web.
 [Montserrat Alternates](font:font-montserrat-alternates), also in the catalog, keeps more of the quirky
@@ -49,7 +49,7 @@ but up, so the letters get stacked one on top of the other.
 
 @font-bungee: OPEN 24 HOURS · ROOMS
 
-**Bungee**, by [David Jonathan Ross](https://djr.com/bungee/), celebrates those signs. It sets text
+**Bungee**, by [David Jonathan Ross](designer:david-jonathan-ross), celebrates those signs. It sets text
 horizontally or vertically, and its round and diagonal letters are straight-sided so a vertical word has
 clean edges. The catalog has the whole layered family: [Inline](font:font-bungee-inline),
 [Outline](font:font-bungee-outline), [Shade](font:font-bungee-shade), [Hairline](font:font-bungee-hairline),
@@ -70,7 +70,7 @@ Saint-Exupéry. [B612 Mono](font:font-b612-mono) is in the catalog too.
 
 @font-special-elite: To whom it may concern: the cat ate the carbon copy.
 
-**Special Elite**, from Astigmatic, copies two real typewriters, the Smith
+**Special Elite**, from [Astigmatic](foundry:astigmatic), copies two real typewriters, the Smith
 Corona Special Elite Type No. NR6 and the Remington Noiseless, smudges and all. For a clean typewriter look,
 use [Courier Prime](font:font-courier-prime) from
 [Inspired by the classics](article:inspired-by-the-classics); use this one when the page should look like

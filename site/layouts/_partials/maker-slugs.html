@@ -1,0 +1,11 @@
+{{- /* A taxonomy's term pages by the slugs the articles link them by, "the-league-of-moveable-type": the name
+  in lower case with each run of anything but letters and digits a hyphen, as scripts/articles.py's
+  maker_slug() and the app make it. Called through partialCached with the taxonomy as its variant. */ -}}
+{{- $pages := dict -}}
+{{- with site.GetPage (printf "/%s" .) -}}
+  {{- range .Pages -}}
+    {{- $slug := strings.Trim (.Title | lower | replaceRE `[^\p{L}\p{N}]+` "-") "-" -}}
+    {{- $pages = merge $pages (dict $slug .) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $pages -}}
