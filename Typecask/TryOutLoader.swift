@@ -89,6 +89,23 @@ final class TryOutLoader {
                                hasLigatures: prepared.text.hasLigatures, specimen: prepared.specimen))
     }
 
+    /// A family built into iOS, whose faces are on the device already. Never one from Settings' More Fonts: resolving
+    /// one of those through Core Text downloads it.
+    func load(_ family: AppleFontFamily, sample: String) async {
+        guard !started, family.builtIn else { return }
+        started = true
+        let query = CTFontDescriptorCreateWithAttributes([kCTFontFamilyNameAttribute: family.name] as CFDictionary)
+        let mandatory = Set([kCTFontFamilyNameAttribute as String]) as CFSet
+        let descriptors = CTFontDescriptorCreateMatchingFontDescriptors(query, mandatory) as? [CTFontDescriptor] ?? []
+        guard let prepared = await Self.prepare(.installed(descriptors), sample: sample, glyphs: false),
+              !prepared.faces.isEmpty else {
+            phase = .failed(String(localized: "This font's styles couldn't be read."))
+            return
+        }
+        phase = .loaded(Loaded(faces: prepared.faces, text: prepared.text.text,
+                               hasLigatures: prepared.text.hasLigatures, specimen: prepared.specimen))
+    }
+
     nonisolated private enum Source: @unchecked Sendable {
         /// The font files themselves.
         case files([Data])

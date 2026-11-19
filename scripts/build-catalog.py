@@ -117,8 +117,13 @@ EXCLUDED = {
     "font-42dot-sans",
 }
 # Files left out of a cask, by name prefix, for faults the App Store's font validation rejects
-# (ITMS-90792) and that re-saving doesn't mend. Leaving a face out moves primary_face() to the next.
+# (ITMS-90792) and that re-saving doesn't mend, or that the face draws wrong. Leaving a face out moves
+# primary_face() to the next.
 LEFT_OUT_FILES = {
+    # EB Garamond 0.016's 8-point optical size draws its fraction slash as an empty glyph a full em
+    # wide, so its fractions came out as figures with a gap between them. The 12-point size, the one
+    # made for text, draws it, and has more glyphs and features besides.
+    "font-eb-garamond": ["EBGaramond08", "EBGaramondSC08"],
     # Nerd Fonts 3.5.1's GohuFont 11 has a malformed bitmap strike ("'sbit' embedded bitmap
     # structure"). Its uni11 sibling is the same 11 px design covering more of Unicode, and leaving
     # out the 14 px files too makes it the primary face rather than GohuFont 14.
@@ -126,38 +131,73 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
-ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif", "font-dinish"]
-# Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
-# takes over once it has one, and lock says so, for the entry to go.
+ALWAYS_INCLUDED = [
+    "font-ioskeley-mono",
+    "font-ioskeley-mono-term-nerd-font",
+    "font-geist-serif",
+    "font-dinish",
+    "font-comic-shanns-mono",
+    "font-opendyslexic",
+    # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
+    # of the first open-source foundries; several sit near the install cutoff. All but The Neue Black,
+    # whose 1.007 release is corrupt.
+    "font-blackout",
+    "font-chunk",
+    "font-fanwood-text",
+    "font-goudy-bookletter-1911",
+    "font-junction",
+    "font-knewave",
+    "font-league-gothic",
+    "font-league-mono",
+    "font-league-script",
+    "font-league-spartan",
+    "font-linden-hill",
+    "font-orbitron",
+    "font-ostrich-sans",
+    "font-prociono",
+    "font-raleway",
+    "font-sniglet",
+    "font-sorts-mill-goudy",
+]
+# Casks Homebrew doesn't have yet, or has only disabled, in its API's shape, from the upstream release.
+# Homebrew's own working cask takes over once it has one, and lock says so, for the entry to go.
 EXTRA_CASKS = [
     {
-        # Released with Geist 1.9.0, which Homebrew's font-geist and siblings install, without a cask.
-        "token": "font-geist-serif",
-        "name": ["Geist Serif"],
-        "homepage": "https://vercel.com/font",
-        "url": "https://github.com/vercel/geist-font/releases/download/v1.9.0/geist-font-v1.9.0.zip",
-        "version": "1.9.0",
-        "sha256": "1f2dd9ea90e68d0358a1d234a5f156807b2c3e0e295d78d87980a6dbad1fa58c",
+        # Homebrew has only font-comic-shanns-mono-nerd-font. Upstream ships the Regular alone; the Bold
+        # in Nerd Fonts' copy is their own addition.
+        "token": "font-comic-shanns-mono",
+        "name": ["Comic Shanns Mono"],
+        "homepage": "https://github.com/jesusmgg/comic-shanns-mono",
+        "url": "https://github.com/jesusmgg/comic-shanns-mono/releases/download/v1.3.0/comic-shanns-mono-v1.3.0.zip",
+        "version": "1.3.0",
+        "sha256": "3cc8abae7b8fab7d41c2b03a3fad974998994998bfb24bfc9544fc826a582460",
+        "artifacts": [{"font": ["ComicShannsMono-Regular.otf"]}],
+    },
+    {
+        # Homebrew disabled its cask when forge.hackers.town went unreachable. The archived GitHub repo
+        # still has the last release, OFL (the Bitstream Vera license covers only the older 2.x fonts).
+        "token": "font-opendyslexic",
+        "name": ["OpenDyslexic"],
+        "homepage": "https://opendyslexic.org/",
+        "url": "https://github.com/antijingoist/opendyslexic/releases/download/v0.91.12/opendyslexic-0.910.12-rc2-2019.10.17.zip",
+        "version": "0.91.12",
+        "sha256": "b92d7fcb9409f2bcfd23b65ac71647256eb49c429f4fbb1cc870381fc93eb486",
         "artifacts": [
-            {"font": [f"geist-font/GeistSerif/{path}"]}
-            for path in (
-                "ttf/GeistSerif-Heart.ttf",
-                "ttf/GeistSerif-Regular.ttf",
-                "ttf/GeistSerif-Square.ttf",
-                "ttf/GeistSerif-Triangle.ttf",
-                "variable/GeistSerif[ELSH].ttf",
-            )
+            {"font": [f"OpenDyslexic-{style}.otf"]} for style in ("Regular", "Italic", "Bold", "Bold-Italic")
         ],
     },
     {
-        # Homebrew/homebrew-cask#303861, not yet merged.
-        "token": "font-dinish",
-        "name": ["DINish"],
-        "homepage": "https://github.com/playbeing/dinish",
-        "url": "https://github.com/playbeing/dinish/releases/download/v4.007/dinish-ttf.zip",
-        "version": "4.007",
-        "sha256": "a75d47e600aa9e522da59f760c269aad617b097f9eb11c9be41c1b357f9d2b3d",
-        "artifacts": [{"font": ["DINish[slnt,wdth,wght].ttf"]}],
+        # The League of Moveable Type's slab, never cut as a release; pinned to the repository's last commit.
+        "token": "font-chunk",
+        "name": ["Chunk"],
+        "homepage": "https://www.theleagueofmoveabletype.com/chunk",
+        "url": "https://github.com/theleagueof/chunk/archive/12a243f3fb7c7a68844901023f7d95d6eaf14104.tar.gz",
+        "version": "2021-03-03",
+        "sha256": "78985b4effbe6e434a33e81fe544064a73f83c31a9981480b5b371d69113014f",
+        "artifacts": [
+            {"font": [f"chunk-12a243f3fb7c7a68844901023f7d95d6eaf14104/{name}.otf"]}
+            for name in ("ChunkFive-Regular", "Chunk Five Print")
+        ],
     },
 ]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
@@ -239,6 +279,7 @@ LEGIBLE_CASKS = {
     "font-lexend-tera",
     "font-lexend-zetta",
     "font-lexica-ultralegible",
+    "font-opendyslexic",
     "font-opendyslexic-nerd-font",
     "font-readex-pro",
 }
@@ -414,6 +455,10 @@ GOOGLE_DESCRIPTIONS = ("DESCRIPTION.en_us.html", "article/ARTICLE.en_us.html")
 CASK_STYLES = {
     # PANOSE says sans serif.
     "font-geist-serif": "serif",
+    # Doesn't set isFixedPitch, and a few glyphs stray from its 600 advance.
+    "font-comic-shanns-mono": "monospaced",
+    # PANOSE says sans serif; it's an ultra-bold slab.
+    "font-chunk": "serif",
 }
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families
@@ -495,6 +540,9 @@ LICENSE_NAME = re.compile(r"licen[cs]e|\bofl\b|copying|copyright", re.IGNORECASE
 # OFL-FAQ.txt matches \bofl\b, and is 40 KB of questions rather than a license.
 NOT_LICENSE_NAME = re.compile(r"faq", re.IGNORECASE)
 LICENSE_SUFFIXES = ("", ".txt", ".md")
+# The League of Moveable Type's older repositories name theirs "Open Font License.markdown". Read only when
+# nothing above turns up, so casks that already have a license build as before.
+FALLBACK_LICENSE_SUFFIXES = (".markdown",)
 GITHUB_REPO = re.compile(r"github\.com/([^/]+)/([^/]+?)(?:\.git)?/")
 CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 # Some hosts turn away clients that don't look like a browser or Homebrew.
@@ -505,7 +553,7 @@ PIPELINE_VERSION = 11
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
-SKIP_VERSION = 2
+SKIP_VERSION = 3
 
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
@@ -828,8 +876,8 @@ def lock(count, google_top):
     previous = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]} if LOCK.is_file() else {}
     casks_by_token = {cask["token"]: cask for cask in fetch_json(CASKS_URL)}
     for cask in EXTRA_CASKS:
-        if cask["token"] in casks_by_token:
-            print(f"{cask['token']}: Homebrew has a cask now; take it out of EXTRA_CASKS")
+        if cask["token"] in casks_by_token and not is_retired(casks_by_token[cask["token"]]):
+            print(f"{cask['token']}: Homebrew has a working cask now; take it out of EXTRA_CASKS")
         else:
             casks_by_token[cask["token"]] = cask
     ranked = rank_casks(fetch_json(ANALYTICS_URL), casks_by_token)
@@ -1575,16 +1623,17 @@ def google_fonts_license(directory):
 
 
 def find_license(root, url, google_directory=None):
-    paths = sorted(
-        path
-        for path in root.rglob("*")
-        if path.suffix.lower() in LICENSE_SUFFIXES
-        and LICENSE_NAME.search(path.stem)
-        and not NOT_LICENSE_NAME.search(path.stem)
-        and path.is_file()
-    )
-    if paths:
-        return "\n\n".join(path.read_text(errors="replace") for path in paths)
+    for suffixes in (LICENSE_SUFFIXES, FALLBACK_LICENSE_SUFFIXES):
+        paths = sorted(
+            path
+            for path in root.rglob("*")
+            if path.suffix.lower() in suffixes
+            and LICENSE_NAME.search(path.stem)
+            and not NOT_LICENSE_NAME.search(path.stem)
+            and path.is_file()
+        )
+        if paths:
+            return "\n\n".join(path.read_text(errors="replace") for path in paths)
     if google_directory and (license := google_fonts_license(google_directory)):
         return license
     repo = GITHUB_REPO.search((url or "") + "/")
@@ -2216,6 +2265,14 @@ def build(only=None, max_mb_per_install=None, jobs=1):
 
     catalog, owners, weights, licenses = [], {}, {}, {}
     skipped, trimmed, unshippable, shadowed = dict(excluded), {}, {}, {}
+    # (Nerd Font cask, face) → the plain sibling that built that face too, which keeps it.
+    plain_owners = {}
+    for entry in entries:
+        plain = entry["token"].removesuffix("-nerd-font")
+        if plain != entry["token"] and plain in destinations and (destinations[plain] / "entry.json").is_file():
+            built = json.loads((destinations[plain] / "entry.json").read_text())
+            for file in built.get("files", []):
+                plain_owners[entry["token"], file["asset"]] = plain
     # A family Apple offers too is listed as Apple's alone, which needs no download from the app and
     # can't collide with Apple's copy once Settings installs it.
     apple = json.loads((APP / "AppleFonts.json").read_text()) if (APP / "AppleFonts.json").is_file() else []
@@ -2236,17 +2293,24 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         if apple_family := next(filter(None, matches), None):
             skipped[token] = f"one of Apple's fonts, {apple_family}"
             continue
-        # Two casks can carry the same face; the higher-ranked one keeps it.
+        # Two casks can carry the same face; the higher-ranked one keeps it, except that a Nerd Font cask
+        # yields its plain sibling's faces to it: Monocraft's patched collection reuses the plain one's
+        # names, and the plain font is the one to offer.
+        claimed = {
+            file["asset"]: owner
+            for file in built["files"]
+            if (owner := owners.get(file["asset"]) or plain_owners.get((token, file["asset"])))
+        }
         files, faces = [], set()
         for file in built["files"]:
-            if file["asset"] in owners:
-                print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
+            if file["asset"] in claimed:
+                print(f"{token}: {file['asset']!r} already comes from {claimed[file['asset']]}")
             # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
             elif file["asset"] not in faces:
                 faces.add(file["asset"])
                 files.append(file)
         if not files:
-            shadowed[token] = sorted({owners[file["asset"]] for file in built["files"]})
+            shadowed[token] = sorted(set(claimed.values()))
             continue
         shipping = [file for file in files if file["shippable"]]
         weight = sum(file["bytes"] for file in shipping)

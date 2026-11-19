@@ -1,0 +1,5 @@
+# What's New in Typecask 1.2, as the App Store and TestFlight show it. Lines starting with # are notes for
+# us; {fonts} becomes the count of fonts added and updated since the build named on the "since" line, the
+# last build of 1.1. Print it with scripts/release-notes.py 1.2.
+# since testflight-18
+• {fonts}

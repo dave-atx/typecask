@@ -1,6 +1,19 @@
 import CoreText
 import SwiftUI
 
+/// What Try It Out types in: a cask's fonts, or one of the families built into iOS.
+enum TryOutFonts {
+    case cask(Cask)
+    case apple(AppleFontFamily)
+
+    var name: String {
+        switch self {
+        case .cask(let cask): cask.name
+        case .apple(let family): family.name
+        }
+    }
+}
+
 /// Opens the Try It Out editor. Opt-in, since the editor needs the cask's full fonts: an installed cask's are on
 /// the device already, but anything else downloads its On-Demand Resources tag, as Install does. On a font's own
 /// page it opens the page's editor, which zooms from the button and shares the page's fonts; a paired Nerd Font
@@ -19,7 +32,7 @@ struct TryItOutButton: View {
         } else {
             button { isPresented = true }
                 .sheet(isPresented: $isPresented) {
-                    TryItOutView(cask: cask, loader: loader)
+                    TryItOutView(fonts: .cask(cask), loader: loader)
                         // A page on iPad, not a form sheet: an editor wants the room.
                         .presentationSizing(.page)
                 }
@@ -41,12 +54,13 @@ struct TryItOutButton: View {
 /// and so is a chip for each feature, so a face's features are seen rather than found; alignment, line height and a
 /// variable face's axes are under Adjust, a side panel on iPad and a half sheet on iPhone, with the text in view.
 struct TryItOutView: View {
-    let cask: Cask
-    /// The cask's full fonts, shared with its page when opened from there, so they download once.
+    let fonts: TryOutFonts
+    /// The full fonts, shared with the font's page when opened from there, so they download once.
     let loader: TryOutLoader
     @Environment(FontInstaller.self) private var installer
     @Environment(\.dismiss) private var dismiss
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var text = ""
     /// What the text starts with: the line of the feature or the character the editor was opened from.
     private let insert: String?
@@ -61,10 +75,10 @@ struct TryItOutView: View {
     @State private var alignment = TextAlignment.leading
     @State private var lineHeight = 1.0
     @State private var adjusting = false
-    @FocusState private var editing: Bool
+    @State private var editing = false
 
-    init(cask: Cask, loader: TryOutLoader, start: TryOutStart? = nil) {
-        self.cask = cask
+    init(fonts: TryOutFonts, loader: TryOutLoader, start: TryOutStart? = nil) {
+        self.fonts = fonts
         self.loader = loader
         insert = start?.insert ?? start?.feature?.sampleLine
         _style = State(initialValue: start?.style)
@@ -75,7 +89,7 @@ struct TryItOutView: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle(cask.name)
+                .navigationTitle(fonts.name)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
@@ -101,8 +115,13 @@ struct TryItOutView: View {
                 }
         }
         .task {
-            await loader.load(cask, installed: installer.status(of: cask).isInstalled,
-                              sample: cask.sample ?? Catalog.bundled.sampleText)
+            switch fonts {
+            case .cask(let cask):
+                await loader.load(cask, installed: installer.status(of: cask).isInstalled,
+                                  sample: cask.sample ?? Catalog.bundled.sampleText)
+            case .apple(let family):
+                await loader.load(family, sample: family.sample ?? Catalog.bundled.sampleText)
+            }
         }
         .task(id: loader.isLoaded) {
             if case .loaded(let loaded) = loader.phase, text.isEmpty {
@@ -117,12 +136,12 @@ struct TryItOutView: View {
         switch loader.phase {
         case .loading:
             VStack(spacing: 12) {
-                if installer.status(of: cask).isInstalled {
-                    ProgressView("Loading…")
-                } else {
+                if case .cask(let cask) = fonts, !installer.status(of: cask).isInstalled {
                     ProgressView("Downloading \(cask.bytes.formatted(.byteCount(style: .file)))…",
                                  value: loader.progress)
                         .frame(maxWidth: 280)
+                } else {
+                    ProgressView("Loading…")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -133,37 +152,56 @@ struct TryItOutView: View {
                 Text(message)
             }
         case .loaded(let loaded):
-            VStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 10) {
-                    styleAndSize(loaded.specimen)
-                        .padding(.horizontal)
-                    chips(loaded)
+            HStack(spacing: 0) {
+                editor(loaded)
+                if adjusting, besideText {
+                    Divider()
+                    adjustments(loaded.specimen)
+                        .frame(width: 320)
                 }
-                .padding(.vertical, 10)
-                Divider()
-                TextEditor(text: $text)
-                    .font(Font(font(loaded)))
-                    .lineSpacing(size * (lineHeight - 1))
-                    .multilineTextAlignment(alignment)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .contentMargins(.horizontal, 12, for: .scrollContent)
-                    .accessibilityIdentifier("tryItOutText")
-                    .focused($editing)
-                    // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
-                    // panel is beside the text, and stays.
-                    .onChange(of: editing) { _, editing in
-                        if editing, sizeClass != .regular {
-                            adjusting = false
-                        }
-                    }
             }
-            .inspector(isPresented: $adjusting) {
+            // A sheet everywhere else, which in landscape on iPhone would cover the text it changes.
+            .inspector(isPresented: Binding { adjusting && !besideText } set: { isPresented in
+                // Not closed by turning to landscape, where the panel moves beside the text.
+                if !besideText {
+                    adjusting = isPresented
+                }
+            }) {
                 adjustments(loaded.specimen)
-                    .presentationDetents([.medium, .large])
+                    // Never taller than half: a face with more axes than fit, like Shantell Sans's four, scrolls
+                    // them in the half sheet rather than growing it over the text they change.
+                    .presentationDetents([.medium])
+                    .presentationContentInteraction(.scrolls)
                     // The text stays editable above the half sheet, to watch it change.
                     .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             }
+        }
+    }
+
+    /// Whether Adjust is a column beside the text that this view lays out itself: on iPhone in landscape, where a
+    /// half sheet would be the whole height of the screen. On iPad the inspector is a column of its own.
+    private var besideText: Bool {
+        verticalSizeClass == .compact && sizeClass != .regular
+    }
+
+    private func editor(_ loaded: TryOutLoader.Loaded) -> some View {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 10) {
+                styleAndSize(loaded.specimen)
+                    .padding(.horizontal)
+                chips(loaded)
+            }
+            .padding(.vertical, 10)
+            Divider()
+            TryOutEditor(text: $text, font: font(loaded), lineSpacing: size * (lineHeight - 1),
+                         alignment: alignment, isEditing: $editing)
+                // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
+                // panel is beside the text, and stays.
+                .onChange(of: editing) { _, editing in
+                    if editing, sizeClass != .regular {
+                        adjusting = false
+                    }
+                }
         }
     }
 
