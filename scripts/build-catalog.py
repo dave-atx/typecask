@@ -117,8 +117,13 @@ EXCLUDED = {
     "font-42dot-sans",
 }
 # Files left out of a cask, by name prefix, for faults the App Store's font validation rejects
-# (ITMS-90792) and that re-saving doesn't mend. Leaving a face out moves primary_face() to the next.
+# (ITMS-90792) and that re-saving doesn't mend, or that the face draws wrong. Leaving a face out moves
+# primary_face() to the next.
 LEFT_OUT_FILES = {
+    # EB Garamond 0.016's 8-point optical size draws its fraction slash as an empty glyph a full em
+    # wide, so its fractions came out as figures with a gap between them. The 12-point size, the one
+    # made for text, draws it, and has more glyphs and features besides.
+    "font-eb-garamond": ["EBGaramond08", "EBGaramondSC08"],
     # Nerd Fonts 3.5.1's GohuFont 11 has a malformed bitmap strike ("'sbit' embedded bitmap
     # structure"). Its uni11 sibling is the same 11 px design covering more of Unicode, and leaving
     # out the 14 px files too makes it the primary face rather than GohuFont 14.
