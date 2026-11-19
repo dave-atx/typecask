@@ -21,7 +21,7 @@ the original than others.
 @font-eb-garamond: Set from a specimen printed in 1592
 
 **EB Garamond** goes back to the source: a type [specimen](term:specimen) printed in 1592 by Conrad Berner,
-which showed Garamont's roman alongside Robert Granjon's [italic](term:italic). It follows that specimen
+which showed Garamont's roman alongside Robert Granjon's italic. It follows that specimen
 closely, so it reads more like an old printed book than most digital Garamonds. Use it for long reading at a
 comfortable size.
 

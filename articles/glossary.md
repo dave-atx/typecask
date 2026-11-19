@@ -44,10 +44,6 @@ founders called them gothics.
 A sans serif whose shapes follow writing with a pen, so it feels warmer and more open, like Open Sans and Fira
 Sans.
 
-## Italic
-
-A slanted style based on handwriting, whose letters often change shape too, like a one-storey a.
-
 ## Kerning
 
 Adjusting the space between particular pairs of letters, like A and V, so the spacing looks even.

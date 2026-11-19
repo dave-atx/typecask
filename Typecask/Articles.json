@@ -356,7 +356,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[EB Garamond](font:font-eb-garamond)** goes back to the source: a type [specimen](term:specimen) printed in 1592 by Conrad Berner, which showed Garamont's roman alongside Robert Granjon's [italic](term:italic). It follows that specimen closely, so it reads more like an old printed book than most digital Garamonds. Use it for long reading at a comfortable size."
+          "text": "**[EB Garamond](font:font-eb-garamond)** goes back to the source: a type [specimen](term:specimen) printed in 1592 by Conrad Berner, which showed Garamont's roman alongside Robert Granjon's italic. It follows that specimen closely, so it reads more like an old printed book than most digital Garamonds. Use it for long reading at a comfortable size."
         },
         {
           "kind": "heading",
@@ -890,7 +890,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Cascadia Code](font:font-cascadia-code)** is [Microsoft's](https://github.com/microsoft/cascadia-code), made for Windows Terminal as a replacement for Consolas and now the default in Visual Studio too. It has a lively, almost handwritten [italic](term:italic) and covers Greek, Cyrillic, Arabic, and Hebrew. [Cascadia Mono](font:font-cascadia-mono) is the same font without ligatures, for anyone who wants one glyph per character."
+          "text": "**[Cascadia Code](font:font-cascadia-code)** is [Microsoft's](https://github.com/microsoft/cascadia-code), made for Windows Terminal as a replacement for Consolas and now the default in Visual Studio too. It has a lively, almost handwritten italic and covers Greek, Cyrillic, Arabic, and Hebrew. [Cascadia Mono](font:font-cascadia-mono) is the same font without ligatures, for anyone who wants one glyph per character."
         },
         {
           "kind": "specimen",
@@ -1501,10 +1501,6 @@
     "humanist": {
       "term": "Humanist",
       "definition": "A sans serif whose shapes follow writing with a pen, so it feels warmer and more open, like Open Sans and Fira Sans."
-    },
-    "italic": {
-      "term": "Italic",
-      "definition": "A slanted style based on handwriting, whose letters often change shape too, like a one-storey a."
     },
     "kerning": {
       "term": "Kerning",

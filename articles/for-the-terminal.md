@@ -39,7 +39,7 @@ one token instead of parsing two characters. It's only a display trick: the file
 
 **Cascadia Code** is [Microsoft's](https://github.com/microsoft/cascadia-code), made for Windows Terminal as
 a replacement for Consolas and now the default in Visual Studio too. It has a lively, almost handwritten
-[italic](term:italic) and covers Greek, Cyrillic, Arabic, and Hebrew. [Cascadia Mono](font:font-cascadia-mono)
+italic and covers Greek, Cyrillic, Arabic, and Hebrew. [Cascadia Mono](font:font-cascadia-mono)
 is the same font without ligatures, for anyone who wants one glyph per character.
 
 @font-source-code-pro: <p class="todo">Finish this later</p>
