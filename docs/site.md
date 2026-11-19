@@ -53,7 +53,7 @@ scripts/site-catalog.sh          # from the repository root
 cd site && hugo server
 ```
 
-Hugo 0.170 or later. A full build is about four seconds for some 3,000 pages: one per cask, design style,
+Hugo 0.170 or later. A full build is about three seconds for some 3,000 pages: one per cask, design style,
 foundry, and designer, the catalog, the home page, and the documents.
 
 Pages come from `content/fonts/_content.gotmpl`, a content adapter that emits one page per cask
