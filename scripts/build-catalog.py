@@ -126,9 +126,15 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
-ALWAYS_INCLUDED = ["font-ioskeley-mono", "font-ioskeley-mono-term-nerd-font", "font-geist-serif"]
-# Casks Homebrew doesn't have yet, in its API's shape, from the upstream release. Homebrew's own cask
-# takes over once it has one, and lock says so, for the entry to go.
+ALWAYS_INCLUDED = [
+    "font-ioskeley-mono",
+    "font-ioskeley-mono-term-nerd-font",
+    "font-geist-serif",
+    "font-comic-shanns-mono",
+    "font-opendyslexic",
+]
+# Casks Homebrew doesn't have yet, or has only disabled, in its API's shape, from the upstream release.
+# Homebrew's own working cask takes over once it has one, and lock says so, for the entry to go.
 EXTRA_CASKS = [
     {
         # Released with Geist 1.9.0, which Homebrew's font-geist and siblings install, without a cask.
@@ -147,6 +153,30 @@ EXTRA_CASKS = [
                 "ttf/GeistSerif-Triangle.ttf",
                 "variable/GeistSerif[ELSH].ttf",
             )
+        ],
+    },
+    {
+        # Homebrew has only font-comic-shanns-mono-nerd-font. Upstream ships the Regular alone; the Bold
+        # in Nerd Fonts' copy is their own addition.
+        "token": "font-comic-shanns-mono",
+        "name": ["Comic Shanns Mono"],
+        "homepage": "https://github.com/jesusmgg/comic-shanns-mono",
+        "url": "https://github.com/jesusmgg/comic-shanns-mono/releases/download/v1.3.0/comic-shanns-mono-v1.3.0.zip",
+        "version": "1.3.0",
+        "sha256": "3cc8abae7b8fab7d41c2b03a3fad974998994998bfb24bfc9544fc826a582460",
+        "artifacts": [{"font": ["ComicShannsMono-Regular.otf"]}],
+    },
+    {
+        # Homebrew disabled its cask when forge.hackers.town went unreachable. The archived GitHub repo
+        # still has the last release, OFL (the Bitstream Vera license covers only the older 2.x fonts).
+        "token": "font-opendyslexic",
+        "name": ["OpenDyslexic"],
+        "homepage": "https://opendyslexic.org/",
+        "url": "https://github.com/antijingoist/opendyslexic/releases/download/v0.91.12/opendyslexic-0.910.12-rc2-2019.10.17.zip",
+        "version": "0.91.12",
+        "sha256": "b92d7fcb9409f2bcfd23b65ac71647256eb49c429f4fbb1cc870381fc93eb486",
+        "artifacts": [
+            {"font": [f"OpenDyslexic-{style}.otf"]} for style in ("Regular", "Italic", "Bold", "Bold-Italic")
         ],
     },
 ]
@@ -229,6 +259,7 @@ LEGIBLE_CASKS = {
     "font-lexend-tera",
     "font-lexend-zetta",
     "font-lexica-ultralegible",
+    "font-opendyslexic",
     "font-opendyslexic-nerd-font",
     "font-readex-pro",
 }
@@ -404,6 +435,8 @@ GOOGLE_DESCRIPTIONS = ("DESCRIPTION.en_us.html", "article/ARTICLE.en_us.html")
 CASK_STYLES = {
     # PANOSE says sans serif.
     "font-geist-serif": "serif",
+    # Doesn't set isFixedPitch, and a few glyphs stray from its 600 advance.
+    "font-comic-shanns-mono": "monospaced",
 }
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families
@@ -816,8 +849,8 @@ def lock(count, google_top):
     previous = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]} if LOCK.is_file() else {}
     casks_by_token = {cask["token"]: cask for cask in fetch_json(CASKS_URL)}
     for cask in EXTRA_CASKS:
-        if cask["token"] in casks_by_token:
-            print(f"{cask['token']}: Homebrew has a cask now; take it out of EXTRA_CASKS")
+        if cask["token"] in casks_by_token and not is_retired(casks_by_token[cask["token"]]):
+            print(f"{cask['token']}: Homebrew has a working cask now; take it out of EXTRA_CASKS")
         else:
             casks_by_token[cask["token"]] = cask
     ranked = rank_casks(fetch_json(ANALYTICS_URL), casks_by_token)
@@ -2146,6 +2179,14 @@ def build(only=None, max_mb_per_install=None, jobs=1):
 
     catalog, owners, weights, licenses = [], {}, {}, {}
     skipped, trimmed, unshippable, shadowed = dict(excluded), {}, {}, {}
+    # (Nerd Font cask, face) → the plain sibling that built that face too, which keeps it.
+    plain_owners = {}
+    for entry in entries:
+        plain = entry["token"].removesuffix("-nerd-font")
+        if plain != entry["token"] and plain in destinations and (destinations[plain] / "entry.json").is_file():
+            built = json.loads((destinations[plain] / "entry.json").read_text())
+            for file in built.get("files", []):
+                plain_owners[entry["token"], file["asset"]] = plain
     # A family Apple offers too is listed as Apple's alone, which needs no download from the app and
     # can't collide with Apple's copy once Settings installs it.
     apple = json.loads((APP / "AppleFonts.json").read_text()) if (APP / "AppleFonts.json").is_file() else []
@@ -2166,17 +2207,24 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         if apple_family := next(filter(None, matches), None):
             skipped[token] = f"one of Apple's fonts, {apple_family}"
             continue
-        # Two casks can carry the same face; the higher-ranked one keeps it.
+        # Two casks can carry the same face; the higher-ranked one keeps it, except that a Nerd Font cask
+        # yields its plain sibling's faces to it: Monocraft's patched collection reuses the plain one's
+        # names, and the plain font is the one to offer.
+        claimed = {
+            file["asset"]: owner
+            for file in built["files"]
+            if (owner := owners.get(file["asset"]) or plain_owners.get((token, file["asset"])))
+        }
         files, faces = [], set()
         for file in built["files"]:
-            if file["asset"] in owners:
-                print(f"{token}: {file['asset']!r} already comes from {owners[file['asset']]}")
+            if file["asset"] in claimed:
+                print(f"{token}: {file['asset']!r} already comes from {claimed[file['asset']]}")
             # A cask shipping the same face twice, as TTF and OTF, keeps the first quietly.
             elif file["asset"] not in faces:
                 faces.add(file["asset"])
                 files.append(file)
         if not files:
-            shadowed[token] = sorted({owners[file["asset"]] for file in built["files"]})
+            shadowed[token] = sorted(set(claimed.values()))
             continue
         shipping = [file for file in files if file["shippable"]]
         weight = sum(file["bytes"] for file in shipping)
