@@ -2192,7 +2192,9 @@ def makers(token, google, credits):
         bare = CORPORATE_SUFFIX.sub("", name) or name
         return curation["aliases"].get(bare, bare)
 
-    if entry := curation["casks"].get(token):
+    # Checked by key: an entry of {} is a decision to credit no one, not a missing entry.
+    if token in curation["casks"]:
+        entry = curation["casks"][token]
         return entry.get("foundries", []), entry.get("designers", [])
     named = [canonical(name) for name in google.get("designers") or []]
     manufacturers = [canonical(name) for name in credit_names(credits.get("manufacturer", ""))]

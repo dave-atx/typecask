@@ -415,7 +415,11 @@
         "Sang-Min Lee"
       ]
     },
-    "font-daddy-time-mono-nerd-font": {},
+    "font-daddy-time-mono-nerd-font": {
+      "designers": [
+        "Jason Stewart"
+      ]
+    },
     "font-dejavu": {
       "foundries": [
         "DejaVu Fonts"
@@ -1153,7 +1157,11 @@
         "Tristan Grimmer"
       ]
     },
-    "font-psudofont-liga-mono": {},
+    "font-psudofont-liga-mono": {
+      "designers": [
+        "Renato Setoue"
+      ]
+    },
     "font-recursive-code": {
       "foundries": [
         "Arrow Type"
