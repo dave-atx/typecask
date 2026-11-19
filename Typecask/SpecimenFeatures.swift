@@ -148,7 +148,8 @@ struct SpecimenFeatures: View {
 
     var body: some View {
         if !specimen.features.isEmpty {
-            SpecimenSection("Features", detail: Text("\(specimen.features.count) features")) {
+            SpecimenSection("Features", detail: Text("\(specimen.features.count) features"),
+                            identifier: "section.features") {
                 VStack(alignment: .leading, spacing: 18) {
                     ForEach(specimen.features) { feature in
                         HStack {
@@ -164,8 +165,13 @@ struct SpecimenFeatures: View {
                             Spacer(minLength: 8)
                             TryOutMark()
                         }
-                        .accessibilityElement(children: .combine)
-                        .opensTryOut(TryOutStart(source: "feature-\(feature.tag)", feature: feature))
+                        .accessibilityElement(children: .ignore)
+                        // Its name and its text, which reads the same either way: the feature changes glyphs, not
+                        // characters. "Off" and "On" alone said nothing.
+                        .accessibilityLabel(Text(verbatim: feature.sampleLine))
+                        .opensTryOut(TryOutStart(source: "feature-\(feature.tag)", feature: feature),
+                                     hint: Text("Opens Try It Out with \(feature.name) on."))
+                        .accessibilityIdentifier("specimenFeature.\(feature.tag)")
                     }
                 }
             }
@@ -176,13 +182,11 @@ struct SpecimenFeatures: View {
     @ViewBuilder private func comparison(_ feature: SpecimenFeature) -> some View {
         text(feature, isOn: false)
             .foregroundStyle(Color(.captionText))
-            .accessibilityLabel(Text("Off"))
         Image(systemName: "arrow.right")
             .font(.body)
             .foregroundStyle(Color(.captionText))
             .accessibilityHidden(true)
         text(feature, isOn: true)
-            .accessibilityLabel(Text("On"))
     }
 
     private func text(_ feature: SpecimenFeature, isOn: Bool) -> Text {

@@ -230,7 +230,9 @@ struct TryItOutView: View {
         if isOn.wrappedValue {
             toggle.buttonStyle(.glassProminent)
         } else {
+            // In the text color: the tint's blue on clear glass is about 4:1, short of the 4.5:1 text needs.
             toggle.buttonStyle(.glass)
+                .tint(.primary)
         }
     }
 
@@ -245,13 +247,16 @@ struct TryItOutView: View {
                 }
                 .pickerStyle(.segmented)
                 .labelStyle(.iconOnly)
+            }
+            Section {
                 slider("Line Height") {
                     Slider(value: $lineHeight, in: 1...2)
                         .accessibilityValue(Text(lineHeight, format: .number.precision(.fractionLength(1))))
                 }
             }
             if !current.face.axes.isEmpty {
-                Section("Axes") {
+                // Width, Weight and the rest name themselves; a header on the glass sheet was too faint to read.
+                Section {
                     ForEach(current.face.axes) { axis in
                         let value = Binding { moved[axis.id] ?? current.variation[axis.id] ?? axis.defaultValue } set: {
                             moved[axis.id] = $0
@@ -267,12 +272,16 @@ struct TryItOutView: View {
         }
     }
 
+    /// A slider with its name above it, as Settings sets Brightness: beside it, in a Form row, the slider squeezed the
+    /// name to "Line Hei…", and at accessibility sizes there was no room for it at all.
     private func slider(_ label: LocalizedStringKey, @ViewBuilder slider: () -> some View) -> some View {
-        LabeledContent {
-            slider()
-        } label: {
+        VStack(alignment: .leading, spacing: 4) {
             Text(label)
-                .frame(minWidth: 90, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+                // The slider carries the name instead, which VoiceOver otherwise reads as a separate element.
+                .accessibilityHidden(true)
+            slider()
+                .accessibilityLabel(Text(label))
         }
     }
 

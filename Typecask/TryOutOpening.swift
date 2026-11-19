@@ -26,25 +26,30 @@ extension EnvironmentValues {
 }
 
 extension View {
-    /// Makes this part of the specimen open Try It Out, which zooms from it. VoiceOver gets an action rather than a
-    /// button trait, so the text stays text: "Try It Out" in the actions rotor.
-    func opensTryOut(_ start: @escaping @autoclosure () -> TryOutStart) -> some View {
-        modifier(OpensTryOut(start: start))
+    /// Makes this part of the specimen open Try It Out, which zooms from it. To VoiceOver it's one element, read as a
+    /// button since a double-tap opens the editor, with a hint saying what it opens to and "Try It Out" in the
+    /// actions rotor.
+    func opensTryOut(_ start: @escaping @autoclosure () -> TryOutStart, hint: Text) -> some View {
+        modifier(OpensTryOut(start: start, hint: hint))
     }
 }
 
 private struct OpensTryOut: ViewModifier {
     let start: () -> TryOutStart
+    let hint: Text
     @Environment(\.tryOut) private var opener
 
     func body(content: Content) -> some View {
         if let opener {
             let start = start()
             content
+                .accessibilityElement(children: .combine)
                 .contentShape(Rectangle())
                 .matchedTransitionSource(id: start.source, in: opener.namespace)
                 .onTapGesture { opener.open(start) }
+                .accessibilityAction { opener.open(start) }
                 .accessibilityAction(named: Text("Try It Out")) { opener.open(start) }
+                .accessibilityHint(hint)
         } else {
             content
         }

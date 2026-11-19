@@ -18,6 +18,8 @@ struct CaskDetailView: View {
     @Namespace private var tryOutNamespace
     /// Whether the page's Install and Try It Out are on screen; once they aren't, the navigation bar has them.
     @State private var actionsVisible = true
+    /// Whether the full specimen was asked for, so VoiceOver hears when it's ready; an installed cask's loads unasked.
+    @State private var announcesSpecimen = false
     private var size = SpecimenSize()
 
     init(cask: Cask, catalog: Catalog) {
@@ -50,7 +52,10 @@ struct CaskDetailView: View {
                     SpecimenCharacters(specimen: specimen)
                     SpecimenLanguages(specimen: specimen)
                 } else if cask.isBundled || installer.status(of: cask).isInstalled {
-                    FullSpecimenPrompt(cask: cask, loader: loader, start: loadSpecimen)
+                    FullSpecimenPrompt(cask: cask, loader: loader) {
+                        announcesSpecimen = true
+                        loadSpecimen()
+                    }
                 }
                 if let description = cask.description {
                     SpecimenSection("About") {
@@ -101,6 +106,11 @@ struct CaskDetailView: View {
                 loadSpecimen()
             }
         }
+        .onChange(of: specimen != nil) { _, loaded in
+            if loaded, announcesSpecimen {
+                AccessibilityNotification.Announcement(String(localized: "Full specimen loaded.")).post()
+            }
+        }
         .promptsForReview(after: cask)
         // So Siri and Apple Intelligence take "this" to mean this font, as in "install this".
         .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
@@ -137,22 +147,6 @@ struct CaskDetailView: View {
         self.loader = loader
         let installed = installer.status(of: cask).isInstalled
         Task { await loader.load(cask, installed: installed, sample: sample) }
-    }
-}
-
-/// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
-/// signs and back.
-struct LigaturesToggle: View {
-    @Binding var isOn: Bool
-
-    var body: some View {
-        Toggle(isOn: $isOn) {
-            Text("Ligatures")
-            Text("Joins sequences like -> and != into single symbols, in editors that support them.")
-                // Darker than the system's secondary gray, which is 3.5:1 on white where text needs 4.5:1.
-                .foregroundStyle(Color(.captionText))
-        }
-        .accessibilityIdentifier("ligatures")
     }
 }
 

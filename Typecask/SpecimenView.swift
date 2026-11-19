@@ -6,11 +6,15 @@ import SwiftUI
 struct SpecimenSection<Content: View>: View {
     let title: LocalizedStringKey
     let detail: Text?
+    /// The title's identifier, for the UI tests, which shouldn't depend on its wording.
+    let identifier: String?
     let content: Content
 
-    init(_ title: LocalizedStringKey, detail: Text? = nil, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, detail: Text? = nil, identifier: String? = nil,
+         @ViewBuilder content: () -> Content) {
         self.title = title
         self.detail = detail
+        self.identifier = identifier
         self.content = content()
     }
 
@@ -24,6 +28,7 @@ struct SpecimenSection<Content: View>: View {
                         .textCase(.uppercase)
                         .tracking(1.2)
                         .accessibilityAddTraits(.isHeader)
+                        .accessibilityIdentifier(identifier ?? "")
                     Spacer()
                     detail
                         .font(.caption)
@@ -81,8 +86,9 @@ struct SpecimenFacts: View {
     @ScaledMetric private var column: CGFloat = 140
 
     var body: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: column), spacing: 16, alignment: .topLeading)],
-                  alignment: .leading, spacing: 16) {
+        // Not a LazyVGrid: it sizes its rows once, so text grown in place, as the accessibility audit grows it,
+        // outgrew the last row.
+        FactColumns(minimumWidth: column, spacing: 16) {
             if let designers = cask.designers, !designers.isEmpty {
                 fact("Designer") { Text(designers, format: .list(type: .and)) }
             }
@@ -171,7 +177,9 @@ struct TypeTester: View {
             VStack(alignment: .leading, spacing: 12) {
                 CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
                                  ligatures: ligatures)
-                    .opensTryOut(TryOutStart(source: "sample"))
+                    .opensTryOut(TryOutStart(source: "sample"), hint: Text("Opens Try It Out, to type in this font."))
+                    // Kept on the one element the sample becomes, for the UI tests and the audit.
+                    .accessibilityIdentifier("specimen")
                 SpecimenSizeSlider(size: size.binding)
                 if opener != nil {
                     Label("Tap the sample, a style or a feature to type in it.", systemImage: "character.cursor.ibeam")
@@ -227,6 +235,63 @@ struct FullSpecimenPrompt: View {
             case .loaded:
                 EmptyView()
             }
+        }
+    }
+}
+
+/// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
+/// signs and back.
+struct LigaturesToggle: View {
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            Text("Ligatures")
+            Text("Joins sequences like -> and != into single symbols, in editors that support them.")
+                // Darker than the system's secondary gray, which is 3.5:1 on white where text needs 4.5:1.
+                .foregroundStyle(Color(.captionText))
+        }
+        .accessibilityIdentifier("ligatures")
+    }
+}
+
+/// The facts in as many columns as fit at `minimumWidth`, two on an iPhone and more on an iPad, filled row by row,
+/// each row as tall as its tallest fact.
+private struct FactColumns: Layout {
+    let minimumWidth: CGFloat
+    let spacing: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? minimumWidth * 2 + spacing
+        let heights = rowHeights(subviews, width: width)
+        return CGSize(width: width, height: heights.reduce(0, +) + spacing * CGFloat(max(heights.count - 1, 0)))
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let (count, width) = columns(bounds.width)
+        var top = bounds.minY
+        for (row, height) in rowHeights(subviews, width: bounds.width).enumerated() {
+            for column in 0..<count where row * count + column < subviews.count {
+                let leading = bounds.minX + CGFloat(column) * (width + spacing)
+                subviews[row * count + column].place(at: CGPoint(x: leading, y: top),
+                                                     proposal: ProposedViewSize(width: width, height: nil))
+            }
+            top += height + spacing
+        }
+    }
+
+    /// How many columns fit, and how wide each is.
+    private func columns(_ width: CGFloat) -> (count: Int, width: CGFloat) {
+        let count = max(1, Int((width + spacing) / (minimumWidth + spacing)))
+        return (count, (width - spacing * CGFloat(count - 1)) / CGFloat(count))
+    }
+
+    /// Each row's height, its tallest fact's at the column's width.
+    private func rowHeights(_ subviews: Subviews, width: CGFloat) -> [CGFloat] {
+        let (count, columnWidth) = columns(width)
+        let proposal = ProposedViewSize(width: columnWidth, height: nil)
+        return stride(from: 0, to: subviews.count, by: count).map { start in
+            subviews[start..<min(start + count, subviews.count)].map { $0.sizeThatFits(proposal).height }.max() ?? 0
         }
     }
 }

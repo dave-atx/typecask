@@ -12,7 +12,7 @@ struct SpecimenStyles: View {
 
     var body: some View {
         let styles = specimen.styles
-        SpecimenSection("Styles", detail: Text("\(styles.count) styles")) {
+        SpecimenSection("Styles", detail: Text("\(styles.count) styles"), identifier: "section.styles") {
             VStack(alignment: .leading, spacing: 14) {
                 ForEach(showsAll ? styles : Array(styles.prefix(Self.shown))) { style in
                     HStack {
@@ -29,7 +29,9 @@ struct SpecimenStyles: View {
                         Spacer(minLength: 8)
                         TryOutMark()
                     }
-                    .opensTryOut(TryOutStart(source: "style-\(style.id)", style: style.id))
+                    .opensTryOut(TryOutStart(source: "style-\(style.id)", style: style.id),
+                                 hint: Text("Opens Try It Out in this style."))
+                    .accessibilityIdentifier("specimenStyle.\(style.id)")
                 }
                 if styles.count > Self.shown {
                     Button(showsAll ? "Show Fewer Styles" : "Show All \(styles.count) Styles") {
@@ -73,7 +75,7 @@ struct SpecimenSetting: View {
     var body: some View {
         // Every passage is Latin, so a face for another script, which can't set them, leaves the section out.
         if TryOutText.draws(Self.paragraphs.joined(), specimen.covered) {
-            SpecimenSection("Setting") {
+            SpecimenSection("Setting", identifier: "section.setting") {
                 VStack(alignment: .leading, spacing: 24) {
                     ForEach(passages) { passage in
                         VStack(alignment: .leading, spacing: 6) {
@@ -81,6 +83,9 @@ struct SpecimenSetting: View {
                             Text("\(Text(passage.role)) · \(style) · \(Int(passage.size)) pt")
                                 .font(.caption)
                                 .foregroundStyle(Color(.captionText))
+                                // "pt" read aloud is a word; the size in points isn't.
+                                .accessibilityLabel(
+                                    Text("\(Text(passage.role)), \(style), \(Int(passage.size)) points"))
                             setting(passage)
                         }
                     }
@@ -183,10 +188,12 @@ struct SpecimenCharacters: View {
             }
         } header: {
             let total = specimen.characters.reduce(0) { $0 + $1.scalars.count }
-            SpecimenSection("Characters", detail: Text("\(total) characters")) {
+            SpecimenSection("Characters", detail: Text("\(total) characters"), identifier: "section.characters") {
                 if let scalar = selected ?? specimen.characters.first?.scalars.first {
                     inspector(scalar)
-                        .opensTryOut(TryOutStart(source: "character", insert: String(scalar)))
+                        .opensTryOut(TryOutStart(source: "character", insert: String(scalar)),
+                                     hint: Text("Opens Try It Out with this character."))
+                        .accessibilityIdentifier("characterDetail")
                 }
             }
             .padding(.bottom, 12)
@@ -261,7 +268,7 @@ struct SpecimenLanguages: View {
 
     var body: some View {
         if !names.isEmpty {
-            SpecimenSection("Languages", detail: Text("\(names.count) languages")) {
+            SpecimenSection("Languages", detail: Text("\(names.count) languages"), identifier: "section.languages") {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(names.joined(separator: " · "))
                         .font(.callout)
