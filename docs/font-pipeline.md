@@ -104,7 +104,25 @@ catalog marks such a cask `ligatures`, and a Latin one's sample ends with the se
 brackets, so its card and page show them.
 
 A Google family also takes its description, and its design style from Google's category, from its
-google/fonts metadata. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
+google/fonts metadata. The description is `DESCRIPTION.en_us.html`, or `article/ARTICLE.en_us.html` where
+that file is empty. A cask built from google/fonts that Google's metadata doesn't list, like Open Sans
+Hebrew, takes its description from the directory its source names, and `DESCRIPTION_DIRECTORIES` lends a family
+with no description of its own a sibling's, as Kumar One's covers Kumar One Outline.
+
+A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
+its original with the icons added, then the original's description where the catalog has that cask.
+It runs after every other description is in place, so describing an original describes its variants too.
+
+Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
+cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license
+sections, and `draft` has Claude Haiku summarize, through `claude -p` and Claude Code's sign-in, each into `scripts/descriptions.json`, which is reviewed by
+hand before it's committed. `draft` never replaces an entry already there, and a null description marks a
+cask with no usable English source. The catalog takes a drafted description only where google/fonts has
+none, so it costs no rebuild. The Monday fonts run drafts for any new cask after its build and builds
+again when it did, so the draft arrives in the fonts pull request for review; it needs the
+`CLAUDE_CODE_OAUTH_TOKEN` secret, from `claude setup-token`, and skips drafting without it. Either way the Checks workflow runs `scripts/descriptions.py check`, which fails
+while a shipped cask has neither a description nor an entry in `scripts/descriptions.json`, and the fonts
+pull request lists any such casks under Missing descriptions. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:

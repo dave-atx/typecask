@@ -1,0 +1,872 @@
+{
+  "font-0xproto": {
+    "description": "0xProto is a monospaced programming font focused on source code legibility, with letterforms designed to clearly differentiate similar-looking characters and open interior counters that stay readable at small sizes. Its Texture Healing feature slightly widens naturally wide characters such as m while keeping them within the monospace width, and it avoids ligatures that change the form or meaning of character sequences. An Italic family offers a script variant enabled through the ss01 feature.",
+    "sources": [
+      "https://github.com/0xType/0xProto"
+    ]
+  },
+  "font-3270": {
+    "description": "IBM 3270 is a typeface modeled on the characters of IBM 3270 series terminals, built to give terminal text a nostalgic look. It is derived from the x3270 bitmap font, which was translated from a font in Georgia Tech's 3270tool and hand-copied from a 3270 terminal. The font includes 3270-only symbols at the end of its character set, along with glyphs mapped to Unicode where counterparts exist.",
+    "sources": [
+      "https://github.com/rbanffy/3270font"
+    ]
+  },
+  "font-437-plus": {
+    "description": "Ac437 is a digital remake of a classic DOS-era text mode raster font from IBM PCs and compatibles.",
+    "sources": [
+      "https://int10h.org/oldschool-pc-fonts/"
+    ]
+  },
+  "font-adwaita": {
+    "description": null,
+    "sources": [
+      "https://gitlab.gnome.org/GNOME/adwaita-fonts"
+    ]
+  },
+  "font-agave": {
+    "description": "Agave is a fixed-width outline typeface family designed by type agaric, begun as an educational and experimental project. It aims to bring a geometrically regular and simple style to development environments and terminals. Its variants include a slashed zero and bulged parentheses, available in Regular and Bold weights.",
+    "sources": [
+      "https://github.com/blobject/agave"
+    ]
+  },
+  "font-anka-coder": {
+    "description": null,
+    "sources": [
+      "https://code.google.com/p/anka-coder-fonts/"
+    ]
+  },
+  "font-annotation-mono": {
+    "description": "Annotation Mono is a handwriting-style monospace typeface whose idealized letterforms are inspired by monospace bitmap fonts, maximizing legibility while retaining a hand-written character. It has variable weight, slant, and cursive axes, and it is intended for code as well as labels, headings, and comic lettering. Its default italics use loopy cursive forms, and a less loopy alternative is available through stylistic set ss02.",
+    "sources": [
+      "https://github.com/qwerasd205/AnnotationMono",
+      "https://qwerasd205.github.io/AnnotationMono/"
+    ]
+  },
+  "font-aporetic": {
+    "description": "Aporetic is a customised build of the Iosevka typeface with a consistent rounded style, created by Protesilaos Stavrou as the successor to his Iosevka Comfy. It has overrides for almost all individual glyphs in both upright (roman) and slanted (italic) variants. The design optimises for consistency between glyphs and styles while remaining usable at small point sizes, with mostly round shapes chosen to keep characters distinct, and the italics are made slightly sturdier by reducing roundness so they do not feel more rounded than the upright.",
+    "sources": [
+      "https://github.com/protesilaos/aporetic"
+    ]
+  },
+  "font-ark-pixel-10px-monospaced": {
+    "description": "Ark Pixel 10px Monospaced is a black-gothic (sans-serif) pixel typeface covering pan-Latin and pan-CJK characters, from the Ark Pixel project by TakWolf. In monospaced mode, each half-width or full-width character has a fixed advance and stays within the em box, so characters align strictly on a grid. That fixed grid limits the design space, so some complex glyphs cannot be drawn clearly, the character set is relatively small, and the baseline sits slightly high.",
+    "sources": [
+      "https://github.com/TakWolf/ark-pixel-font"
+    ]
+  },
+  "font-ark-pixel-12px-monospaced": {
+    "description": "Ark Pixel 12px Monospaced is a sans-serif pixel typeface by TakWolf that covers pan-Latin and pan-CJK characters. In this monospaced variant, every character is fixed to half or full width, and glyphs and line height stay within the em box so they align strictly at 12 pixels. The fixed grid limits the design space, so this variant supports fewer characters, some complex forms are less clear, and the baseline sits slightly high.",
+    "sources": [
+      "https://github.com/TakWolf/ark-pixel-font"
+    ]
+  },
+  "font-ark-pixel-12px-proportional": {
+    "description": "Ark Pixel 12px Proportional is a sans-serif pixel typeface in the heiti style, covering Latin and CJK characters, and designed by TakWolf. Its proportional mode assigns each glyph a width based on its actual shape, giving more natural letter spacing and kerning than the fixed-width monospaced variant. The family offers language-specific glyph versions for Latin, Simplified and Traditional Chinese, Japanese, and Korean.",
+    "sources": [
+      "https://github.com/TakWolf/ark-pixel-font"
+    ]
+  },
+  "font-awesome-terminal-fonts": {
+    "description": "Awesome Terminal Fonts is a collection of symbol fonts meant to be used alongside a monospace font in a terminal, adding icons for prompts and status lines. It bundles Font Awesome, Devicons, Octicons, and Pomicons symbol fonts, and it provides font maps that let scripts refer to glyphs by name rather than by codepoint. The project was heavily inspired by a patch script from Kim Silkebækken and is maintained by Gabriele Lana.",
+    "sources": [
+      "https://github.com/gabrielelana/awesome-terminal-fonts"
+    ]
+  },
+  "font-bitstream-vera": {
+    "description": "Bitstream Vera is a family of sans and serif typefaces with monospace variants, released by Bitstream and distributed through the GNOME Foundation. The sans and monospace faces come in normal, oblique, bold, and bold oblique styles, while the serif faces come in normal and bold. Jim Lyles redesigned the accents of the family to tighten its line spacing to match other fonts, and the release was intended to be used as default system fonts in fontconfig-based desktops.",
+    "sources": [
+      "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/"
+    ]
+  },
+  "font-blackout": {
+    "description": "Blackout is a solid, reversed, and stroked sans-serif display typeface designed by Tyler Finck and published by The League of Moveable Type. It was inspired by the filled-in sans-serif headlines of newspapers and comes in three styles: Midnight (solid), 2AM (reversed), and Sunrise (stroked).",
+    "sources": [
+      "https://github.com/theleagueof/blackout",
+      "https://www.theleagueofmoveabletype.com/blackout"
+    ]
+  },
+  "font-brass-mono": {
+    "description": "Brass Mono is a retro monospaced typeface inspired by 20th century electrical and mechanical design, such as typewritten service manuals, stamped electrical components, molded steel, and concrete. The font was built by tracing and modifying other typefaces, and it comes in two versions: Brass Mono, without ligatures, and Brass Mono Code, which adds code ligatures.",
+    "sources": [
+      "https://github.com/fonsecapeter/brass_mono"
+    ]
+  },
+  "font-charis": {
+    "description": "Charis is a Unicode-based, extended Latin font family from SIL that also supports Cyrillic script, covering the many languages that use these scripts. It was designed to make long texts pleasant and easy to read, even in less than ideal reproduction and display conditions, and it has an extended Latin inventory of letter variants with hooks, diacritics, or 180° rotations that act as separate letters. The family also includes alternate letterforms for certain language communities and OpenType features suited to multilingual publishing.",
+    "sources": [
+      "https://software.sil.org/charis/"
+    ]
+  },
+  "font-chunk": {
+    "description": "Chunk is an ultra-bold slab serif typeface designed by Meredith Mandel and published by The League of Moveable Type. It is reminiscent of old American Western woodcuts, broadsides, and newspaper headlines, with fat block lettering intended mainly for display use. A textured companion, Chunk Five Print, was created by Tyler Finck in 2014 and contains the same glyphs as the original.",
+    "sources": [
+      "https://github.com/theleagueof/chunk",
+      "https://www.theleagueofmoveabletype.com/chunk"
+    ]
+  },
+  "font-cica": {
+    "description": "Cica is a monospaced Japanese typeface for programming, composed from Hack and DejaVu Sans Mono for Latin letters, numerals, and symbols, Rounded Mgen+ for other characters, and Nerd Fonts, Noto Emoji, and Icons for Devs glyphs, with adjustments forked from the Ricty generator. Its distinctive letterform detail is a shortened middle bar on the lowercase m, which makes it easier to tell apart from \"rn.\" The design also considers the legibility of subscript and superscript characters, with JuliaLang use in mind.",
+    "sources": [
+      "https://github.com/miiton/Cica"
+    ]
+  },
+  "font-comic-mono": {
+    "description": "Comic Mono is a legible monospace typeface that carries the look of the comic-style lettering many readers know from childhood. It is a fork of Comic Shanns with all glyphs set to the same width and vertical metrics.",
+    "sources": [
+      "https://github.com/dtinth/comic-mono-font",
+      "https://dtinth.github.io/comic-mono-font/"
+    ]
+  },
+  "font-comic-shanns-mono": {
+    "description": "Comic Shanns Mono is a monospaced typeface inspired by Comic Sans, created for users who want that informal handwritten look in terminals and code editors. It includes extended glyph coverage beyond basic Latin, with diacritics, math symbols, box drawing characters, and Braille patterns that are commonly used for terminal progress indicators.",
+    "sources": [
+      "https://github.com/jesusmgg/comic-shanns-mono"
+    ]
+  },
+  "font-commit-mono": {
+    "description": "Commit Mono is an anonymous, neutral programming typeface by Eigil Nikolajsen, created to give a better reading experience for code. Its ASCII characters were sculpted with particular precision, and it includes a Smart Kerning option that adjusts the spacing of letters between characters of different widths to improve word spacing and make sublexical units easier to distinguish. The font also offers optional ligatures and alternate characters, which are off by default.",
+    "sources": [
+      "https://github.com/eigilnikolajsen/commit-mono",
+      "https://commitmono.com/"
+    ]
+  },
+  "font-computer-modern": {
+    "description": "Computer Modern Unicode is a family of fonts converted from Metafont sources using mftrace with an autotrace backend and FontForge. It was made to provide good-quality fonts for X applications that support many languages, and its glyphs cover Latin-1, Cyrillic, Greek, and IPA extensions. The fonts are intended to be used with antialiasing enabled.",
+    "sources": [
+      "https://cm-unicode.sourceforge.io/"
+    ]
+  },
+  "font-cooper-hewitt": {
+    "description": "Cooper Hewitt is a contemporary sans serif typeface by Chester Jenkins, commissioned through Pentagram to give the Cooper Hewitt, Smithsonian Design Museum a new digital form. Its characters are built from modified-geometric curves and arches. Jenkins drew it from scratch, using the earlier Polaris Condensed typeface only as a rough guide for letter widths and master-stroke thicknesses.",
+    "sources": [
+      "https://www.cooperhewitt.org/open-source-at-cooper-hewitt/cooper-hewitt-the-typeface-by-chester-jenkins/"
+    ]
+  },
+  "font-courier-prime-sans": {
+    "description": "Courier Prime Sans is a sans-serif member of the Courier Prime family, offering the character of Courier without its serifs. It was made as a brand-new editing typeface meant to be sharp on screen and easy on the eyes. Courier Prime, the family it belongs to, was designed by Alan Dague-Greene for John August and Quote-Unquote Apps.",
+    "sources": [
+      "https://quoteunquoteapps.com/courierprime/#code-sans"
+    ]
+  },
+  "font-cozette": {
+    "description": "Cozette is a 6x13 pixel bitmap programming font, based on Dina and inspired by Creep, that was designed to be small without being tiny. It is intended to cover the glyphs commonly encountered in terminal tools, including Powerline, box-drawing, Braille, Cyrillic, IPA, APL, and Uiua glyphs. It is distributed in bitmap formats and a vector version.",
+    "sources": [
+      "https://github.com/slavfox/Cozette"
+    ]
+  },
+  "font-d2coding": {
+    "description": "D2 Coding is a monospaced typeface for programming, drawn for NAVER by FONTRIX in 2015 and based on Nanum Barun Gothic. Latin letters, digits, similar-looking Hangul, and punctuation that are easy to confuse in code were reworked to stay distinguishable, and the Latin design is kept in harmony with the Hangul. Hangul syllables and ideographs are full width, exactly twice the advance of a Latin character, and an optional dotted zero can replace the default slashed zero through the cv01 feature.",
+    "sources": [
+      "https://github.com/naver/d2codingfont"
+    ]
+  },
+  "font-dejavu": {
+    "description": "DejaVu is a font family based on the Bitstream Vera Fonts, created to cover a wider range of characters while keeping the original look and feel. The fonts are maintained by a group of contributors, listed on the project page as ben_laenen, dsegan, moyogo, ogi, and src.",
+    "sources": [
+      "https://sourceforge.net/projects/dejavu/"
+    ]
+  },
+  "font-departure-mono": {
+    "description": "Departure Mono is a monospaced pixel typeface with a lo-fi, technical look. It draws on the constraints of early command-line and graphical user interfaces, the tiny pixel fonts of the late 1990s and early 2000s, and science fiction concepts from film and television.",
+    "sources": [
+      "https://github.com/rektdeckard/departure-mono"
+    ]
+  },
+  "font-dinish": {
+    "description": "DINish is a sans-serif typeface inspired by the lettering of German Autobahn road signs and the DIN 1451 standard from 1931, drawn with the human reader in mind rather than a rigid technical-drawing grid. It is offered in standard, Condensed, and Expanded widths, with a variable font covering a range of weights and widths, and it includes old style and tabular numerals as well as language-specific forms for Polish, Romanian, Dutch, and Bulgarian.",
+    "sources": [
+      "https://github.com/playbeing/dinish"
+    ]
+  },
+  "font-doulos-sil": {
+    "description": "Doulos SIL is a Unicode-based serif font family from SIL that supports the Latin and Cyrillic scripts, along with the complete International Phonetic Alphabet. It is essentially the same design as the original SIL Doulos released in 1992, scaled down to better match contemporary digital fonts such as Times New Roman. It includes OpenType features such as careful diacritic positioning and small caps, and is intended for linguists and literacy work.",
+    "sources": [
+      "https://software.sil.org/doulos/"
+    ]
+  },
+  "font-et-book": {
+    "description": "ET Book is a Bembo-like serif webfont based on the typeface used in Edward Tufte's books, designed by Dmitry Krasny, Bonnie Scranton, and Edward Tufte and converted to the web by Adam Schwartz. It was made as a computer version of Monotype Bembo, which became thin and spindly when converted to digital type, and it includes design changes such as ligatures, revised letterforms, and a semibold weight. The family includes roman, semi-bold, bold, and display italic styles, with both lining and oldstyle figures.",
+    "sources": [
+      "https://github.com/edwardtufte/et-book",
+      "https://edwardtufte.github.io/et-book/"
+    ]
+  },
+  "font-fairfax-hd": {
+    "description": "Fairfax HD is a halfwidth scalable monospace typeface from Kreative Software, designed for terminals, text editors, and IDEs. It supports many scripts, a large number of Unicode blocks, constructed scripts encoded in the Under-ConScript Unicode Registry, pseudographics, semigraphics, and many private use characters. It includes variants with transcription features for sitelen pona and titi pula, programming ligatures, and a version for software that judges monospacing by advance widths.",
+    "sources": [
+      "https://github.com/kreativekorp/open-relay",
+      "https://www.kreativekorp.com/software/fonts/fairfaxhd/"
+    ]
+  },
+  "font-fantasque-sans-mono": {
+    "description": "Fantasque Sans Mono is a programming typeface designed by Jany Belluz, with functionality in mind and wibbly-wobbly, handwriting-like fuzziness in its letterforms. Its design is said to draw on Inconsolata and Monaco, with some resemblance to Consolas, and it includes a bold version and a noticeably designed italic. An optional stylistic set, ss01, replaces the looped lowercase k with a straight form.",
+    "sources": [
+      "https://github.com/belluzj/fantasque-sans"
+    ]
+  },
+  "font-firago": {
+    "description": "FiraGO is a typeface family offered in Roman and Italic styles, with weights ranging from Two to Heavy. It was established as a new family name, separate from Fira Sans, and its design is credited to Carrois Corporate GbR and bBox Type GmbH. Weights below Thin use fractional coordinates, which the designers describe as an optical decision.",
+    "sources": [
+      "https://github.com/bBoxType/FiraGO"
+    ]
+  },
+  "font-firge": {
+    "description": "Firge is a programming font that combines Fira Mono and Genshin Gothic (源真ゴシック). It uses Fira Mono letterforms for ASCII alphanumerics and symbols, and Genshin Gothic for other symbols, kana, and kanji, with a 1:2 half-width to full-width ratio. The family also includes Console variants that prioritize Fira Mono glyphs so many symbols such as arrows display at half width, and Firge35 variants that use a 3:5 width ratio for larger alphanumerics.",
+    "sources": [
+      "https://github.com/yuru7/Firge"
+    ]
+  },
+  "font-geist-serif": {
+    "description": "Geist Serif is a high-contrast display serif created by Evil Rabbit in collaboration with Andrés Briganti and Mark Davis, as part of the Geist family from Vercel. It has fine, saw-toothed serifs and sharp hairlines, and its Regular and Square variants are suited to primary typography, while Triangle and Heart offer more decorative alternatives.",
+    "sources": [
+      "https://github.com/vercel/geist-font",
+      "https://vercel.com/font"
+    ]
+  },
+  "font-gentium": {
+    "description": "Gentium is a typeface family for Latin, Cyrillic, and Greek scripts, intended to support the writing systems of the many ethnic groups and nations that use them. Its design is highly readable and slightly calligraphic, with generous counters, modest and slightly compressed capitals, and careful letterspacing. The family supports almost the complete range of Unicode characters for these scripts, including extensive diacritics, linguistic symbols, monotonic and polytonic Greek, and smart diacritic positioning.",
+    "sources": [
+      "https://github.com/silnrsi/font-gentium",
+      "https://software.sil.org/gentium/"
+    ]
+  },
+  "font-gentium-book": {
+    "description": "Gentium Book is a serif typeface from the Gentium family, created to support the Latin, Cyrillic, and Greek scripts for readable, high-quality publications for diverse language communities. The design is intended to be highly readable and reasonably compact, with generous counters, modest and slightly compressed capitals, and a friendly, calligraphic character. The family, distributed by SIL International, supports almost the complete range of Unicode characters for these scripts, including extensive diacritics and symbols for linguistics and literacy work.",
+    "sources": [
+      "https://github.com/silnrsi/font-gentium",
+      "https://software.sil.org/gentium/"
+    ]
+  },
+  "font-gnu-unifont": {
+    "description": "GNU Unifont is a Unicode-based, dual-width monochrome font with glyphs on a grid of 8 or 16 pixels wide by 16 pixels tall. It was designed to render a meaningful glyph for every printable code point in the Unicode Basic Multilingual Plane rather than a blank box for missing characters, and it also covers parts of the Supplementary Multilingual Plane, including ConScript Unicode Registry and Under-CSUR symbols. The font is part of the GNU Project and was built through contributions from many volunteers.",
+    "sources": [
+      "https://unifoundry.com/unifont.html"
+    ]
+  },
+  "font-hack": {
+    "description": "Hack is a monospaced typeface designed as a workhorse for source code, with a large x-height, wide apertures, and low contrast for legibility at common code text sizes of roughly 8 to 14. It draws on the Bitstream Vera and DejaVu projects and has been redesigned with an expanded glyph set, Powerline glyphs included in the regular style, and a regular, bold, italic, and bold italic family. Distinctive details include an oval-filled zero, serifs on narrow characters such as lowercase l and the number 1, and semi-bold punctuation.",
+    "sources": [
+      "https://github.com/source-foundry/Hack",
+      "https://sourcefoundry.org/hack/"
+    ]
+  },
+  "font-hackgen": {
+    "description": "HackGen is a monospaced programming typeface created as a composite of Hack, which supplies the Latin letters and digits, and GenJyuu Gothic, a derivative of Source Han Sans (Source Han Sans / Noto Sans CJK) that supplies the kana and kanji. The font uses a half-width to full-width ratio of 1:2, with a 3:5 variant also provided, and includes visible full-width spaces, broken-line pipe glyphs, and accents on the long vowel mark and the katakana ヘ to aid readability.",
+    "sources": [
+      "https://github.com/yuru7/HackGen"
+    ]
+  },
+  "font-hasklig": {
+    "description": "Hasklig is a monospaced programming font that adds ligatures for common multi-character operators used in code, such as arrows (-&gt;, =&gt;), monadic binds (&gt;&gt;=), and other Haskell operators. Built on Source Code Pro, it was made so that these combined symbols render as single, well-proportioned glyphs while the underlying source text stays unchanged, and it also corrects some monospaced spacing issues. The font was developed by i-tu.",
+    "sources": [
+      "https://github.com/i-tu/Hasklig"
+    ]
+  },
+  "font-hermit": {
+    "description": "Hermit is a monospace typeface created by Pablo J. Caro Martín for programming and terminal use, with every glyph planned according to defined principles and rules to make it coherent and regular. Its symbols, dots, commas, and operators are designed to stand out and to be easily distinguished from similar characters, and it includes Regular, Bold, and Light weights with italics for each, along with integrated Powerline symbols. The font is intended to be clear at sizes 8 and up and covers much of the Latin character set.",
+    "sources": [
+      "https://pcaro.es/hermit/"
+    ]
+  },
+  "font-ia-writer-duo": {
+    "description": "iA Writer Duo is a typeface from iA, bundled with the iA Writer text editor on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex and belongs to the iA Writer Mono, Duo, and Quattro family, which the iA Writer team describes in articles on Duospace.",
+    "sources": [
+      "https://github.com/iaolo/iA-Fonts"
+    ]
+  },
+  "font-ia-writer-mono": {
+    "description": "iA Writer Mono is a monospaced typeface from iA, the makers of the iA Writer text editor, and it is bundled with iA Writer on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex. The iA team has published background articles on its design as part of the Mono, Duo, and Quattro family, which is built on Duospace.",
+    "sources": [
+      "https://github.com/iaolo/iA-Fonts"
+    ]
+  },
+  "font-ia-writer-quattro": {
+    "description": "iA Writer Quattro is one of the iA Writer typefaces, bundled with the iA Writer text editor on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex, and the iA Writer team published an article about its design alongside the Mono and Duo fonts.",
+    "sources": [
+      "https://github.com/iaolo/iA-Fonts"
+    ]
+  },
+  "font-ibm-plex-math": {
+    "description": "IBM Plex Math is a mathematical typeface from IBM, part of the IBM Plex family, and it adds over 5,000 glyphs covering alphanumeric, double-struck, Fraktur, operator, script, icon, arrow, Greek, phonetic, technical, and geometric shape characters. It is designed to pair with IBM Plex Serif Regular and is presented as a comprehensive alternative to STIX and Microsoft's Cambria.",
+    "sources": [
+      "https://github.com/IBM/plex"
+    ]
+  },
+  "font-ibm-plex-sans-sc": {
+    "description": "IBM Plex Sans SC is the sans-serif member of the IBM Plex family, a corporate typeface that IBM designed to meet its needs as a global technology company. The family was designed to work well in user interface environments and other media, and it includes Roman and true italic styles.",
+    "sources": [
+      "https://github.com/IBM/plex"
+    ]
+  },
+  "font-ibm-plex-sans-tc": {
+    "description": "IBM Plex Sans TC is the Traditional Chinese member of the IBM Plex Sans family, a corporate typeface family designed by IBM for global use. The family was designed to work well in user interface environments and other media, and its Sans styles support Chinese (Traditional) alongside Latin, Arabic, Cyrillic, Greek, Japanese, Korean, and other scripts.",
+    "sources": [
+      "https://github.com/IBM/plex"
+    ]
+  },
+  "font-inconsolata-lgc": {
+    "description": "Inconsolata LGC is a monospaced programming typeface and a modified version of Inconsolata by Raph Levien, extended with Cyrillic glyphs, italic and bold styles, and Greek glyphs inherited from Inconsolata Hellenic. It adds regional letterforms through the OpenType locl feature for languages such as Polish, Romanian, Bulgarian, and Serbian, along with alternates like a dotted or slashed zero and a reversed-sigma Ezh.",
+    "sources": [
+      "https://github.com/MihailJP/Inconsolata-LGC"
+    ]
+  },
+  "font-ioskeley-mono": {
+    "description": "Ioskeley Mono is a compact, geometric monospaced programming typeface built on Iosevka and designed for long sessions in editors and terminals. It comes in ten weights, Normal and SemiCondensed widths, and upright and italic styles, with a Term variant tuned for terminal cells and an NL variant without programming ligatures. Its letterforms include a single-storey g, a dotted zero, and open 6 and 9 glyphs, with programming punctuation that stays distinct at small sizes.",
+    "sources": [
+      "https://github.com/ahatem/IoskeleyMono"
+    ]
+  },
+  "font-ipaexfont": {
+    "description": "IPAex is a pair of Japanese typefaces, IPAex Mincho and IPAex Gothic, published by the Information-technology Promotion Agency (IPA) of Japan for Japanese document creation. Kana and kanji are set at a fixed width while Latin characters use proportional widths, and the glyph forms follow the reference forms of JIS X 0213:2004, so some characters differ from those in fonts based on JIS X 0208:1997, such as 辻 and 葛.",
+    "sources": [
+      "https://moji.or.jp/ipafont/"
+    ]
+  },
+  "font-ipafont": {
+    "description": "IPA Fonts is a family of Japanese typefaces published by the Information-technology Promotion Agency (IPA) of Japan, through the Character Information Technology Promotion Council. The IPAex series, comprising IPAex Mincho and IPAex Gothic, was designed as a standard implementation for document-use Japanese fonts, with fixed-width kana and kanji and proportional-width Latin characters. The glyph shapes of the IPAex and later IPA fonts follow the exemplary forms of JIS X 0213:2004, so some characters, such as 辻 and 葛, differ from those in JIS X 0208:1997-based fonts.",
+    "sources": [
+      "https://moji.or.jp/ipafont/"
+    ]
+  },
+  "font-jf-open-huninn": {
+    "description": "Huninn is a Traditional Chinese rounded typeface developed by justfont, based on the Japanese Kosugi Maru font with its Latin characters replaced by Varela Round by Joe Prince and Avraham Cornfeld. It was reworked to even out uneven stroke weights and to center punctuation to suit Taiwanese typesetting conventions. The character set adds commonly used Taiwanese characters, Zhuyin (Bopomofo) symbols, and Taigi and Hokkien phonetic symbols and characters.",
+    "sources": [
+      "https://github.com/justfont/open-huninn-font",
+      "https://justfont.com/huninn/"
+    ]
+  },
+  "font-juliamono": {
+    "description": "JuliaMono is a monospaced typeface designed for programming and other text editing environments that need a wide range of specialist and technical Unicode characters. It was presented at the 2020 JuliaCon conference and covers mathematical scripts, blackboard and calligraphic letters, box drawing, arrows, Braille, and many other Unicode areas. It comes in multiple weights, each with a matching italic, and all of them share the same character width.",
+    "sources": [
+      "https://github.com/cormullion/juliamono",
+      "https://juliamono.netlify.app/"
+    ]
+  },
+  "font-junction": {
+    "description": "Junction is a humanist sans-serif designed by Caroline Hadilaksono and Tyler Finck for The League of Moveable Type. It was updated in 2014 to add light and bold weights alongside the regular, and to expand its international support. The family supports 81 languages and includes OpenType features such as access to all alternates, standard ligatures, and lining figures.",
+    "sources": [
+      "https://github.com/theleagueof/junction",
+      "https://www.theleagueofmoveabletype.com/junction"
+    ]
+  },
+  "font-junicode": {
+    "description": "Junicode is a typeface for medievalists, linguists, and scholars in many academic disciplines, designed to comply with the Medieval Unicode Font Initiative recommendation.",
+    "sources": [
+      "https://github.com/psb1558/Junicode-font"
+    ]
+  },
+  "font-kawkab-mono": {
+    "description": "Kawkab Mono is a monospaced Arabic typeface designed for code, text editing, and any setting where a fixed-pitch font is needed, such as composing tabular data with text. It was created to fill a gap in the small number of monospaced Arabic fonts available.",
+    "sources": [
+      "https://github.com/aiaf/kawkab-mono"
+    ]
+  },
+  "font-latin-modern-math": {
+    "description": "Latin Modern Math is a math typeface that completes the modernization of the Computer Modern family designed and programmed by Donald E. Knuth. It was made to supply the math fonts that were a main reason for Computer Modern's widespread use, and it works with the Latin Modern text fonts to form a full descendant of Computer Modern. The font is published by GUST, the Polish TeX users group, through its e-foundry.",
+    "sources": [
+      "https://www.gust.org.pl/projects/e-foundry/lm-math"
+    ]
+  },
+  "font-league-mono": {
+    "description": "League Mono is a monospace variable font designed by Tyler Finck and published by The League of Moveable Type. It is a mashup of forms inspired by Fira Mono, Libertinus Mono, and Courier, and it is available as a variable font with weight and width axes as well as static styles from Thin to ExtraBold. The font supports several OpenType stylistic alternates and sets.",
+    "sources": [
+      "https://github.com/theleagueof/league-mono",
+      "https://www.theleagueofmoveabletype.com/league-mono"
+    ]
+  },
+  "font-lexica-ultralegible": {
+    "description": "Lexica Ultralegible is a four-style sans-serif typeface (regular, italic, bold, and bold italic) built on the foundation of Atkinson Hyperlegible, designed for low-vision readers and aimed at legibility and readability. It adds extra glyphs for 102 languages, standard ligatures, an alternative flipped zero, and distinctive letterforms such as differentiated B and 8, 1, L, l, and I, along with angled spurs, opened counterspaces, and circular details that reference Braille dots.",
+    "sources": [
+      "https://github.com/jacobxperez/lexica-ultralegible",
+      "https://jacobxperez.github.io/lexica-ultralegible/"
+    ]
+  },
+  "font-liberation": {
+    "description": "Liberation is a collection of sans-serif, serif, and monospaced typefaces designed to provide document layout compatibility with Times New Roman, Arial, and Courier New. Its fonts are intended to be substituted for those three typefaces so that documents keep their layout when set in Liberation.",
+    "sources": [
+      "https://github.com/liberationfonts/liberation-fonts"
+    ]
+  },
+  "font-libertinus": {
+    "description": "Libertinus is a family of serif, sans-serif, monospace, math, and special-use typefaces, originally forked from Linux Libertine and Linux Biolinum. The Serif family covers Regular, Semibold, and Bold weights in Regular and Italic styles, and the Sans family covers Regular, Bold, and Italic. The project grew into a full fork that addresses many bugs in the Libertine fonts, and it is maintained by Caleb Maclennan after Khaled Hosny led it from 2012 to 2020.",
+    "sources": [
+      "https://github.com/alerque/libertinus"
+    ]
+  },
+  "font-libron": {
+    "description": "Libron is a serif reading typeface by Nico Verbruggen, a modified version of Readerly that is itself based on Newsreader. Verbruggen edited the design in FontForge to give it a calmer, more neutral look for long-form reading, especially on e-readers, by redrawing serifs, capitals, figures, and punctuation across all four styles. The family also includes synthetic small caps, made by scaling down the capitals.",
+    "sources": [
+      "https://github.com/nicoverbruggen/libron",
+      "https://nicoverbruggen.be/fonts"
+    ]
+  },
+  "font-liga-comic-mono": {
+    "description": "Liga Comic Mono is a comic-style monospaced typeface with programming ligatures. It is based on Comic Mono and was ligaturized using the Ligaturizer tool.",
+    "sources": [
+      "https://github.com/wayou/comic-mono-font"
+    ]
+  },
+  "font-linux-biolinum": {
+    "description": "Linux Biolinum is a libre multilingual sans-serif typeface from the Libertine Fonts family, which covers Western Latin, Greek, Cyrillic, Hebrew, and IPA scripts. It offers OpenType features such as small capitals, ligatures, several numeral sets, and superior and inferior figures, and it was designed as a professional alternative to standard Windows and Macintosh fonts like Arial and Times.",
+    "sources": [
+      "https://libertine-fonts.org/"
+    ]
+  },
+  "font-linux-libertine": {
+    "description": "Linux Libertine is a libre multilingual font family covering Western Latin, Greek, Cyrillic, Hebrew, and IPA, among many other character sets. Its design includes true small capitals, ligatures such as historic ſi and tz forms, several numeral sets, and marked zeros, along with a short-necked f that avoids collisions with following characters. It also provides optimized superior and inferior glyphs, which are adjusted to match the optical weight of the regular letterforms.",
+    "sources": [
+      "https://libertine-fonts.org/"
+    ]
+  },
+  "font-luciole": {
+    "description": "Luciole is a typeface developed explicitly for visually impaired readers through a two-year collaboration between the Regional Technical Center for Visual Impairment and the type-design studio typographies.fr. Its letterforms, word spacing, and figures, mathematical signs, and punctuation were drawn with a dozen specific design criteria to support reading for people with visual impairment. Each style contains over seven hundred characters and covers almost all European languages, along with Greek and mathematical symbols; the typeface was designed by Laurent Bourcellier and Daniel Flipo.",
+    "sources": [
+      "https://luciole-vision.com/en/"
+    ]
+  },
+  "font-lxgw-neoxihei": {
+    "description": "LXGW Neo XiHei is a Simplified Chinese sans-serif typeface derived from IPAex Gothic, reworked to follow mainland China's standard glyph forms rather than Japanese conventions. Its Latin, Greek, and Cyrillic letters were redrawn to share a consistent style, and it adds support for Vietnamese Latin letters, along with simplified stroke terminals on certain components. The font also includes symbols such as I Ching trigrams and hexagrams, mahjong and Chinese chess symbols, and counting rod numerals.",
+    "sources": [
+      "https://github.com/lxgw/LxgwNeoXiHei"
+    ]
+  },
+  "font-lxgw-neozhisong": {
+    "description": "LXGW Neo ZhiSong is a Chinese Song-style serif typeface derived from IPAex Mincho and IPAmj Mincho by Japan's Information-technology Promotion Agency (IPA), reshaped from Japanese writing conventions into mainland Chinese standard letterforms. It also includes redrawn Greek and Cyrillic letters that match its Latin style, along with support for Vietnamese Latin letters. The font adds symbols such as I Ching trigrams and hexagrams, Mahjong tiles, Chinese chess pieces, and counting-rod numerals.",
+    "sources": [
+      "https://github.com/lxgw/LxgwNeoZhiSong"
+    ]
+  },
+  "font-lxgw-wenkai": {
+    "description": "LXGW WenKai (霞鹜文楷) is an open-source Chinese kaishu-style typeface derived from Fontworks' Klee One, with its Chinese characters filled in by the designer Lxgw to support Simplified and Traditional Chinese. It has a Japanese textbook look that blends elements of Fangsong and Kaiti, and it uses the SemiBold weight of Klee One as its Regular weight for easier reading. The font is well suited to poetry and shorter passages, and it supports Unicode variation sequences for punctuation width and stroke forms.",
+    "sources": [
+      "https://github.com/lxgw/LxgwWenKai"
+    ]
+  },
+  "font-maple-mono": {
+    "description": "Maple Mono is a monospace typeface designed to smooth the coding experience, with rounded corners and a variable font format offering infinite weights. Its distinctive features include brand-new glyphs for @, $, %, &, Q, and ->, cursive-style italics for f, i, j, k, l, x, and y, and a large set of smart ligatures. The family also includes built-in Nerd Font icons and a Chinese, Japanese, and Traditional Chinese variant that uses a 2:1 width ratio with Latin text.",
+    "sources": [
+      "https://github.com/subframe7536/Maple-font",
+      "https://font.subf.dev/en/"
+    ]
+  },
+  "font-maple-mono-cn": {
+    "description": "Maple Mono CN is a monospace typeface for coding, based on Resource Han Rounded, with character coverage for Simplified Chinese, Traditional Chinese, and Japanese alongside its Latin glyphs. It is built so Chinese and English characters keep a 2:1 width ratio, which keeps mixed text such as multilingual displays and Markdown tables neatly aligned, though its Chinese character spacing is wider than in many other Chinese fonts.",
+    "sources": [
+      "https://github.com/subframe7536/Maple-font",
+      "https://font.subf.dev/en/"
+    ]
+  },
+  "font-maple-mono-nl": {
+    "description": "Maple Mono NL is a monospace typeface designed for programmers, and it is the version of the Maple Mono family without programming ligatures. It has rounded corners, a cursive-style italic, and a slashed zero by default instead of a dotted one. The family is available as a variable font with infinite weights and offers Nerd Font icons for terminal use.",
+    "sources": [
+      "https://github.com/subframe7536/Maple-font",
+      "https://font.subf.dev/en/"
+    ]
+  },
+  "font-maple-mono-normal": {
+    "description": "Maple Mono Normal is a monospace typeface by subframe7536 that smooths the coding experience with rounded corners and a cursive-style italic. It is the preset version of Maple Mono that resets the more unusual glyphs to a style similar to JetBrains Mono, including a slashed zero, while keeping the ligatures.",
+    "sources": [
+      "https://github.com/subframe7536/Maple-font",
+      "https://font.subf.dev/en/"
+    ]
+  },
+  "font-maple-mono-normal-nl": {
+    "description": "Maple Mono Normal NL is a monospace typeface by Fan Zheng (subframe7536), built for programmers and designed to smooth the coding experience. It is a preset of the Maple Mono family that resets its more unusual glyphs to a style closer to JetBrains Mono, with a slashed zero, and it omits programming ligatures.",
+    "sources": [
+      "https://github.com/subframe7536/Maple-font",
+      "https://font.subf.dev/en/"
+    ]
+  },
+  "font-metropolis": {
+    "description": "Metropolis is a modern geometric sans-serif typeface by Chris Simpson. It was designed for readability at small point sizes and is influenced by geometric, minimalist sans-serif typefaces of the new millennium. The family includes italics and covers 43 languages, mostly in Latin-script.",
+    "sources": [
+      "https://www.1001fonts.com/metropolis-font.html"
+    ]
+  },
+  "font-migu-1m": {
+    "description": "Migu 1M is a monospaced Japanese typeface by itouhiro that combines M+ and IPA Gothic and modifies them to make characters easier to tell apart. Its enlarged semi-voiced marks (handakuten) can be distinguished from voiced marks (dakuten), and its zeros, both half-width and full-width, carry a slash to set them apart from the letter O. The font is also used in the composition of the Rictyfont.",
+    "sources": [
+      "https://github.com/itouhiro/mixfont-mplus-ipa",
+      "https://itouhiro.github.io/mixfont-mplus-ipa/migu/"
+    ]
+  },
+  "font-miracode": {
+    "description": "Miracode is a monospaced typeface derived from Monocraft, which is itself based on the typeface used in the Minecraft user interface. Its more than 1,500 glyphs were redesigned to work in a monospaced setting, with thin characters such as \"i\" and \"l\" given tails and serifs, and its pixel-based shapes are converted into angular lines and curves. The font also includes programming ligatures for arrows, comparison operators, and markers such as \"TODO:\" and \"NOTE:\".",
+    "sources": [
+      "https://github.com/IdreesInc/Miracode"
+    ]
+  },
+  "font-miriam-mono-clm": {
+    "description": "Miriam Mono CLM is a Hebrew typeface from the Culmus project, a collection of Hebrew fonts for X Windows and Unix-like systems. In release 0.140, the project added Hebrew romanization characters to Miriam Mono CLM, alongside Frank Ruehl CLM and Nachlieli CLM. ",
+    "sources": [
+      "https://culmus.sourceforge.io/"
+    ]
+  },
+  "font-monaspace": {
+    "description": "Monaspace is a monospaced type superfamily from GitHub Next, consisting of five variable-axis typefaces (Neon, Argon, Xenon, Radon, and Krypton) that are metrics-compatible and can be mixed for expressive code typography. Each family has a distinct voice, from neo-grotesque and humanist sans to slab serif, handwriting, and mechanical sans. Distinctive features include \"texture healing\" for monospaced fonts, coding ligatures organized into stylistic sets, and character variants such as alternate figures and asterisks.",
+    "sources": [
+      "https://github.com/githubnext/monaspace",
+      "https://monaspace.githubnext.com/"
+    ]
+  },
+  "font-monaspace-frozen": {
+    "description": "Monaspace Frozen is a monospaced typeface from the Monaspace superfamily, which GitHub Next developed and the Lettermatic team designed. It is a \"frozen\" TTF version in which all of the typographical features, or stylistic sets, are enabled by default, so it suits editors such as Xcode or IntelliJ IDEs that cannot configure stylistic sets or character variants. The superfamily is known for texture healing and coding ligatures.",
+    "sources": [
+      "https://github.com/githubnext/monaspace",
+      "https://monaspace.githubnext.com/"
+    ]
+  },
+  "font-monaspace-var": {
+    "description": "Monaspace Var is the variable edition of Monaspace, a monospaced type superfamily from GitHub Next, with type design credited to Lettermatic. The superfamily comprises five typefaces, Neon, Argon, Xenon, Radon, and Krypton, each with a distinct voice and metrics compatible with the others so they can be mixed. It was made for displaying code and includes texture healing, coding ligatures, and character variants such as alternate zeros and asterisks.",
+    "sources": [
+      "https://github.com/githubnext/monaspace",
+      "https://monaspace.githubnext.com/"
+    ]
+  },
+  "font-monocraft": {
+    "description": "Monocraft is a monospaced pixel typeface based on the typeface used in the Minecraft user interface, with each glyph redrawn for better readability and spacing. Thin characters such as \"i\" and \"l\" were reworked with tails and serifs to suit a monospaced layout. The font also includes programming ligatures for arrows and comparison operators, along with glyphs for the Minecraft enchantment table's standard galactic alphabet.",
+    "sources": [
+      "https://github.com/IdreesInc/Monocraft"
+    ]
+  },
+  "font-mononoki": {
+    "description": "Mononoki is a monospaced typeface by Matthias Tellen, created to support code formatting and code review. It is designed to stay legible when squashed into a grid of a few pixels while retaining enough detail for print and high-resolution displays, with each character drawn to be clearly distinguishable from similar-looking ones. An alternate stylistic set, selectable with ss01, adds a dotted zero.",
+    "sources": [
+      "https://github.com/madmalik/mononoki",
+      "https://madmalik.github.io/mononoki/"
+    ]
+  },
+  "font-moralerspace": {
+    "description": "Moralerspace is a programming typeface that combines the Latin and digit glyphs of GitHub's Monaspace with Japanese characters from IBM Plex Sans JP. Its Radon variants base the Japanese glyphs on Kiwi-Maru, while its Krypton variants base them on Stick, with IBM Plex Sans JP filling in missing glyphs. The font uses a 3:5 half-width to full-width ratio, displays full-width spaces visibly, and offers variants with Nerd Fonts icons and half-width to full-width ratios of 1:2.",
+    "sources": [
+      "https://github.com/yuru7/moralerspace"
+    ]
+  },
+  "font-myna": {
+    "description": "Myna is a monospace typeface by Irfan Ali (sayyadirfanali) that treats symbols as first-class glyphs alongside letters and numerals. It was designed so that multi-character symbols such as -> and >>= align cleanly and so that ASCII punctuation has visual weight matching the code around it. Its geometric quotes and commas and its clear distinctions between characters like 1, l, and I, and 0, O, and o, are among its notable letterform choices.",
+    "sources": [
+      "https://github.com/sayyadirfanali/Myna"
+    ]
+  },
+  "font-nordwand-mono": {
+    "description": "Nordwand Mono is a compact neo-grotesk monospaced typeface designed for programming. It combines elements of Adrian Frutiger's Univers with the proportions of JetBrains Mono, and its name refers to the north faces of the Swiss Alps and the Swiss typographic tradition it draws on. Its glyphs are drawn procedurally in Python, and it offers stylistic sets with a classic l and m, arrow ligatures, and wide-angled brackets and arrowheads.",
+    "sources": [
+      "https://github.com/tywr/Nordwand-Mono"
+    ]
+  },
+  "font-noto-sans-cjk-jp": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notosansjp through DESCRIPTION_DIRECTORIES"
+  },
+  "font-noto-sans-cjk-kr": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notosanskr through DESCRIPTION_DIRECTORIES"
+  },
+  "font-noto-sans-cjk-sc": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notosanssc through DESCRIPTION_DIRECTORIES"
+  },
+  "font-noto-sans-cjk-tc": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notosanstc through DESCRIPTION_DIRECTORIES"
+  },
+  "font-noto-sans-mono-cjk-jp": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ]
+  },
+  "font-noto-sans-mono-cjk-kr": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ]
+  },
+  "font-noto-sans-mono-cjk-sc": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ]
+  },
+  "font-noto-serif-cjk-jp": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notoserifjp through DESCRIPTION_DIRECTORIES"
+  },
+  "font-noto-serif-cjk-sc": {
+    "description": null,
+    "sources": [
+      "https://github.com/notofonts/noto-cjk"
+    ],
+    "note": "described from google/fonts ofl/notoserifsc through DESCRIPTION_DIRECTORIES"
+  },
+  "font-opendyslexic": {
+    "description": "OpenDyslexic is a typeface designed to counter some common symptoms of dyslexia.",
+    "sources": [
+      "https://github.com/antijingoist/opendyslexic",
+      "https://opendyslexic.org/"
+    ]
+  },
+  "font-ostrich-sans": {
+    "description": "Ostrich Sans is a modern sans-serif typeface designed by Tyler Finck and published by The League of Moveable Type. It comes in many styles and weights, including dashed, rounded, ultra light, bold with race-track style double lines, black, heavy, and an inline version with italics. Its distinctive feature is a very long neck.",
+    "sources": [
+      "https://github.com/theleagueof/ostrich-sans",
+      "https://www.theleagueofmoveabletype.com/ostrich-sans"
+    ]
+  },
+  "font-overused-grotesk": {
+    "description": "Overused Grotesk is a quirky grotesque sans-serif that began as a playful parody of overused Swiss-style type and imitates the most distinctive features of Helvetica. It is designed as a multipurpose, multilingual workhorse, with Vietnamese and Cyrillic letters including localised forms, and it spans weights from ExtraLight to Black. Its stylistic sets, character variants, and alternate figures add further detail to its otherwise Helvetica-like letterforms.",
+    "sources": [
+      "https://github.com/RandomMaerks/Overused-Grotesk"
+    ]
+  },
+  "font-paper-mono": {
+    "description": "Paper Mono is a monospace typeface from the design tool Paper, made for use in both design and code. ",
+    "sources": [
+      "https://github.com/paper-design/paper-mono"
+    ]
+  },
+  "font-photonico-code": {
+    "description": "Photonico Code is a monospaced slab-serif typeface for programming and scientific writing. Derived from Fira Code, it keeps that font's ligatures and features and covers Latin, Greek, and Cyrillic along with a large set of mathematical symbols. The font was made by Lu Niu.",
+    "sources": [
+      "https://github.com/Photonico/Photonico_Code"
+    ]
+  },
+  "font-pixel-code": {
+    "description": "Pixel Code is a monospace pixel-art programming font designed to maximize readability and code-friendliness while sticking to a pixel grid. Its glyphs were drawn for legibility in programming contexts, with contextual alternates providing pseudo-kerning that avoids wide serifs on thin letters such as i and l. It includes a set of programming ligatures inspired by Fira Code, along with Latin, Greek, Cyrillic, and Hebrew support and box drawing, geometric shape, and dingbat characters.",
+    "sources": [
+      "https://github.com/qwerasd205/PixelCode",
+      "https://qwerasd205.github.io/PixelCode/"
+    ]
+  },
+  "font-plemol-jp": {
+    "description": "PlemolJP is a Japanese programming font that combines IBM Plex Mono for ASCII letters, digits, and symbols with IBM Plex Sans JP for Japanese characters and other symbols. It comes in normal and italic styles with eight weights from Thin to Bold, and the HS variant makes full-width spaces visible to help catch accidental input. Console and 35 variants adjust symbol widths and the half-width to full-width ratio for different use cases.",
+    "sources": [
+      "https://github.com/yuru7/PlemolJP"
+    ]
+  },
+  "font-plemol-jp-hs": {
+    "description": "PlemolJP HS is a Japanese programming typeface that combines IBM Plex Mono for ASCII letters, digits, and symbols with IBM Plex Sans JP for Japanese characters and other symbols. It comes in normal and italic styles with eight weights from Thin to Bold. The HS variant makes full-width spaces visible, which helps programmers catch accidental full-width space input.",
+    "sources": [
+      "https://github.com/yuru7/PlemolJP"
+    ]
+  },
+  "font-pretendard": {
+    "description": "Pretendard is a modern typeface made for cross-platform products and multilingual typography. Redesigned by Gil Hyeong-jin, it draws on Inter, Source Han Sans, and M PLUS 1p, and it comes in nine weights along with a variable version. Separate families target specific settings, including Pretendard JP for Japanese contexts, Pretendard Std for Latin text, and Pretendard GOV for South Korean public services.",
+    "sources": [
+      "https://github.com/orioncactus/pretendard"
+    ]
+  },
+  "font-pretendard-gov": {
+    "description": "Pretendard GOV is a Korean-focused sans-serif typeface from the Pretendard family, suited to South Korean public service environments. The family was refined from Inter, Source Han Sans, and M PLUS 1p, and it was redesigned and produced by Gil Hyeong-jin.",
+    "sources": [
+      "https://github.com/orioncactus/pretendard"
+    ]
+  },
+  "font-pretendard-jp": {
+    "description": "Pretendard JP is a modern sans-serif typeface designed for Japanese-language environments, and it is part of the Pretendard family. It is built on Inter, Source Han Sans, and M PLUS 1p, and it adds Korean hanja support for use in Korean-character contexts. The family is offered in nine weights and as a variable font, and it was redesigned and produced by Gil Hyung-jin (길형진).",
+    "sources": [
+      "https://github.com/orioncactus/pretendard"
+    ]
+  },
+  "font-pretendard-std": {
+    "description": "Pretendard Std is a modern sans-serif typeface designed for cross-platform products and multilingual typography, and it is intended for Latin-script environments. It is refined from Inter, Source Han Sans, and M PLUS 1p, and it is offered in nine weights along with a variable version. The font is credited to Rasmus Andersson for Inter, Adobe, Google, and Sandoll Communication with Jang Su-young and Kang Joo-yeon for Source Han Sans, and to UNDERFOREST DESIGN and Coji Morishita for M PLUS 1p, with the redesign and production by Gil Hyung-jin.",
+    "sources": [
+      "https://github.com/orioncactus/pretendard"
+    ]
+  },
+  "font-psudofont-liga-mono": {
+    "description": "psudoFont Liga Mono is a monospaced programming font family with ligatures, designed for coding and terminal use. It was based on Meslo/Menlo and IBM Plex Mono/Lilex, with many glyphs redesigned, some resembling Menlo/Meslo, some resembling IBM Plex Mono/Lilex, and others unique to the family. Its italics have rounded, smooth corners in place of Lilex's sharp ones, and it comes in Regular (400) and Bold (700) weights, each with an italic.",
+    "sources": [
+      "https://github.com/psudo-dev/psudofont-liga-mono"
+    ]
+  },
+  "font-recursive-code": {
+    "description": "Recursive Code is a monospace-focused variable typeface from Arrow Type, built for programming environments and application interfaces. It is inspired by casual script signpainting, and it includes code ligatures and stylistic sets preapplied so they work by default in most code editors. The family was used as a tool in its own production, with its designers writing Python scripts to automate type work and generate specimens.",
+    "sources": [
+      "https://github.com/arrowtype/recursive",
+      "https://www.recursive.design/"
+    ]
+  },
+  "font-redhat": {
+    "description": "Red Hat is a geometric sans-serif typeface family made up of Display, Text, and Mono styles, each available in a range of weights in roman and italic. Designed by Jeremy Mickel of MCKL, it was commissioned by Paula Scher of Pentagram for the Red Hat identity and draws inspiration from American sans serifs such as Tempo and Highway Gothic. The Display styles are low contrast, tightly spaced, with a large x-height and open counters, while the Text styles have a smaller x-height, narrower width, and thinned joins for legibility at small sizes.",
+    "sources": [
+      "https://github.com/RedHatOfficial/RedHatFont"
+    ]
+  },
+  "font-ricty-diminished": {
+    "description": "Ricty Diminished is a programming font intended for research and development in Linux environments, suited to text editors, terminal emulators, and programming and markup languages. It combines Inconsolata for Latin characters with Circle M+ 1m for other characters, with several tunings for programming use, and adjusts the width ratio of half-width to full-width characters to 1:2. Distinctive details include a visible full-width space and en and em dashes that appear broken, which helps prevent LaTeX input mistakes.",
+    "sources": [
+      "https://rictyfonts.github.io/diminished"
+    ]
+  },
+  "font-rounded-mplus": {
+    "description": null,
+    "sources": [
+      "http://jikasei.me/font/rounded-mplus/"
+    ]
+  },
+  "font-scientifica": {
+    "description": "Scientifica is a tall, condensed bitmap typeface aimed at programmers, largely based on the creep font with minor tweaks to improve readability. Most of its characters are 4 pixels wide, which suits low-DPI screens, and it includes bold and italic variants, box drawing characters, and Powerline symbols. It also supports ligatures in Vim and Neovim through the conceal feature.",
+    "sources": [
+      "https://github.com/oppiliappan/scientifica"
+    ]
+  },
+  "font-selawik": {
+    "description": "Microsoft Selawik is a typeface from Microsoft designed as a replacement for Segoe UI.",
+    "sources": [
+      "https://github.com/microsoft/Selawik"
+    ]
+  },
+  "font-server-mono": {
+    "description": "Server Mono is a single-weight monospace typeface inspired by typewriters, Apple's San Francisco Mono, ASCII art, command-line interfaces, and programming tools. It was released in 2024 by the Internet Development Studio Company of Seattle, Washington, and created by designers Tim Vanhille and Matthieu Salvaggio, with Caidan Williams later taking ownership to add missing glyphs. The design emphasizes clear readability and uniform, predictable character widths, and it includes an oblique style.",
+    "sources": [
+      "https://github.com/internet-development/www-server-mono",
+      "https://servermono.com/"
+    ]
+  },
+  "font-smiley-sans": {
+    "description": "Smiley Sans is a condensed, oblique Chinese sans-serif (黑体) that seeks a visual balance between humanist and geometric qualities. Its details draw on hand-drawn display lettering, so some strokes and structures depart from standard mainland Chinese character forms. The typeface also covers Latin, Cyrillic, Greek, Japanese kana, and Arabic numerals, and it was designed by atelierAnchor with designers including Doooooohmygosh, Nagisa Chen, Janine Sui, Heda Shi, and Jian Li.",
+    "sources": [
+      "https://github.com/atelier-anchor/smiley-sans",
+      "https://atelier-anchor.com/typefaces/smiley-sans/"
+    ]
+  },
+  "font-source-han-code-jp": {
+    "description": "Source Han Code JP is a monospaced Japanese coding typeface derived from Source Han Sans, with its proportional Latin glyphs replaced by fixed-width glyphs from Source Code Pro. The Latin characters are scaled to match the Japanese kana and kanji and set at exactly two-thirds of an em, making it suited to mixed Latin and Japanese text in programming, HTML/CSS editing, and terminal use. The font was maintained by Masataka Hattori and later added Greek, Cyrillic, italic Roman, and color emoji glyphs.",
+    "sources": [
+      "https://github.com/adobe-fonts/source-han-code-jp"
+    ]
+  },
+  "font-source-han-sans-vf": {
+    "description": "Source Han Sans is a set of OpenType Pan-CJK typefaces, meaning one family intended to cover the CJK writing systems. Its design and background are documented in a separate design guide and official font readme.",
+    "sources": [
+      "https://github.com/adobe-fonts/source-han-sans"
+    ]
+  },
+  "font-source-han-serif-vf": {
+    "description": "Source Han Serif is a set of OpenType Pan-CJK fonts, meaning one family spanning the CJK writing systems.",
+    "sources": [
+      "https://github.com/adobe-fonts/source-han-serif"
+    ]
+  },
+  "font-spleen": {
+    "description": "Spleen is a monospaced bitmap typeface designed by Frederic Cambus in six pixel sizes, from 5x8 to 32x64. The larger sizes cover ISO/IEC 8859-1, Latin Extended-A, box drawing, block elements, Braille patterns, and Code page 437, while the smallest sizes are limited to printable ASCII, light box drawing, and Braille patterns. The font also includes Powerline symbols.",
+    "sources": [
+      "https://github.com/fcambus/spleen"
+    ]
+  },
+  "font-stix": {
+    "description": "STIX is an OpenType Unicode font family for scientific, technical, and mathematical texts, combining a broad set of mathematical symbols and alphabets with text faces for professional publishing. Based on Times Roman, the STIX Two revision was undertaken by Tiro Typeworks, which adapted the proportions and spacing of metal-era 10pt and 12pt Times designs and drew a new bold matching the construction of the regular weight. The text faces cover Latin, Greek, and Cyrillic, while its sans serif, fraktur, and script alphabets are intended only as technical symbols.",
+    "sources": [
+      "https://github.com/stipub/stixfonts",
+      "https://stixfonts.org/"
+    ]
+  },
+  "font-sudo": {
+    "description": "Sudo is a monospaced coding typeface by Jens Kutílek, designed for terminals, programming, and user interfaces, with a proportional companion family called Sudo UI. It has no ligatures but supports Powerline glyphs, and its numbers are drawn one line width smaller than the uppercase letters, with dotted zeroes. Its distinctive \"coder's quotes\" are enlarged standalone accents that stand in for opening and closing quotes in languages that use grave and acute accents.",
+    "sources": [
+      "https://github.com/jenskutilek/sudo-font",
+      "https://www.kutilek.de/sudo-font/"
+    ]
+  },
+  "font-suit": {
+    "description": "SUIT is a Korean UI typeface from Sun Typeface, designed for interface text and built to keep a consistent, polished look without extra manual adjustment. It pairs Korean hangul based on Noto Sans with geometric Latin letters and numerals, and includes refined vertical metrics, punctuation and bracket alignment tuned to Korean, and alternate glyphs such as ss17 for clearer serial numbers. Its features also include tabular figures and nine weights, plus a variable version.",
+    "sources": [
+      "https://github.com/sun-typeface/SUIT",
+      "https://sun.fo/suit"
+    ]
+  },
+  "font-tamzen": {
+    "description": "Tamzen is a bitmap monospaced typeface and a personal fork by Sunaku of the Tamsyn font by Scott Fial, programmatically derived from Tamsyn version 1.11 with glyphs backported from older versions.",
+    "sources": [
+      "https://github.com/sunaku/tamzen-font"
+    ]
+  },
+  "font-terminus": {
+    "description": "Terminus TTF is a TrueType version of Terminus Font, a fixed-width bitmap font optimized for long work with computers. It contains both the original bitmaps and scalable outlines generated automatically from those bitmaps with Potrace, and it is intended for use in Java applications and native Windows applications such as Microsoft Visual Studio. The author is credited as the maintainer of this TTF conversion, while the original Terminus Font was authored by Dimitar Zhekov.",
+    "sources": [
+      "https://files.ax86.net/terminus-ttf/"
+    ]
+  },
+  "font-tex-gyre-bonum-math": {
+    "description": "Bonum Math is an OpenType math font from the GUST e-foundry, released as the math companion to the TeX Gyre Bonum serif text font. It belongs to the TeX Gyre Math project, which was launched by TeX user groups in 2009 to provide OTF math fonts with a MATH table for both TeX engines, such as XeLaTeX and LuaLaTeX, and non-TeX software, such as Microsoft Office.",
+    "sources": [
+      "https://www.gust.org.pl/projects/e-foundry/tg-math"
+    ]
+  },
+  "font-tex-gyre-pagella-math": {
+    "description": "Pagella Math is an OpenType math companion font to the TeX Gyre Pagella serif typeface, released by the GUST e-foundry as part of the TeX Gyre Math project. It provides the mathematical symbols and glyphs needed for typesetting formulas with the MATH table extension, and it is designed for use with both TeX engines and non-TeX software.",
+    "sources": [
+      "https://www.gust.org.pl/projects/e-foundry/tg-math"
+    ]
+  },
+  "font-tex-gyre-schola-math": {
+    "description": "Schola Math is an OpenType math font from the TeX Gyre project, released by the GUST e-foundry of the Polish TeX user group. It serves as the math companion to the TeX Gyre Schola serif text font and was released in 2014 with the completion of the TeX Gyre Math project. The font was created to provide mathematical typesetting using the OpenType MATH table, a format inspired by TeX and developed with input from Barbara Beeton.",
+    "sources": [
+      "https://www.gust.org.pl/projects/e-foundry/tg-math"
+    ]
+  },
+  "font-tex-gyre-termes-math": {
+    "description": "TeX Gyre Termes Math is a serif OpenType mathematics font and the math companion to the TeX Gyre Termes text face. It was developed by the GUST e-foundry as part of the TeX Gyre Math project, which aimed to produce OpenType math fonts for both TeX and non-TeX typesetting. The font uses the OpenType MATH table for formula layout and is designed to work with XeLaTeX and LuaLaTeX.",
+    "sources": [
+      "https://www.gust.org.pl/projects/e-foundry/tg-math"
+    ]
+  },
+  "font-tt2020": {
+    "description": "TT2020 is a typewriter typeface described by its creator as hyperrealistic, meaning it aims to closely imitate the look of real typewritten text. It is also multilingual, covering the writing systems of several languages.",
+    "sources": [
+      "https://github.com/ctrlcctrlv/TT2020"
+    ]
+  },
+  "font-twilio-sans-mono": {
+    "description": "Twilio Sans Mono is a monospaced programming typeface developed by the type foundry Sharp Type in collaboration with Twilio, and it is the mono member of the Twilio Sans superfamily. It is intended for developers working in any code editor, programming language, or project, and it comes in eight weights, each with roman and true italic styles. The font includes coding ligatures and arrow glyphs.",
+    "sources": [
+      "https://github.com/twilio/twilio-sans-mono"
+    ]
+  },
+  "font-udev-gothic": {
+    "description": "UDEV Gothic is a programming typeface that combines the Japanese characters of BIZ UD Gothic, a universal design font by Morisawa, with the Latin letters of JetBrains Mono, a developer typeface by JetBrains. The Latin glyphs are adjusted to harmonize with BIZ UD Gothic, and the zero is slashed rather than dotted. Full-width spaces are displayed visibly, and variants are offered with ligatures, Nerd Font symbols, or a 3:5 half-to-full width ratio.",
+    "sources": [
+      "https://github.com/yuru7/udev-gothic"
+    ]
+  },
+  "font-xkcd": {
+    "description": "xkcd is a pair of handwriting-based typefaces derived from the handwriting of webcomic author Randall Munroe. The xkcd Script variant is built from a handwriting sample Munroe provided and is far less uniform, making it more like a true script font. The xkcd font is more uniform and was originally created by Munroe for his comic \"The Pace of Modern Life\" (April 1, 2013), trading some resemblance to the comic's lettering for greater legibility.",
+    "sources": [
+      "https://github.com/ipython/xkcd-font"
+    ]
+  },
+  "font-xkcd-script": {
+    "description": "xkcd Script is a script typeface derived from a handwriting sample provided by Randall Munroe, the author of the xkcd webcomic. It is far less uniform than the companion xkcd font, which gives it a more natural, true-script character.",
+    "sources": [
+      "https://github.com/ipython/xkcd-font"
+    ]
+  },
+  "font-zhuque-fangsong": {
+    "description": "Zhuque Fangsong is a Chinese Fangsong typeface by Trionestype (璇玑造字) that adapts Nansong, a Republic-era metal type cut in 1932 by the Baisong Type Foundry from a design by Han Youzhi and carved by Zou Genpei. It keeps Nansong's distinctive character, including a visual center set slightly toward the lower right, tightly drawn central counters, extended strokes, and strong stroke contrast, though the contrast is softened and the structures are regularized for modern text setting. Its Latin letters and symbols are drawn from Alegreya by Juan Pablo del Peral.",
+    "sources": [
+      "https://github.com/TrionesType/zhuque"
+    ]
+  },
+  "font-zxgamut": {
+    "description": "Zx Gamut is a variable sans-serif typeface, described as designed with the precision of software engineering. It combines fluid, rounded forms with sharp, calculated edges.",
+    "sources": [
+      "https://github.com/0xType/Gamut"
+    ]
+  }
+}

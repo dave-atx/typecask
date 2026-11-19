@@ -28,6 +28,7 @@ check-licenses fails if Licenses.deflate isn't what Licenses/ deflates to, for C
 import argparse
 import base64
 import csv
+import functools
 import hashlib
 import json
 import logging
@@ -294,6 +295,37 @@ NERD_FONT_PAIRS = {
     "font-caskaydia-mono-nerd-font": None,
     "font-monaspice-nerd-font": None,
 }
+# Google families with no description of their own, by token: the google/fonts directory of a family
+# whose description covers them too.
+DESCRIPTION_DIRECTORIES = {
+    # Kumar One's description is of both Kumar fonts, the Outline included.
+    "font-kumar-one-outline": "ofl/kumarone",
+    # The same Rounded M+ 1c, under the directory Google listed it in before.
+    "font-m-plus-rounded-1c": "ofl/roundedmplus1c",
+    # Adobe and Google's Noto CJK, which Google Fonts serves by language with a description each. Its
+    # own README only links downloads. The Mono casks have no Google family to borrow from.
+    "font-noto-sans-cjk-jp": "ofl/notosansjp",
+    "font-noto-sans-cjk-kr": "ofl/notosanskr",
+    "font-noto-sans-cjk-sc": "ofl/notosanssc",
+    "font-noto-sans-cjk-tc": "ofl/notosanstc",
+    "font-noto-serif-cjk-jp": "ofl/notoserifjp",
+    "font-noto-serif-cjk-sc": "ofl/notoserifsc",
+}
+# Nerd Font and Powerline casks whose names don't give the original family, or give it badly, by token:
+# the original's name, for their description.
+PATCHED_ORIGINALS = {
+    "font-anonymice-powerline": "Anonymous Pro",
+    "font-delugia-mono-powerline": "Cascadia Mono",
+    "font-delugia-powerline": "Cascadia Code",
+    "font-fira-mono-nerd-font": "Fira Mono",
+    "font-hackgen-nerd": "HackGen",
+    "font-ioskeley-mono-term-nerd-font": "Ioskeley Mono",
+    "font-liberation-mono-for-powerline": "Liberation Mono",
+    "font-m+-nerd-font": "M+",
+    "font-martian-mono-nerd-font": "Martian Mono",
+    "font-monocraft-nerd-font": "Monocraft",
+    "font-ubuntu-mono-derivative-powerline": "Ubuntu Mono",
+}
 # The app's Symbols collection: fonts typed on an ordinary keyboard that draw something other than
 # letters. Redacted's scribbles and Flow's blocks stand in for text in wireframes, Yarndings draws
 # knitting symbols, and the Charted fonts draw their letters as stitches on a grid. Google classifies
@@ -549,7 +581,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 11
+PIPELINE_VERSION = 12
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -569,6 +601,9 @@ LICENSES = ROOT / "Licenses"
 LICENSE_BUNDLE = APP / "Licenses.deflate"
 APPLE_PREVIEWS = APP / "ApplePreviews"
 LOCK = ROOT / "fonts.lock.json"
+# Descriptions drafted from READMEs and homepages by scripts/descriptions.py and reviewed by hand, for
+# casks with none from google/fonts.
+DRAFTED_DESCRIPTIONS = ROOT / "scripts" / "descriptions.json"
 # Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
 LICENSE_TEXTS = ROOT / "scripts" / "licenses"
 CACHE = ROOT / ".cache"
@@ -729,6 +764,15 @@ def update_clone(commit=None):
     # GitHub serves any commit by hash, so a locked one can be fetched on its own.
     git("fetch", "--depth", "1", "--filter=blob:none", "--quiet", "origin", commit or "main")
     return git("rev-parse", "FETCH_HEAD").strip()
+
+
+def google_directories(entries):
+    """The google/fonts directories these casks build from: their fonts, licences and descriptions."""
+    directories = {entry["source"]["google"] for entry in entries if "google" in entry["source"]}
+    directories |= {entry["google"]["directory"] for entry in entries if (entry.get("google") or {}).get("directory")}
+    return directories | {
+        DESCRIPTION_DIRECTORIES[entry["token"]] for entry in entries if entry["token"] in DESCRIPTION_DIRECTORIES
+    }
 
 
 def checkout(commit, directories):
@@ -1704,9 +1748,11 @@ def google_primary_script(directory):
 
 
 def google_description(directory):
+    """The family's description, or its article where the description file is empty: Onest, Jaro and a
+    few others ship a 0-byte DESCRIPTION.en_us.html beside a full article."""
     for name in GOOGLE_DESCRIPTIONS:
-        if (path := CLONE / directory / name).is_file():
-            return describe(path.read_text(errors="replace"))
+        if (path := CLONE / directory / name).is_file() and (description := describe(path.read_text(errors="replace"))):
+            return description
     return None
 
 
@@ -1724,6 +1770,8 @@ def cache_key(entry):
     # Only where there is one, so adding one rebuilds that cask alone.
     if left_out := LEFT_OUT_FILES.get(entry["token"]):
         material["leftOut"] = left_out
+    if description_directory := DESCRIPTION_DIRECTORIES.get(entry["token"]):
+        material["descriptionDirectory"] = description_directory
     return hashlib.sha256(json.dumps(material, sort_keys=True).encode()).hexdigest()[:20]
 
 
@@ -1862,7 +1910,10 @@ def build_cask(entry, destination, mirrored=frozenset()):
         built |= {"script": scripts.script, "scripts": scripts.scripts}
         if ligatures:
             built["ligatures"] = True
-        if google.get("directory") and (description := google_description(google["directory"])):
+        # A cask built from google/fonts but missing from Google's metadata, like Open Sans Hebrew, has no
+        # google.directory, though its source names the same directory.
+        directory = DESCRIPTION_DIRECTORIES.get(token) or google.get("directory") or entry["source"].get("google")
+        if directory and (description := google_description(directory)):
             built["description"] = description
         write_json(destination / "entry.json", built)
     finally:
@@ -2012,6 +2063,56 @@ def pair_nerd_fonts(catalog):
         print(f"warning: NERD_FONT_PAIRS names casks not in the catalog: {', '.join(missing)}")
 
 
+NERD_FONTS_DESCRIPTION = (
+    "{original} with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: "
+    "thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with "
+    "the Powerline symbols."
+)
+POWERLINE_DESCRIPTION = (
+    "{original} with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor "
+    "status lines draw with."
+)
+
+
+@functools.cache
+def drafted_descriptions():
+    return json.loads(DRAFTED_DESCRIPTIONS.read_text()) if DRAFTED_DESCRIPTIONS.is_file() else {}
+
+
+def describe_patched(catalog):
+    """Describes each Nerd Font or Powerline cask that has no description of its own as its original with
+    the icons added, followed by the original's description where the catalog has one. Runs after every
+    other description is in place, so an original described later carries over to its variants.
+
+    The original is the plain cask pair_nerd_fonts() paired it with, or else the family the cask's name
+    gives, in parentheses as Nerd Fonts writes it or with "NF", "Nerd Font" or "for Powerline" taken out.
+    """
+    records = {record["token"]: record for record in catalog}
+    plain_of = {record["nerdFont"]: record["token"] for record in catalog if record.get("nerdFont")}
+    by_name = {fold_name(record["name"]): record for record in catalog if not record["glyphs"]}
+    for record in catalog:
+        token = record["token"]
+        powerline = "powerline" in token or token in ("font-cascadia-code-pl", "font-cascadia-mono-pl")
+        # Not every cask with icons is a patch: Cica and Cozette draw their own, beside the letters.
+        nerd = re.search(r"nerd|-nf(-|$)", token)
+        if record.get("description") or not (nerd or powerline):
+            continue
+        if token in PATCHED_ORIGINALS:
+            original = PATCHED_ORIGINALS[token]
+        elif original := re.search(r"\(([^)]+)\)\s*$", record["name"]):
+            original = original[1]
+        else:
+            original = re.sub(r"\s+(Nerd Font( families)?|NF|PL|for Powerline|Powerline)\b", "", record["name"])
+        plain = records.get(plain_of.get(token)) or by_name.get(fold_name(original))
+        template = POWERLINE_DESCRIPTION if powerline else NERD_FONTS_DESCRIPTION
+        description = template.format(original=original)
+        if plain and plain is not record and plain.get("description"):
+            description += "\n\n" + plain["description"]
+            if designers := plain.get("designers"):
+                record["designers"] = designers
+        record["description"] = description
+
+
 def fold_name(name):
     """A family name without case, spaces or punctuation, so "Meslo LG" matches "MesloLG"."""
     return re.sub(r"[^a-z0-9]", "", name.lower())
@@ -2106,11 +2207,7 @@ def try_casks(tokens, apply=False):
         sys.exit(f"not in {LOCK.name} or EXTRA_CASKS: {', '.join(unknown)}")
     entries = [by_token[token] for token in tokens]
     update_clone(locked["googleFonts"])
-    checkout(
-        locked["googleFonts"],
-        {entry["source"]["google"] for entry in entries if "google" in entry["source"]}
-        | {entry["google"]["directory"] for entry in entries if (entry.get("google") or {}).get("directory")},
-    )
+    checkout(locked["googleFonts"], google_directories(entries))
     mirrored = frozenset(mirrored_hashes()) if any(mirrorable(entry["source"]) for entry in entries) else frozenset()
     built = {}
     for entry in entries:
@@ -2220,11 +2317,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
     failed = {}
     if pending:
         update_clone(locked["googleFonts"])
-        directories = {entry["source"]["google"] for entry in pending if "google" in entry["source"]}
-        directories |= {
-            entry["google"]["directory"] for entry in pending if (entry.get("google") or {}).get("directory")
-        }
-        checkout(locked["googleFonts"], directories)
+        checkout(locked["googleFonts"], google_directories(pending))
         mirrored = (
             frozenset(mirrored_hashes()) if any(mirrorable(entry["source"]) for entry in pending) else frozenset()
         )
@@ -2374,6 +2467,8 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             # Google's descriptions are often the designer's own words, in the first person.
             if designers := google.get("designers"):
                 record["designers"] = designers
+        elif description := drafted_descriptions().get(token, {}).get("description"):
+            record["description"] = description
         seasons = google.get("seasons") or {}
         if holidays := [
             holiday
@@ -2389,6 +2484,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
 
     rank_popularity(catalog, entries)
     pair_nerd_fonts(catalog)
+    describe_patched(catalog)
     tokens = {record["token"] for record in catalog}
     if missing := sorted(token for casks in HOLIDAY_CASKS.values() for token in casks if token not in tokens):
         print(f"warning: HOLIDAY_CASKS names casks not in the catalog: {', '.join(missing)}")

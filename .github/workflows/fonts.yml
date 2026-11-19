@@ -37,6 +37,10 @@ jobs:
   build:
     runs-on: ubuntu-26.04
     timeout-minutes: 300
+    env:
+      # A token from `claude setup-token`, for drafting new casks' descriptions. Without it they ship
+      # undescribed, and scripts/descriptions.py list names them.
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     steps:
@@ -82,6 +86,23 @@ jobs:
           JOBS: 4
         run: scripts/publish-fonts.sh build "${{ steps.tag.outputs.tag }}"
 
+      # A cask the build shipped with no description from google/fonts or its original gets one drafted
+      # from its README and homepage, into scripts/descriptions.json for review in the pull request. The
+      # catalog takes drafts as it's assembled, so a run that drafted any builds again, from cached casks.
+      - name: Draft descriptions
+        if: env.CLAUDE_CODE_OAUTH_TOKEN != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          JOBS: 4
+        run: |
+          npm install -g -q @anthropic-ai/claude-code
+          uv run --script scripts/descriptions.py gather
+          uv run --script scripts/descriptions.py draft
+          if ! git diff --quiet -- scripts/descriptions.json; then
+            scripts/publish-fonts.sh build "${{ steps.tag.outputs.tag }}"
+          fi
+
       # Even when a later step fails, so the next run doesn't redo the casks this one built.
       - name: Save built casks
         if: always() && steps.cache.outputs.cache-hit != 'true'
@@ -121,6 +142,7 @@ jobs:
             Typecask/Previews/
             Typecask/Licenses.deflate
             Licenses/
+            scripts/descriptions.json
             .cache/${{ steps.tag.outputs.tag }}.tar.zst
             .cache/${{ steps.tag.outputs.tag }}.assets.json
             .cache/build-report.json
@@ -264,7 +286,7 @@ jobs:
           git switch -c "update-fonts/$TAG"
           # -A, so the files of casks that are gone are deleted rather than kept.
           git add -A fonts.lock.json Typecask/Catalog.json Typecask/AppleFonts.json Typecask/Previews \
-            Typecask/Licenses.deflate Licenses Typecask/FontsAsset.json
+            Typecask/Licenses.deflate Licenses Typecask/FontsAsset.json scripts/descriptions.json
           # The message carries the list of what changed, links dropped, so `git log` shows it.
           {
             printf 'Update fonts to %s\n\n' "$TAG"
@@ -279,6 +301,19 @@ jobs:
 
           EOF
           cat ".cache/$TAG.changes.md" >> .cache/pr-body.md
+          # Checks fails until these have a description, or a null one where there's nothing to draft from.
+          missing=$(python3 scripts/descriptions.py list --markdown)
+          if [ -n "$missing" ]; then
+            {
+              printf '\n## Missing descriptions\n\n'
+              cat <<'NOTE'
+          Checks fails until each of these has an entry in scripts/descriptions.json: run
+          `scripts/descriptions.py gather` and `draft` on this branch and review the drafts, or set a
+          description to null when there is nothing to draft from.
+          NOTE
+              printf '\n%s\n' "$missing"
+            } >> .cache/pr-body.md
+          fi
           # A draft, so fonts lost to a failed build aren't merged away without someone deciding to.
           flags=()
           if [ -s ".cache/$TAG.lost.txt" ]; then

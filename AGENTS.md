@@ -14,6 +14,7 @@ uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
 scripts/build-catalog.py check-licenses
 scripts/articles.py check
+scripts/descriptions.py check
 ```
 
 ## Generated files
