@@ -1,5 +1,6 @@
 import CoreText
 import SwiftUI
+import UIKit
 
 /// An OpenType feature the face has, with text that shows it: DINish's fractions turn 1/2 into ½. Found, not
 /// listed by hand: a feature is shown only when the font has it and shaping its text with it on draws different
@@ -122,22 +123,36 @@ nonisolated struct SpecimenFeature: Identifiable, Sendable {
         return CTFontCreateCopyWithAttributes(font, 0, nil, descriptor)
     }
 
+    /// Whether the feature draws the text differently, and not with blanks where it had ink: EB Garamond 0.016's
+    /// fractions put an empty fraction slash between the figures, so 1/2 came out as 1 and 2 a slash's width apart.
     private static func changes(_ parts: [Part], _ tag: String, _ font: CTFont) -> Bool {
-        glyphs(parts, font, featured: font) != glyphs(parts, font, featured: Self.font(font, with: tag))
+        let plain = shaped(parts, font, featured: font)
+        let featured = shaped(parts, font, featured: Self.font(font, with: tag))
+        return featured.glyphs != plain.glyphs && featured.blanks <= plain.blanks
     }
 
-    private static func glyphs(_ parts: [Part], _ font: CTFont, featured: CTFont) -> [CGGlyph] {
+    /// The glyphs the text shapes to, and how many of them draw nothing, as a space doesn't.
+    private static func shaped(_ parts: [Part], _ font: CTFont, featured: CTFont) -> (glyphs: [CGGlyph], blanks: Int) {
         let key = NSAttributedString.Key(kCTFontAttributeName as String)
         let string = NSMutableAttributedString()
         for part in parts {
             string.append(NSAttributedString(string: part.text, attributes: [key: part.featured ? featured : font]))
         }
         let runs = CTLineGetGlyphRuns(CTLineCreateWithAttributedString(string)) as? [CTRun] ?? []
-        return runs.flatMap { run in
-            var glyphs = [CGGlyph](repeating: 0, count: CTRunGetGlyphCount(run))
+        var blanks = 0
+        let glyphs = runs.flatMap { run in
+            let count = CTRunGetGlyphCount(run)
+            var glyphs = [CGGlyph](repeating: 0, count: count)
             CTRunGetGlyphs(run, CFRange(location: 0, length: 0), &glyphs)
+            // Toll-free bridged, and unlike CTFont, a cast to it can fail.
+            if let runFont = (CTRunGetAttributes(run) as NSDictionary)[kCTFontAttributeName] as? UIFont {
+                var bounds = [CGRect](repeating: .zero, count: count)
+                CTFontGetBoundingRectsForGlyphs(runFont as CTFont, .default, glyphs, &bounds, count)
+                blanks += bounds.count(where: \.isEmpty)
+            }
             return glyphs
         }
+        return (glyphs, blanks)
     }
 }
 
