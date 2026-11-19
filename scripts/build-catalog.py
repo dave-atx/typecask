@@ -134,7 +134,8 @@ ALWAYS_INCLUDED = [
     "font-comic-shanns-mono",
     "font-opendyslexic",
     # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
-    # of the first open-source foundries; several sit near the install cutoff.
+    # of the first open-source foundries; several sit near the install cutoff. All but The Neue Black,
+    # whose 1.007 release is corrupt.
     "font-blackout",
     "font-chunk",
     "font-fanwood-text",
@@ -152,7 +153,6 @@ ALWAYS_INCLUDED = [
     "font-raleway",
     "font-sniglet",
     "font-sorts-mill-goudy",
-    "font-the-neue-black",
 ]
 # Casks Homebrew doesn't have yet, or has only disabled, in its API's shape, from the upstream release.
 # Homebrew's own working cask takes over once it has one, and lock says so, for the entry to go.
@@ -193,26 +193,6 @@ EXTRA_CASKS = [
             {"font": [f"chunk-12a243f3fb7c7a68844901023f7d95d6eaf14104/{name}.otf"]}
             for name in ("ChunkFive-Regular", "Chunk Five Print")
         ],
-    },
-    {
-        # Tré Seals' typeface for The League of Moveable Type, after the Chicago Freedom Movement.
-        "token": "font-the-neue-black",
-        "name": ["The Neue Black"],
-        "homepage": "https://www.theleagueofmoveabletype.com/the-neue-black",
-        "url": "https://github.com/theleagueof/the-neue-black/releases/download/1.007/TheNeueBlack-1.007.zip",
-        "version": "1.007",
-        "sha256": "8a15a7ff4c9b480bd26019d2b1d15c0d99ce2962876e345aab8431c3d6019853",
-        "artifacts": [{"font": ["TheNeueBlack-1.007/static/OTF/TheNeue-Black.otf"]}],
-    },
-    {
-        # Homebrew/homebrew-cask#303861, not yet merged.
-        "token": "font-dinish",
-        "name": ["DINish"],
-        "homepage": "https://github.com/playbeing/dinish",
-        "url": "https://github.com/playbeing/dinish/releases/download/v4.007/dinish-ttf.zip",
-        "version": "4.007",
-        "sha256": "a75d47e600aa9e522da59f760c269aad617b097f9eb11c9be41c1b357f9d2b3d",
-        "artifacts": [{"font": ["DINish[slnt,wdth,wght].ttf"]}],
     },
 ]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
