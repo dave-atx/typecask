@@ -38,6 +38,23 @@ final class StartHereTests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Inter"].waitForExistence(timeout: 10))
     }
 
+    /// A type term in an article shows its definition in a popover, without leaving the article.
+    @MainActor
+    func testTermShowsItsDefinition() {
+        let app = XCUIApplication.typecask()
+        app.launchArguments += ["-lastPage", "start|article:start-here"]
+        app.launch()
+        let link = app.links["x-height"]
+        XCTAssertTrue(link.waitForExistence(timeout: 30))
+        link.tap()
+        let popover = app.popovers.firstMatch
+        XCTAssertTrue(popover.waitForExistence(timeout: 10))
+        XCTAssertTrue(popover.staticTexts["x-height"].exists)
+        XCTAssertTrue(popover.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'The height of lowercase'"))
+            .firstMatch.exists)
+        XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].exists)
+    }
+
     /// A collection named in an article opens that collection.
     @MainActor
     func testCollectionLinkOpensTheCollection() {

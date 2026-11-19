@@ -20,13 +20,17 @@ Each article is one file, articles/SLUG.md: front matter, then blocks separated 
     ---
 
     A paragraph, with **bold**, *italic* and links: [Serif](collection:serif), [Inter](font:font-inter),
-    or an https:// address.
+    a term from the glossary ([x-height](term:x-height)), or an https:// address.
 
     ## A section heading
 
     @font-inter: A specimen line, set in the cask's own face
     @font-fraunces {wght=900 WONK=1 +ss01 -liga face=Fraunces-9ptBlackItalic}: Axis values, features on (+)
     or off (-), and a face other than the cask's primary one, by its asset name
+
+articles/glossary.md isn't an article: it defines the type terms the articles link with term:, which the app
+shows in a popover and the site in an <abbr>. Each term is a ## heading and one paragraph; the link names it
+by its slug, the heading in lowercase with hyphens for anything else ("Slab serif" is term:slab-serif).
 
 Every font a specimen or link names has to be in Typecask/Catalog.json, so a fonts release that drops a
 cask fails this check rather than shipping an article that points at nothing. Collections are the ones
@@ -56,6 +60,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "articles"
+GLOSSARY = SOURCE / "glossary.md"
 OUTPUT = ROOT / "Typecask" / "Articles.json"
 CATALOG = ROOT / "Typecask" / "Catalog.json"
 FONTS = ROOT / "Typecask" / "ArticleFonts"
@@ -86,7 +91,48 @@ def load_catalog():
     return {cask["token"]: cask for cask in json.loads(CATALOG.read_text(encoding="utf-8"))["casks"]}
 
 
-def parse(path, tokens):
+def term_slug(term):
+    return re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-")
+
+
+def read_glossary(tokens):
+    """The glossary's terms by slug, each its name and its definition, in inline Markdown."""
+    if not GLOSSARY.exists():
+        return {}
+    terms, problems = {}, []
+    for number, chunk in chunks(GLOSSARY.read_text(encoding="utf-8").splitlines(), 0):
+        head = chunk[0]
+        if head.startswith("# ") and not terms and number == 1:
+            continue  # the page's own title
+        if head.startswith("## "):
+            if len(chunk) > 1:
+                problems.append(f"line {number}: a term's heading is one line, with its definition after a blank line")
+                continue
+            name = head[3:].strip()
+            slug = term_slug(name)
+            if slug in terms:
+                problems.append(f"line {number}: {name!r} is defined twice")
+            terms[slug] = {"term": name, "definition": None}
+            continue
+        last = next(reversed(terms), None)
+        if last is None or terms[last]["definition"] is not None:
+            problems.append(f"line {number}: a definition needs a ## heading naming its term before it")
+            continue
+        try:
+            # A definition sits in a popover, so it links nowhere.
+            text = inline(" ".join(chunk), tokens, {})
+            if LINK.search(text):
+                raise ArticleError("a definition takes no links")
+            terms[last]["definition"] = text
+        except ArticleError as error:
+            problems.append(f"line {number}: {error}")
+    problems += [f"{entry['term']!r} has no definition" for entry in terms.values() if entry["definition"] is None]
+    if problems:
+        raise ArticleError("\n".join(f"{GLOSSARY.name}: {problem}" for problem in problems))
+    return dict(sorted(terms.items()))
+
+
+def parse(path, tokens, terms):
     """One article, as Articles.json carries it, or ArticleError naming every problem in the file."""
     problems = []
     slug = path.stem
@@ -112,7 +158,7 @@ def parse(path, tokens):
     blocks = []
     for number, chunk in chunks(lines, end + 1):
         try:
-            blocks.append(block(chunk, tokens))
+            blocks.append(block(chunk, tokens, terms))
         except ArticleError as error:
             problems.append(f"line {number}: {error}")
     if not any(b["kind"] == "specimen" for b in blocks):
@@ -122,7 +168,7 @@ def parse(path, tokens):
     return {
         "slug": slug,
         "title": meta["title"],
-        "summary": inline(meta["summary"], tokens),
+        "summary": inline(meta["summary"], tokens, terms),
         "order": int(meta["order"]),
         "blocks": blocks,
     }
@@ -143,12 +189,12 @@ def chunks(lines, start):
         yield first, chunk
 
 
-def block(chunk, tokens):
+def block(chunk, tokens, terms):
     head = chunk[0]
     if head.startswith("#"):
         if len(chunk) > 1 or not head.startswith("## ") or head.startswith("###"):
             raise ArticleError("a heading is one line starting ## (the title is the front matter's)")
-        return {"kind": "heading", "text": inline(head[3:].strip(), tokens)}
+        return {"kind": "heading", "text": inline(head[3:].strip(), tokens, terms)}
     if head.startswith("@"):
         if len(chunk) > 1:
             raise ArticleError("a specimen is one line, with a blank line after it")
@@ -157,7 +203,7 @@ def block(chunk, tokens):
         raise ArticleError("a heading or specimen needs a blank line before it")
     if re.match(r"([-*+>]|\d+[.)])\s", head):
         raise ArticleError("a list or quote, which the site would draw and the app wouldn't")
-    return {"kind": "paragraph", "text": inline(" ".join(chunk), tokens)}
+    return {"kind": "paragraph", "text": inline(" ".join(chunk), tokens, terms)}
 
 
 def specimen(line, tokens):
@@ -188,7 +234,7 @@ def specimen(line, tokens):
     return result
 
 
-def inline(text, tokens):
+def inline(text, tokens, terms):
     """Text the app's AttributedString(markdown:) and Hugo's markdownify both read the same way: bold,
     italic and links, and nothing that one of them would draw differently."""
     for target in (match["target"] for match in LINK.finditer(text)):
@@ -197,8 +243,10 @@ def inline(text, tokens):
             raise ArticleError(f"no collection {rest!r}; collections are {', '.join(sorted(COLLECTIONS))}")
         if scheme == "font" and rest not in tokens:
             raise ArticleError(f"{rest} isn't in the catalog")
-        if scheme not in {"collection", "font", "https"}:
-            raise ArticleError(f"link to {target}: links go to collection:, font: or https://")
+        if scheme == "term" and rest not in terms:
+            raise ArticleError(f"no term {rest!r} in {GLOSSARY.name}")
+        if scheme not in {"collection", "font", "term", "https"}:
+            raise ArticleError(f"link to {target}: links go to collection:, font:, term: or https://")
     bare = LINK.sub(r"\g<text>", text)
     if "](" in bare or "![" in text:
         raise ArticleError("a link that doesn't parse, or an image")
@@ -209,11 +257,13 @@ def inline(text, tokens):
     return text
 
 
-def read_articles(catalog):
+def read_articles(catalog, terms):
     articles, problems = [], []
     for path in sorted(SOURCE.glob("*.md")):
+        if path == GLOSSARY:
+            continue
         try:
-            articles.append(parse(path, catalog.keys()))
+            articles.append(parse(path, catalog.keys(), terms))
         except ArticleError as error:
             problems.append(str(error))
     orders = sorted(article["order"] for article in articles)
@@ -266,7 +316,7 @@ def font_file(name):
     return next((path for suffix in FONT_SUFFIXES if (path := FONTS / (name + suffix)).exists()), None)
 
 
-def render(articles):
+def render(articles, terms):
     """Articles.json, with each specimen's font named by its file. A specimen with no cut yet is an error:
     the app would draw it in the system font."""
     missing = []
@@ -279,7 +329,7 @@ def render(articles):
         raise ArticleError(
             "no font cut for these lines; run scripts/articles.py fonts:\n" + "\n".join(f"  {m}" for m in missing)
         )
-    return json.dumps({"articles": articles}, ensure_ascii=False, indent=2) + "\n"
+    return json.dumps({"articles": articles, "terms": terms}, ensure_ascii=False, indent=2) + "\n"
 
 
 def source_face(xcassets, cask, face):
@@ -363,7 +413,7 @@ def cut(item, cask, xcassets):
 
 def cut_fonts(xcassets):
     catalog = load_catalog()
-    articles = read_articles(catalog)
+    articles = read_articles(catalog, read_glossary(catalog.keys()))
     FONTS.mkdir(exist_ok=True)
     wanted = set()
     for item in specimens(articles):
@@ -412,8 +462,9 @@ def main():
         if arguments.command == "fonts":
             cut_fonts(arguments.xcassets)
         catalog = load_catalog()
-        articles = read_articles(catalog)
-        text = render(articles)
+        terms = read_glossary(catalog.keys())
+        articles = read_articles(catalog, terms)
+        text = render(articles, terms)
         if arguments.command == "check":
             check(articles, catalog)
     except ArticleError as error:

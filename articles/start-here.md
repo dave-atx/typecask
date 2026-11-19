@@ -7,14 +7,14 @@ order: 1
 Typecask has more than 2,000 free fonts, which is way too many to scroll through in one sitting. Here are
 eleven to start with, grouped by what they're best at.
 
-Tap a font to see it set as a specimen. **Try It Out** lets you type your own words in it, and **Install** puts
+Tap a font to see it set as a [specimen](term:specimen). **Try It Out** lets you type your own words in it, and **Install** puts
 it in Pages, Keynote and any other app that lets you pick a font.
 
 ## Everyday sans serifs
 
 @font-inter: The font you’ll forget you picked
 
-**Inter** was drawn by Rasmus Andersson for screens, with a tall x-height that keeps small text readable. It's
+**Inter** was drawn by Rasmus Andersson for screens, with a tall [x-height](term:x-height) that keeps small text readable. It's
 the one to reach for when you don't want to think about the font at all. Look in its features for a slashed
 zero and tabular numbers, which line figures up in a column.
 
@@ -44,7 +44,7 @@ partner for Source Sans 3, so the two pair without any fuss.
 
 **JetBrains Mono** is about as popular as coding fonts get. JetBrains made it for their code editors: every
 character is the same width, so columns line up, and pairs like -> and != join into a single symbol
-(ligatures you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find
+([ligatures](term:ligature) you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find
 more like it under [Fixed Width](collection:monospaced).
 
 ## For headlines

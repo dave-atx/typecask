@@ -27,7 +27,8 @@ order: 1
 ---
 
 A paragraph. Lines wrap freely; a blank line ends it. **Bold**, *italic*, and links to a collection
-([Serif](collection:serif)), a font ([Inter](font:font-inter)) or an https:// address.
+([Serif](collection:serif)), a font ([Inter](font:font-inter)), a type term ([x-height](term:x-height)) or
+an https:// address.
 
 ## A section heading
 
@@ -43,6 +44,17 @@ A paragraph. Lines wrap freely; a blank line ends it. **Bold**, *italic*, and li
   `nerdFonts`, `halloween` and so on.
 - No lists, quotes, code, images or HTML. The app draws inline Markdown only, so anything more would look
   different in the app and on the site, and `check` refuses it.
+
+## The glossary
+
+`articles/glossary.md` isn't an article: it defines the type terms the articles use, each a `## Term` heading
+and one paragraph, with no links. A `term:` link names a term by its slug, the heading in lowercase with
+hyphens for anything else, so `## Slab serif` is `term:slab-serif`. `build` writes the terms into
+`Articles.json` beside the articles, and `check` fails on a link to a term the glossary doesn't define.
+
+In the app a term link has a dotted underline, like an `<abbr>`, and shows the definition in a popover over its
+paragraph, a popover on iPhone too, so the reader stays in the article. The site should draw it as an `<abbr>`
+with the definition as its title, plus a popover a tap can open, since touch screens never show a title.
 
 `check` fails when a specimen or link names a cask the catalog doesn't have. It runs on fonts pull
 requests too, so a fonts release that drops a featured font fails Checks: swap the font in the article,

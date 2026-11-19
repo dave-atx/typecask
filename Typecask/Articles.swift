@@ -43,22 +43,54 @@ nonisolated struct Article: Decodable, Hashable, Identifiable, Sendable {
         var features: [String: Bool]?
     }
 
-    static let bundled: [Article] = {
-        guard let url = Bundle.main.url(forResource: "Articles", withExtension: "json") else { return [] }
+    /// A type term from articles/glossary.md, which a `term:` link in an article shows in a popover.
+    nonisolated struct Term: Decodable, Hashable, Identifiable, Sendable {
+        let term: String
+        /// Inline Markdown, with no links.
+        let definition: String
+
+        var id: String { term }
+    }
+
+    private nonisolated struct File: Decodable {
+        let articles: [Article]
+        /// By slug, as `term:` links name them. Absent from an Articles.json older than the glossary.
+        var terms: [String: Term]?
+    }
+
+    private static let file: File = {
+        guard let url = Bundle.main.url(forResource: "Articles", withExtension: "json") else {
+            return File(articles: [], terms: nil)
+        }
         do {
-            struct File: Decodable { let articles: [Article] }
-            return try JSONDecoder().decode(File.self, from: Data(contentsOf: url)).articles
+            return try JSONDecoder().decode(File.self, from: Data(contentsOf: url))
         } catch {
             // An article is an extra: the gallery works without them. articles.py check catches this in CI.
             assertionFailure("Articles.json is malformed: \(error)")
-            return []
+            return File(articles: [], terms: nil)
         }
     }()
 
-    /// Paragraph text as the app draws it: bold, italic and links, which the site draws the same way.
+    static let bundled: [Article] = file.articles
+    static let glossary: [String: Term] = file.terms ?? [:]
+
+    /// The term a `term:` link names, if the glossary has it.
+    static func term(for url: URL) -> Term? {
+        guard url.scheme == "term" else { return nil }
+        return glossary[String(url.absoluteString.trimmingPrefix("term:"))]
+    }
+
+    /// Paragraph text as the app draws it: bold, italic and links, which the site draws the same way. A term's
+    /// link takes a dotted underline, as an <abbr> on the site does, so it reads as a definition rather than a
+    /// place to go.
     static func markdown(_ text: String) -> AttributedString {
-        (try? AttributedString(markdown: text, options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
+        var string = (try? AttributedString(markdown: text,
+                                            options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
             ?? AttributedString(text)
+        for run in string.runs where run.link?.scheme == "term" {
+            string[run.range].underlineStyle = Text.LineStyle(pattern: .dot)
+        }
+        return string
     }
 }
 
@@ -145,8 +177,7 @@ struct ArticleView: View {
                             .padding(.top, 16)
                             .accessibilityAddTraits(.isHeader)
                     case .paragraph(let text):
-                        Text(Article.markdown(text))
-                            .font(.body)
+                        ArticleParagraph(text: text, model: model)
                     case .specimen(let line):
                         specimen(line)
                     }
@@ -192,6 +223,49 @@ struct ArticleView: View {
             .accessibilityAddTraits(.isLink)
             .accessibilityIdentifier("specimen-\(line.token)")
         }
+    }
+}
+
+/// A paragraph of an article, whose `term:` links show the term's definition in a popover over the paragraph,
+/// and whose other links go where the article sends them.
+private struct ArticleParagraph: View {
+    let text: String
+    @Bindable var model: GalleryModel
+    @State private var term: Article.Term?
+
+    var body: some View {
+        Text(Article.markdown(text))
+            .font(.body)
+            .environment(\.openURL, OpenURLAction { url in
+                if let found = Article.term(for: url) {
+                    term = found
+                    return .handled
+                }
+                return model.follow(url) ? .handled : .systemAction
+            })
+            .popover(item: $term) { term in
+                TermDefinition(term: term)
+                    // A popover on iPhone too: a sheet for two lines of text would cover the paragraph they explain.
+                    .presentationCompactAdaptation(.popover)
+            }
+    }
+}
+
+/// A term and its definition, as a popover shows them.
+private struct TermDefinition: View {
+    let term: Article.Term
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(term.term)
+                .font(.headline)
+                .accessibilityAddTraits(.isHeader)
+            Text(Article.markdown(term.definition))
+                .font(.callout)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding()
+        .frame(idealWidth: 320, maxWidth: 360, alignment: .leading)
     }
 }
 
