@@ -21,7 +21,8 @@
         {
           "kind": "specimen",
           "token": "font-inter",
-          "text": "The font you’ll forget you picked"
+          "text": "The font you’ll forget you picked",
+          "font": "TypecaskArticle-152e2c1f933b.ttf"
         },
         {
           "kind": "paragraph",
@@ -30,7 +31,8 @@
         {
           "kind": "specimen",
           "token": "font-ibm-plex-sans",
-          "text": "Neutral, friendly and ready for the whole report"
+          "text": "Neutral, friendly and ready for the whole report",
+          "font": "TypecaskArticle-43d7fb229c23.otf"
         },
         {
           "kind": "paragraph",
@@ -43,7 +45,8 @@
         {
           "kind": "specimen",
           "token": "font-eb-garamond",
-          "text": "A wedding invitation, set as if it were 1592"
+          "text": "A wedding invitation, set as if it were 1592",
+          "font": "TypecaskArticle-9cdb7cb9ab7d.otf"
         },
         {
           "kind": "paragraph",
@@ -52,7 +55,8 @@
         {
           "kind": "specimen",
           "token": "font-source-serif-4",
-          "text": "Chapter One, read comfortably on a small screen"
+          "text": "Chapter One, read comfortably on a small screen",
+          "font": "TypecaskArticle-9a8dc406def4.ttf"
         },
         {
           "kind": "paragraph",
@@ -65,7 +69,8 @@
         {
           "kind": "specimen",
           "token": "font-jetbrains-mono",
-          "text": "if (total != 0) -> average = sum / total"
+          "text": "if (total != 0) -> average = sum / total",
+          "font": "TypecaskArticle-a142c1d6edca.ttf"
         },
         {
           "kind": "paragraph",
@@ -78,7 +83,8 @@
         {
           "kind": "specimen",
           "token": "font-bebas-neue",
-          "text": "SLIDE TITLES THAT READ FROM THE BACK"
+          "text": "SLIDE TITLES THAT READ FROM THE BACK",
+          "font": "TypecaskArticle-470ff52538b1.ttf"
         },
         {
           "kind": "paragraph",
@@ -87,7 +93,8 @@
         {
           "kind": "specimen",
           "token": "font-fraunces",
-          "text": "Wonky, warm and a little goofy"
+          "text": "Wonky, warm and a little goofy",
+          "font": "TypecaskArticle-cd1b1a1ddeb2.ttf"
         },
         {
           "kind": "paragraph",
@@ -100,7 +107,8 @@
         {
           "kind": "specimen",
           "token": "font-shantell-sans",
-          "text": "Notes, doodles and birthday cards!"
+          "text": "Notes, doodles and birthday cards!",
+          "font": "TypecaskArticle-e549b41a0823.ttf"
         },
         {
           "kind": "paragraph",
@@ -109,7 +117,8 @@
         {
           "kind": "specimen",
           "token": "font-recursive",
-          "text": "Open late · Fresh coffee · Hand-painted signs"
+          "text": "Open late · Fresh coffee · Hand-painted signs",
+          "font": "TypecaskArticle-99839e6eba20.ttf"
         },
         {
           "kind": "paragraph",
@@ -118,7 +127,8 @@
         {
           "kind": "specimen",
           "token": "font-caveat",
-          "text": "Don’t forget the milk (and the cake)"
+          "text": "Don’t forget the milk (and the cake)",
+          "font": "TypecaskArticle-10b60465751e.ttf"
         },
         {
           "kind": "paragraph",
@@ -131,7 +141,8 @@
         {
           "kind": "specimen",
           "token": "font-atkinson-hyperlegible-next",
-          "text": "Il1 O0: easy to tell apart"
+          "text": "Il1 O0: easy to tell apart",
+          "font": "TypecaskArticle-673d99c6b8f6.ttf"
         },
         {
           "kind": "paragraph",

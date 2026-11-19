@@ -1,11 +1,14 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
+# dependencies = ["fonttools==4.67.0", "uharfbuzz==0.51.1"]
 # ///
-"""Writes Typecask/Articles.json, the getting-started articles, from the Markdown in articles/.
+"""Writes Typecask/Articles.json, the getting-started articles, from the Markdown in articles/, and the fonts
+their specimen lines are set in.
 
-    scripts/articles.py build     # write Typecask/Articles.json
-    scripts/articles.py check     # validate, and fail if Articles.json is out of date
+    scripts/articles.py fonts [--from XCASSETS]   # cut each specimen's font, then build
+    scripts/articles.py build                     # write Typecask/Articles.json
+    scripts/articles.py check                     # what CI runs: validate, and fail if anything is stale
 
 The app's Start Here page and the site's /start/ pages both read Articles.json, so the two never disagree.
 Each article is one file, articles/SLUG.md: front matter, then blocks separated by blank lines.
@@ -22,14 +25,29 @@ Each article is one file, articles/SLUG.md: front matter, then blocks separated 
     ## A section heading
 
     @font-inter: A specimen line, set in the cask's own face
-    @font-fraunces {wght=900 WONK=1 +ss01 -liga}: Axis values, and features on (+) or off (-)
+    @font-fraunces {wght=900 WONK=1 +ss01 -liga face=Fraunces-9ptBlackItalic}: Axis values, features on (+)
+    or off (-), and a face other than the cask's primary one, by its asset name
 
 Every font a specimen or link names has to be in Typecask/Catalog.json, so a fonts release that drops a
 cask fails this check rather than shipping an article that points at nothing. Collections are the ones
 FontCollection in Typecask/DesignStyle.swift has.
+
+A preview font holds only the gallery's sample, so a specimen line has a font of its own: the face subset
+to the line's characters and the features they reach, instanced at its axis values, and renamed
+TypecaskArticle-HASH (an OFL font's Reserved Font Name can't go on a modified copy), in
+Typecask/ArticleFonts/. HASH is of the line and its settings, so editing one line recuts only its font.
+`fonts` reads the full faces from a Fonts.xcassets, Typecask/Fonts.xcassets unless --from names another,
+and shapes each line with HarfBuzz in both the full face and the cut, failing where they differ: a
+ligature or alternate the cut lost. Run it under the memory cap, as the other font scripts:
+
+    python3 scripts/memcap.py 14 scripts/articles.py fonts
+
+Each cut carries its source's version string, and `check` warns when the catalog's has moved on, since
+a fonts release can change a face; rerun `fonts` against that release to bring them up to date.
 """
 
 import argparse
+import hashlib
 import json
 import pathlib
 import re
@@ -39,6 +57,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "articles"
 OUTPUT = ROOT / "Typecask" / "Articles.json"
 CATALOG = ROOT / "Typecask" / "Catalog.json"
+FONTS = ROOT / "Typecask" / "ArticleFonts"
+XCASSETS = ROOT / "Typecask" / "Fonts.xcassets"
+FONT_SUFFIXES = (".ttf", ".otf")
 
 # FontCollection's cases, by the raw values of DesignStyle and Holiday for the ones that take them.
 STYLES = {"monospaced", "serif", "sansSerif", "display", "handwriting"}
@@ -53,10 +74,15 @@ SPECIMEN = re.compile(r"@(?P<token>\S+?)(?:\s+\{(?P<settings>[^}]*)\})?:\s+(?P<t
 LINK = re.compile(r"\[(?P<text>[^\]]+)\]\((?P<target>[^)\s]+)\)")
 AXIS = re.compile(r"(?P<tag>[A-Za-z0-9]{4})=(?P<value>-?\d+(?:\.\d+)?)")
 FEATURE = re.compile(r"(?P<sign>[+-])(?P<tag>[A-Za-z0-9]{4})")
+FACE = re.compile(r"face=(?P<name>\S+)")
 
 
 class ArticleError(Exception):
     pass
+
+
+def load_catalog():
+    return {cask["token"]: cask for cask in json.loads(CATALOG.read_text(encoding="utf-8"))["casks"]}
 
 
 def parse(path, tokens):
@@ -148,12 +174,16 @@ def specimen(line, tokens):
             axes[axis["tag"]] = int(value) if value.is_integer() else value
         elif feature := FEATURE.fullmatch(setting):
             features[feature["tag"]] = feature["sign"] == "+"
+        elif face := FACE.fullmatch(setting):
+            result["face"] = face["name"]
         else:
-            raise ArticleError(f"{setting!r} is neither an axis (wght=700) nor a feature (+ss01, -liga)")
+            raise ArticleError(f"{setting!r} is neither an axis (wght=700), a feature (+ss01, -liga) nor face=NAME")
     if axes:
         result["axes"] = dict(sorted(axes.items()))
     if features:
         result["features"] = dict(sorted(features.items()))
+    key = json.dumps(result, ensure_ascii=False, sort_keys=True)
+    result["font"] = "TypecaskArticle-" + hashlib.sha256(key.encode()).hexdigest()[:12]
     return result
 
 
@@ -178,37 +208,187 @@ def inline(text, tokens):
     return text
 
 
-def build():
-    tokens = {cask["token"] for cask in json.loads(CATALOG.read_text(encoding="utf-8"))["casks"]}
+def read_articles(catalog):
     articles, problems = [], []
     for path in sorted(SOURCE.glob("*.md")):
         try:
-            articles.append(parse(path, tokens))
+            articles.append(parse(path, catalog.keys()))
         except ArticleError as error:
             problems.append(str(error))
     orders = sorted(article["order"] for article in articles)
     problems += [f"two articles have order {order}" for order in sorted(set(orders)) if orders.count(order) > 1]
     if problems:
         raise ArticleError("\n".join(problems))
-    articles.sort(key=lambda article: (article["order"], article["slug"]))
+    return sorted(articles, key=lambda article: (article["order"], article["slug"]))
+
+
+def specimens(articles):
+    return [b for article in articles for b in article["blocks"] if b["kind"] == "specimen"]
+
+
+def font_file(name):
+    """The cut's file, .ttf or .otf, which depends on its source's outlines; None if it hasn't been cut."""
+    return next((path for suffix in FONT_SUFFIXES if (path := FONTS / (name + suffix)).exists()), None)
+
+
+def render(articles):
+    """Articles.json, with each specimen's font named by its file. A specimen with no cut yet is an error:
+    the app would draw it in the system font."""
+    missing = []
+    for item in specimens(articles):
+        if path := font_file(item["font"]):
+            item["font"] = path.name
+        else:
+            missing.append(f"{item['token']}: {item['text']!r}")
+    if missing:
+        raise ArticleError(
+            "no font cut for these lines; run scripts/articles.py fonts:\n" + "\n".join(f"  {m}" for m in missing)
+        )
     return json.dumps({"articles": articles}, ensure_ascii=False, indent=2) + "\n"
+
+
+def source_face(xcassets, cask, face):
+    """The full face's file and the face's number in it, from the asset catalog's dataset."""
+    from fontTools.ttLib import TTCollection
+
+    dataset = xcassets / cask["token"] / f"{face}.dataset"
+    contents = dataset / "Contents.json"
+    if not contents.exists():
+        raise ArticleError(f"{cask['token']}: no {face} in {xcassets}; faces are {', '.join(sorted(cask['assets']))}")
+    path = dataset / json.loads(contents.read_text())["data"][0]["filename"]
+    if path.suffix.lower() not in {".ttc", ".otc"}:
+        return path, 0
+    # A collection's dataset is named by its first face, as build-catalog.py names the cask's assets.
+    with TTCollection(path, lazy=True) as collection:
+        for number, font in enumerate(collection.fonts):
+            if font["name"].getDebugName(6) == face:
+                return path, number
+    return path, 0
+
+
+def shaped(path, number, text, axes, features):
+    """How HarfBuzz sets the line: each glyph's cluster and advance, which a lost ligature or alternate
+    changes, though glyph ids differ between a face and its cut."""
+    import uharfbuzz
+
+    font = uharfbuzz.Font(uharfbuzz.Face(uharfbuzz.Blob.from_file_path(str(path)), number))
+    if axes:
+        font.set_variations(axes)
+    buffer = uharfbuzz.Buffer()
+    buffer.add_str(text)
+    buffer.guess_segment_properties()
+    uharfbuzz.shape(font, buffer, features)
+    return [(info.cluster, position.x_advance) for info, position in zip(buffer.glyph_infos, buffer.glyph_positions)]
+
+
+def cut(item, cask, xcassets):
+    """Subsets the specimen's face to its line and writes it to FONTS; returns the file."""
+    from fontTools.subset import Options, Subsetter
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib.instancer import instantiateVariableFont
+
+    name = item["font"]
+    path, number = source_face(xcassets, cask, item.get("face", cask["primaryFont"]))
+    text, features = item["text"], item.get("features", {})
+    with TTFont(path, fontNumber=number, lazy=True, recalcTimestamp=False) as font:
+        version = (font["name"].getDebugName(5) or "").strip()
+        location = {}
+        if "fvar" in font:
+            unknown = set(item.get("axes", {})) - {axis.axisTag for axis in font["fvar"].axes}
+            if unknown:
+                raise ArticleError(f"{cask['token']} has no axis {', '.join(sorted(unknown))}")
+            location = {a.axisTag: item.get("axes", {}).get(a.axisTag, a.defaultValue) for a in font["fvar"].axes}
+        elif item.get("axes"):
+            raise ArticleError(f"{cask['token']} isn't variable, so it takes no axis values")
+        options = Options()
+        options.layout_features += sorted(tag for tag, on in features.items() if on)
+        # As the previews: no hinting, which Core Text doesn't run, except in a CFF2 variable font, whose
+        # stripped hints the instancer fails on.
+        options.hinting = "CFF2" in font and "fvar" in font
+        options.name_IDs = ["*"]
+        options.drop_tables += ["BASE"]
+        subsetter = Subsetter(options)
+        subsetter.populate(text=text)
+        subsetter.subset(font)
+        if location:
+            instantiateVariableFont(font, location, inplace=True)
+        if "STAT" in font:
+            del font["STAT"]
+        font["name"].names = []
+        for name_id, value in ((1, name), (2, "Regular"), (4, name), (5, version), (6, name)):
+            font["name"].setName(value, name_id, 3, 1, 0x409)
+        if "CFF " in font:
+            font["CFF "].cff.fontNames = [name]
+        destination = FONTS / f"{name}{'.otf' if 'CFF ' in font or 'CFF2' in font else '.ttf'}"
+        font.save(destination)
+    if shaped(path, number, text, location, features) != shaped(destination, 0, text, {}, features):
+        raise ArticleError(f"{cask['token']}: {text!r} shapes differently in the cut than in the full face")
+    return destination
+
+
+def cut_fonts(xcassets):
+    catalog = load_catalog()
+    articles = read_articles(catalog)
+    FONTS.mkdir(exist_ok=True)
+    wanted = set()
+    for item in specimens(articles):
+        destination = cut(item, catalog[item["token"]], xcassets)
+        wanted.add(destination.name)
+        print(f"{destination.name}  {destination.stat().st_size:>7,} bytes  {item['token']}: {item['text']}")
+    for path in sorted(FONTS.iterdir()):
+        if path.name not in wanted:
+            path.unlink()
+            print(f"removed {path.name}, which no line uses")
+
+
+def check(articles, catalog):
+    """Fails where a line's font is missing, stray, or lacks one of its characters; warns where the face it
+    was cut from is older than the catalog's."""
+    from fontTools.ttLib import TTFont
+
+    problems = []
+    wanted = set()
+    for item in specimens(articles):
+        path = FONTS / item["font"]
+        wanted.add(path.name)
+        with TTFont(path, lazy=True) as font:
+            cmap = font.getBestCmap() or {}
+            if absent := sorted({c for c in item["text"] if ord(c) not in cmap}):
+                problems.append(f"{path.name} lacks {''.join(absent)!r} for {item['token']}: {item['text']!r}")
+            version = font["name"].getDebugName(5)
+        if not item.get("face") and version != catalog[item["token"]].get("fontVersion"):
+            print(
+                f"warning: {item['token']} was cut from {version!r}, and the catalog has a newer face", file=sys.stderr
+            )
+    problems += [f"{path.name} isn't any line's font" for path in sorted(FONTS.glob("*")) if path.name not in wanted]
+    if problems:
+        raise ArticleError("\n".join(problems))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
+    fonts = commands.add_parser("fonts", help="cut each specimen line's font, then write Articles.json")
+    fonts.add_argument("--from", dest="xcassets", type=pathlib.Path, default=XCASSETS, help="a Fonts.xcassets")
     commands.add_parser("build", help="write Typecask/Articles.json")
-    commands.add_parser("check", help="validate the articles, and that Articles.json matches them")
-    command = parser.parse_args().command
+    commands.add_parser("check", help="validate the articles, their fonts, and that Articles.json is current")
+    arguments = parser.parse_args()
     try:
-        text = build()
+        if arguments.command == "fonts":
+            cut_fonts(arguments.xcassets)
+        catalog = load_catalog()
+        articles = read_articles(catalog)
+        text = render(articles)
+        if arguments.command == "check":
+            check(articles, catalog)
     except ArticleError as error:
         sys.exit(str(error))
-    if command == "build":
+    if arguments.command == "check":
+        if not OUTPUT.exists() or OUTPUT.read_text(encoding="utf-8") != text:
+            sys.exit(f"{OUTPUT.relative_to(ROOT)} doesn't match articles/: run scripts/articles.py build")
+    else:
         OUTPUT.write_text(text, encoding="utf-8")
         print(f"wrote {OUTPUT.relative_to(ROOT)}")
-    elif not OUTPUT.exists() or OUTPUT.read_text(encoding="utf-8") != text:
-        sys.exit(f"{OUTPUT.relative_to(ROOT)} doesn't match articles/: run scripts/articles.py build")
 
 
 if __name__ == "__main__":
