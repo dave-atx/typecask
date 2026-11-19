@@ -79,8 +79,9 @@ git tag release-1.1 testflight-16 && git push origin release-1.1
 ```
 
 The site builds from the `release-*` tag of whatever version the App Store has (see
-[the site](site.md#the-catalog-it-shows)), so the new fonts, What's New and anything else gated on the
-version go live with the release, not with the submission. The next version needs a new
+[the site](site.md#the-catalog-it-shows)), so the new fonts, What's New, and anything else gated on the
+version go live with the release, not with the submission. To look at a version's site before then, put it
+on a [preview URL](site.md#previewing-an-unreleased-version). The next version needs a new
 `MARKETING_VERSION`.
 
 ## Release notes

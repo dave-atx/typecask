@@ -55,21 +55,40 @@ site's pages aren't universal links: those need the Associated Domains entitleme
 profile, and an `apple-app-site-association` file on the site, and a link on typecask.app to itself would
 still open in Safari.
 
+## A font's page
+
+A font's page is laid out like a printed type specimen: a masthead of a few of the face's letters, large,
+with its name, Install, and its facts, then a type tester, the sample at a size you pick. The size carries
+over to every font's page, and until it's moved it follows the text size.
+
+The full specimen needs the cask's full fonts, not the preview's few dozen glyphs, so it's opt-in, or there
+straight away for an installed cask. It adds every style, a variable font's named instances among them (read
+from its `fvar` table); passages at reading sizes, from the Universal Declaration of Human Rights; the
+OpenType features the face has; the character set by kind, with the one tapped shown large and its name; and
+the languages whose every letter the face has, by CLDR's exemplar characters (`Typecask/Languages.json`).
+A feature is listed only where shaping its text with it on draws different glyphs, and not blanks, so a
+feature that does nothing to that text is left out (`SpecimenFeatures.swift`).
+
+The fonts come from `TryOutLoader`: an installed cask's are on the device already, and anything else
+downloads its On-Demand Resources tag, as Install does, but reads the fonts from its data assets without
+installing them, so they're the app's alone. A family built into iOS gets the same page from its faces on
+the device. One from Settings' More Fonts keeps its preview alone, since resolving it through Core Text
+downloads it.
+
 ## Try It Out
 
-A font's page, and its Nerd Font version's section, has a Try It Out button that opens an editor set in the
-cask's full fonts, rather than the preview's few dozen glyphs. It's opt-in because it needs the fonts: an
-installed cask's are already on the device, and anything else downloads its On-Demand Resources tag, as
-Install does, but reads the fonts from its data assets without installing them, so they're the app's alone
-and go when the editor closes. The editor lists each face, has a slider for each axis of a variable font,
-and a Ligatures switch for a face that joins anything.
+Try It Out is an editor set in the cask's full fonts. It opens from the page's Try It Out button, or from
+any part of the specimen, zooming from what was tapped and set up for it: the sample, a style, a feature
+turned on, or a character. It shares the page's fonts, so they download once. The style and size are
+always to hand, with a chip for each OpenType feature and for ligatures. Alignment, line height, and a
+variable face's axes are under Adjust, a side panel on iPad and a half sheet on iPhone.
 
 Its text is made on the device from the font's own character set (`TryOutText`), so it never shows a line
 the face can't draw: the sample, then the coding sequences and the fi and fl words the face really joins
-(each shaped with its ligatures on and off, and kept where the glyphs differ), the alphabet, figures,
-punctuation, accented Latin, Cyrillic and Greek where the face has most of each line, currency and math
-signs, box drawing for a face with all of it, a run of each Nerd Fonts icon set for a Nerd Font, and up to
-240 letters of any other script.
+(each shaped with its ligatures on and off, and kept where the glyphs differ), a line for each feature,
+the alphabet, figures, punctuation, accented Latin, Cyrillic, and Greek where the face has most of each
+line, currency and math signs, box drawing for a face with all of it, a run of each Nerd Fonts icon set for
+a Nerd Font, and up to 240 letters of any other script.
 
 ## Design styles
 
@@ -138,6 +157,6 @@ but Settings still offers it afterwards, so only Settings makes it available to 
 says so.
 
 The app ships previews of them, so the gallery doesn't download each one as it scrolls past. The device
-draws built-in families itself; a downloadable one gets a subset of the font cut down to its sample, or
-an image where the font's license doesn't allow that.
+draws built-in families itself, and their pages have the full specimen and Try It Out; a downloadable one
+gets a subset of the font cut down to its sample, or an image where the font's license doesn't allow that.
 [The font pipeline](font-pipeline.md#apples-fonts) covers how those are generated.

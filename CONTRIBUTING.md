@@ -41,15 +41,17 @@ echo 'DEVELOPMENT_TEAM = ABCDE12345' > Signing.local.xcconfig
 
 ## Building the site
 
-[typecask.app](https://typecask.app) is a Hugo site in `site/`. It reads the catalog of the most
-recent `testflight-N` tag rather than main's, so it describes the app people can install:
+[typecask.app](https://typecask.app) is a Hugo site in `site/`. It reads the catalog, articles, and
+release notes of the version the App Store has, from its `release-*` tag, rather than main's, so it
+describes the app people can install:
 
 ```sh
 scripts/site-catalog.sh
 cd site && hugo server
 ```
 
-Needs Hugo 0.170 or later. [docs/site.md](docs/site.md) covers the rest.
+Needs Hugo 0.170 or later. [docs/site.md](docs/site.md) covers the rest, including previewing an
+unreleased version at a preview URL.
 
 ## Checks
 
@@ -62,6 +64,9 @@ uvx ruff format --check scripts && uvx ruff check scripts
 uvx --from shellcheck-py shellcheck scripts/*.sh
 uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
+scripts/build-catalog.py check-licenses
+scripts/articles.py check
+scripts/descriptions.py check
 ```
 
 The UI tests install a cask (accepting the system consent sheet) and check it's still installed after a

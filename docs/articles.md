@@ -60,9 +60,11 @@ and one paragraph, with no links. A `term:` link names a term by its slug, the h
 hyphens for anything else, so `## Slab serif` is `term:slab-serif`. `build` writes the terms into
 `Articles.json` beside the articles, and `check` fails on a link to a term the glossary doesn't define.
 
-In the app a term link has a dotted underline, like an `<abbr>`, and shows the definition in a popover over its
-paragraph, a popover on iPhone too, so the reader stays in the article. The site draws it as an `<abbr>`
-with the definition as its title, plus a popover a tap opens, since touch screens never show a title.
+In the app a term link has a dotted underline, like an `<abbr>`, and shows the definition in a popover
+pointing at it, a popover on iPhone too, so the reader stays in the article. A popover on the paragraph's
+Text would point at the paragraph, so each term link carries a `TextAttribute`, and a clear view laid over
+its run in the text layout carries its popover (`ArticleParagraph`). The site draws it as an `<abbr>` with
+the definition as its title, plus a popover a tap opens, since touch screens never show a title.
 
 `check` fails when a specimen or link names a cask the catalog doesn't have. It runs on fonts pull
 requests too, so a fonts release that drops a featured font fails Checks: swap the font in the article,

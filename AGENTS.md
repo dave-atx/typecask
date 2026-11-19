@@ -1,8 +1,8 @@
 # Typecask: notes for agents
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) for building, checks and commit message style, and
-[docs/](docs) for how the app, font pipeline and releases work. These are the rules that cost time to
-learn.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for building, checks, and commit message style, and
+[docs/](docs) for how the app, font pipeline, articles, site, and releases work. These are the rules
+that cost time to learn.
 
 ## Checks
 
@@ -62,8 +62,12 @@ scripts/descriptions.py check
 
 ## The site
 
-- `site/` reads the catalog of the latest `testflight-N` tag, not main's: `scripts/site-catalog.sh`
-  writes `site/data/`, `site/static/p/` and `site/licenses/`, all gitignored. Run it before `hugo`.
+- `site/` shows the version the App Store has, not main's: `scripts/site-catalog.sh` reads its `release-*`
+  tag and writes `site/data/`, `site/static/p/`, `site/static/a/`, and `site/licenses/`, all gitignored.
+  Run it before `hugo`. Anything new that needs a newer app checks the version (`_partials/released.html`).
+- To show an unreleased version, build against its tag (`TYPECASK_RELEASE_TAG=testflight-N`) and upload it to
+  a preview URL with `wrangler versions upload --preview-alias`, never `wrangler deploy`, which replaces
+  typecask.app. See [docs/site.md](docs/site.md#previewing-an-unreleased-version).
 - Previews hold about fifty glyphs, so nothing on the site can be set in a font but the sample line,
   except an article's specimen lines, each with a font of its own from `scripts/articles.py`.
 - `layouts/_markup/render-link.html` renders every Markdown link on the site, the catalog's descriptions
@@ -76,6 +80,12 @@ scripts/descriptions.py check
 - The app screenshots in `site/assets/screens/` come from `scripts/screenshots.sh`; retake them, don't
   edit them. `XCUIScreen` captures in portrait whichever way the device is held, so `SiteScreenshots`
   turns landscape shots upright itself.
+
+## SwiftUI
+
+- A popover takes the frame of the view it's attached to. Attach it before `.position`, which fills its
+  container, and anchor it to a view that's already where it should point: one moved into place as the
+  popover opens keeps its old frame. `ArticleParagraph` points a term's popover at the term this way.
 
 ## Signing and releases
 
@@ -108,6 +118,8 @@ scripts/descriptions.py check
 - Screenshots lag taps by a second or two, input right after launch can be dropped, and rotation
   changes tap coordinates. Take a second screenshot before deciding a tap failed.
 - In CI, wait for `simctl bootstatus -b` before the first test; a cold boot outlasts XCTest.
+- On iPhone Duo's outer display a pushed page's back button isn't inside the navigation bar: find it as
+  `app.buttons["BackButton"]`, not `app.navigationBars.buttons`.
 - iPhone Duo: `idb hinge 180` unfolds it, but only from a fresh idb companion (`idb kill` first) after a
   test run, and folding it back leaves the outer display black until a reboot. Unfolded, `XCUIScreen.main`
   is still the outer display and synthesized drags don't reach the inner one.

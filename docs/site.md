@@ -38,7 +38,8 @@ version.
 Try It Out on a font page reads `site/data/webfonts.json`, the manifest `scripts/web-fonts.py` put on R2
 for the fonts release the tag pins (`fontsTag` in `release.json`), and loads the font's WOFF2 faces
 from `webFontsURL`, fonts.typecask.app, only once someone presses the button (`assets/js/try.js`). A
-release with no manifest yet leaves the section out. The bucket's CORS rule lets typecask.app load them.
+release with no manifest yet leaves the section out. The bucket's CORS rule lets typecask.app, and the
+preview URLs (below), load them.
 
 What depends on the version follows it too. What's New (`content/_content.gotmpl`) exists only once the
 live version has notes. `_partials/released.html` says whether the live version is at least a given one,
@@ -116,8 +117,8 @@ exports the attachments. `oxipng` shrinks the PNGs, as it does the previews.
 
 `.github/workflows/site.yml` builds and deploys. It runs when a **TestFlight** run succeeds, which
 is the point of the whole arrangement, and also on a push to main that touches `site/`, on pull
-requests that touch it (build only, no deploy), daily for the App Store rating, and from the
-Actions tab.
+requests that touch it (build only, no deploy), every three hours for the App Store's version and
+rating, and from the Actions tab.
 
 Cloudflare Workers Builds would have been less machinery, but it only triggers on branch pushes and
 this has to trigger on a tag. If the trigger ever becomes a branch, the build moves there with
@@ -149,8 +150,17 @@ npx wrangler versions upload --preview-alias v1-2
 ```
 
 It serves at `https://ALIAS-typecask-site.marquard-org.workers.dev`, with `X-Robots-Tag: noindex`, and
-typecask.app keeps the App Store's version. The fonts bucket's CORS rule allows
-`https://*.marquard-org.workers.dev`, so Try It Out works there too.
+typecask.app keeps the App Store's version: an upload makes a version without deploying it. Uploading again
+with the same alias moves it to the new version. Never preview with `wrangler deploy`, which replaces
+typecask.app.
+
+- `preview_urls = true` in `site/wrangler.toml` keeps preview URLs on through CI's deploys, and
+  `workers_dev = false` keeps the Worker's plain workers.dev address off.
+- It runs locally, after `npx wrangler login`. The Site workflow only deploys.
+- The fonts bucket's CORS rule allows `https://*.marquard-org.workers.dev`, so Try It Out works there too.
+- `site-catalog.sh` takes the articles from the tag. To preview article edits a tag doesn't have yet, copy
+  `Typecask/Articles.json` over `site/data/articles.json` before `hugo`; a changed specimen line also needs
+  `scripts/articles.py web site/static/a` after copying `Typecask/ArticleFonts/` there.
 
 ## Things that are set, and where
 
@@ -166,7 +176,7 @@ typecask.app keeps the App Store's version. The fonts bucket's CORS rule allows
   The Smart App Banner needs no gate: it hands the app the page's own URL as `app-argument`, which 1.1
   opens and earlier versions ignore.
 - `_partials/app-store.html` reads the app's US rating from Apple's lookup API
-  (`itunes.apple.com/lookup`) at build time, which is why the site also rebuilds daily. The home page
+  (`itunes.apple.com/lookup`) at build time, which the three-hourly rebuild keeps current. The home page
   shows it under the badge once there is one, and a failed lookup only drops it, with a warning.
 - `_partials/structured-data.html` writes JSON-LD for Google: `WebSite` and `MobileApplication`,
   with the rating as `aggregateRating`, on the home page, and `BreadcrumbList` on font and style
