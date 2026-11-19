@@ -5,7 +5,7 @@ order: 5
 ---
 
 Before screens had millions of pixels, every letter was drawn on a grid small enough to count. These fonts
-bring that look back, from arcade cabinets and home computers to the terminals wired to IBM mainframes. Use
+bring that look back, from arcade cabinets and home computers to the terminals wired to [IBM](foundry:ibm) mainframes. Use
 them for headings, game nights, invitations, and anything that should look like it's loading from a floppy
 disk.
 
@@ -13,7 +13,7 @@ disk.
 
 @font-press-start-2p: GAME OVER · CONTINUE? 9
 
-**Press Start 2P**, by Cody "CodeMan38" Boisclair, recreates the screen font of Namco's 1980s arcade games.
+**Press Start 2P**, by Cody "[CodeMan38](designer:codeman38)" Boisclair, recreates the screen font of Namco's 1980s arcade games.
 The capitals and numbers go back to Atari's Sprint in 1977; the rest comes from Return of Ishtar (1986), one
 of the first games to use lowercase letters regularly. It's drawn on an 8-pixel grid, so it's crispest at
 sizes that are multiples of 8.
@@ -79,13 +79,13 @@ the future.
 
 @font-space-mono: T-minus 10 and counting
 
-**Space Mono**, from [Colophon Foundry](https://www.colophon-foundry.org/) for Google Design, brings those
+**Space Mono**, from [Colophon Foundry](foundry:colophon-foundry) for Google Design, brings those
 1960s headline faces to a monospaced family meant for editorial headlines. It has old-style figures, arrows,
 and a pile of alternates.
 
 @font-orbitron: SHUTTLE DEPARTS GATE 9 AT 2401 HOURS
 
-**Orbitron**, by Matt McInerney of [The League of Moveable Type](https://www.theleagueofmoveabletype.com/),
+**Orbitron**, by [Matt McInerney](designer:matt-mcinerney) of [The League of Moveable Type](foundry:the-league-of-moveable-type),
 was made so future designers have an alternative to Eurostile and Bank Gothic. Its own description explains
 the need: in every sci-fi movie, "all other fonts have been lost or destroyed in the apocalypse that led
 humans to flee earth." It's for spaceship hulls, space station signs, and the posters for those movies.

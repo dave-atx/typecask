@@ -1,0 +1,1335 @@
+{
+  "about": "Who makes the catalog's fonts, for the app's and the site's Foundries and Designers. Google Fonts lists a family's people and foundries together as its designers; a name in foundries is an organization, and any other is a person. aliases folds one maker's spellings into one. casks gives the makers of a cask Google doesn't list, read from its fonts' name tables and checked by hand; scripts/build-catalog.py drafts one for a cask that has neither, and the fonts pull request lists the names it hasn't seen before, for review here.",
+  "foundries": [
+    "42dot",
+    "Accademia di Belle Arti di Urbino",
+    "Adobe",
+    "Afrotype",
+    "AlefAlefAlef",
+    "ANRT",
+    "Applied Design Works",
+    "Arrow Type",
+    "AsiaSoft",
+    "Astigmatic",
+    "Bakken & Bæck",
+    "Baltdev",
+    "Black Foundry",
+    "Bloom Type Foundry",
+    "Bold Monday",
+    "Bonjour Monde",
+    "Boutros Fonts",
+    "Braille Institute",
+    "Brownfox",
+    "Cadson Demak",
+    "Cal.com",
+    "Capitalics",
+    "Carrois Apostrophe",
+    "Colophon Foundry",
+    "Commercial Type",
+    "Contrast Foundry",
+    "Coppers and Brasses",
+    "Cossette",
+    "Cyreal",
+    "Dalton Maag",
+    "Degarism Studio",
+    "Designtown",
+    "Dicotype",
+    "Displaay",
+    "DXKorea",
+    "Ek Type",
+    "Element Type",
+    "Etcetera Type Co",
+    "Evil Martians",
+    "Familjen STHLM",
+    "Font Bureau",
+    "Font Diner",
+    "Font Zone 108",
+    "Font-Kai",
+    "Fontamin",
+    "FontBob",
+    "FontFuror",
+    "FONTRIX",
+    "Fontstage",
+    "Fontworks",
+    "Frere-Jones Type",
+    "Gaslight",
+    "Gida Type Studio",
+    "GitHub",
+    "Google",
+    "Grayscale",
+    "Greek Font Society",
+    "Grilli Type",
+    "Hanken Design Co.",
+    "HanYang I&C",
+    "Hedvig",
+    "Helsinki Type Studio",
+    "HT Fonts",
+    "Hubert and Fischer",
+    "Hypertype",
+    "Impallari Type",
+    "Indian Type Foundry",
+    "Intel",
+    "ISIA Urbino",
+    "JAMO",
+    "JetBrains",
+    "JIKJI SOFT",
+    "justfont",
+    "Kanon Foundry",
+    "KB Studio",
+    "KH Type",
+    "Kinuta Font Factory",
+    "Koto Studio",
+    "Lafontype",
+    "LatinoType",
+    "Letters From Sweden",
+    "Lettersoup",
+    "Local Remote",
+    "LV=",
+    "LY Corporation",
+    "M+ Fonts Project",
+    "MADType",
+    "Maniackers Design",
+    "MCKL",
+    "Monokrom",
+    "Monotype",
+    "Mooniak",
+    "Morisawa",
+    "Mota Italic",
+    "MOTOYA",
+    "Naipe Foundry",
+    "NaN",
+    "Neapolitan",
+    "Nguyen Type",
+    "Non Foundry",
+    "NORD ID",
+    "Omnibus-Type",
+    "Open Window",
+    "OrangeRed",
+    "Original Type",
+    "ParaType",
+    "Plomb Type",
+    "PolarSys",
+    "Production Type",
+    "Red Stone",
+    "RixFont",
+    "Rosetta",
+    "Saja Typeworks",
+    "Sandoll",
+    "Shibuya Font",
+    "Sideshow",
+    "SIL Global",
+    "Smartsheet",
+    "SMC",
+    "Sorkin Type",
+    "soytutype fonts",
+    "Studio DRAMA",
+    "Sudtipos",
+    "Supernotes",
+    "Superunion",
+    "TAE System & Typefaces Co.",
+    "Tall Chai",
+    "Tart Workshop",
+    "Telefónica",
+    "The DocRepair Project",
+    "The Graphic Ant",
+    "The Mozilla Foundation",
+    "The Northern Block",
+    "Tipo",
+    "TipTopTyp",
+    "Tiro Typeworks",
+    "Tokotype",
+    "Type Associates",
+    "Type Bank Co.",
+    "Type Network",
+    "TypeHabesha",
+    "Typeland",
+    "TypeSETit",
+    "TypeTogether",
+    "TypoDesign Lab",
+    "Typofactur",
+    "Typomondo",
+    "Typotheque",
+    "Undercase Type",
+    "Universal Thirst",
+    "Universidad Nacional de Colombia",
+    "Universitype",
+    "URW Design Studio",
+    "USWDS",
+    "Vectro Type Foundry",
+    "VivaRado",
+    "VMware",
+    "Woowahan Brothers",
+    "Yellow Type",
+    "Yoon Design",
+    "Zalando",
+    "Zess Type",
+    "Ụdị Foundry"
+  ],
+  "aliases": {
+    "Adobe Systems": "Adobe",
+    "Adobe Systems Inc.": "Adobe",
+    "Andres Torresi": "Andrés Torresi",
+    "AsiaSoft Inc": "AsiaSoft",
+    "AsiaSoft Inc.": "AsiaSoft",
+    "Botio Nikoltchev": "Botjo Nikoltchev",
+    "Cal.com Inc.": "Cal.com",
+    "Constanza Artigas Preller": "Constanza Artigas",
+    "DXKorea Inc": "DXKorea",
+    "Eduardo Rodriguez Tunni": "Eduardo Tunni",
+    "ETC": "Etcetera Type Co",
+    "Familjen STHLM AB": "Familjen STHLM",
+    "Fontworks Inc.": "Fontworks",
+    "Github": "GitHub",
+    "HanYang I&C Co": "HanYang I&C",
+    "Intel Corporation": "Intel",
+    "JIKJI": "JIKJI SOFT",
+    "JIKJISOFT": "JIKJI SOFT",
+    "Jonny Pinhorn": "Jonathan Pinhorn",
+    "Koto": "Koto Studio",
+    "Liron Lavi Turkenic": "Liron Lavi Turkenich",
+    "Monotype Imaging": "Monotype",
+    "Monotype Imaging Inc.": "Monotype",
+    "Morisawa Inc.": "Morisawa",
+    "Sandoll Communication": "Sandoll",
+    "SIL International": "SIL Global",
+    "Smartsheet Inc": "Smartsheet",
+    "Telefonica S.A.": "Telefónica",
+    "TypoDesign Lab. Inc": "TypoDesign Lab",
+    "Universidad Nacional de Colombia (UNAL)": "Universidad Nacional de Colombia",
+    "Woowahan brothers": "Woowahan Brothers",
+    "YoonDesign Inc": "Yoon Design"
+  },
+  "casks": {
+    "font-0xproto": {
+      "foundries": [
+        "0xType"
+      ]
+    },
+    "font-3270": {
+      "designers": [
+        "Ricardo Banffy"
+      ]
+    },
+    "font-437-plus": {
+      "designers": [
+        "VileR"
+      ]
+    },
+    "font-adwaita": {
+      "foundries": [
+        "GNOME"
+      ],
+      "designers": [
+        "Rasmus Andersson"
+      ]
+    },
+    "font-adwaita-mono-nerd-font": {
+      "foundries": [
+        "GNOME"
+      ],
+      "designers": [
+        "Belleve Invis"
+      ]
+    },
+    "font-agave": {
+      "foundries": [
+        "type agaric"
+      ]
+    },
+    "font-anka-coder": {
+      "designers": [
+        "Andrey Makarov"
+      ]
+    },
+    "font-annotation-mono": {
+      "designers": [
+        "Qwerasd"
+      ]
+    },
+    "font-aporetic": {
+      "designers": [
+        "Belleve Invis",
+        "Protesilaos Stavrou"
+      ]
+    },
+    "font-ark-pixel-10px-monospaced": {
+      "designers": [
+        "TakWolf"
+      ]
+    },
+    "font-ark-pixel-12px-monospaced": {
+      "designers": [
+        "TakWolf"
+      ]
+    },
+    "font-ark-pixel-12px-proportional": {
+      "designers": [
+        "TakWolf"
+      ]
+    },
+    "font-aurulent-sans-mono-nerd-font": {
+      "designers": [
+        "Stephen G. Hartke"
+      ]
+    },
+    "font-awesome-terminal-fonts": {
+      "foundries": [
+        "Adobe"
+      ],
+      "designers": [
+        "Paul D. Hunt",
+        "Gabriele Lana"
+      ]
+    },
+    "font-batang": {
+      "foundries": [
+        "HanYang I&C"
+      ]
+    },
+    "font-batangche": {
+      "foundries": [
+        "HanYang I&C"
+      ]
+    },
+    "font-big-shoulders-display": {
+      "foundries": [
+        "XO Type Co"
+      ],
+      "designers": [
+        "Patric King"
+      ]
+    },
+    "font-bigblue-terminal-nerd-font": {
+      "designers": [
+        "VileR"
+      ]
+    },
+    "font-bitstream-vera": {
+      "foundries": [
+        "Bitstream"
+      ],
+      "designers": [
+        "Jim Lyles"
+      ]
+    },
+    "font-bitstream-vera-sans-mono-nerd-font": {
+      "foundries": [
+        "Bitstream"
+      ],
+      "designers": [
+        "Jim Lyles"
+      ]
+    },
+    "font-blackout": {
+      "foundries": [
+        "The League of Moveable Type"
+      ],
+      "designers": [
+        "Tyler Finck"
+      ]
+    },
+    "font-bm": {
+      "foundries": [
+        "Woowahan Brothers"
+      ]
+    },
+    "font-brass-mono": {
+      "designers": [
+        "Peter Fonseca"
+      ]
+    },
+    "font-charis": {
+      "foundries": [
+        "SIL Global"
+      ]
+    },
+    "font-chunk": {
+      "foundries": [
+        "The League of Moveable Type"
+      ],
+      "designers": [
+        "Meredith Mandel"
+      ]
+    },
+    "font-cica": {
+      "designers": [
+        "miiton"
+      ]
+    },
+    "font-code-new-roman-nerd-font": {
+      "designers": [
+        "Sam Radian"
+      ]
+    },
+    "font-comic-mono": {
+      "designers": [
+        "Shannon Miwa",
+        "dtinth"
+      ]
+    },
+    "font-comic-shanns-mono": {
+      "designers": [
+        "Shannon Miwa",
+        "Jesus Gonzalez"
+      ]
+    },
+    "font-commit-mono": {
+      "designers": [
+        "Eigil Nikolajsen"
+      ]
+    },
+    "font-computer-modern": {
+      "designers": [
+        "Donald Knuth",
+        "Andrey V. Panov"
+      ]
+    },
+    "font-cooper-hewitt": {
+      "foundries": [
+        "Village"
+      ],
+      "designers": [
+        "Chester Jenkins"
+      ]
+    },
+    "font-courier-prime-sans": {
+      "foundries": [
+        "Quote-Unquote Apps"
+      ],
+      "designers": [
+        "Alan Dague-Greene"
+      ]
+    },
+    "font-cozette": {
+      "designers": [
+        "slavfox"
+      ]
+    },
+    "font-d2coding": {
+      "foundries": [
+        "NAVER"
+      ],
+      "designers": [
+        "Yong-Rak Park",
+        "Jeong-Hwan Yoon",
+        "Sang-Min Lee"
+      ]
+    },
+    "font-daddy-time-mono-nerd-font": {
+      "designers": [
+        "Jason Stewart"
+      ]
+    },
+    "font-dejavu": {
+      "foundries": [
+        "DejaVu Fonts"
+      ]
+    },
+    "font-dejavu-sans-mono-for-powerline": {
+      "foundries": [
+        "DejaVu Fonts"
+      ]
+    },
+    "font-dejavu-sans-mono-nerd-font": {
+      "foundries": [
+        "DejaVu Fonts"
+      ]
+    },
+    "font-departure-mono": {
+      "designers": [
+        "Helena Zhang"
+      ]
+    },
+    "font-digital-numbers": {
+      "designers": [
+        "Stephan Ahlf"
+      ]
+    },
+    "font-dinish": {
+      "foundries": [
+        "Playbeing"
+      ],
+      "designers": [
+        "Bert Driehuis"
+      ]
+    },
+    "font-doulos-sil": {
+      "foundries": [
+        "SIL Global"
+      ]
+    },
+    "font-droid-sans-mono-for-powerline": {
+      "foundries": [
+        "Ascender"
+      ],
+      "designers": [
+        "Steve Matteson"
+      ]
+    },
+    "font-droid-sans-mono-nerd-font": {
+      "foundries": [
+        "Ascender"
+      ],
+      "designers": [
+        "Steve Matteson"
+      ]
+    },
+    "font-envy-code-r-nerd-font": {
+      "designers": [
+        "Damien Guard"
+      ]
+    },
+    "font-et-book": {
+      "designers": [
+        "Dmitry Krasny",
+        "Bonnie Scranton",
+        "Edward Tufte"
+      ]
+    },
+    "font-fairfax-hd": {
+      "foundries": [
+        "Kreative Software"
+      ],
+      "designers": [
+        "Rebecca Bettencourt"
+      ]
+    },
+    "font-fantasque-sans-mono": {
+      "designers": [
+        "Jany Belluz"
+      ]
+    },
+    "font-finlandica": {
+      "foundries": [
+        "Helsinki Type Studio"
+      ],
+      "designers": [
+        "Niklas Ekholm",
+        "Juho Hiilivirta",
+        "Jaakko Suomalainen"
+      ]
+    },
+    "font-firago": {
+      "foundries": [
+        "bBox Type"
+      ]
+    },
+    "font-firge": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-geist-serif": {
+      "foundries": [
+        "Vercel"
+      ],
+      "designers": [
+        "Evil Rabbit",
+        "Andrés Briganti",
+        "Mark Davis"
+      ]
+    },
+    "font-gentium": {
+      "foundries": [
+        "SIL Global"
+      ],
+      "designers": [
+        "Victor Gaultney"
+      ]
+    },
+    "font-gentium-book": {
+      "foundries": [
+        "SIL Global"
+      ],
+      "designers": [
+        "Victor Gaultney"
+      ]
+    },
+    "font-gnu-unifont": {
+      "foundries": [
+        "Unifoundry"
+      ],
+      "designers": [
+        "Roman Czyborra",
+        "Paul Hardy"
+      ]
+    },
+    "font-go-mono-nerd-font": {
+      "foundries": [
+        "Bigelow & Holmes"
+      ],
+      "designers": [
+        "Charles Bigelow",
+        "Kris Holmes"
+      ]
+    },
+    "font-gohufont-nerd-font": {
+      "designers": [
+        "Hugo Chargois"
+      ]
+    },
+    "font-gulim": {
+      "foundries": [
+        "HanYang I&C"
+      ]
+    },
+    "font-hack": {
+      "foundries": [
+        "Source Foundry"
+      ],
+      "designers": [
+        "Chris Simpkins"
+      ]
+    },
+    "font-hackgen": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-hackgen-nerd": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-hasklig": {
+      "foundries": [
+        "Adobe"
+      ],
+      "designers": [
+        "Paul D. Hunt",
+        "Teo Tuominen"
+      ]
+    },
+    "font-heavy-data-nerd-font": {
+      "designers": [
+        "Vic Fieger"
+      ]
+    },
+    "font-hermit": {
+      "designers": [
+        "Pablo Caro"
+      ]
+    },
+    "font-ia-writer-duo": {
+      "foundries": [
+        "iA",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-ia-writer-mono": {
+      "foundries": [
+        "iA",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-ia-writer-quattro": {
+      "foundries": [
+        "iA",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-ibm-plex-math": {
+      "foundries": [
+        "IBM",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-ibm-plex-sans-sc": {
+      "foundries": [
+        "IBM",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-ibm-plex-sans-tc": {
+      "foundries": [
+        "IBM",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-im-writing-nerd-font": {
+      "foundries": [
+        "iA",
+        "Bold Monday"
+      ],
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen"
+      ]
+    },
+    "font-inconsolata-g-for-powerline": {
+      "designers": [
+        "Raph Levien"
+      ]
+    },
+    "font-inconsolata-go-nerd-font": {
+      "designers": [
+        "Raph Levien"
+      ]
+    },
+    "font-inconsolata-lgc": {
+      "designers": [
+        "Raph Levien",
+        "Dimosthenis Kaponis",
+        "MihailJP"
+      ]
+    },
+    "font-iosevka-nerd-font": {
+      "designers": [
+        "Belleve Invis"
+      ]
+    },
+    "font-iosevka-term-nerd-font": {
+      "designers": [
+        "Belleve Invis"
+      ]
+    },
+    "font-iosevka-term-slab-nerd-font": {
+      "designers": [
+        "Belleve Invis"
+      ]
+    },
+    "font-ioskeley-mono": {
+      "designers": [
+        "Belleve Invis",
+        "Ahmed Hatem"
+      ]
+    },
+    "font-ioskeley-mono-term-nerd-font": {
+      "designers": [
+        "Belleve Invis",
+        "Ahmed Hatem"
+      ]
+    },
+    "font-ipaexfont": {
+      "foundries": [
+        "IPA"
+      ]
+    },
+    "font-ipafont": {
+      "foundries": [
+        "IPA"
+      ]
+    },
+    "font-jf-open-huninn": {
+      "foundries": [
+        "justfont"
+      ]
+    },
+    "font-juliamono": {
+      "designers": [
+        "cormullion"
+      ]
+    },
+    "font-junction": {
+      "foundries": [
+        "The League of Moveable Type"
+      ],
+      "designers": [
+        "Caroline Hadilaksono"
+      ]
+    },
+    "font-junicode": {
+      "designers": [
+        "Peter S. Baker"
+      ]
+    },
+    "font-kawkab-mono": {
+      "designers": [
+        "Abdullah Arif"
+      ]
+    },
+    "font-latin-modern-math": {
+      "foundries": [
+        "GUST e-foundry"
+      ]
+    },
+    "font-league-mono": {
+      "foundries": [
+        "The League of Moveable Type"
+      ],
+      "designers": [
+        "Tyler Finck"
+      ]
+    },
+    "font-lexica-ultralegible": {
+      "foundries": [
+        "Braille Institute"
+      ],
+      "designers": [
+        "Jacob Perez"
+      ]
+    },
+    "font-liberation": {
+      "foundries": [
+        "Red Hat"
+      ],
+      "designers": [
+        "Steve Matteson"
+      ]
+    },
+    "font-liberation-mono-for-powerline": {
+      "foundries": [
+        "Red Hat"
+      ],
+      "designers": [
+        "Steve Matteson"
+      ]
+    },
+    "font-libertinus": {
+      "designers": [
+        "Philipp H. Poll",
+        "Khaled Hosny"
+      ]
+    },
+    "font-libron": {
+      "designers": [
+        "Nico Verbruggen"
+      ]
+    },
+    "font-liga-comic-mono": {
+      "designers": [
+        "Shannon Miwa",
+        "dtinth"
+      ]
+    },
+    "font-linux-biolinum": {
+      "designers": [
+        "Philipp H. Poll"
+      ]
+    },
+    "font-linux-libertine": {
+      "designers": [
+        "Philipp H. Poll"
+      ]
+    },
+    "font-luciole": {
+      "designers": [
+        "Laurent Bourcellier",
+        "Daniel Flipo"
+      ]
+    },
+    "font-lxgw-neoxihei": {
+      "designers": [
+        "LXGW"
+      ]
+    },
+    "font-lxgw-neozhisong": {
+      "designers": [
+        "LXGW"
+      ]
+    },
+    "font-lxgw-wenkai": {
+      "designers": [
+        "LXGW"
+      ]
+    },
+    "font-m+-nerd-font": {
+      "foundries": [
+        "M+ Fonts Project"
+      ]
+    },
+    "font-maple-mono": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-maple-mono-cn": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-maple-mono-nl": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-maple-mono-normal": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-maple-mono-normal-nf-cn": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-maple-mono-normal-nl": {
+      "designers": [
+        "subframe7536"
+      ]
+    },
+    "font-meslo-for-powerline": {
+      "designers": [
+        "André Berg"
+      ]
+    },
+    "font-meslo-lg-nerd-font": {
+      "designers": [
+        "André Berg"
+      ]
+    },
+    "font-metropolis": {
+      "designers": [
+        "Chris Simpson"
+      ]
+    },
+    "font-migu-1m": {
+      "designers": [
+        "itouhiro"
+      ]
+    },
+    "font-miracode": {
+      "designers": [
+        "Idrees Hassan"
+      ]
+    },
+    "font-miriam-mono-clm": {
+      "designers": [
+        "Yoram Gnat"
+      ]
+    },
+    "font-monaspace": {
+      "foundries": [
+        "GitHub",
+        "Lettermatic"
+      ]
+    },
+    "font-monaspace-frozen": {
+      "foundries": [
+        "GitHub",
+        "Lettermatic"
+      ]
+    },
+    "font-monaspace-var": {
+      "foundries": [
+        "GitHub",
+        "Lettermatic"
+      ]
+    },
+    "font-monaspice-nerd-font": {
+      "foundries": [
+        "GitHub",
+        "Lettermatic"
+      ]
+    },
+    "font-monocraft": {
+      "designers": [
+        "Idrees Hassan"
+      ]
+    },
+    "font-monofur-for-powerline": {
+      "designers": [
+        "Tobias Benjamin Köhler"
+      ]
+    },
+    "font-monofur-nerd-font": {
+      "designers": [
+        "Tobias Benjamin Köhler"
+      ]
+    },
+    "font-monoid-nerd-font": {
+      "designers": [
+        "Andreas Larsen"
+      ]
+    },
+    "font-mononoki": {
+      "designers": [
+        "Matthias Tellen"
+      ]
+    },
+    "font-montserrat-subrayada": {
+      "designers": [
+        "Julieta Ulanovsky"
+      ]
+    },
+    "font-moralerspace": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-myna": {},
+    "font-nats": {
+      "foundries": [
+        "Silicon Andhra"
+      ]
+    },
+    "font-nordwand-mono": {
+      "designers": [
+        "Tanguy Vivier"
+      ]
+    },
+    "font-noto-mono-for-powerline": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-naskh-arabic-ui": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-nerd-font": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-sans-arabic-ui": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-sans-bengali-ui": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-sans-cjk-jp": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-cjk-kr": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-cjk-sc": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-cjk-tc": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-gujarati-ui": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-sans-mono-cjk-jp": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-mono-cjk-kr": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-mono-cjk-sc": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-sans-thai-ui": {
+      "foundries": [
+        "Google"
+      ]
+    },
+    "font-noto-serif-cjk-jp": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-noto-serif-cjk-sc": {
+      "foundries": [
+        "Google",
+        "Adobe"
+      ]
+    },
+    "font-open-sans-hebrew": {
+      "designers": [
+        "Yanek Iontef"
+      ]
+    },
+    "font-open-sans-hebrew-condensed": {
+      "designers": [
+        "Yanek Iontef"
+      ]
+    },
+    "font-opendyslexic": {
+      "designers": [
+        "Abbie Gonzalez"
+      ]
+    },
+    "font-ostrich-sans": {
+      "foundries": [
+        "The League of Moveable Type"
+      ],
+      "designers": [
+        "Tyler Finck"
+      ]
+    },
+    "font-overused-grotesk": {
+      "designers": [
+        "Bao Nguyen"
+      ]
+    },
+    "font-paper-mono": {
+      "foundries": [
+        "Paper"
+      ]
+    },
+    "font-photonico-code": {
+      "designers": [
+        "Lu Niu"
+      ]
+    },
+    "font-pixel-code": {
+      "designers": [
+        "Qwerasd"
+      ]
+    },
+    "font-plemol-jp": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-plemol-jp-hs": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-pretendard": {
+      "designers": [
+        "Kil Hyung-jin"
+      ]
+    },
+    "font-pretendard-gov": {
+      "designers": [
+        "Kil Hyung-jin"
+      ]
+    },
+    "font-pretendard-jp": {
+      "designers": [
+        "Kil Hyung-jin"
+      ]
+    },
+    "font-pretendard-std": {
+      "designers": [
+        "Kil Hyung-jin"
+      ]
+    },
+    "font-profont-nerd-font": {},
+    "font-proggy-clean-tt-nerd-font": {
+      "designers": [
+        "Tristan Grimmer"
+      ]
+    },
+    "font-psudofont-liga-mono": {
+      "designers": [
+        "Renato Setoue"
+      ]
+    },
+    "font-recursive-code": {
+      "foundries": [
+        "Arrow Type"
+      ],
+      "designers": [
+        "Stephen Nixon"
+      ]
+    },
+    "font-recursive-mono-nerd-font": {
+      "foundries": [
+        "Arrow Type"
+      ],
+      "designers": [
+        "Stephen Nixon"
+      ]
+    },
+    "font-redhat": {
+      "foundries": [
+        "Red Hat",
+        "MCKL"
+      ],
+      "designers": [
+        "Jeremy Mickel"
+      ]
+    },
+    "font-ricty-diminished": {
+      "designers": [
+        "Yasunori Yusa"
+      ]
+    },
+    "font-rounded-mplus": {
+      "foundries": [
+        "M+ Fonts Project"
+      ]
+    },
+    "font-scientifica": {
+      "designers": [
+        "Akshay Oppiliappan"
+      ]
+    },
+    "font-selawik": {
+      "foundries": [
+        "Microsoft"
+      ]
+    },
+    "font-server-mono": {
+      "foundries": [
+        "Internet Development Studio"
+      ],
+      "designers": [
+        "Tim Vanhille",
+        "Matthieu Salvaggio"
+      ]
+    },
+    "font-smiley-sans": {
+      "foundries": [
+        "atelierAnchor"
+      ]
+    },
+    "font-source-han-code-jp": {
+      "foundries": [
+        "Adobe"
+      ]
+    },
+    "font-source-han-sans-vf": {
+      "foundries": [
+        "Adobe"
+      ]
+    },
+    "font-source-han-serif-vf": {
+      "foundries": [
+        "Adobe"
+      ]
+    },
+    "font-spleen": {
+      "designers": [
+        "Frederic Cambus"
+      ]
+    },
+    "font-stix": {
+      "foundries": [
+        "STIX Fonts Project"
+      ]
+    },
+    "font-sudo": {
+      "designers": [
+        "Jens Kutílek"
+      ]
+    },
+    "font-suit": {
+      "foundries": [
+        "SUNN"
+      ]
+    },
+    "font-tamzen": {
+      "designers": [
+        "Scott Fial",
+        "Suraj N. Kurapati"
+      ]
+    },
+    "font-terminus": {
+      "designers": [
+        "Dimitar Toshkov Zhekov"
+      ]
+    },
+    "font-tex-gyre-bonum-math": {
+      "foundries": [
+        "GUST e-foundry"
+      ]
+    },
+    "font-tex-gyre-pagella-math": {
+      "foundries": [
+        "GUST e-foundry"
+      ]
+    },
+    "font-tex-gyre-schola-math": {
+      "foundries": [
+        "GUST e-foundry"
+      ]
+    },
+    "font-tex-gyre-termes-math": {
+      "foundries": [
+        "GUST e-foundry"
+      ]
+    },
+    "font-tt2020": {
+      "designers": [
+        "Fredrick Brennan"
+      ]
+    },
+    "font-twilio-sans-mono": {
+      "foundries": [
+        "Sharp Type",
+        "Twilio"
+      ]
+    },
+    "font-udev-gothic": {
+      "designers": [
+        "Yuko Otawara"
+      ]
+    },
+    "font-xkcd": {
+      "designers": [
+        "Randall Munroe"
+      ]
+    },
+    "font-xkcd-script": {
+      "designers": [
+        "Randall Munroe"
+      ]
+    },
+    "font-zed-mono-nerd-font": {
+      "foundries": [
+        "Zed Industries"
+      ],
+      "designers": [
+        "Belleve Invis"
+      ]
+    },
+    "font-zhuque-fangsong": {
+      "foundries": [
+        "TrionesType"
+      ]
+    },
+    "font-zxgamut": {
+      "foundries": [
+        "0xType"
+      ]
+    }
+  }
+}

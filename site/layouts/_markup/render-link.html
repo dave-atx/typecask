@@ -5,6 +5,8 @@
     article:SLUG      another article, under /start/
     collection:KEY    a design style's page, or Nerd Fonts; the app's other collections, like Legibility,
                       have no page here, so the words stay plain
+    foundry:SLUG      a foundry's page, and designer:SLUG a designer's, once the catalog has them; until
+                      then the words stay plain
     term:SLUG         an <abbr> holding the glossary's definition, which assets/js/terms.js shows in a
                       popover on a tap, since a touch screen never shows a title
   Anything else is an ordinary link. Links to the web are the site's alone: the app draws them as text.
@@ -32,6 +34,13 @@
   -}}
   {{- with index $names $rest -}}
     <a href="{{ (printf "/styles/%s/" (urlize .)) | relURL }}">{{ $.Text }}</a>
+  {{- else -}}
+    {{ .Text }}
+  {{- end -}}
+{{- else if or (eq $scheme "foundry") (eq $scheme "designer") -}}
+  {{- $taxonomy := cond (eq $scheme "foundry") "foundries" "designers" -}}
+  {{- with index (partialCached "maker-slugs.html" $taxonomy $taxonomy) $rest -}}
+    <a href="{{ .RelPermalink }}">{{ $.Text }}</a>
   {{- else -}}
     {{ .Text }}
   {{- end -}}

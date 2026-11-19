@@ -34,7 +34,7 @@ already includes a Baskerville.
 
 @font-libre-baskerville: Sharper type from a Birmingham printer
 
-**Libre Baskerville**, from Impallari Type, is based on American Type
+**Libre Baskerville**, from [Impallari Type](foundry:impallari-type), is based on American Type
 Founders' 1941 version. It has a taller [x-height](term:x-height), wider [counters](term:counter), and a
 little less contrast than the original, which helps it read well on a screen at body text sizes. Choose it
 over the built-in Baskerville when the text is long and the type is small.
@@ -48,13 +48,13 @@ magazine. iOS includes Bodoni 72 and Didot.
 
 @font-bodoni-moda: Hairlines, heavy stems and high fashion
 
-**Bodoni Moda**, by Owen Earl of [indestructible type](https://indestructibletype.com/), is a full Bodoni
+**Bodoni Moda**, by [Owen Earl](designer:owen-earl) of [indestructible type](https://indestructibletype.com/), is a full Bodoni
 family with every weight, italics, and optical sizes, so the hairlines stay delicate in a headline and
 sturdy enough in smaller text.
 
 @font-playfair-display: A Title Fit for the Spring Issue
 
-**Playfair Display**, by Claus Eggers Sørensen, isn't a revival of any one typeface. It takes its cues from
+**Playfair Display**, by [Claus Eggers Sørensen](designer:claus-eggers-sørensen), isn't a revival of any one typeface. It takes its cues from
 the late 18th century, when pointed steel pens replaced broad quills, and mixes in Baskerville and Scotch
 Roman. Set it big; it's made for titles.
 
@@ -86,7 +86,7 @@ American Type Founders, made to squeeze a headline into a narrow newspaper colum
 @font-league-gothic: LOCAL EDITOR FITS ENTIRE HEADLINE ON ONE LINE, READERS STUNNED
 
 **League Gothic** is a revival of Alternate Gothic No. 1 by
-[The League of Moveable Type](https://www.theleagueofmoveabletype.com/), one of the first open-source type
+[The League of Moveable Type](foundry:the-league-of-moveable-type), one of the first open-source type
 foundries. It's tall and tightly packed, so a long title fits on one line of a slide or a poster.
 
 ## Futura, 1927
@@ -116,7 +116,7 @@ signs, and it comes in a range of weights and widths.
 
 ## Courier, 1955
 
-Howard Kettler designed [Courier](https://en.wikipedia.org/wiki/Courier_%28typeface%29) for IBM's electric
+Howard Kettler designed [Courier](https://en.wikipedia.org/wiki/Courier_%28typeface%29) for [IBM](foundry:ibm)'s electric
 typewriters, and it became the sound of a typewriter on paper. Screenplays are still set in it, since one
 page of Courier works out to about a minute of screen time. iOS includes Courier New, a thinner version made
 for computers.
@@ -124,7 +124,7 @@ for computers.
 @font-courier-prime: INT. COFFEE SHOP - NIGHT
 
 **Courier Prime** was made for screenwriters by
-[Quote-Unquote Apps](https://quoteunquoteapps.com/courierprime/). Its serifs are crisper, its counters a
+[Quote-Unquote Apps](foundry:quote-unquote-apps). Its serifs are crisper, its counters a
 little wider, its bold darker, and its italics more cursive. If you write scripts in an app that lets you
 pick a font, this is the one.
 
@@ -143,24 +143,24 @@ from Thin to Black.
 
 @font-fragment-mono: let swiss = "neutral, but make it code"
 
-**Fragment Mono**, by Wei Huang, asks what Helvetica would look like as a coding font. It's built on Nimbus
+**Fragment Mono**, by [Wei Huang](designer:wei-huang), asks what Helvetica would look like as a coding font. It's built on Nimbus
 Sans, URW's long-standing Helvetica clone, with every character redrawn to the same width.
 
 ## Comic Sans, 1994
 
-Vincent Connare drew [Comic Sans](https://en.wikipedia.org/wiki/Comic_Sans) at Microsoft for the speech
+Vincent Connare drew [Comic Sans](https://en.wikipedia.org/wiki/Comic_Sans) at [Microsoft](foundry:microsoft) for the speech
 balloons of a cartoon assistant, and it escaped onto every bake sale flyer in the world. Designers love to
 hate it, but its loose, open letters are easy for many people to read. Apple offers Comic Sans MS itself as
 a free download.
 
 @font-comic-neue: Bake sale on Saturday! Bring cookies
 
-**Comic Neue**, by Craig Rozynski, keeps the honest, casual feel of Comic Sans and beats its squashed, wonky
+**Comic Neue**, by [Craig Rozynski](designer:craig-rozynski), keeps the honest, casual feel of Comic Sans and beats its squashed, wonky
 letters into shape. It's the version to use when you want friendly without looking like a mistake.
 
 @font-comic-shanns-mono: print("hello, friend") # no judgment here
 
-**Comic Shanns Mono** is Jesus Gonzalez's [monospaced](term:monospaced) take on Comic Shanns, Shannon Miwa's
+**Comic Shanns Mono** is [Jesus Gonzalez](designer:jesus-gonzalez)'s [monospaced](term:monospaced) take on Comic Shanns, [Shannon Miwa](designer:shannon-miwa)'s
 Comic Sans–inspired font. Every letter is the same width, so it works in a terminal or a code editor.
 
 ## Berkeley Mono, 2022
@@ -171,7 +171,7 @@ compact, geometric, slightly retro-technical look.
 
 @font-ioskeley-mono: const total = values.reduce((a, b) => a + b, 0)
 
-**Ioskeley Mono** began when Ahmed Hatem admired Berkeley Mono but couldn't justify buying it. He built his
+**Ioskeley Mono** began when [Ahmed Hatem](designer:ahmed-hatem) admired Berkeley Mono but couldn't justify buying it. He built his
 own on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by
 letter, and tuned it until it became its own typeface rather than a clone. It comes in ten weights and two
 widths, and if you like Berkeley Mono, the designer suggests supporting the original too.

@@ -1,0 +1,20 @@
+{{- /* Every foundry or every designer, A to Z, each with how many fonts it made. */ -}}
+{{- $terms := .page.Pages.ByTitle -}}
+<div class="bar catalog-head">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/fonts/" | relURL }}">Fonts</a></nav>
+  <h1>{{ .page.Title }}</h1>
+  <p class="lede">{{ .lede }}</p>
+  {{- if $terms }}
+    <p class="fine">{{ lang.FormatNumber 0 (len $terms) }} {{ lower .page.Title }}.
+      {{- with .other }} Or browse by <a href="{{ .RelPermalink }}">{{ lower .Title }}</a>.{{ end }}</p>
+  {{- else }}
+    <p class="fine">Coming with the next version of the app.</p>
+  {{- end }}
+</div>
+<div class="bar">
+  <ul class="maker-list">
+    {{- range $terms }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> <b>{{ lang.FormatNumber 0 (len .Pages) }}</b></li>
+    {{- end }}
+  </ul>
+</div>

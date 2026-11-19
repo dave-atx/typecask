@@ -20,14 +20,15 @@
 
   {{- /*
     Search reads descriptions from a file of its own, since they would nearly double the page:
-    each cask's description as its distinct words, without link targets or addresses, by slug.
+    each cask's description and makers as their distinct words, without link targets or addresses, by slug.
     catalog.js fetches it the first time someone searches.
   */ -}}
   {{- $words := newScratch -}}
   {{- $words.Set "w" dict -}}
   {{- range $casks }}
     {{- $slug := partial "cask-slug.html" .token -}}
-    {{- with .description }}
+    {{- /* Its makers too, so a search for Tunni or TypeTogether finds their fonts. */}}
+    {{- with delimit (slice (.description | default "") (delimit (.foundries | default slice) " ") (delimit (.designers | default slice) " ")) " " | strings.TrimSpace }}
       {{- $text := . | replaceRE `\]\([^)]*\)` " " | replaceRE `https?://\S+|\S+@\S+` " " | lower
         | replaceRE `[^\p{L}\p{N}]+` " " | strings.TrimSpace -}}
       {{- $words.SetInMap "w" $slug (delimit (uniq (split $text " ")) " ") -}}
@@ -39,6 +40,12 @@
     <h1>{{ lang.FormatNumber 0 $count }} fonts</h1>
     <p class="lede">Every family Typecask can install, set in its own face. Ordered by popularity,
       across Homebrew and Google Fonts.</p>
+    {{- $foundries := site.GetPage "/foundries" }}
+    {{- $designers := site.GetPage "/designers" }}
+    {{- if and $foundries $designers $foundries.Pages $designers.Pages }}
+      <p class="fine">Or browse them by <a href="{{ $foundries.RelPermalink }}">foundry</a> or
+        <a href="{{ $designers.RelPermalink }}">designer</a>.</p>
+    {{- end }}
   </div>
 
   <div class="filters" id="filters">

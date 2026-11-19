@@ -28,7 +28,8 @@ order: 1
 
 A paragraph. Lines wrap freely; a blank line ends it. **Bold**, *italic*, and links to a collection
 ([Serif](collection:serif)), a font ([Inter](font:font-inter)), a type term ([x-height](term:x-height)),
-another article ([Workhorses](article:workhorses)), or an https:// address.
+another article ([Workhorses](article:workhorses)), a foundry or a designer
+([Arrow Type](foundry:arrow-type), [Stephen Nixon](designer:stephen-nixon)), or an https:// address.
 
 ## A section heading
 
@@ -45,9 +46,13 @@ another article ([Workhorses](article:workhorses)), or an https:// address.
   values (`wght=900`), turn features on or off (`+ss01`, `-liga`), and pick a face by its asset name.
 - A line starting `=` right under a specimen is its translation, for a line in another language. It's
   plain text, set small under the line in the system font, so the line's font doesn't need its letters.
-- An https:// link is for the site alone: a foundry, a designer, the Wikipedia page of a classic typeface.
-  The app draws its words as plain text, so every link there stays in the app: to a font, a collection,
-  another article, or a term.
+- A foundry or designer link names the maker as the catalog does, by a slug: the name in lower case, with
+  each run of anything but letters and digits a hyphen, so Paul D. Hunt is `designer:paul-d-hunt`. Both open
+  the maker's page, in the app and on the site. Link a maker's first mention in an article; a name inside a
+  font's own, like the Intel of Intel One Mono, stays plain.
+- An https:// link is for the site alone, like the Wikipedia page of a classic typeface. The app draws its
+  words as plain text, so every link there stays in the app: to a font, a collection, a maker, another
+  article, or a term.
 - Collections are FontCollection's cases, spelled as in Swift: `monospaced`, `sansSerif`, `legibility`,
   `nerdFonts`, `halloween` and so on.
 - No lists, quotes, code, images or HTML. The app draws inline Markdown only, so anything more would look

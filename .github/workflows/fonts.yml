@@ -314,6 +314,18 @@ jobs:
               printf '\n%s\n' "$missing"
             } >> .cache/pr-body.md
           fi
+          # Makers read from name tables, for a look before they show in the app and on the site.
+          drafted=$(python3 scripts/makers.py list --markdown)
+          if [ -n "$drafted" ]; then
+            {
+              printf '\n## Makers to review\n\n'
+              cat <<'NOTE'
+          These casks' foundries and designers come from their fonts' name tables. Copy each into the casks of
+          scripts/makers.json as it is or corrected, or as {} for no credit.
+          NOTE
+              printf '\n%s\n' "$drafted"
+            } >> .cache/pr-body.md
+          fi
           # A draft, so fonts lost to a failed build aren't merged away without someone deciding to.
           flags=()
           if [ -s ".cache/$TAG.lost.txt" ]; then

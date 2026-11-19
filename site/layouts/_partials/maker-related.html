@@ -1,0 +1,31 @@
+{{- /*
+  "More from" sections for a font's page: its designers' then its foundries' most popular other fonts,
+  four each, at most two sections. A font already shown under an earlier maker isn't shown again, and a
+  maker with nothing new to show is left out. Patched Nerd Font and Powerline versions are the same
+  design with icons added, so they don't count as more from anyone. Returns [] for a catalog without
+  maker pages.
+*/ -}}
+{{- $page := . -}}
+{{- $shown := slice $page.Params.token -}}
+{{- $sections := slice -}}
+{{- range $kind := slice "designers" "foundries" -}}
+  {{- $pages := partialCached "maker-pages.html" $kind $kind -}}
+  {{- range index $page.Params $kind | default slice -}}
+    {{- $maker := index $pages . -}}
+    {{- if and $maker (lt (len $sections) 2) -}}
+      {{- $cards := slice -}}
+      {{- range sort $maker.Pages "Params.popularity" -}}
+        {{- if and (lt (len $cards) 4) (not .Params.glyphs) (not (in $shown .Params.token)) -}}
+          {{- $cards = $cards | append (dict "slug" .Params.slug "previewFile" .Params.preview
+            "sample" .Params.sample "name" .Title) -}}
+          {{- $shown = $shown | append .Params.token -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with $cards -}}
+        {{- $sections = $sections | append (dict "name" $maker.Title "url" $maker.RelPermalink
+          "count" (len $maker.Pages) "cards" .) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $sections -}}

@@ -72,7 +72,7 @@
       <div class="font-main">
         {{- if .Content }}
           <div class="prose">{{ .Content }}</div>
-          {{- with $p.designers }}
+          {{- with $p.credits }}
             <p class="attrib">— {{ delimit . ", " " and " }}, on Google Fonts</p>
           {{- end }}
           {{- with $credit }}
@@ -118,11 +118,16 @@
           <dt>Design style</dt>
           <dd><a href="{{ (printf "/styles/%s/" (urlize $p.styleName)) | relURL }}">{{ $p.styleName }}</a></dd>
           {{- with $p.version }}<dt>Version</dt><dd>{{ . }}</dd>{{ end }}
-          {{- with $p.designers }}<dt>{{ cond (eq (len .) 1) "Designer" "Designers" }}</dt>
-            <dd>{{ delimit . ", " " and " }}</dd>
-          {{- else }}{{ with $credit }}<dt>Created by</dt>
-            <dd><a href="{{ .url }}" rel="noopener">{{ .creator }}</a></dd>{{ end }}
+          {{- with $p.foundries }}<dt>{{ cond (eq (len .) 1) "Foundry" "Foundries" }}</dt>
+            <dd>{{ partial "maker-links.html" (dict "taxonomy" "foundries" "names" .) }}</dd>
           {{- end }}
+          {{- with $p.designers }}<dt>{{ cond (eq (len .) 1) "Designer" "Designers" }}</dt>
+            <dd>{{ partial "maker-links.html" (dict "taxonomy" "designers" "names" .) }}</dd>
+          {{- else }}{{ with $p.madeBy }}<dt>{{ cond (eq (len .) 1) "Designer" "Designers" }}</dt>
+            <dd>{{ delimit . ", " " and " }}</dd>
+          {{- else }}{{ if not $p.foundries }}{{ with $credit }}<dt>Created by</dt>
+            <dd><a href="{{ .url }}" rel="noopener">{{ .creator }}</a></dd>{{ end }}{{ end }}
+          {{- end }}{{ end }}
           <dt>Faces</dt><dd>{{ int $p.faces }}</dd>
           <dt>Download</dt><dd>{{ partial "bytes.html" $p.bytes }}</dd>
           <dt>Popularity</dt><dd>#{{ lang.FormatNumber 0 $p.popularity }}</dd>
@@ -136,6 +141,24 @@
         {{- end }}
       </aside>
     </div>
+
+    {{- range partial "maker-related.html" . }}
+      <div class="bar related">
+        <h2>More from {{ .name }}</h2>
+        <div class="related-grid">
+          {{- range .cards }}
+            <a class="related-card" href="{{ (printf "/fonts/%s/" .slug) | relURL }}">
+              <span class="related-spec" data-f="{{ .slug }}" data-p="{{ .previewFile }}"
+                style="font-family:'tc-{{ .slug }}',var(--ui)">{{ .sample }}</span>
+              <span class="related-name">{{ .name }}</span>
+            </a>
+          {{- end }}
+        </div>
+        {{- if gt .count (add (len .cards) 1) }}
+          <p><a class="more" href="{{ .url }}">All {{ lang.FormatNumber 0 .count }} from {{ .name }} →</a></p>
+        {{- end }}
+      </div>
+    {{- end }}
 
     {{- $related := partial "related.html" . }}
     {{- with $related }}

@@ -12,9 +12,10 @@ system prompt, and the font appears in Settings › General › Fonts and in app
 
 - **Start Here**: short guides to the catalog, from everyday workhorses to pixel fonts and type beyond
   Latin, each font set in its own face.
-- **Browse** by design style (Serif, Sans Serif, Fixed Width, Display, and Handwriting), or open the
-  Nerd Fonts, Ligatures, Symbols, Legibility, Apple Fonts, and holiday collections. Sort by name,
-  popularity, what's trending, or what's recently updated, and search by name or description.
+- **Browse** by design style (Serif, Sans Serif, Fixed Width, Display, and Handwriting), by foundry or
+  designer, or open the Nerd Fonts, Ligatures, Symbols, Legibility, Apple Fonts, and holiday collections.
+  Sort by name, popularity, what's trending, or what's recently updated, and search by name, maker, or
+  description.
 - **Preview** every font in the gallery before you download anything. Each font's page is a type
   specimen: its styles, passages at reading sizes, its character set, its OpenType features, and the
   languages it can write.

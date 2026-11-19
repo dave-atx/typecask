@@ -75,7 +75,8 @@ scripts/descriptions.py check
 - Apple's fonts stay off the site; `apple-previews` subsets Apple's own files.
 - A `define` in a page template reaches a `block` in `baseof.html` only, never one inside a partial.
 - Hugo's taxonomy map keys multi-word terms with spaces, so look a term page up with `site.GetPage`
-  and a urlized path rather than `.Taxonomies.styles.Get`.
+  and a urlized path rather than `.Taxonomies.styles.Get`. That path misses names with accents, like
+  Łukasz Dziedzic: find a designer's or foundry's page by title, through `_partials/maker-pages.html`.
 - JSON numbers arrive as float64: `printf "%d"` needs an `int` cast first.
 - The app screenshots in `site/assets/screens/` come from `scripts/screenshots.sh`; retake them, don't
   edit them. `XCUIScreen` captures in portrait whichever way the device is held, so `SiteScreenshots`

@@ -23,14 +23,14 @@ plain one is all you need.
 
 @font-jetbrains-mono: git commit -m "fix typo" # attempt 47
 
-**JetBrains Mono** comes from [JetBrains](https://www.jetbrains.com/lp/mono/), the makers of IntelliJ IDEA
-and PyCharm, designed by Philipp Nurullin and Konstantin Bulenkov for the specific needs of developers. It's
+**JetBrains Mono** comes from [JetBrains](foundry:jetbrains), the makers of IntelliJ IDEA
+and PyCharm, designed by [Philipp Nurullin](designer:philipp-nurullin) and [Konstantin Bulenkov](designer:konstantin-bulenkov) for the specific needs of developers. It's
 the default in JetBrains' own editors, and it has a tall [x-height](term:x-height) and plain, simple shapes
 that stay clear at small sizes.
 
 @font-fira-code: if (status != 200 && tries <= 3) => retry()
 
-**Fira Code**, by [Nikita Prokopov](https://github.com/tonsky/FiraCode), adds programming
+**Fira Code**, by [Nikita Prokopov](designer:nikita-prokopov), adds programming
 [ligatures](term:ligature) to [Fira Mono](font:font-fira-mono) (the coding sibling of Fira Sans, from
 [Workhorses](article:workhorses)). Sequences like != and => are drawn as single symbols, so your eye reads
 one token instead of parsing two characters. It's only a display trick: the file still holds plain ASCII.
@@ -44,14 +44,14 @@ is the same font without ligatures, for anyone who wants one glyph per character
 
 @font-source-code-pro: <p class="todo">Finish this later</p>
 
-**Source Code Pro** is Paul D. Hunt's [monospaced](term:monospaced) version of
+**Source Code Pro** is [Paul D. Hunt](designer:paul-d-hunt)'s [monospaced](term:monospaced) version of
 [Source Sans](font:font-source-sans-3) (see [Workhorses](article:workhorses)), made because people asked
-Adobe for one. It keeps Source Sans's proportions and comes in the same full range of weights.
+[Adobe](foundry:adobe) for one. It keeps Source Sans's proportions and comes in the same full range of weights.
 
 @font-hack: $ sudo make me a sandwich
 
 **Hack** is built on the open-source Bitstream Vera and DejaVu Sans Mono, aiming to be a workhorse for
-source code. It was made by [Chris Simpkins](https://sourcefoundry.org/hack/), and it ships with the
+source code. It was made by [Chris Simpkins](designer:chris-simpkins), and it ships with the
 Powerline symbols that fancy terminal prompts use.
 
 ## Newer favorites
@@ -66,12 +66,12 @@ even while every character stays in its column.
 
 @font-geist-mono: vercel deploy --prod # it's Friday
 
-**Geist Mono** is the coding partner to [Geist](font:font-geist), Vercel's sans serif from
+**Geist Mono** is the coding partner to [Geist](font:font-geist), [Vercel](foundry:vercel)'s sans serif from
 [Workhorses](article:workhorses). Clean, Swiss-inspired, and very at home in a terminal.
 
 @font-commit-mono: git push --force # what could go wrong
 
-**Commit Mono**, by Eigil Nikolajsen, calls itself an "anonymous and neutral" coding font. It's built to stay
+**Commit Mono**, by [Eigil Nikolajsen](designer:eigil-nikolajsen), calls itself an "anonymous and neutral" coding font. It's built to stay
 out of the way, and [its website](https://commitmono.com/) lets you pick your own alternate letters before
 you download.
 
@@ -83,13 +83,13 @@ Chinese characters.
 
 @font-0xproto: 0O 1lI 5S 8B: no more squinting
 
-**0xProto**, from [0xType](https://github.com/0xType/0xProto), focuses on legibility: look-alike characters
+**0xProto**, from [0xType](foundry:0xtype), focuses on legibility: look-alike characters
 get clearly different shapes, the insides of letters stay open at small sizes, and its ligatures never
 squash the characters they join. It borrows texture healing from Monaspace.
 
 @font-victor-mono {face=VictorMono-Italic}: // cursive comments, because we're fancy
 
-**Victor Mono**, by [Rune Bjørnerås](https://rubjo.github.io/victor-mono/), is slender and narrow, so a lot
+**Victor Mono**, by [Rune Bjørnerås](designer:rune-bjørnerås), is slender and narrow, so a lot
 of code fits on a line. The fun part is its italic, a semi-connected cursive that makes comments look
 handwritten.
 

@@ -89,8 +89,15 @@ struct SpecimenFacts: View {
         // Not a LazyVGrid: it sizes its rows once, so text grown in place, as the accessibility audit grows it,
         // outgrew the last row.
         FactColumns(minimumWidth: column, spacing: 16) {
+            if let foundries = cask.foundries, !foundries.isEmpty {
+                fact(foundries.count == 1 ? "Foundry" : "Foundries", combines: false) {
+                    MakerLinks(kind: .foundry, names: foundries)
+                }
+            }
             if let designers = cask.designers, !designers.isEmpty {
-                fact("Designer") { Text(designers, format: .list(type: .and)) }
+                fact(designers.count == 1 ? "Designer" : "Designers", combines: false) {
+                    MakerLinks(kind: .designer, names: designers)
+                }
             }
             if let updated = cask.updatedDate {
                 // In UTC, the zone the date was written in, so it doesn't read as the day before west of it.
@@ -109,7 +116,9 @@ struct SpecimenFacts: View {
         }
     }
 
-    private func fact(_ label: LocalizedStringKey, @ViewBuilder value: () -> some View) -> some View {
+    /// One element to VoiceOver, "Updated, Nov 3", unless its value holds links, which each need to be their own.
+    private func fact(_ label: LocalizedStringKey, combines: Bool = true,
+                      @ViewBuilder value: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(.caption)
@@ -118,7 +127,7 @@ struct SpecimenFacts: View {
                 .font(.subheadline)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: combines ? .combine : .contain)
     }
 }
 

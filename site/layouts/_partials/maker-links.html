@@ -1,0 +1,11 @@
+{{- /* A font page's foundries or designers, each linked to its page in the taxonomy. */ -}}
+{{- $pages := partialCached "maker-pages.html" .taxonomy .taxonomy -}}
+{{- $links := slice -}}
+{{- range .names -}}
+  {{- with index $pages . -}}
+    {{- $links = $links | append (printf `<a href="%s">%s</a>` .RelPermalink (.Title | htmlEscape)) -}}
+  {{- else -}}
+    {{- $links = $links | append (. | htmlEscape) -}}
+  {{- end -}}
+{{- end -}}
+{{- delimit $links ", " " and " | safeHTML -}}

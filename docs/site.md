@@ -53,12 +53,20 @@ scripts/site-catalog.sh          # from the repository root
 cd site && hugo server
 ```
 
-Hugo 0.170 or later. A full build is about three seconds for 2,208 pages: one per cask, one per
-design style, the catalog, the home page and the documents.
+Hugo 0.170 or later. A full build is about three seconds for some 3,000 pages: one per cask, design style,
+foundry, and designer, the catalog, the home page, and the documents.
 
 Pages come from `content/fonts/_content.gotmpl`, a content adapter that emits one page per cask
 straight out of `catalog.json`. There are no per-font Markdown files to maintain; a fonts release
 changes the catalog and the pages follow.
+
+Designers and foundries are taxonomies too, from each cask's `designers` and `foundries`, with an index
+of each at `/designers/` and `/foundries/`. A catalog from before `scripts/makers.json` lists Google's credits,
+people and foundries together, under `designers`, so the content adapter makes no maker pages for a catalog
+without `foundries` and lists the names on each font's page as before. Hugo would capitalize term titles
+(dtinth as "Dtinth"), so `capitalizeListTitles` is off and each taxonomy's index takes its title from
+`content/<taxonomy>/_index.md`. Templates find a maker's page by title through `_partials/maker-pages.html`:
+`site.GetPage` with a urlized path misses names like Łukasz Dziedzic.
 
 ## How the specimens work
 
@@ -134,7 +142,7 @@ It needs these in the repository's Actions settings:
 `site/wrangler.toml` names the Worker and points it at `site/public`. There's no Worker script:
 unmatched paths get Hugo's `404.html` with a 404.
 
-The build is about 4,400 files and 77 MB, against Cloudflare's limits of 20,000 files per version
+The build is about 5,100 files and 89 MB, against Cloudflare's limits of 20,000 files per version
 on the free plan and 25 MiB per file. The largest file is the catalog page at 1.1 MB, 110 KB over
 the wire.
 

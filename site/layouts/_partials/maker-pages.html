@@ -1,0 +1,10 @@
+{{- /* A taxonomy's term pages by their names: "José Scaglione" to its page. site.GetPage with a urlized
+  path misses names with accents and Polish Ł, so the pages are looked up by title instead. Called through
+  partialCached with the taxonomy as its variant, once a build. */ -}}
+{{- $pages := dict -}}
+{{- with site.GetPage (printf "/%s" .) -}}
+  {{- range .Pages -}}
+    {{- $pages = merge $pages (dict .Title .) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $pages -}}

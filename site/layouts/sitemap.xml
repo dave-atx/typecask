@@ -1,12 +1,13 @@
 {{- /*
   Hugo's built-in template emits <priority>0</priority> on every page, which tells a crawler these
   are the least important pages on the site. Search engines ignore priority and changefreq anyway,
-  so the sitemap carries the URL and the date and nothing else.
+  so the sitemap carries the URL and the date and nothing else. A taxonomy with no terms, Designers and
+  Foundries before the catalog sorts its makers, says only that it's coming and stays out.
 */ -}}
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {{- range .Pages }}
-    {{- if not .Params.private }}
+    {{- if not (or .Params.private (and (eq .Kind "taxonomy") (not .Pages))) }}
   <url>
     <loc>{{ .Permalink }}</loc>
     {{- if not .Lastmod.IsZero }}

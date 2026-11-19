@@ -17,6 +17,24 @@ final class AccessibilityAuditTests: XCTestCase {
         try auditScreens(in: app)
     }
 
+    /// The foundries' index, a foundry's page with its links to the people it worked with, and a font's credits, on the
+    /// page of a font the debug build carries.
+    @MainActor
+    func testMakerPages() throws {
+        for size in ["UICTContentSizeCategoryL", "UICTContentSizeCategoryAccessibilityXXXL"] {
+            for page in ["makers:foundry", "makers:foundry|foundry:TypeTogether", "makers:foundry|font:\(token)"] {
+                let app = XCUIApplication.typecask()
+                app.launchArguments += ["-lastPage", page, "-UIPreferredContentSizeCategoryName", size]
+                app.launch()
+                let shown = page.hasSuffix(token) ? app.buttons["maker.Braille Institute"]
+                    : app.descendants(matching: .any)[page.contains("|") ? "makerPage" : "makers"]
+                XCTAssertTrue(shown.waitForExistence(timeout: 30), "\(page) at \(size)")
+                try audit(app)
+                app.terminate()
+            }
+        }
+    }
+
     /// The sort button looks the same whatever the order, so VoiceOver reads the order in its label.
     @MainActor
     func testSortButtonSaysTheOrder() {
@@ -91,6 +109,8 @@ final class AccessibilityAuditTests: XCTestCase {
         // whatever has scrolled under its glass, which the audit measures contrast against.
         let navigationBar = app.navigationBars.firstMatch
         let barBottom = navigationBar.exists ? navigationBar.frame.maxY : window.minY
+        let field = app.searchFields.firstMatch
+        let fieldTop = field.exists && field.frame.minY > window.midY ? field.frame.minY - 16 : nil
         try app.performAccessibilityAudit { issue in
             // An issue the audit can't tie to an element has nothing to look up or exempt.
             guard let element = issue.element else { return true }
@@ -103,6 +123,10 @@ final class AccessibilityAuditTests: XCTestCase {
                 return true
             }
             if center.y < barBottom {
+                return true
+            }
+            // The same under a search field at the bottom of the screen, as iPhone puts it, over a list scrolling by.
+            if let fieldTop, center.y > fieldTop {
                 return true
             }
             // The full specimen's section titles and style names are the system's text styles, which do scale: the
