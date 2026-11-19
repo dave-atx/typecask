@@ -137,6 +137,21 @@ The build is about 4,400 files and 77 MB, against Cloudflare's limits of 20,000 
 on the free plan and 25 MiB per file. The largest file is the catalog page at 1.1 MB, 110 KB over
 the wire.
 
+### Previewing an unreleased version
+
+Cloudflare's preview URLs show a version of the site without deploying it. Build against the version's
+`testflight-N` tag with the preview's address as the base URL, and upload it under an alias:
+
+```sh
+TYPECASK_RELEASE_TAG=testflight-21 scripts/site-catalog.sh
+cd site && hugo --gc --minify --baseURL https://v1-2-typecask-site.marquard-org.workers.dev/
+npx wrangler versions upload --preview-alias v1-2
+```
+
+It serves at `https://ALIAS-typecask-site.marquard-org.workers.dev`, with `X-Robots-Tag: noindex`, and
+typecask.app keeps the App Store's version. The fonts bucket's CORS rule allows
+`https://*.marquard-org.workers.dev`, so Try It Out works there too.
+
 ## Things that are set, and where
 
 `site/hugo.toml` holds the lot:
