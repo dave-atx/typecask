@@ -827,7 +827,8 @@ img {
     flex-direction: column;
     gap: 18px;
     margin-top: 26px;
-    padding-bottom: 26px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule);
     min-width: 0;
 }
 
@@ -850,11 +851,6 @@ img {
     font-size: clamp(1.1rem, 0.225rem + 2vw, 1.6rem);
     color: var(--ink-2);
     overflow-wrap: anywhere;
-}
-
-.specimen-note {
-    padding-bottom: 30px;
-    border-bottom: 1px solid var(--rule);
 }
 
 .font-grid {

@@ -39,8 +39,7 @@
   <div class="bar catalog-head">
     <h1>{{ lang.FormatNumber 0 $count }} fonts</h1>
     <p class="lede">Every family Typecask can install, set in its own face. Ordered by popularity,
-      across Homebrew and Google Fonts. Tap one to read its license and what it
-      ships.</p>
+      across Homebrew and Google Fonts.</p>
     {{- $foundries := site.GetPage "/foundries" }}
     {{- $designers := site.GetPage "/designers" }}
     {{- if and $foundries $designers $foundries.Pages $designers.Pages }}
