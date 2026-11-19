@@ -29,6 +29,7 @@
         "Latn"
       ],
       "ligatures": true,
+      "description": "0xProto is a monospaced programming font focused on source code legibility, with letterforms designed to clearly differentiate similar-looking characters and open interior counters that stay readable at small sizes. Its Texture Healing feature slightly widens naturally wide characters such as m while keeping them within the monospace width, and it avoids ligatures that change the form or meaning of character sequences. An Italic family offers a script variant enabled through the ss01 feature.",
       "popularity": 328,
       "trending": 433,
       "nerdFont": "font-0xproto-nerd-font",
@@ -62,6 +63,7 @@
       "ligatures": true,
       "popularity": 22,
       "trending": 742,
+      "description": "0xProto with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\n0xProto is a monospaced programming font focused on source code legibility, with letterforms designed to clearly differentiate similar-looking characters and open interior counters that stay readable at small sizes. Its Texture Healing feature slightly widens naturally wide characters such as m while keeping them within the monospace width, and it avoids ligatures that change the form or meaning of character sequences. An Italic family offers a script variant enabled through the ss01 feature.",
       "pack": "font-0xproto-nerd-font"
     },
     {
@@ -87,6 +89,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "IBM 3270 is a typeface modeled on the characters of IBM 3270 series terminals, built to give terminal text a nostalgic look. It is derived from the x3270 bitmap font, which was translated from a font in Georgia Tech's 3270tool and hand-copied from a 3270 terminal. The font includes 3270-only symbols at the end of its character set, along with glyphs mapped to Unicode where counterparts exist.",
       "popularity": 441,
       "trending": 459,
       "nerdFont": "font-3270-nerd-font",
@@ -118,6 +121,7 @@
       ],
       "popularity": 81,
       "trending": 583,
+      "description": "IBM 3270 with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIBM 3270 is a typeface modeled on the characters of IBM 3270 series terminals, built to give terminal text a nostalgic look. It is derived from the x3270 bitmap font, which was translated from a font in Georgia Tech's 3270tool and hand-copied from a 3270 terminal. The font includes 3270-only symbols at the end of its character set, along with glyphs mapped to Unicode where counterparts exist.",
       "pack": "font-3270-nerd-font"
     },
     {
@@ -141,6 +145,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Ac437 is a digital remake of a classic DOS-era text mode raster font from IBM PCs and compatibles.",
       "popularity": 786,
       "pack": "pack-162"
     },
@@ -559,6 +564,7 @@
       ],
       "popularity": 122,
       "trending": 557,
+      "description": "Adwaita Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-adwaita-mono-nerd-font"
     },
     {
@@ -582,6 +588,11 @@
       "script": "Latn",
       "scripts": [
         "Latn"
+      ],
+      "description": "The ’Afacad typeface project’ commenced in 2017 as a personalised lettering endeavour for Slagskeppet, a Swedish housing tenant, who sought fresh house address numbering for their entrances. The letters and numerals were meticulously crafted to harmonise with the architectural proportions and materials employed by Architect Sture Elmén during the 1940s.\n\nFurthermore, the inclusion of supplementary weights and expanded language support contributes to a versatile typeface collection that is well-suited for both industrial and commercial applications. The alphabet, numerals and symbols were designed by Kristian Möller and are part of the Dicotype Library.\n\nTo contribute, please see [github.com/Dicotype/Afacad](https://github.com/Dicotype/Afacad).",
+      "designers": [
+        "Kristian Möller",
+        "Dicotype"
       ],
       "popularity": 650,
       "trending": 321,
@@ -641,6 +652,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Agave is a fixed-width outline typeface family designed by type agaric, begun as an educational and experimental project. It aims to bring a geometrically regular and simple style to development environments and terminals. Its variants include a slashed zero and bulged parentheses, available in Regular and Bold weights.",
       "popularity": 561,
       "trending": 563,
       "nerdFont": "font-agave-nerd-font",
@@ -673,6 +685,7 @@
       ],
       "popularity": 94,
       "trending": 676,
+      "description": "Agave with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAgave is a fixed-width outline typeface family designed by type agaric, begun as an educational and experimental project. It aims to bring a geometrically regular and simple style to development environments and terminals. Its variants include a slashed zero and bulged parentheses, available in Regular and Bold weights.",
       "pack": "font-agave-nerd-font"
     },
     {
@@ -2901,6 +2914,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Annotation Mono is a handwriting-style monospace typeface whose idealized letterforms are inspired by monospace bitmap fonts, maximizing legibility while retaining a hand-written character. It has variable weight, slant, and cursive axes, and it is intended for code as well as labels, headings, and comic lettering. Its default italics use loopy cursive forms, and a less loopy alternative is available through stylistic set ss02.",
       "popularity": 497,
       "trending": 430,
       "nerdFont": "font-annotationmono-nerd-font",
@@ -2934,6 +2948,7 @@
       ],
       "popularity": 368,
       "trending": 43,
+      "description": "Annotation Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAnnotation Mono is a handwriting-style monospace typeface whose idealized letterforms are inspired by monospace bitmap fonts, maximizing legibility while retaining a hand-written character. It has variable weight, slant, and cursive axes, and it is intended for code as well as labels, headings, and comic lettering. Its default italics use loopy cursive forms, and a less loopy alternative is available through stylistic set ss02.",
       "pack": "font-annotationmono-nerd-font"
     },
     {
@@ -2965,6 +2980,10 @@
       ],
       "popularity": 115,
       "trending": 640,
+      "designers": [
+        "Mark Simonson"
+      ],
+      "description": "Anonymous Pro with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAnonymous Pro is a family of four fixed-width fonts designed especially with coding in mind. It is inspired by Anonymous 9, a freeware Macintosh bitmap font developed in the mid-'90s by Susan Lesch and David Lamkins, that was intended as a more legible alternative to Monaco, the fixed-width Macintosh system font.\n\nCharacters that could be mistaken for one another (O, 0, I, l, 1, etc.) have distinct shapes to make them easier to tell apart in the context of source code. The regular and bold styles have embedded bitmaps for the smallest sizes (10-13 ppem.)",
       "pack": "font-anonymice-nerd-font"
     },
     {
@@ -2995,6 +3014,10 @@
       ],
       "popularity": 456,
       "trending": 353,
+      "designers": [
+        "Mark Simonson"
+      ],
+      "description": "Anonymous Pro with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nAnonymous Pro is a family of four fixed-width fonts designed especially with coding in mind. It is inspired by Anonymous 9, a freeware Macintosh bitmap font developed in the mid-'90s by Susan Lesch and David Lamkins, that was intended as a more legible alternative to Monaco, the fixed-width Macintosh system font.\n\nCharacters that could be mistaken for one another (O, 0, I, l, 1, etc.) have distinct shapes to make them easier to tell apart in the context of source code. The regular and bold styles have embedded bitmaps for the smallest sizes (10-13 ppem.)",
       "pack": "pack-133"
     },
     {
@@ -3348,6 +3371,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Aporetic is a customised build of the Iosevka typeface with a consistent rounded style, created by Protesilaos Stavrou as the successor to his Iosevka Comfy. It has overrides for almost all individual glyphs in both upright (roman) and slanted (italic) variants. The design optimises for consistency between glyphs and styles while remaining usable at small point sizes, with mostly round shapes chosen to keep characters distinct, and the italics are made slightly sturdier by reducing roundness so they do not feel more rounded than the upright.",
       "popularity": 322,
       "trending": 613,
       "pack": "font-aporetic"
@@ -3775,6 +3799,10 @@
       ],
       "popularity": 142,
       "trending": 699,
+      "designers": [
+        "Steve Matteson"
+      ],
+      "description": "Arimo with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nArimo was designed by Steve Matteson as an innovative, refreshing sans serif design that is metrically compatible with Arial™. Arimo offers improved on-screen readability characteristics and the pan-European WGL character set and solves the needs of developers looking for width-compatible fonts to address document portability across platforms.\n\nUpdated in April 2026 and re-released under the OFL. To contribute, see [ github.com/googlefonts/arimo ](https://github.com/googlefonts/arimo)",
       "pack": "font-arimo-nerd-font"
     },
     {
@@ -3831,6 +3859,7 @@
         "Jpan",
         "Brai"
       ],
+      "description": "Ark Pixel 10px Monospaced is a black-gothic (sans-serif) pixel typeface covering pan-Latin and pan-CJK characters, from the Ark Pixel project by TakWolf. In monospaced mode, each half-width or full-width character has a fixed advance and stays within the em box, so characters align strictly on a grid. That fixed grid limits the design space, so some complex glyphs cannot be drawn clearly, the character set is relatively small, and the baseline sits slightly high.",
       "popularity": 760,
       "trending": 539,
       "pack": "pack-185"
@@ -3860,6 +3889,7 @@
         "Hant",
         "Brai"
       ],
+      "description": "Ark Pixel 12px Monospaced is a sans-serif pixel typeface by TakWolf that covers pan-Latin and pan-CJK characters. In this monospaced variant, every character is fixed to half or full width, and glyphs and line height stay within the em box so they align strictly at 12 pixels. The fixed grid limits the design space, so this variant supports fewer characters, some complex forms are less clear, and the baseline sits slightly high.",
       "popularity": 731,
       "trending": 301,
       "pack": "font-ark-pixel-12px-monospaced"
@@ -3889,6 +3919,7 @@
         "Hant",
         "Brai"
       ],
+      "description": "Ark Pixel 12px Proportional is a sans-serif pixel typeface in the heiti style, covering Latin and CJK characters, and designed by TakWolf. Its proportional mode assigns each glyph a width based on its actual shape, giving more natural letter spacing and kerning than the fixed-width monospaced variant. The family offers language-specific glyph versions for Latin, Simplified and Traditional Chinese, Japanese, and Korean.",
       "popularity": 994,
       "pack": "font-ark-pixel-12px-proportional"
     },
@@ -4542,6 +4573,14 @@
       "legible": true,
       "popularity": 164,
       "trending": 491,
+      "designers": [
+        "Braille Institute",
+        "Applied Design Works",
+        "Elliott Scott",
+        "Megan Eiswerth",
+        "Letters From Sweden"
+      ],
+      "description": "Atkinson Hyperlegible Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAtkinson Hyperlegible Mono, a monospace version of Atkinson Hyperlegible, offers new opportunities for developers with low vision. Atkinson Hyperlegible Mono includes new weights, refined curves, added symbols, and additional language support.\n\nNamed after the founder of the Braille Institute, Atkinson Hyperlegible Mono has been developed specifically to increase legibility for readers with low vision, and to improve reading comprehension.\n\nHaving a traditional grotesque sans-serif at its core, it departs from tradition to incorporate unambiguous, distinctive elements—and at times, unexpected forms—always with the goal of increasing character recognition and ultimately improving reading.\n\nTo contribute, see [github.com/googlefonts/atkinson-hyperlegible-next-mono](https://github.com/googlefonts/atkinson-hyperlegible-next-mono).\n\nFrom Rebranding to Readability with Atkinson Hyperlegible\n\nDistinct and modern, the Atkinson Hyperlegible typeface aims to deliver both legibility and readability\n\nAccording to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment#:~:text=Globally%2C%20at%20least%202.2%20billion,uncorrected%20refractive%20errors%20and%20cataracts) (WHO), at least 2.2 billion people have a vision impairment. Major financial burdens can occur when people can’t read fluently or work to their full potential. For example, the WHO estimates that “losses associated with vision impairment from uncorrected myopia and presbyopia alone were estimated to be US$ 244 billion and US$ 25.4 billion, respectively.” Typeface design can help.\n\nWhen Braille Institute hired [Applied Design Works](https://helloapplied.com/) to create a new brand identity and branding strategy to coincide with their 2019 centennial anniversary, the firm looked for a beautiful and functional font specifically designed for improved [legibility and readability](https://fonts.google.com/knowledge/glossary/legibility_readability). Brad Scott and Elliott Scott of Applied Design Works were concerned about typefaces that look a little like old ransom notes, where each letter and number were dramatically different from each other. They wondered if, despite designers’ intentions, these typefaces could actually be more difficult to read for some people. They decided that no existing typeface met their legibility, readability, and branding goals. So they endeavored to create a new typeface called Atkinson Hyperlegible, named after the organization’s founder J. Robert Atkinson. The work would go on to be recognized with a [2019 Fast Company ‘Innovation by Design’ Award](https://www.fastcompany.com/90389166/innovation-by-design-2019-winners).",
       "pack": "font-atkynson-mono-nerd-font"
     },
     {
@@ -4686,6 +4725,7 @@
       ],
       "popularity": 159,
       "trending": 672,
+      "description": "Aurulent Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-aurulent-sans-mono-nerd-font"
     },
     {
@@ -4915,6 +4955,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Awesome Terminal Fonts is a collection of symbol fonts meant to be used alongside a monospace font in a terminal, adding icons for prompts and status lines. It bundles Font Awesome, Devicons, Octicons, and Pomicons symbol fonts, and it provides font maps that let scripts refer to glyphs by name rather than by codepoint. The project was heavily inspired by a patch script from Kim Silkebækken and is maintained by Gabriele Lana.",
       "popularity": 244,
       "trending": 478,
       "pack": "pack-152"
@@ -5670,6 +5711,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Batang is a well-known myeongjo(brush)-style font that first shipped with Windows 95. It was designed for optimal readability and clarity for long-form text use. This version includes proportional Latin characters. For a version with monospace, half-width Latin characters, see BatangChe.\n\nTo contribute to this project, please visit [github.com/googlefonts/batang](https://github.com/googlefonts/batang).",
       "popularity": 804,
       "pack": "font-batang"
     },
@@ -5696,6 +5738,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "BatangChe is a well-known myeongjo(brush)-style font that first shipped with Windows 95. It was designed for optimal readability and clarity for long-form text use. This version includes monospace, half-width Latin characters. For a version with proportional Latin characters, see Batang.\n\nTo contribute to this project, please visit [github.com/googlefonts/batang](https://github.com/googlefonts/batang).",
       "popularity": 1145,
       "pack": "font-batangche"
     },
@@ -6577,6 +6620,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Big Shoulders is a superfamily of condensed American Gothic variable fonts, created for the Chicago Design System, and the citizens of Chicago. The family's tall, sans-serif forms are based in Chicago's multiple histories in railway transport, public political action, and dance.\n\nBig Shoulders  is used in the Chicago Design System as the primary typeface to identify Chicago and its citizens allowing the Chicagoans to speak with one consistent typographic voice.\n\nBig Shoulders Stencil  explores Chicago's histories in work and protest, and is designed to apply the Chicagoan voice to those uses.\n\nBig Shoulders Inline  formalizes a local typographic vernacular for celebration, taking its hypnotic inline design from Chicago House parties, and local LGBTQ dance events, a tradition beginning in the early 1980s.\n\nTo contribute, see [github.com/xotypeco/big_shoulders](https://github.com/xotypeco/big_shoulders).",
       "popularity": 706,
       "trending": 474,
       "pack": "pack-085"
@@ -6661,6 +6705,7 @@
       ],
       "popularity": 124,
       "trending": 633,
+      "description": "BigBlue Terminal with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-bigblue-terminal-nerd-font"
     },
     {
@@ -7283,6 +7328,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Bitstream Vera is a family of sans and serif typefaces with monospace variants, released by Bitstream and distributed through the GNOME Foundation. The sans and monospace faces come in normal, oblique, bold, and bold oblique styles, while the serif faces come in normal and bold. Jim Lyles redesigned the accents of the family to tighten its line spacing to match other fonts, and the release was intended to be used as default system fonts in fontconfig-based desktops.",
       "popularity": 553,
       "trending": 365,
       "pack": "pack-408"
@@ -7314,6 +7360,7 @@
       ],
       "popularity": 133,
       "trending": 675,
+      "description": "Bitstream Vera Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-bitstream-vera-sans-mono-nerd-font"
     },
     {
@@ -7555,6 +7602,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Blackout is a solid, reversed, and stroked sans-serif display typeface designed by Tyler Finck and published by The League of Moveable Type. It was inspired by the filled-in sans-serif headlines of newspapers and comes in three styles: Midnight (solid), 2AM (reversed), and Sunrise (stroked).",
       "popularity": 1385,
       "pack": "pack-058"
     },
@@ -7673,6 +7721,11 @@
       ],
       "popularity": 15,
       "trending": 744,
+      "designers": [
+        "Mike Abbink",
+        "Bold Monday"
+      ],
+      "description": "IBM Plex Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIBM Plex® is the corporate typeface for IBM worldwide and an open-source project developed by the IBM Brand & Experience team (BX&D). Plex is an international typeface family designed to capture IBM’s brand spirit and history and to illustrate the unique relationship between mankind and machine—a principal theme for IBM since the turn of the century. The result is a neutral yet friendly Grotesque style typeface that balances design with the engineered details that make Plex distinctly IBM. [](https://fonts.google.com/?query=ibm+plex)The family includes a Sans, Sans Condensed, Mono, and Serif and has excellent legibility in print, web, and mobile interfaces.\n\nPlex’s three designs work well independently and even better together. Use the Sans as a contemporary compadre, the Serif for editorial storytelling, or the Mono to show code snippets. The unexpectedly expressive nature of the italics gives you even more options for your designs. Currently, IBM Plex Sans supports Extended Latin, Arabic, Cyrillic, Devanagari, Greek, Hebrew, Japanese, Korean and Thai.",
       "pack": "font-blex-mono-nerd-font"
     },
     {
@@ -7726,6 +7779,7 @@
       "scripts": [
         "Kore"
       ],
+      "description": "Woowa Brothers, a company dedicated to contributing to the world’s graceful progress by utilizing information technology, has created the ‘Hanna’ font for everyone to use. Hanna reflects Woowa Brothers’ kitsch and retro identity; it is reminiscent of our childhood memories of trying to draw something really nice, yet our drawing turns out to be a little rough and half-baked. Hanna is just like that kid’s drawing, and will bring you back to the time when you were little. Enjoy and share!",
       "popularity": 541,
       "trending": 748,
       "pack": "pack-143"
@@ -8235,6 +8289,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Brass Mono is a retro monospaced typeface inspired by 20th century electrical and mechanical design, such as typewritten service manuals, stamped electrical components, molded steel, and concrete. The font was built by tracing and modifying other typefaces, and it comes in two versions: Brass Mono, without ligatures, and Brass Mono Code, which adds code ligatures.",
       "popularity": 678,
       "trending": 724,
       "pack": "pack-403"
@@ -9755,6 +9810,13 @@
       "ligatures": true,
       "popularity": 90,
       "trending": 693,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Code with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-cascadia-code-nf"
     },
     {
@@ -9788,6 +9850,13 @@
       "ligatures": true,
       "popularity": 296,
       "trending": 625,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Code with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-cascadia-code-pl"
     },
     {
@@ -9858,6 +9927,13 @@
       ],
       "popularity": 304,
       "trending": 514,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-cascadia-mono-nf"
     },
     {
@@ -9889,6 +9965,13 @@
       ],
       "popularity": 391,
       "trending": 646,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-cascadia-mono-pl"
     },
     {
@@ -9924,6 +10007,13 @@
       "ligatures": true,
       "popularity": 34,
       "trending": 593,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Code with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-caskaydia-cove-nerd-font"
     },
     {
@@ -9957,6 +10047,13 @@
       ],
       "popularity": 18,
       "trending": 756,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-caskaydia-mono-nerd-font"
     },
     {
@@ -10313,6 +10410,7 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "Charis is a Unicode-based, extended Latin font family from SIL that also supports Cyrillic script, covering the many languages that use these scripts. It was designed to make long texts pleasant and easy to read, even in less than ideal reproduction and display conditions, and it has an extended Latin inventory of letter variants with hooks, diacritics, or 180° rotations that act as separate letters. The family also includes alternate letterforms for certain language communities and OpenType features suited to multilingual publishing.",
       "popularity": 809,
       "pack": "font-charis"
     },
@@ -10971,6 +11069,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Chunk is an ultra-bold slab serif typeface designed by Meredith Mandel and published by The League of Moveable Type. It is reminiscent of old American Western woodcuts, broadsides, and newspaper headlines, with fat block lettering intended mainly for display use. A textured companion, Chunk Five Print, was created by Tyler Finck in 2014 and contains the same glyphs as the original.",
       "pack": "pack-130"
     },
     {
@@ -11004,6 +11103,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "Cica is a monospaced Japanese typeface for programming, composed from Hack and DejaVu Sans Mono for Latin letters, numerals, and symbols, Rounded Mgen+ for other characters, and Nerd Fonts, Noto Emoji, and Icons for Devs glyphs, with adjustments forked from the Ricty generator. Its distinctive letterform detail is a shortened middle bar on the lowercase m, which makes it easier to tell apart from \"rn.\" The design also considers the legibility of subscript and superscript characters, with JuliaLang use in mind.",
       "popularity": 298,
       "trending": 674,
       "pack": "font-cica"
@@ -11214,6 +11314,7 @@
       ],
       "popularity": 111,
       "trending": 648,
+      "description": "Code New Roman with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-code-new-roman-nerd-font"
     },
     {
@@ -11415,6 +11516,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Comic Mono is a legible monospace typeface that carries the look of the comic-style lettering many readers know from childhood. It is a fork of Comic Shanns with all glyphs set to the same width and vertical metrics.",
       "popularity": 352,
       "trending": 357,
       "pack": "pack-316"
@@ -11505,6 +11607,7 @@
         "Latn",
         "Brai"
       ],
+      "description": "Comic Shanns Mono is a monospaced typeface inspired by Comic Sans, created for users who want that informal handwritten look in terminals and code editors. It includes extended glyph coverage beyond basic Latin, with diacritics, math symbols, box drawing characters, and Braille patterns that are commonly used for terminal progress indicators.",
       "nerdFont": "font-comic-shanns-mono-nerd-font",
       "pack": "pack-289"
     },
@@ -11533,6 +11636,7 @@
       ],
       "popularity": 31,
       "trending": 757,
+      "description": "Comic Shanns Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nComic Shanns Mono is a monospaced typeface inspired by Comic Sans, created for users who want that informal handwritten look in terminals and code editors. It includes extended glyph coverage beyond basic Latin, with diacritics, math symbols, box drawing characters, and Braille patterns that are commonly used for terminal progress indicators.",
       "pack": "font-comic-shanns-mono-nerd-font"
     },
     {
@@ -11648,6 +11752,7 @@
         "Grek",
         "Brai"
       ],
+      "description": "Commit Mono is an anonymous, neutral programming typeface by Eigil Nikolajsen, created to give a better reading experience for code. Its ASCII characters were sculpted with particular precision, and it includes a Smart Kerning option that adjusts the spacing of letters between characters of different widths to improve word spacing and make sublexical units easier to distinguish. The font also offers optional ligatures and alternate characters, which are off by default.",
       "popularity": 212,
       "trending": 209,
       "nerdFont": "font-commit-mono-nerd-font",
@@ -11681,6 +11786,7 @@
       ],
       "popularity": 83,
       "trending": 469,
+      "description": "Commit Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCommit Mono is an anonymous, neutral programming typeface by Eigil Nikolajsen, created to give a better reading experience for code. Its ASCII characters were sculpted with particular precision, and it includes a Smart Kerning option that adjusts the spacing of letters between characters of different widths to improve word spacing and make sublexical units easier to distinguish. The font also offers optional ligatures and alternate characters, which are off by default.",
       "pack": "font-commit-mono-nerd-font"
     },
     {
@@ -11709,6 +11815,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Computer Modern Unicode is a family of fonts converted from Metafont sources using mftrace with an autotrace backend and FontForge. It was made to provide good-quality fonts for X applications that support many languages, and its glyphs cover Latin-1, Cyrillic, Greek, and IPA extensions. The fonts are intended to be used with antialiasing enabled.",
       "popularity": 231,
       "trending": 275,
       "pack": "font-computer-modern"
@@ -11910,6 +12017,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Cooper Hewitt is a contemporary sans serif typeface by Chester Jenkins, commissioned through Pentagram to give the Cooper Hewitt, Smithsonian Design Museum a new digital form. Its characters are built from modified-geometric curves and arches. Jenkins drew it from scratch, using the earlier Polaris Condensed typeface only as a rough guide for letter widths and master-stroke thicknesses.",
       "popularity": 912,
       "pack": "pack-339"
     },
@@ -12358,6 +12466,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Courier Prime Sans is a sans-serif member of the Courier Prime family, offering the character of Courier without its serifs. It was made as a brand-new editing typeface meant to be sharp on screen and easy on the eyes. Courier Prime, the family it belongs to, was designed by Alan Dague-Greene for John August and Quote-Unquote Apps.",
       "popularity": 690,
       "trending": 754,
       "pack": "pack-121"
@@ -12428,6 +12537,10 @@
       ],
       "popularity": 127,
       "trending": 576,
+      "designers": [
+        "Steve Matteson"
+      ],
+      "description": "Cousine with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCousine was designed by Steve Matteson as an innovative, refreshing sans serif design that is metrically compatible with Courier New™. Cousine offers improved on-screen readability characteristics and the pan-European WGL character set and solves the needs of developers looking for width-compatible fonts to address document portability across platforms.",
       "pack": "font-cousine-nerd-font"
     },
     {
@@ -12512,6 +12625,7 @@
         "Jpan",
         "Brai"
       ],
+      "description": "Cozette is a 6x13 pixel bitmap programming font, based on Dina and inspired by Creep, that was designed to be small without being tiny. It is intended to cover the glyphs commonly encountered in terminal tools, including Powerline, box-drawing, Braille, Cyrillic, IPA, APL, and Uiua glyphs. It is distributed in bitmap formats and a vector version.",
       "popularity": 415,
       "trending": 288,
       "pack": "pack-207"
@@ -12865,6 +12979,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "D2 Coding is a monospaced typeface for programming, drawn for NAVER by FONTRIX in 2015 and based on Nanum Barun Gothic. Latin letters, digits, similar-looking Hangul, and punctuation that are easy to confuse in code were reworked to stay distinguishable, and the Latin design is kept in harmony with the Hangul. Hangul syllables and ideographs are full width, exactly twice the advance of a Latin character, and an optional dotted zero can replace the default slashed zero through the cv01 feature.",
       "popularity": 38,
       "trending": 227,
       "nerdFont": "font-d2coding-nerd-font",
@@ -12899,6 +13014,7 @@
       "ligatures": true,
       "popularity": 58,
       "trending": 416,
+      "description": "D2Coding with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nD2 Coding is a monospaced typeface for programming, drawn for NAVER by FONTRIX in 2015 and based on Nanum Barun Gothic. Latin letters, digits, similar-looking Hangul, and punctuation that are easy to confuse in code were reworked to stay distinguishable, and the Latin design is kept in harmony with the Hangul. Hangul syllables and ideographs are full width, exactly twice the advance of a Latin character, and an optional dotted zero can replace the default slashed zero through the cv01 feature.",
       "pack": "font-d2coding-nerd-font"
     },
     {
@@ -12925,6 +13041,7 @@
       ],
       "popularity": 144,
       "trending": 661,
+      "description": "DaddyTimeMono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-daddy-time-mono-nerd-font"
     },
     {
@@ -13040,6 +13157,14 @@
       "script": "Latn",
       "scripts": [
         "Latn"
+      ],
+      "description": "Danfo, a variable-axis font, is the result of a collaboration between Afrotype and Abu, a lettering artist from Ojota Bus Stop. It is inspired by the cut-out shapes of vinyl sticker lettering on public transportation buses in Lagos, Nigeria. This font, the first project from Afrotype, is an improved version of the 2018 design, now featuring a richer character set that supports all of Sub-Saharan African Latin. Danfo is the base set of a family of Danfo fonts Afrotype plans to release.\n\nTo contribute, please see [github.com/Afrotype/danfo](https://github.com/Afrotype/danfo).",
+      "designers": [
+        "Afrotype",
+        "Seyi Olusanya",
+        "Eyiyemi Adegbite",
+        "David Udoh",
+        "Mirko Velimirović"
       ],
       "popularity": 1981,
       "pack": "pack-112"
@@ -13282,6 +13407,7 @@
         "Cans",
         "Brai"
       ],
+      "description": "DejaVu is a font family based on the Bitstream Vera Fonts, created to cover a wider range of characters while keeping the original look and feel. The fonts are maintained by a group of contributors, listed on the project page as ben_laenen, dsegan, moyogo, ogi, and src.",
       "popularity": 49,
       "trending": 147,
       "pack": "font-dejavu"
@@ -13318,6 +13444,7 @@
       ],
       "popularity": 324,
       "trending": 703,
+      "description": "DejaVu Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "font-dejavu-sans-mono-for-powerline"
     },
     {
@@ -13353,6 +13480,7 @@
       ],
       "popularity": 75,
       "trending": 608,
+      "description": "DejaVu Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-dejavu-sans-mono-nerd-font"
     },
     {
@@ -13592,6 +13720,13 @@
       ],
       "popularity": 733,
       "trending": 372,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-delugia-mono-powerline"
     },
     {
@@ -13626,6 +13761,13 @@
       ],
       "ligatures": true,
       "popularity": 818,
+      "designers": [
+        "Aaron Bell",
+        "Mohamad Dakak",
+        "Viktoriya Grabowska",
+        "Liron Lavi Turkenich"
+      ],
+      "description": "Cascadia Code with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nCascadia Code is a fun open source font that originated from the Windows Terminal project as a replacement for Consolas. It was intended to bring personality to monospace environemnts (especially in the italic!), while still maintaining a high degree of legibility and performance even on lower resolution screens at smaller sizes. It also offers broad language coverage, including extended Latin (and Vietnamese), Greek, Cyrillic, Arabic and Hebrew.\n\nCascadia Code also has an alternate version available—Cascadia Mono—which has the programming ligatures disabled for those who prefer to see one glyph per square.\n\nFor more information or to contribute to the project, please visit [the github repository](https://github.com/microsoft/cascadia-code)",
       "pack": "font-delugia-powerline"
     },
     {
@@ -13679,6 +13821,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Departure Mono is a monospaced pixel typeface with a lo-fi, technical look. It draws on the constraints of early command-line and graphical user interfaces, the tiny pixel fonts of the late 1990s and early 2000s, and science fiction concepts from film and television.",
       "popularity": 258,
       "trending": 322,
       "nerdFont": "font-departure-mono-nerd-font",
@@ -13710,6 +13853,7 @@
       ],
       "popularity": 136,
       "trending": 559,
+      "description": "Departure Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nDeparture Mono is a monospaced pixel typeface with a lo-fi, technical look. It draws on the constraints of early command-line and graphical user interfaces, the tiny pixel fonts of the late 1990s and early 2000s, and science fiction concepts from film and television.",
       "pack": "font-departure-mono-nerd-font"
     },
     {
@@ -13821,6 +13965,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Digital Numbers is a fixed width font in a cool liquid-crystal display (LCD) style.\n\nMore information about this font can be found at [github.com/s-a/digital-numbers-font](https://github.com/s-a/digital-numbers-font)",
       "popularity": 454,
       "trending": 48,
       "pack": "pack-087"
@@ -13847,6 +13992,7 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "DINish is a sans-serif typeface inspired by the lettering of German Autobahn road signs and the DIN 1451 standard from 1931, drawn with the human reader in mind rather than a rigid technical-drawing grid. It is offered in standard, Condensed, and Expanded widths, with a variable font covering a range of weights and widths, and it includes old style and tabular numerals as well as language-specific forms for Polish, Romanian, Dutch, and Bulgarian.",
       "popularity": 2126,
       "pack": "pack-192"
     },
@@ -14371,6 +14517,7 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "Doulos SIL is a Unicode-based serif font family from SIL that supports the Latin and Cyrillic scripts, along with the complete International Phonetic Alphabet. It is essentially the same design as the original SIL Doulos released in 1992, scaled down to better match contemporary digital fonts such as Times New Roman. It includes OpenType features such as careful diacritic positioning and small caps, and is intended for linguists and literacy work.",
       "popularity": 1184,
       "pack": "pack-354"
     },
@@ -14427,6 +14574,7 @@
       ],
       "popularity": 423,
       "trending": 418,
+      "description": "Droid Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "pack-037"
     },
     {
@@ -14455,6 +14603,7 @@
       ],
       "popularity": 24,
       "trending": 768,
+      "description": "Droid Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-droid-sans-mono-nerd-font"
     },
     {
@@ -14636,13 +14785,13 @@
       "name": "EB Garamond",
       "homepage": "https://github.com/georgd/EB-Garamond",
       "installs": 1666,
-      "bytes": 460624,
+      "bytes": 793552,
       "fonts": 2,
       "assets": [
-        "EBGaramond08-Italic",
-        "EBGaramond08-Regular"
+        "EBGaramond12-Italic",
+        "EBGaramond12-Regular"
       ],
-      "primaryFont": "EBGaramond08-Regular",
+      "primaryFont": "EBGaramond12-Regular",
       "style": "serif",
       "previewFile": "TypecaskPreview-font-eb-garamond.otf",
       "glyphs": false,
@@ -15522,6 +15671,7 @@
       ],
       "popularity": 180,
       "trending": 689,
+      "description": "Envy Code R with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-envy-code-r-nerd-font"
     },
     {
@@ -15776,6 +15926,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "ET Book is a Bembo-like serif webfont based on the typeface used in Edward Tufte's books, designed by Dmitry Krasny, Bonnie Scranton, and Edward Tufte and converted to the web by Adam Schwartz. It was made as a computer version of Monotype Bembo, which became thin and spindly when converted to digital type, and it includes design changes such as ligatures, revised letterforms, and a semibold weight. The family includes roman, semi-bold, bold, and display italic styles, with both lining and oldstyle figures.",
       "popularity": 551,
       "trending": 725,
       "pack": "pack-167"
@@ -16046,6 +16197,7 @@
         "Armn",
         "Brai"
       ],
+      "description": "Fairfax HD is a halfwidth scalable monospace typeface from Kreative Software, designed for terminals, text editors, and IDEs. It supports many scripts, a large number of Unicode blocks, constructed scripts encoded in the Under-ConScript Unicode Registry, pseudographics, semigraphics, and many private use characters. It includes variants with transcription features for sitelen pona and titi pula, programming ligatures, and a version for software that judges monospacing by advance widths.",
       "popularity": 998,
       "pack": "font-fairfax-hd"
     },
@@ -16106,6 +16258,7 @@
         "Cyrl"
       ],
       "ligatures": true,
+      "description": "Fantasque Sans Mono is a programming typeface designed by Jany Belluz, with functionality in mind and wibbly-wobbly, handwriting-like fuzziness in its letterforms. Its design is said to draw on Inconsolata and Monaco, with some resemblance to Consolas, and it includes a bold version and a noticeably designed italic. An optional stylistic set, ss01, replaces the looped lowercase k with a straight form.",
       "popularity": 308,
       "trending": 305,
       "nerdFont": "font-fantasque-sans-mono-nerd-font",
@@ -16142,6 +16295,7 @@
       "ligatures": true,
       "popularity": 100,
       "trending": 644,
+      "description": "Fantasque Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nFantasque Sans Mono is a programming typeface designed by Jany Belluz, with functionality in mind and wibbly-wobbly, handwriting-like fuzziness in its letterforms. Its design is said to draw on Inconsolata and Monaco, with some resemblance to Consolas, and it includes a bold version and a noticeably designed italic. An optional stylistic set, ss01, replaces the looped lowercase k with a straight form.",
       "pack": "font-fantasque-sans-mono-nerd-font"
     },
     {
@@ -16628,6 +16782,7 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "The official typeface of Finland commissioned by the Prime ministers office and Business Finland for the promotion of Finnish exports. Its strong and compressed shapes embody a traditional virtue in Finnish culture: honest and resilient determination - \"Sisu\". Ink traps like cuts from a blunt ax, makes the typeface reliable in small sizes and gives it character in large headlines. Like the Finnhorse it's a breed suitable both as riding horse and workhorse.\n\nTo contribute, see [github.com/HelsinkiTypeStudio/Finlandica](https://github.com/HelsinkiTypeStudio/Finlandica).",
       "popularity": 1093,
       "pack": "pack-218"
     },
@@ -16763,6 +16918,12 @@
       "ligatures": true,
       "popularity": 7,
       "trending": 647,
+      "designers": [
+        "The Mozilla Foundation",
+        "Telefonica S.A.",
+        "Nikita Prokopov"
+      ],
+      "description": "Fira Code with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nProgrammers use a lot of symbols, often encoded with several characters. For the human brain, sequences like ->, <= or := are single logical tokens, even if they take two or three characters on the screen. Your eye spends a non-zero amount of energy to scan, parse and join multiple characters into a single logical one. Ideally, all programming languages should be designed with full-fledged Unicode symbols for operators, but that’s not the case yet.\n\nFira Code is an extension of the Fira Mono font containing a set of ligatures for common programming multi-character combinations. This is just a font rendering feature: underlying code remains ASCII-compatible. This helps to read and understand code faster. For some frequent sequences like .. or //, ligatures allow us to correct spacing.\n\nTo contribute, see [https://github.com/tonsky/FiraCode](https://github.com/tonsky/FiraCode).",
       "pack": "font-fira-code-nerd-font"
     },
     {
@@ -16824,6 +16985,10 @@
       ],
       "popularity": 209,
       "trending": 697,
+      "designers": [
+        "Carrois Apostrophe"
+      ],
+      "description": "Fira Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nDesigned to integrate with the character of the FirefoxOS, the Fira typefaces also aim to cover the legibility needs for a large range of handsets varying in screen quality and rendering.\n\nThe Fira font family comes in a [Sans Serif](https://fonts.google.com/specimen/Fira+Sans) with 4 weights (Light, Regular, Medium and Bold) all accompanied by italic styles. The package also includes this Mono Spaced variant with 3 weights (Regular, Medium, Bold.)\n\nSee the [Mozilla FirefoxOS Style Guide](http://www.mozilla.org/en-US/styleguide/products/firefox-os/typeface/) for more details.",
       "pack": "pack-164"
     },
     {
@@ -16853,6 +17018,10 @@
       ],
       "popularity": 46,
       "trending": 635,
+      "designers": [
+        "Carrois Apostrophe"
+      ],
+      "description": "Fira Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nDesigned to integrate with the character of the FirefoxOS, the Fira typefaces also aim to cover the legibility needs for a large range of handsets varying in screen quality and rendering.\n\nThe Fira font family comes in a [Sans Serif](https://fonts.google.com/specimen/Fira+Sans) with 4 weights (Light, Regular, Medium and Bold) all accompanied by italic styles. The package also includes this Mono Spaced variant with 3 weights (Regular, Medium, Bold.)\n\nSee the [Mozilla FirefoxOS Style Guide](http://www.mozilla.org/en-US/styleguide/products/firefox-os/typeface/) for more details.",
       "pack": "font-fira-mono-nerd-font"
     },
     {
@@ -16989,6 +17158,7 @@
         "Thai",
         "Geor"
       ],
+      "description": "FiraGO is a typeface family offered in Roman and Italic styles, with weights ranging from Two to Heavy. It was established as a new family name, separate from Fira Sans, and its design is credited to Carrois Corporate GbR and bBox Type GmbH. Weights below Thin use fractional coordinates, which the designers describe as an optical decision.",
       "popularity": 696,
       "trending": 773,
       "pack": "font-firago"
@@ -17019,6 +17189,7 @@
         "Hant",
         "Hebr"
       ],
+      "description": "Firge is a programming font that combines Fira Mono and Genshin Gothic (源真ゴシック). It uses Fira Mono letterforms for ASCII alphanumerics and symbols, and Genshin Gothic for other symbols, kana, and kanji, with a 1:2 half-width to full-width ratio. The family also includes Console variants that prioritize Fira Mono glyphs so many symbols such as arrows display at half width, and Firge35 variants that use a 3:5 width ratio for larger alphanumerics.",
       "popularity": 811,
       "pack": "font-firge"
     },
@@ -17991,6 +18162,13 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Gabarito is a light-hearted geometric sans typeface with 6 weights ranging from Regular to Black originally designed for an online learning platform in Brazil.\n\nNamed after the Brazilian Portuguese work for an answer sheet, Gabarito was made to help young people learn and overcome the university entry exams known as \"vestibular\", and it did that by packing lots of high-school level symbols and figures into a very friendly voice that was equal parts functional and engaging.\n\nBeyond the Google Fonts Latin Core Character set which supports over several latin alphabet languages, Gabarito also includes things like Logic and Set Theory symbols, scientific inferiors and superiors, extensive math operators, roman numerals and anything else a high-schooler may need for their homework.\n\nThe initial design was comissioned in 2017, started by Leandro Assis and Álvaro Franca, it then got developed and improved further in 2020 by Álvaro Franca and Felipe Casaprima, and finally in 2023 it got a little bit of a makeover in order for it's debut in the commons, that last part with a lot of help from Henrique Beier of Harbor Type.\n\nTo contribute, please see [github.com/naipefoundry/gabarito](https://github.com/naipefoundry/gabarito).",
+      "designers": [
+        "Naipe Foundry",
+        "Leandro Assis",
+        "Álvaro Franca",
+        "Felipe Casaprima"
+      ],
       "popularity": 534,
       "trending": 156,
       "pack": "pack-366"
@@ -18423,6 +18601,15 @@
       ],
       "popularity": 60,
       "trending": 382,
+      "designers": [
+        "Andrés Briganti",
+        "Mateo Zaragoza",
+        "Guillermo Rauch",
+        "Evil Rabbit",
+        "José Rago",
+        "Facundo Santana"
+      ],
+      "description": "Geist Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nGeist Mono is a monospace typeface that prioritizes readability and seamless integration into coding environments. It is complemented by its sans-serif counterpart, [Geist](https://fonts.google.com/specimen/Geist).\n\nCreated by Vercel in collaboration with Basement Studio, Geist fonts embody their design principles of simplicity, minimalism, and speed, drawing inspiration from the renowned Swiss design movement. With precision, clarity, and functionality at its core, Geist enhances the visual experience of developers and designers, empowering them to effectively communicate their ideas.\n\nTo contribute, see [github.com/vercel/geist-font](https://github.com/vercel/geist-font).",
       "pack": "font-geist-mono-nerd-font"
     },
     {
@@ -18477,6 +18664,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Geist Serif is a high-contrast display serif created by Evil Rabbit in collaboration with Andrés Briganti and Mark Davis, as part of the Geist family from Vercel. It has fine, saw-toothed serifs and sharp hairlines, and its Regular and Square variants are suited to primary typography, while Triangle and Heart offer more decorative alternatives.",
       "popularity": 674,
       "trending": 1,
       "pack": "pack-168"
@@ -18596,6 +18784,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Gentium is a typeface family for Latin, Cyrillic, and Greek scripts, intended to support the writing systems of the many ethnic groups and nations that use them. Its design is highly readable and slightly calligraphic, with generous counters, modest and slightly compressed capitals, and careful letterspacing. The family supports almost the complete range of Unicode characters for these scripts, including extensive diacritics, linguistic symbols, monotonic and polytonic Greek, and smart diacritic positioning.",
       "popularity": 622,
       "trending": 736,
       "pack": "font-gentium"
@@ -18626,6 +18815,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Gentium Book is a serif typeface from the Gentium family, created to support the Latin, Cyrillic, and Greek scripts for readable, high-quality publications for diverse language communities. The design is intended to be highly readable and reasonably compact, with generous counters, modest and slightly compressed capitals, and a friendly, calligraphic character. The family, distributed by SIL International, supports almost the complete range of Unicode characters for these scripts, including extensive diacritics and symbols for linguistics and literacy work.",
       "popularity": 844,
       "pack": "font-gentium-book"
     },
@@ -19391,6 +19581,7 @@
         "Olck",
         "Brai"
       ],
+      "description": "GNU Unifont is a Unicode-based, dual-width monochrome font with glyphs on a grid of 8 or 16 pixels wide by 16 pixels tall. It was designed to render a meaningful glyph for every printable code point in the Unicode Basic Multilingual Plane rather than a blank box for missing characters, and it also covers parts of the Supplementary Multilingual Plane, including ConScript Unicode Registry and Under-CSUR symbols. The font is part of the GNU Project and was built through contributions from many volunteers.",
       "popularity": 365,
       "trending": 396,
       "pack": "font-gnu-unifont"
@@ -19424,6 +19615,7 @@
       ],
       "popularity": 28,
       "trending": 766,
+      "description": "Go Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-go-mono-nerd-font"
     },
     {
@@ -19510,6 +19702,7 @@
       ],
       "popularity": 131,
       "trending": 658,
+      "description": "Gohu with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-gohufont-nerd-font"
     },
     {
@@ -19711,6 +19904,11 @@
       ],
       "popularity": 318,
       "trending": 30,
+      "designers": [
+        "Google",
+        "Universal Thirst"
+      ],
+      "description": "Google Sans Code with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIn Memory of Chris Simpkins\n\nDedicated to the memory of Chris Simpkins, whose enthusiasm and efforts were foundational to this project.\n\nIntroducing Google Sans Code\n\nGoogle Sans Code is a fixed-width, geometric sans-serif typeface developed to complement Google's corporate branding fonts. Derived from our other brand fonts, this typeface has been crafted specifically for writing and reading code, and enhanced for clarity at text dimensions typically used in programming interfaces.\n\nHistory and design details\n\nThe architecture of Google Sans Code merges geometric precision with calligraphic expression within the constraints of a fixed-width canvas. The Roman variant builds on a clean, structured sans-serif foundation, ensuring optimal readability in code and data-intensive environments. In contrast, the Italic variant draws inspiration from early Italian italics, providing a distinctive and expressive complementary style. This thoughtful pairing delivers a unique combination of technical precision, historical elegance, and personable quirkiness.\n\nReadability & legibility at small sizes\n\nThe fundamental structure of shapes in the Roman design maximizes counter space in letterforms by employing gradual curve radii and straight vertical stem segments in predominantly circular letters, enhancing clarity at target sizes.\n\nCharacters with idiosyncratic features like 'a', 'g', and 'Q' incorporate elements from traditional text typefaces to improve recognition in situations where conventional sans serif forms might be confused with similar characters.\n\nSymbols frequently used as lexical elements in programming languages have been refined for immediate recognition and to maintain an equal visual balance with alphanumerical components within the syntactical hierarchy at intended sizes.\n\nExpressive italics\n\nThe italic style, commonly employed for code comments in syntax highlighting schemes, features a more dynamic and contrasting appearance compared to the Roman. This approach parallels Latin handwritten manuscripts where authors' annotations appeared in an italic hand, distinguishing them from the primary text set in Roman style, establishing a visual hierarchy throughout the document.\n\nThe letterforms draw inspiration from Ludovico Vicentino degli Arrighi's pioneering italic typefaces.\n\nAuxiliary characters and language support\n\nThe character set encompasses support for contemporary programming languages with extensions into box-drawing characters and geometric symbols. Google Sans Code also accommodates a comprehensive range of human languages that utilize the Latin writing system.",
       "pack": "font-googlesanscode-nerd-font"
     },
     {
@@ -20331,6 +20529,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Gulim is a well-known gothic-style font that first shipped with Windows 95. It was designed with clean, simple strokes for clarity in user interfaces, and has rounded terminals. This version includes proportional Latin characters. For a version with monospace, half-width Latin characters, see GulimChe.\n\nTo contribute to this project, please visit [github.com/googlefonts/gulim](https://github.com/googlefonts/gulim).",
       "popularity": 1095,
       "pack": "font-gulim"
     },
@@ -20575,6 +20774,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "Hack is a monospaced typeface designed as a workhorse for source code, with a large x-height, wide apertures, and low contrast for legibility at common code text sizes of roughly 8 to 14. It draws on the Bitstream Vera and DejaVu projects and has been redesigned with an expanded glyph set, Powerline glyphs included in the regular style, and a regular, bold, italic, and bold italic family. Distinctive details include an oval-filled zero, serifs on narrow characters such as lowercase l and the number 1, and semi-bold punctuation.",
       "popularity": 77,
       "trending": 401,
       "nerdFont": "font-hack-nerd-font",
@@ -20611,6 +20811,7 @@
       ],
       "popularity": 5,
       "trending": 338,
+      "description": "Hack with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nHack is a monospaced typeface designed as a workhorse for source code, with a large x-height, wide apertures, and low contrast for legibility at common code text sizes of roughly 8 to 14. It draws on the Bitstream Vera and DejaVu projects and has been redesigned with an expanded glyph set, Powerline glyphs included in the regular style, and a regular, bold, italic, and bold italic family. Distinctive details include an oval-filled zero, serifs on narrow characters such as lowercase l and the number 1, and semi-bold punctuation.",
       "pack": "font-hack-nerd-font"
     },
     {
@@ -20641,6 +20842,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "HackGen is a monospaced programming typeface created as a composite of Hack, which supplies the Latin letters and digits, and GenJyuu Gothic, a derivative of Source Han Sans (Source Han Sans / Noto Sans CJK) that supplies the kana and kanji. The font uses a half-width to full-width ratio of 1:2, with a 3:5 variant also provided, and includes visible full-width spaces, broken-line pipe glyphs, and accents on the long vowel mark and the katakana ヘ to aid readability.",
       "popularity": 116,
       "trending": 585,
       "pack": "font-hackgen"
@@ -20675,6 +20877,7 @@
       ],
       "popularity": 62,
       "trending": 494,
+      "description": "HackGen with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nHackGen is a monospaced programming typeface created as a composite of Hack, which supplies the Latin letters and digits, and GenJyuu Gothic, a derivative of Source Han Sans (Source Han Sans / Noto Sans CJK) that supplies the kana and kanji. The font uses a half-width to full-width ratio of 1:2, with a 3:5 variant also provided, and includes visible full-width spaces, broken-line pipe glyphs, and accents on the long vowel mark and the katakana ヘ to aid readability.",
       "pack": "font-hackgen-nerd"
     },
     {
@@ -21033,6 +21236,7 @@
         "Cyrl"
       ],
       "ligatures": true,
+      "description": "Hasklig is a monospaced programming font that adds ligatures for common multi-character operators used in code, such as arrows (-&gt;, =&gt;), monadic binds (&gt;&gt;=), and other Haskell operators. Built on Source Code Pro, it was made so that these combined symbols render as single, well-proportioned glyphs while the underlying source text stays unchanged, and it also corrects some monospaced spacing issues. The font was developed by i-tu.",
       "popularity": 428,
       "trending": 589,
       "nerdFont": "font-hasklug-nerd-font",
@@ -21069,6 +21273,7 @@
       "ligatures": true,
       "popularity": 118,
       "trending": 544,
+      "description": "Hasklig with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nHasklig is a monospaced programming font that adds ligatures for common multi-character operators used in code, such as arrows (-&gt;, =&gt;), monadic binds (&gt;&gt;=), and other Haskell operators. Built on Source Code Pro, it was made so that these combined symbols render as single, well-proportioned glyphs while the underlying source text stays unchanged, and it also corrects some monospaced spacing issues. The font was developed by i-tu.",
       "pack": "font-hasklug-nerd-font"
     },
     {
@@ -21122,6 +21327,7 @@
       ],
       "popularity": 177,
       "trending": 660,
+      "description": "Heavy Data with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-heavy-data-nerd-font"
     },
     {
@@ -21301,6 +21507,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Hermit is a monospace typeface created by Pablo J. Caro Martín for programming and terminal use, with every glyph planned according to defined principles and rules to make it coherent and regular. Its symbols, dots, commas, and operators are designed to stand out and to be easily distinguished from similar characters, and it includes Regular, Bold, and Light weights with italics for each, along with integrated Powerline symbols. The font is intended to be clear at sizes 8 and up and covers much of the Latin character set.",
       "popularity": 637,
       "trending": 551,
       "nerdFont": "font-hurmit-nerd-font",
@@ -21885,6 +22092,7 @@
       ],
       "popularity": 138,
       "trending": 638,
+      "description": "Hermit with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nHermit is a monospace typeface created by Pablo J. Caro Martín for programming and terminal use, with every glyph planned according to defined principles and rules to make it coherent and regular. Its symbols, dots, commas, and operators are designed to stand out and to be easily distinguished from similar characters, and it includes Regular, Bold, and Light weights with italics for each, along with integrated Powerline symbols. The font is intended to be clear at sizes 8 and up and covers much of the Latin character set.",
       "pack": "font-hurmit-nerd-font"
     },
     {
@@ -21939,6 +22147,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "iA Writer Duo is a typeface from iA, bundled with the iA Writer text editor on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex and belongs to the iA Writer Mono, Duo, and Quattro family, which the iA Writer team describes in articles on Duospace.",
       "popularity": 348,
       "trending": 466,
       "pack": "pack-384"
@@ -21966,6 +22175,7 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "iA Writer Mono is a monospaced typeface from iA, the makers of the iA Writer text editor, and it is bundled with iA Writer on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex. The iA team has published background articles on its design as part of the Mono, Duo, and Quattro family, which is built on Duospace.",
       "popularity": 227,
       "trending": 404,
       "pack": "pack-397"
@@ -21994,6 +22204,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "iA Writer Quattro is one of the iA Writer typefaces, bundled with the iA Writer text editor on Android, Windows, macOS, iPadOS, and iOS. It is a modified version of IBM Plex, and the iA Writer team published an article about its design alongside the Mono and Duo fonts.",
       "popularity": 291,
       "trending": 410,
       "pack": "pack-083"
@@ -22083,6 +22294,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "IBM Plex Math is a mathematical typeface from IBM, part of the IBM Plex family, and it adds over 5,000 glyphs covering alphanumeric, double-struck, Fraktur, operator, script, icon, arrow, Greek, phonetic, technical, and geometric shape characters. It is designed to pair with IBM Plex Serif Regular and is presented as a comprehensive alternative to STIX and Microsoft's Cambria.",
       "popularity": 355,
       "trending": 350,
       "pack": "pack-172"
@@ -22380,6 +22592,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "IBM Plex Sans SC is the sans-serif member of the IBM Plex family, a corporate typeface that IBM designed to meet its needs as a global technology company. The family was designed to work well in user interface environments and other media, and it includes Roman and true italic styles.",
       "popularity": 473,
       "trending": 695,
       "pack": "font-ibm-plex-sans-sc"
@@ -22409,6 +22622,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "IBM Plex Sans TC is the Traditional Chinese member of the IBM Plex Sans family, a corporate typeface family designed by IBM for global use. The family was designed to work well in user interface environments and other media, and its Sans styles support Chinese (Traditional) alongside Latin, Arabic, Cyrillic, Greek, Japanese, Korean, and other scripts.",
       "popularity": 586,
       "trending": 769,
       "pack": "font-ibm-plex-sans-tc"
@@ -22911,6 +23125,7 @@
       ],
       "popularity": 157,
       "trending": 568,
+      "description": "iA Writer with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-im-writing-nerd-font"
     },
     {
@@ -23085,6 +23300,7 @@
       ],
       "popularity": 481,
       "trending": 351,
+      "description": "Inconsolata-g with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "pack-380"
     },
     {
@@ -23112,6 +23328,7 @@
       ],
       "popularity": 140,
       "trending": 623,
+      "description": "InconsolataGo with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-inconsolata-go-nerd-font"
     },
     {
@@ -23141,6 +23358,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Inconsolata LGC is a monospaced programming typeface and a modified version of Inconsolata by Raph Levien, extended with Cyrillic glyphs, italic and bold styles, and Greek glyphs inherited from Inconsolata Hellenic. It adds regional letterforms through the OpenType locl feature for languages such as Polish, Romanian, Bulgarian, and Serbian, along with alternates like a dotted or slashed zero and a reversed-sigma Ezh.",
       "popularity": 624,
       "trending": 37,
       "nerdFont": "font-inconsolata-lgc-nerd-font",
@@ -23175,6 +23393,7 @@
       ],
       "popularity": 155,
       "trending": 650,
+      "description": "Inconsolata LGC with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nInconsolata LGC is a monospaced programming typeface and a modified version of Inconsolata by Raph Levien, extended with Cyrillic glyphs, italic and bold styles, and Greek glyphs inherited from Inconsolata Hellenic. It adds regional letterforms through the OpenType locl feature for languages such as Polish, Romanian, Bulgarian, and Serbian, along with alternates like a dotted or slashed zero and a reversed-sigma Ezh.",
       "pack": "font-inconsolata-lgc-nerd-font"
     },
     {
@@ -23202,6 +23421,10 @@
       ],
       "popularity": 73,
       "trending": 564,
+      "designers": [
+        "Raph Levien"
+      ],
+      "description": "Inconsolata with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nInconsolata was Raph Levien's first serious original font release. It is a monospace font, designed for printed code listings and the like. There are a great many “programmer fonts,” designed primarily for use on the screen, but in most cases do not have the attention to detail for high resolution rendering.\n\nInconsolata draws from many inspirations and sources. I was particularly struck by the beauty of Luc(as) de Groot's Consolas, which is his monospaced design for Microsoft's Vista release. This font, similar to his earlier TheSansMono, demonstrated clearly to me that monospaced fonts do not have to suck.\n\nThe development of the Regular style by Raph Levien was started in 2006 using his own Spiro-based tools and FontForge. The Bold style was designed by Kirill Tkachev and the Cyreal foundry in 2012.\n\nUpdated September 2015:  Internal metadata corrected.\n\nUpdated April 2020:  Family has been upgraded to a variable font family.\n\nTo contribute, see [github.com/googlefonts/inconsolata](https://github.com/googlefonts/inconsolata).",
       "pack": "font-inconsolata-nerd-font"
     },
     {
@@ -23633,6 +23856,11 @@
       ],
       "popularity": 161,
       "trending": 526,
+      "designers": [
+        "Intel Corporation",
+        "Frere-Jones Type"
+      ],
+      "description": "Intel One Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIntroducing Intel One Mono, an expressive monospaced font family that’s built with clarity, legibility, and the needs of developers in mind.\n\nIdentifying the typographically underserved low-vision developer audience, Frere-Jones Type designed the Intel One Mono typeface in partnership with the Intel Brand Team and VMLY&R, for maximum legibility to address developers' fatigue and eyestrain and reduce coding errors. A panel of low-vision and legally blind developers provided feedback at each stage of design.\n\nIntel One Mono also covers a wide range of over 200 languages using the Latin script. The Intel One Mono fonts are provided in four weights — Light, Regular, Medium, and Bold — with matching italics, and we are happy to share both an official release of fonts ready to use as well as editable sources.\n\nTo contribute, please see [github.com/intel/intel-one-mono](https://github.com/intel/intel-one-mono)",
       "pack": "font-intone-mono-nerd-font"
     },
     {
@@ -23741,6 +23969,7 @@
       "ligatures": true,
       "popularity": 42,
       "trending": 537,
+      "description": "Iosevka with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-iosevka-nerd-font"
     },
     {
@@ -23777,6 +24006,7 @@
       "ligatures": true,
       "popularity": 44,
       "trending": 508,
+      "description": "Iosevka Term with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-iosevka-term-nerd-font"
     },
     {
@@ -23813,6 +24043,7 @@
       "ligatures": true,
       "popularity": 151,
       "trending": 572,
+      "description": "Iosevka Term Slab with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-iosevka-term-slab-nerd-font"
     },
     {
@@ -23845,6 +24076,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Ioskeley Mono is a compact, geometric monospaced programming typeface built on Iosevka and designed for long sessions in editors and terminals. It comes in ten weights, Normal and SemiCondensed widths, and upright and italic styles, with a Term variant tuned for terminal cells and an NL variant without programming ligatures. Its letterforms include a single-storey g, a dotted zero, and open 6 and 9 glyphs, with programming punctuation that stays distinct at small sizes.",
       "popularity": 240,
       "trending": 58,
       "pack": "font-ioskeley-mono"
@@ -23881,6 +24113,7 @@
       "ligatures": true,
       "popularity": 373,
       "trending": 5,
+      "description": "Ioskeley Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIoskeley Mono is a compact, geometric monospaced programming typeface built on Iosevka and designed for long sessions in editors and terminals. It comes in ten weights, Normal and SemiCondensed widths, and upright and italic styles, with a Term variant tuned for terminal cells and an NL variant without programming ligatures. Its letterforms include a single-storey g, a dotted zero, and open 6 and 9 glyphs, with programming punctuation that stays distinct at small sizes.",
       "pack": "font-ioskeley-mono-term-nerd-font"
     },
     {
@@ -23907,6 +24140,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "IPAex is a pair of Japanese typefaces, IPAex Mincho and IPAex Gothic, published by the Information-technology Promotion Agency (IPA) of Japan for Japanese document creation. Kana and kanji are set at a fixed width while Latin characters use proportional widths, and the glyph forms follow the reference forms of JIS X 0213:2004, so some characters differ from those in fonts based on JIS X 0208:1997, such as 辻 and 葛.",
       "popularity": 344,
       "trending": 271,
       "pack": "font-ipaexfont"
@@ -23935,6 +24169,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "IPA Fonts is a family of Japanese typefaces published by the Information-technology Promotion Agency (IPA) of Japan, through the Character Information Technology Promotion Council. The IPAex series, comprising IPAex Mincho and IPAex Gothic, was designed as a standard implementation for document-use Japanese fonts, with fixed-width kana and kanji and proportional-width Latin characters. The glyph shapes of the IPAex and later IPA fonts follow the exemplary forms of JIS X 0213:2004, so some characters, such as 辻 and 葛, differ from those in JIS X 0208:1997-based fonts.",
       "popularity": 389,
       "trending": 223,
       "pack": "font-ipafont"
@@ -24426,6 +24661,12 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Jaro, a global display typeface crafted by Agyei Archer, draws its inspiration from the artistic legacy of Jaroslav Benda. With a nod to Benda's renowned work, this font stands as a testament to his influence on modern design.\n\nDistinctive in its versatility, Jaro boasts a variable style, offering a spectrum of possibilities for creative expression. Its optical size axis ensures legibility across a range of scales, from grand displays to fine print.\n\nIn the realm of typography, Jaro emerges as a bridge between tradition and innovation, embodying the timeless elegance of Benda's craftsmanship while embracing the technological advancements of today. With each stroke, Jaro invites users to explore the intersection of artistry and functionality, making it a cherished asset for designers worldwide.\n\nTo contribute, please see [github.com/agyeiarcher/Jaro](https://github.com/agyeiarcher/Jaro).",
+      "designers": [
+        "Agyei Archer",
+        "Céline Hurka",
+        "Mirko Velimirović"
+      ],
       "popularity": 1530,
       "pack": "pack-339"
     },
@@ -24722,6 +24963,12 @@
       "ligatures": true,
       "popularity": 1,
       "trending": 367,
+      "designers": [
+        "JetBrains",
+        "Philipp Nurullin",
+        "Konstantin Bulenkov"
+      ],
+      "description": "JetBrains Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nJetBrains Mono is a typeface made for the specific needs of developers. Find more informations about font features, design and language support on [www.jetbrains.com/](https://www.jetbrains.com/lp/mono/).\n\nJetBrains Mono is designed by Philipp Nurullin and Konstantin Bulenkov. To contribute, see [github.com/JetBrains/JetBrainsMono](https://github.com/JetBrains/JetBrainsMono)",
       "pack": "font-jetbrains-mono-nerd-font"
     },
     {
@@ -24749,6 +24996,7 @@
         "Hant",
         "Hebr"
       ],
+      "description": "Huninn is a Traditional Chinese rounded typeface developed by justfont, based on the Japanese Kosugi Maru font with its Latin characters replaced by Varela Round by Joe Prince and Avraham Cornfeld. It was reworked to even out uneven stroke weights and to center punctuation to suit Taiwanese typesetting conventions. The character set adds commonly used Taiwanese characters, Zhuyin (Bopomofo) symbols, and Taigi and Hokkien phonetic symbols and characters.",
       "popularity": 478,
       "trending": 181,
       "pack": "font-jf-open-huninn"
@@ -25167,6 +25415,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "JuliaMono is a monospaced typeface designed for programming and other text editing environments that need a wide range of specialist and technical Unicode characters. It was presented at the 2020 JuliaCon conference and covers mathematical scripts, blackboard and calligraphic letters, box drawing, arrows, Braille, and many other Unicode areas. It comes in multiple weights, each with a matching italic, and all of them share the same character width.",
       "popularity": 252,
       "trending": 455,
       "pack": "font-juliamono"
@@ -25225,6 +25474,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Junction is a humanist sans-serif designed by Caroline Hadilaksono and Tyler Finck for The League of Moveable Type. It was updated in 2014 to add light and bold weights alongside the regular, and to expand its international support. The family supports 81 languages and includes OpenType features such as access to all alternates, standard ligatures, and lining figures.",
       "popularity": 1830,
       "pack": "pack-304"
     },
@@ -25279,6 +25529,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Junicode is a typeface for medievalists, linguists, and scholars in many academic disciplines, designed to comply with the Medieval Unicode Font Initiative recommendation.",
       "popularity": 574,
       "trending": 468,
       "pack": "font-junicode"
@@ -26068,6 +26319,7 @@
         "Latn",
         "Arab"
       ],
+      "description": "Kawkab Mono is a monospaced Arabic typeface designed for code, text editing, and any setting where a fixed-pitch font is needed, such as composing tabular data with text. It was created to fill a gap in the small number of monospaced Arabic fonts available.",
       "popularity": 771,
       "trending": 121,
       "pack": "pack-288"
@@ -27010,6 +27262,10 @@
       "scripts": [
         "Gujr"
       ],
+      "description": "Kumar is a series of matching Open Source display fonts. They each support the Gujarati and Latin scripts. The two Kumar fonts may be used together, or entirely on their own.\n\n[Kumar One Outline](https://fonts.google.com/specimen/Kumar+One+Outline) is a vertical-contrast design, in which both the downstrokes as well as the left and right-hand sides of each letterform are built up out of two parallel lines and the whites space in-between them. The upstrokes and typeface’s horizontals are just thin, single lines.\n\nKumar One itself fills in all of the thicker empty spaces in the downstrokes/horizontals, offering letterforms that are very dark and full of contrast.\n\nThe Kumar design is made entirely out of straight lines; all elements that would usually be drawn with soft curves are faceted, built up out of several shorter straightened-out elements. Text in either Kumar font shimmers like a jewel; the effect of both fonts is quite decorative.\n\nThe Gujarati and Latin script components are scaled in relation to each other so that the Gujarati base characters are 85% as tall as the Latin uppercase. Text set in the Gujarati script sits nicely alongside the Latin lowercase, too. Kumar’s Gujarati vowel marks are all single-line, rather than double-line. Indeed, Kumar’s Gujarati is a very unique design; there are simply no other options like it currently available!\n\nEach of the Kumar fonts has 870 glyphs, including hundreds of unique Gujarati conjuncts. The Latin component’s character set is an extended one, which enables typesetting in English and the other Western, Central, and Eastern European languages. Parimal Parmar designed Kumar for Indian Type Foundry in 2016.\n\nThe Kumar project is led by Indian Type Foundry, a type design foundry based in Ahmedabad, India. To contribute, see [github.com/itfoundry/kumar](https://github.com/itfoundry/kumar)",
+      "designers": [
+        "Indian Type Foundry"
+      ],
       "popularity": 1965,
       "pack": "pack-327"
     },
@@ -27359,6 +27615,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Latin Modern Math is a math typeface that completes the modernization of the Computer Modern family designed and programmed by Donald E. Knuth. It was made to supply the math fonts that were a main reason for Computer Modern's widespread use, and it works with the Latin Modern text fonts to form a full descendant of Computer Modern. The font is published by GUST, the Polish TeX users group, through its e-foundry.",
       "popularity": 346,
       "trending": 274,
       "pack": "pack-216"
@@ -27478,6 +27735,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "League Mono is a monospace variable font designed by Tyler Finck and published by The League of Moveable Type. It is a mashup of forms inspired by Fira Mono, Libertinus Mono, and Courier, and it is available as a variable font with weight and width axes as well as static styles from Thin to ExtraBold. The font supports several OpenType stylistic alternates and sets.",
       "popularity": 918,
       "pack": "pack-347"
     },
@@ -27659,6 +27917,10 @@
       "ligatures": true,
       "popularity": 175,
       "trending": 654,
+      "designers": [
+        "ISIA Urbino"
+      ],
+      "description": "Lekton with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nLekton has been designed at ISIA Urbino, Italy, and is inspired by some of the typefaces used on the Olivetti typewriters.\n\nIt was designed by: Paolo Mazzetti, Luciano Perondi, Raffaele Flaùto, Elena Papassissa, Emilio Macchia, Michela Povoleri, Tobias Seemiller, Riccardo Lorusso, Sabrina Campagna, Elisa Ansuini, Mariangela Di Pinto, Antonio Cavedoni, Marco Comastri, Luna Castroni, Stefano Faoro, Daniele Capo, and Jan Henrik Arnold.\n\nThe typeface has been initially designed at ISIA Urbino by the students Luna Castroni, Stefano Faoro, Emilio Macchia, Elena Papassissa, Michela Povoleri, Tobias Seemiller, and the teacher Luciano Perondi (aka galacticus ineffabilis).\n\nThis typeface has been designed in 8 hours, and was inspired by some of the typefaces used on the Olivetti typewriters.\n\nThe glyphs are 'trispaced.' It means that the space are modular, 250, 500, 750, this allow a better spacing between characters, but allow also a vertical alignment similar to the one possible with a monospaced font. We were thinking it was a bright new idea, but we discovered that was usual for Olivetti typewriters working with 'Margherita.'\n\nFind out more at [lektongroups.blogspot.co.uk](http://lektongroups.blogspot.co.uk/).\n\nUpdated in November 2012: As one of the earlier families published in Google Web Fonts, Lekton lacked proper subsetting, so this update introduces a default 'latin' subset that contains less characters but loads faster.  To use the full character set, update your API link to include the [latin-ext subset](https://developers.google.com/fonts/docs/getting_started#Subsets).",
       "pack": "font-lekton-nerd-font"
     },
     {
@@ -28012,6 +28274,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Lexica Ultralegible is a four-style sans-serif typeface (regular, italic, bold, and bold italic) built on the foundation of Atkinson Hyperlegible, designed for low-vision readers and aimed at legibility and readability. It adds extra glyphs for 102 languages, standard ligatures, an alternative flipped zero, and distinctive letterforms such as differentiated B and 8, 1, L, l, and I, along with angled spurs, opened counterspaces, and circular details that reference Braille dots.",
       "legible": true,
       "popularity": 861,
       "pack": "pack-370"
@@ -28043,6 +28306,7 @@
         "Cyrl",
         "Hebr"
       ],
+      "description": "Liberation is a collection of sans-serif, serif, and monospaced typefaces designed to provide document layout compatibility with Times New Roman, Arial, and Courier New. Its fonts are intended to be substituted for those three typefaces so that documents keep their layout when set in Liberation.",
       "popularity": 102,
       "trending": 167,
       "nerdFont": "font-liberation-nerd-font",
@@ -28077,6 +28341,7 @@
       ],
       "popularity": 463,
       "trending": 507,
+      "description": "Liberation Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "font-liberation-mono-for-powerline"
     },
     {
@@ -28108,6 +28373,7 @@
       ],
       "popularity": 146,
       "trending": 629,
+      "description": "Liberation Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nLiberation is a collection of sans-serif, serif, and monospaced typefaces designed to provide document layout compatibility with Times New Roman, Arial, and Courier New. Its fonts are intended to be substituted for those three typefaces so that documents keep their layout when set in Liberation.",
       "pack": "font-liberation-nerd-font"
     },
     {
@@ -28136,6 +28402,7 @@
         "Cyrl",
         "Hebr"
       ],
+      "description": "Libertinus is a family of serif, sans-serif, monospace, math, and special-use typefaces, originally forked from Linux Libertine and Linux Biolinum. The Serif family covers Regular, Semibold, and Bold weights in Regular and Italic styles, and the Sans family covers Regular, Bold, and Italic. The project grew into a full fork that addresses many bugs in the Libertine fonts, and it is maintained by Caleb Maclennan after Khaled Hosny led it from 2012 to 2020.",
       "popularity": 262,
       "trending": 111,
       "pack": "pack-199"
@@ -28505,6 +28772,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Libron is a serif reading typeface by Nico Verbruggen, a modified version of Readerly that is itself based on Newsreader. Verbruggen edited the design in FontForge to give it a calmer, more neutral look for long-form reading, especially on e-readers, by redrawing serifs, capitals, figures, and punctuation across all four styles. The family also includes synthetic small caps, made by scaling down the capitals.",
       "popularity": 1096,
       "pack": "font-libron"
     },
@@ -28592,6 +28860,7 @@
         "Latn"
       ],
       "ligatures": true,
+      "description": "Liga Comic Mono is a comic-style monospaced typeface with programming ligatures. It is based on Comic Mono and was ligaturized using the Ligaturizer tool.",
       "popularity": 432,
       "trending": 722,
       "pack": "pack-210"
@@ -28665,6 +28934,13 @@
       "ligatures": true,
       "popularity": 113,
       "trending": 555,
+      "designers": [
+        "Mike Abbink",
+        "Paul van der Laan",
+        "Pieter van Rosmalen",
+        "Mikhael Khrustik"
+      ],
+      "description": "Lilex with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nLilex is an extended font on top of [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) designed for developers. It contains ligatures, special characters (e.g. PowerLine), Greek and exists in a variable format.\n\nLigatures is just a font rendering feature: underlying code remains ASCII-compatible. This makes it easier to read and understand the code. In some cases, the ligatures connect closely related characters (==, ---), while in others they optically align the glyphs (.., ??).\n\nTo contribute, see [github.com/mishamyrt/Lilex](https://github.com/mishamyrt/Lilex).\n\nThere are 5 font weights available in Lilex, ranging from Thin to Bold. In addition, a variable font is available.\n\nLilex comes with a full set of italics: all weights, ligatures, PowerLine. Lilex Italic can do everything that Lilex does.\n\nThe font has support for Latin, Cyrillic and Greek. It also includes ligatures and powerline symbols.\n\nThe font has additional styles for some characters, so it can be configured to better fit your needs. Instructions on how to activate OpenType features in your IDE can be found on the internet, or build your own variation of the font with forced features\n\nSome ligatures also have additional options. For example, certain arrows are initially switched off to avoid conflicts with logical operations.\n\nLilex uses generated ligatures for arrows, so they can be infinite. Combine that to assemble your unique arrows. There is also a full set of single-character arrows (↑, ↓, etc.) in the font.",
       "pack": "font-lilex-nerd-font"
     },
     {
@@ -28845,6 +29121,7 @@
         "Cyrl",
         "Hebr"
       ],
+      "description": "Linux Biolinum is a libre multilingual sans-serif typeface from the Libertine Fonts family, which covers Western Latin, Greek, Cyrillic, Hebrew, and IPA scripts. It offers OpenType features such as small capitals, ligatures, several numeral sets, and superior and inferior figures, and it was designed as a professional alternative to standard Windows and Macintosh fonts like Arial and Times.",
       "popularity": 413,
       "trending": 431,
       "pack": "font-linux-biolinum"
@@ -28876,6 +29153,7 @@
         "Cyrl",
         "Hebr"
       ],
+      "description": "Linux Libertine is a libre multilingual font family covering Western Latin, Greek, Cyrillic, Hebrew, and IPA, among many other character sets. Its design includes true small capitals, ligatures such as historic ſi and tz forms, several numeral sets, and marked zeros, along with a short-necked f that avoids collisions with following characters. It also provides optimized superior and inferior glyphs, which are adjusted to match the optical weight of the regular letterforms.",
       "popularity": 278,
       "trending": 553,
       "pack": "font-linux-libertine"
@@ -29417,6 +29695,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Luciole is a typeface developed explicitly for visually impaired readers through a two-year collaboration between the Regional Technical Center for Visual Impairment and the type-design studio typographies.fr. Its letterforms, word spacing, and figures, mathematical signs, and punctuation were drawn with a dozen specific design criteria to support reading for people with visual impairment. Each style contains over seven hundred characters and covers almost all European languages, along with Greek and mathematical symbols; the typeface was designed by Laurent Bourcellier and Daniel Flipo.",
       "popularity": 1190,
       "pack": "pack-158"
     },
@@ -29715,6 +29994,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "LXGW Neo XiHei is a Simplified Chinese sans-serif typeface derived from IPAex Gothic, reworked to follow mainland China's standard glyph forms rather than Japanese conventions. Its Latin, Greek, and Cyrillic letters were redrawn to share a consistent style, and it adds support for Vietnamese Latin letters, along with simplified stroke terminals on certain components. The font also includes symbols such as I Ching trigrams and hexagrams, mahjong and Chinese chess symbols, and counting rod numerals.",
       "popularity": 418,
       "trending": 315,
       "pack": "font-lxgw-neoxihei"
@@ -29743,6 +30023,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "LXGW Neo ZhiSong is a Chinese Song-style serif typeface derived from IPAex Mincho and IPAmj Mincho by Japan's Information-technology Promotion Agency (IPA), reshaped from Japanese writing conventions into mainland Chinese standard letterforms. It also includes redrawn Greek and Cyrillic letters that match its Latin style, along with support for Vietnamese Latin letters. The font adds symbols such as I Ching trigrams and hexagrams, Mahjong tiles, Chinese chess pieces, and counting-rod numerals.",
       "popularity": 499,
       "trending": 261,
       "pack": "font-lxgw-neozhisong"
@@ -29772,6 +30053,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "LXGW WenKai (霞鹜文楷) is an open-source Chinese kaishu-style typeface derived from Fontworks' Klee One, with its Chinese characters filled in by the designer Lxgw to support Simplified and Traditional Chinese. It has a Japanese textbook look that blends elements of Fangsong and Kaiti, and it uses the SemiBold weight of Klee One as its Regular weight for easier reading. The font is well suited to poetry and shorter passages, and it supports Unicode variation sequences for punctuation width and stroke forms.",
       "holidays": [
         "lunarNewYear"
       ],
@@ -29870,6 +30152,7 @@
       ],
       "popularity": 149,
       "trending": 636,
+      "description": "M+ with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-m+-nerd-font"
     },
     {
@@ -30052,6 +30335,11 @@
         "Jpan",
         "Hans",
         "Hebr"
+      ],
+      "description": "The [M+ Outline Fonts Project](http://mplus-fonts.sourceforge.jp/mplus-outline-fonts/) develops a superfamily set of several families: 4 families with proportional Latin, 3 with fixed-halfwidth Latin, and 2 with fixed-fullwidth Japanese Kana variations.\n\nThe [Rounded M+ Project](http://jikasei.me/font/rounded-mplus/) develops versions of the M+ Fonts with rounded terminals.\n\nThis set, Rounded M+ 1c, are fonts with proportional Latin and fixed-fullwidth Japanese, and 7 weights from Thin to Black. The Kana have traditional slightly curved strokes. The Latin is optimized to be well-proportioned for text typesetting.\n\n8,546 glyphs. This is Version v1.059g, released upstream on 2015-05-29, and slightly modified by Google Fonts. Now released under the SIL Open Font License.",
+      "designers": [
+        "Coji Morishita",
+        "M+ Fonts Project"
       ],
       "popularity": 171,
       "trending": 70,
@@ -30642,6 +30930,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Maple Mono is a monospace typeface designed to smooth the coding experience, with rounded corners and a variable font format offering infinite weights. Its distinctive features include brand-new glyphs for @, $, %, &, Q, and ->, cursive-style italics for f, i, j, k, l, x, and y, and a large set of smart ligatures. The family also includes built-in Nerd Font icons and a Chinese, Japanese, and Traditional Chinese variant that uses a 2:1 width ratio with Latin text.",
       "popularity": 40,
       "trending": 517,
       "nerdFont": "font-maple-mono-nf",
@@ -30676,6 +30965,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Maple Mono CN is a monospace typeface for coding, based on Resource Han Rounded, with character coverage for Simplified Chinese, Traditional Chinese, and Japanese alongside its Latin glyphs. It is built so Chinese and English characters keep a 2:1 width ratio, which keeps mixed text such as multilingual displays and Markdown tables neatly aligned, though its Chinese character spacing is wider than in many other Chinese fonts.",
       "popularity": 243,
       "trending": 546,
       "nerdFont": "font-maple-mono-nf-cn",
@@ -30712,6 +31002,7 @@
       "ligatures": true,
       "popularity": 32,
       "trending": 447,
+      "description": "Maple Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMaple Mono is a monospace typeface designed to smooth the coding experience, with rounded corners and a variable font format offering infinite weights. Its distinctive features include brand-new glyphs for @, $, %, &, Q, and ->, cursive-style italics for f, i, j, k, l, x, and y, and a large set of smart ligatures. The family also includes built-in Nerd Font icons and a Chinese, Japanese, and Traditional Chinese variant that uses a 2:1 width ratio with Latin text.",
       "pack": "font-maple-mono-nf"
     },
     {
@@ -30745,6 +31036,7 @@
       "ligatures": true,
       "popularity": 20,
       "trending": 434,
+      "description": "Maple Mono CN with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMaple Mono CN is a monospace typeface for coding, based on Resource Han Rounded, with character coverage for Simplified Chinese, Traditional Chinese, and Japanese alongside its Latin glyphs. It is built so Chinese and English characters keep a 2:1 width ratio, which keeps mixed text such as multilingual displays and Markdown tables neatly aligned, though its Chinese character spacing is wider than in many other Chinese fonts.",
       "pack": "font-maple-mono-nf-cn"
     },
     {
@@ -30772,6 +31064,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Maple Mono NL is a monospace typeface designed for programmers, and it is the version of the Maple Mono family without programming ligatures. It has rounded corners, a cursive-style italic, and a slashed zero by default instead of a dotted one. The family is available as a variable font with infinite weights and offers Nerd Font icons for terminal use.",
       "popularity": 694,
       "trending": 412,
       "nerdFont": "font-maple-mono-nl-nf",
@@ -30806,6 +31099,7 @@
       ],
       "popularity": 580,
       "trending": 535,
+      "description": "Maple Mono NL with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMaple Mono NL is a monospace typeface designed for programmers, and it is the version of the Maple Mono family without programming ligatures. It has rounded corners, a cursive-style italic, and a slashed zero by default instead of a dotted one. The family is available as a variable font with infinite weights and offers Nerd Font icons for terminal use.",
       "pack": "font-maple-mono-nl-nf"
     },
     {
@@ -30835,6 +31129,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Maple Mono Normal is a monospace typeface by subframe7536 that smooths the coding experience with rounded corners and a cursive-style italic. It is the preset version of Maple Mono that resets the more unusual glyphs to a style similar to JetBrains Mono, including a slashed zero, while keeping the ligatures.",
       "popularity": 337,
       "trending": 685,
       "nerdFont": "font-maple-mono-normal-nf",
@@ -30871,6 +31166,7 @@
       "ligatures": true,
       "popularity": 315,
       "trending": 581,
+      "description": "Maple Mono Normal with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMaple Mono Normal is a monospace typeface by subframe7536 that smooths the coding experience with rounded corners and a cursive-style italic. It is the preset version of Maple Mono that resets the more unusual glyphs to a style similar to JetBrains Mono, including a slashed zero, while keeping the ligatures.",
       "pack": "font-maple-mono-normal-nf"
     },
     {
@@ -30904,6 +31200,7 @@
       "ligatures": true,
       "popularity": 234,
       "trending": 461,
+      "description": "Maple Mono Normal CN with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-maple-mono-normal-nf-cn"
     },
     {
@@ -30931,6 +31228,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Maple Mono Normal NL is a monospace typeface by Fan Zheng (subframe7536), built for programmers and designed to smooth the coding experience. It is a preset of the Maple Mono family that resets its more unusual glyphs to a style closer to JetBrains Mono, with a slashed zero, and it omits programming ligatures.",
       "popularity": 1034,
       "nerdFont": "font-maple-mono-normal-nl-nf",
       "pack": "pack-263"
@@ -30964,6 +31262,7 @@
       ],
       "popularity": 741,
       "trending": 753,
+      "description": "Maple Mono Normal NL with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMaple Mono Normal NL is a monospace typeface by Fan Zheng (subframe7536), built for programmers and designed to smooth the coding experience. It is a preset of the Maple Mono family that resets its more unusual glyphs to a style closer to JetBrains Mono, with a slashed zero, and it omits programming ligatures.",
       "pack": "font-maple-mono-normal-nl-nf"
     },
     {
@@ -31326,6 +31625,11 @@
       "ligatures": true,
       "popularity": 184,
       "trending": 627,
+      "designers": [
+        "Roman Shamin",
+        "Evil Martians"
+      ],
+      "description": "Martian Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMartian Mono is a monospaced version of the Martian Grotesk font for code style design. It inherits Grotesk's brutal and eye-catching aesthetics as well as all of its benefits-metrics equilibrium, readability and intelligibility, and convenience for web developers and designers who believe in a systematic approach to design.\n\nMartian Mono consists of a variable font with a width (Condensed to SemiExpanded) and weight axes (Thin to ExtraBold).\n\nIn January 2023, the basic Cyrillic script is added and the font supports now Ukrainian, Belarusian, and Russian languages.\n\nTo contribute, see [github.com/evilmartians/mono](https://github.com/evilmartians/mono).",
       "pack": "font-martian-mono-nerd-font"
     },
     {
@@ -31910,6 +32214,7 @@
       ],
       "popularity": 221,
       "trending": 532,
+      "description": "Meslo with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "pack-250"
     },
     {
@@ -31942,6 +32247,7 @@
       ],
       "popularity": 3,
       "trending": 470,
+      "description": "Meslo LG with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-meslo-lg-nerd-font"
     },
     {
@@ -32084,6 +32390,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Metropolis is a modern geometric sans-serif typeface by Chris Simpson. It was designed for readability at small point sizes and is influenced by geometric, minimalist sans-serif typefaces of the new millennium. The family includes italics and covers 43 languages, mostly in Latin-script.",
       "popularity": 717,
       "trending": 578,
       "pack": "pack-443"
@@ -32200,6 +32507,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "Migu 1M is a monospaced Japanese typeface by itouhiro that combines M+ and IPA Gothic and modifies them to make characters easier to tell apart. Its enlarged semi-voiced marks (handakuten) can be distinguished from voiced marks (dakuten), and its zeros, both half-width and full-width, carry a slash to set them apart from the letter O. The font is also used in the composition of the Rictyfont.",
       "popularity": 672,
       "trending": 364,
       "pack": "font-migu-1m"
@@ -32404,6 +32712,7 @@
         "Armn"
       ],
       "ligatures": true,
+      "description": "Miracode is a monospaced typeface derived from Monocraft, which is itself based on the typeface used in the Minecraft user interface. Its more than 1,500 glyphs were redesigned to work in a monospaced setting, with thin characters such as \"i\" and \"l\" given tails and serifs, and its pixel-based shapes are converted into angular lines and curves. The font also includes programming ligatures for arrows, comparison operators, and markers such as \"TODO:\" and \"NOTE:\".",
       "popularity": 642,
       "trending": 729,
       "pack": "pack-079"
@@ -32490,6 +32799,7 @@
       "scripts": [
         "Hebr"
       ],
+      "description": "Miriam Mono CLM is a Hebrew typeface from the Culmus project, a collection of Hebrew fonts for X Windows and Unix-like systems. In release 0.140, the project added Hebrew romanization characters to Miriam Mono CLM, alongside Frank Ruehl CLM and Nachlieli CLM. ",
       "popularity": 1124,
       "pack": "pack-287"
     },
@@ -32995,6 +33305,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Monaspace is a monospaced type superfamily from GitHub Next, consisting of five variable-axis typefaces (Neon, Argon, Xenon, Radon, and Krypton) that are metrics-compatible and can be mixed for expressive code typography. Each family has a distinct voice, from neo-grotesque and humanist sans to slab serif, handwriting, and mechanical sans. Distinctive features include \"texture healing\" for monospaced fonts, coding ligatures organized into stylistic sets, and character variants such as alternate figures and asterisks.",
       "popularity": 36,
       "trending": 436,
       "nerdFont": "font-monaspace-nf",
@@ -33026,6 +33337,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Monaspace Frozen is a monospaced typeface from the Monaspace superfamily, which GitHub Next developed and the Lettermatic team designed. It is a \"frozen\" TTF version in which all of the typographical features, or stylistic sets, are enabled by default, so it suits editors such as Xcode or IntelliJ IDEs that cannot configure stylistic sets or character variants. The superfamily is known for texture healing and coding ligatures.",
       "popularity": 469,
       "trending": 603,
       "pack": "font-monaspace-frozen"
@@ -33058,6 +33370,7 @@
       ],
       "popularity": 205,
       "trending": 493,
+      "description": "Monaspace with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMonaspace is a monospaced type superfamily from GitHub Next, consisting of five variable-axis typefaces (Neon, Argon, Xenon, Radon, and Krypton) that are metrics-compatible and can be mixed for expressive code typography. Each family has a distinct voice, from neo-grotesque and humanist sans to slab serif, handwriting, and mechanical sans. Distinctive features include \"texture healing\" for monospaced fonts, coding ligatures organized into stylistic sets, and character variants such as alternate figures and asterisks.",
       "pack": "font-monaspace-nf"
     },
     {
@@ -33087,6 +33400,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Monaspace Var is the variable edition of Monaspace, a monospaced type superfamily from GitHub Next, with type design credited to Lettermatic. The superfamily comprises five typefaces, Neon, Argon, Xenon, Radon, and Krypton, each with a distinct voice and metrics compatible with the others so they can be mixed. It was made for displaying code and includes texture healing, coding ligatures, and character variants such as alternate zeros and asterisks.",
       "popularity": 379,
       "trending": 419,
       "pack": "font-monaspace-var"
@@ -33120,6 +33434,7 @@
       ],
       "popularity": 48,
       "trending": 678,
+      "description": "Monaspace with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMonaspace is a monospaced type superfamily from GitHub Next, consisting of five variable-axis typefaces (Neon, Argon, Xenon, Radon, and Krypton) that are metrics-compatible and can be mixed for expressive code typography. Each family has a distinct voice, from neo-grotesque and humanist sans to slab serif, handwriting, and mechanical sans. Distinctive features include \"texture healing\" for monospaced fonts, coding ligatures organized into stylistic sets, and character variants such as alternate figures and asterisks.",
       "pack": "font-monaspice-nerd-font"
     },
     {
@@ -33179,6 +33494,7 @@
         "Armn"
       ],
       "ligatures": true,
+      "description": "Monocraft is a monospaced pixel typeface based on the typeface used in the Minecraft user interface, with each glyph redrawn for better readability and spacing. Thin characters such as \"i\" and \"l\" were reworked with tails and serifs to suit a monospaced layout. The font also includes programming ligatures for arrows and comparison operators, along with glyphs for the Minecraft enchantment table's standard galactic alphabet.",
       "popularity": 232,
       "trending": 621,
       "pack": "font-monocraft"
@@ -33238,6 +33554,7 @@
       ],
       "popularity": 567,
       "trending": 486,
+      "description": "monofur with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "pack-290"
     },
     {
@@ -33268,6 +33585,7 @@
       ],
       "popularity": 153,
       "trending": 597,
+      "description": "Monofur with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-monofur-nerd-font"
     },
     {
@@ -33300,6 +33618,7 @@
       "ligatures": true,
       "popularity": 147,
       "trending": 642,
+      "description": "Monoid with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-monoid-nerd-font"
     },
     {
@@ -33386,6 +33705,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Mononoki is a monospaced typeface by Matthias Tellen, created to support code formatting and code review. It is designed to stay legible when squashed into a grid of a few pixels while retaining enough detail for print and high-resolution displays, with each character drawn to be clearly distinguishable from similar-looking ones. An alternate stylistic set, selectable with ss01, adds a dotted zero.",
       "popularity": 380,
       "trending": 549,
       "nerdFont": "font-mononoki-nerd-font",
@@ -33420,6 +33740,7 @@
       ],
       "popularity": 96,
       "trending": 571,
+      "description": "Mononoki with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMononoki is a monospaced typeface by Matthias Tellen, created to support code formatting and code review. It is designed to stay legible when squashed into a grid of a few pixels while retaining enough detail for print and high-resolution displays, with each character drawn to be clearly distinguishable from similar-looking ones. An alternate stylistic set, selectable with ss01, adds a dotted zero.",
       "pack": "font-mononoki-nerd-font"
     },
     {
@@ -33717,6 +34038,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "The old posters and signs in the traditional *Montserrat* neighborhood of Buenos Aires inspired Julieta to design this typeface and rescue the beauty of urban typography that emerged in the first half of the twentieth century. As urban development changes that place, it will never return to its original form and loses forever the designs that are so special and unique. The letters that inspired this project have work, dedication, care, color, contrast, light and life, day and night! These are the types that make the city look so beautiful. The Montserrat Project began with the idea to rescue what is in Montserrat and set it free under a libre license, the SIL Open Font License.\n\nThis is the Subrayada family, a sister to the [normal](http://fonts.google.com/specimen/Montserrat) and [Alternates](http://fonts.google.com/specimen/Montserrat+Alternates) families. Many of the letterforms are special in the Alternates family, while 'Subrayada' means 'Underlined' in Spanish and celebrates a special style of underline that is integrated into the letterforms found in the *Montserrat* neighborhood.\n\nUpdated November 2017: The family was redrawn by Jacques Le Bailly at [Baron von Fonthausen](http://www.baronvonfonthausen.com/) over the summer, and the full set of weights were adjusted to make the Regular lighter and better for use in longer texts. In fall, Julieta Ulanovsky, Sol Matas, and Juan Pablo del Peral, led the development of Cyrillic support, with consultation with Carolina Giovagnoli, Maria Doreuli, and Alexei Vanyashin.\n\nThe Montserrat project is led by Julieta Ulanovsky, a type designer based in Buenos Aires, Argentina. To contribute, see [github.com/JulietaUla/Montserrat](https://github.com/JulietaUla/Montserrat)",
       "popularity": 1126,
       "pack": "pack-397"
     },
@@ -33866,6 +34188,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "Moralerspace is a programming typeface that combines the Latin and digit glyphs of GitHub's Monaspace with Japanese characters from IBM Plex Sans JP. Its Radon variants base the Japanese glyphs on Kiwi-Maru, while its Krypton variants base them on Stick, with IBM Plex Sans JP filling in missing glyphs. The font uses a 3:5 half-width to full-width ratio, displays full-width spaces visibly, and offers variants with Nerd Fonts icons and half-width to full-width ratios of 1:2.",
       "popularity": 294,
       "trending": 587,
       "pack": "font-moralerspace"
@@ -34360,6 +34683,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Myna is a monospace typeface by Irfan Ali (sayyadirfanali) that treats symbols as first-class glyphs alongside letters and numerals. It was designed so that multi-character symbols such as -> and >>= align cleanly and so that ASCII punctuation has visual weight matching the code around it. Its geometric quotes and commas and its clear distinctions between characters like 1, l, and I, and 0, O, and o, are among its notable letterform choices.",
       "popularity": 558,
       "trending": 718,
       "pack": "pack-347"
@@ -34624,6 +34948,7 @@
       "scripts": [
         "Telu"
       ],
+      "description": "NATS is a Telugu handwriting font, mainly suitable for headings, posters and decorative invitations, and anywhere if someone want to use handwriting style to add their mark.\n\nThe Telugu is designed and developed by Purushoth Kumar Guttula in 2012 and made available under the SIL Open Font License v1.1 by Silicon Andhra. The Latin is designed by Julieta Ulanovsky, a type designer in Argentina, and originally published as [Montserrat](https://fonts.google.com/specimen/Montserrat). The NATS project is led by Appaji Ambarisha Darbha, a type designer based in Hyderabad, India. To contribute, see [github.com/appajid/nats](https://github.com/appajid/nats)",
       "popularity": 1192,
       "pack": "pack-350"
     },
@@ -35038,6 +35363,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "Nordwand Mono is a compact neo-grotesk monospaced typeface designed for programming. It combines elements of Adrian Frutiger's Univers with the proportions of JetBrains Mono, and its name refers to the north faces of the Swiss Alps and the Swiss typographic tradition it draws on. Its glyphs are drawn procedurally in Python, and it offers stylistic sets with a classic l and m, arrow ligatures, and wide-angled brackets and arrowheads.",
       "popularity": 492,
       "trending": 3,
       "pack": "pack-014"
@@ -35247,6 +35573,7 @@
       ],
       "popularity": 438,
       "trending": 440,
+      "description": "Noto Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
       "pack": "pack-427"
     },
     {
@@ -35300,6 +35627,7 @@
       "scripts": [
         "Arab"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Naskh Arabic UI is a modulated (“serif”) Naskh design for app and website user interfaces in the Middle Eastern *Arabic* script. It has multiple weights and 1,597 glyphs.",
       "popularity": 874,
       "pack": "pack-229"
     },
@@ -35332,6 +35660,7 @@
       ],
       "popularity": 106,
       "trending": 668,
+      "description": "Noto with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-noto-nerd-font"
     },
     {
@@ -35530,6 +35859,7 @@
       "scripts": [
         "Arab"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans Arabic UI is an unmodulated (“sans serif”) design for app and website user interfaces in the Middle Eastern *Arabic* script. It has multiple weights and widths, and 1,563 glyphs.",
       "popularity": 724,
       "trending": 778,
       "pack": "pack-272"
@@ -35754,6 +36084,7 @@
       "scripts": [
         "Beng"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans Bengali UI is an unmodulated (“sans serif”) design for app and website user interfaces in the Indic *Bangla (Bengali)* script. It has multiple weights and widths, and 695 glyphs.",
       "popularity": 1063,
       "pack": "pack-223"
     },
@@ -36093,6 +36424,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans JP is an unmodulated (“sans serif”) design for the *Japanese* language and other languages used in Japan. It covers *Hiragana*, *Katakana* and *Kanji*. It also supports *Latin, Cyrillic, Greek* and *Hangul*. It has multiple weights.",
       "popularity": 98,
       "trending": 116,
       "pack": "font-noto-sans-cjk-jp"
@@ -36123,6 +36455,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans KR is an unmodulated (“sans serif”) design for the *Korean* language using *Hangul* and the *Korean Hanja* scripts. It also supports *Hiragana, Katakana, Latin, Cyrillic* and *Greek*. It has multiple weights.",
       "popularity": 120,
       "trending": 265,
       "pack": "font-noto-sans-cjk-kr"
@@ -36153,6 +36486,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans SC is an unmodulated (“sans serif”) design for languages in mainland China that use the *Simplified Chinese* variant of the Han ideograms. It also supports *Hiragana, Katakana, Latin, Cyrillic, Greek* and *Hangul*. It has multiple weights.",
       "popularity": 56,
       "trending": 149,
       "pack": "font-noto-sans-cjk-sc"
@@ -36183,6 +36517,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans TC is an unmodulated (“sans serif”) design for languages in Taiwan and Macau that use the *Traditional Chinese* variant of the Han ideograms. It also supports *Hiragana, Katakana, Latin, Cyrillic, Greek* and *Hangul*. It has multiple weights.",
       "popularity": 238,
       "trending": 211,
       "pack": "font-noto-sans-cjk-tc"
@@ -36699,6 +37034,7 @@
       "scripts": [
         "Gujr"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans Gujarati UI is an unmodulated (“sans serif”) design for app and website user interfaces in the Indic *Gujarati* script. It has 816 glyphs.",
       "popularity": 1158,
       "pack": "pack-299"
     },
@@ -39837,6 +40173,7 @@
       "scripts": [
         "Thai"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Sans Thai UI is an unmodulated (“sans serif”) design in the more modern, loopless variant of the Southeast Asian *Thai* script, suitable for app and website user interfaces in the Thai script. It has multiple weights and widths, and 140 glyphs.",
       "popularity": 857,
       "pack": "pack-267"
     },
@@ -40265,6 +40602,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Serif JP is a modulated (“serif”) design for the *Japanese* language and other languages used in Japan. It supports *Hiragana*, *Katakana*, *Kanji*, *Latin, Cyrillic, Greek* and *Hangul*. It has multiple weights.",
       "popularity": 283,
       "trending": 257,
       "pack": "font-noto-serif-cjk-jp"
@@ -40295,6 +40633,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Noto is a global font collection for writing in all modern and ancient languages. Noto Serif SC is a modulated (“serif”) design for languages in mainland China that use the *Simplified Chinese* variant of the Han ideograms. It also supports *Hiragana, Katakana, Latin, Cyrillic, Greek* and *Hangul*. It has multiple weights.",
       "popularity": 189,
       "trending": 197,
       "pack": "font-noto-serif-cjk-sc"
@@ -41932,6 +42271,12 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Ojuju is a reverse contrast Weight axis variable font inspired by African Masquerades. Ojuju draws inspiration from a variety of African traditional dance costumes to inform the design decisions. The masks worn by the Dogon dancers from Mali inspired the aperture shaping, and counterform placement within many of the letterforms. Additionally African movie poster lettering from the 1970's was referenced to round out the design space. Ojuju covers all of the Google's SSA(sub-saharan-african) latin glyphs.\n\nThis Afro-grotesque style created by Chisaokwu Joboson, is distinct with varying apertures as it moves from extra-light to bold.\n\nTo contribute, see [github.com/jobosonchisa/ojuju](https://github.com/jobosonchisa/ojuju).",
+      "designers": [
+        "Ụdị Foundry",
+        "Chisaokwu Joboson",
+        "Mirko Velimirović"
+      ],
       "popularity": 1891,
       "pack": "pack-028"
     },
@@ -42104,6 +42449,11 @@
         "Latn",
         "Cyrl"
       ],
+      "description": "From thin to extra bold, Onest is designed as a hybrid of geometric and humanistic grotesques. Onest is suitable for reading long texts from the screens of any device and is recommended for apps and sites. Letters are easily distinguished even in small sizes, so they can be used in interface elements or navigation. Several character sets have been developed for a range of closed and semi-closed apertures, allowing the combination of characters depending on the goal.\n\nOnest is a modern typeface, so it has a lot of useful conveniences. The subtleties of correct speech transmission are Onest's strong points. It knows like no other the importance and value of using the right diacritics and the difference between cedilla, ogonek and and the way things should be. For all its versatility, Onest allows text to keep its individuality. All thanks to alternative symbols that set the tone and even the character of the message.\n\nVersion 2.000 grows the character set to 876 glyphs. Cyrillic now covers 56 languages, among them Ukrainian, Belarusian, Bulgarian, Serbian, Macedonian, Kazakh, Kyrgyz, Uzbek, Tatar, Bashkir, Chuvash, Mongolian, Tajik, Chechen, Ossetic, Kabardian, Udmurt, Mari, Komi and Sakha. On the Latin side the release adds Vietnamese and Yoruba, along with vulgar fractions, numerators, denominators and superiors.\n\nTo contribute, please see [github.com/simpals/onest](https://github.com/simpals/onest).",
+      "designers": [
+        "Dmitri Voloshin",
+        "Andrey Kudryavtsev"
+      ],
       "popularity": 299,
       "trending": 78,
       "pack": "pack-029"
@@ -42196,6 +42546,7 @@
       "scripts": [
         "Hebr"
       ],
+      "description": "Open Sans Hebrew was designed by Yanek Iontef as an extension of the a Latin humanist sans serif typeface designed by Steve Matteson. Open Sans has an upright stress, open forms and a neutral, yet friendly appearance. It was optimized for print, web, and mobile interfaces, and has excellent legibility characteristics in its letterforms.\n\nThis is the normal width family. It has Regular, Bold, Light and ExtraBold weights in upright and slanted styles, and is unhinted. There is also a condensed width family.",
       "popularity": 287,
       "trending": 620,
       "pack": "pack-290"
@@ -42224,6 +42575,7 @@
       "scripts": [
         "Hebr"
       ],
+      "description": "Open Sans Hebrew was designed by Yanek Iontef as an extension of the a Latin humanist sans serif typeface designed by Steve Matteson. Open Sans has an upright stress, open forms and a neutral, yet friendly appearance. It was optimized for print, web, and mobile interfaces, and has excellent legibility characteristics in its letterforms.\n\nThis is the condensed width family. It has Regular, Bold, Light and ExtraBold weights in upright and slanted styles, and is unhinted. There is also a normal width family.",
       "popularity": 320,
       "trending": 599,
       "pack": "pack-050"
@@ -42254,6 +42606,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "OpenDyslexic is a typeface designed to counter some common symptoms of dyslexia.",
       "legible": true,
       "popularity": 848,
       "nerdFont": "font-opendyslexic-nerd-font",
@@ -42287,6 +42640,7 @@
       "legible": true,
       "popularity": 70,
       "trending": 453,
+      "description": "OpenDyslexic with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nOpenDyslexic is a typeface designed to counter some common symptoms of dyslexia.",
       "pack": "font-opendyslexic-nerd-font"
     },
     {
@@ -42514,6 +42868,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Ostrich Sans is a modern sans-serif typeface designed by Tyler Finck and published by The League of Moveable Type. It comes in many styles and weights, including dashed, rounded, ultra light, bold with race-track style double lines, black, heavy, and an inline version with italics. Its distinctive feature is a very long neck.",
       "popularity": 1970,
       "pack": "pack-141"
     },
@@ -42759,6 +43114,12 @@
       ],
       "popularity": 170,
       "trending": 683,
+      "designers": [
+        "Delve Withrington",
+        "Dave Bailey",
+        "Thomas Jockin"
+      ],
+      "description": "Overpass with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nOverpass is a free, Open Source typeface designed by [Delve Fonts](https://www.delvefonts.com). The design of Overpass is an interpretation of the well-known “Highway Gothic” letterforms from the Standard Alphabets for Traffic Control Devices published by the U.S. Federal Highway Administration. Starting from those specifications, critical adjustments were made to the letterforms to create an optimal presentation at smaller sizes on-screen and later for display sizes, especially in the lighter weights.\n\nAlso see [Overpass Mono!](https://fonts.google.com/specimen/Overpass+Mono)\n\nOverpass can be used for everything from extended passages of text in print and online, to UI design, posters, wayfinding signage, and environmental graphic design.\n\n- Designers: Delve Withrington, Dave Bailey, and Thomas Jockin\n\n- TrueType Hinting: Jason Campbell\n\n- Direction: Dave Crossland, Andy Fitzsimon, Jakub Steiner, and Ben Dubrovsky\n\n- Special thanks: Aaron Bell for his diligence in preparing v4.0 for release and Michael Luton for his insight and support.\n\nTo contribute to the project, please visit [https://github.com/RedHatOfficial/Overpass](https://github.com/RedHatOfficial/Overpass)",
       "pack": "font-overpass-nerd-font"
     },
     {
@@ -42782,6 +43143,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Overused Grotesk is a quirky grotesque sans-serif that began as a playful parody of overused Swiss-style type and imitates the most distinctive features of Helvetica. It is designed as a multipurpose, multilingual workhorse, with Vietnamese and Cyrillic letters including localised forms, and it spans weights from ExtraLight to Black. Its stylistic sets, character variants, and alternate figures add further detail to its otherwise Helvetica-like letterforms.",
       "popularity": 1142,
       "pack": "pack-108"
     },
@@ -43106,6 +43468,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Paper Mono is a monospace typeface from the design tool Paper, made for use in both design and code. ",
       "popularity": 447,
       "trending": 119,
       "pack": "pack-076"
@@ -43810,6 +44173,7 @@
         "Cyrl"
       ],
       "ligatures": true,
+      "description": "Photonico Code is a monospaced slab-serif typeface for programming and scientific writing. Derived from Fira Code, it keeps that font's ligatures and features and covers Latin, Greek, and Cyrillic along with a large set of mathematical symbols. The font was made by Lu Niu.",
       "popularity": 1170,
       "pack": "pack-146"
     },
@@ -43994,6 +44358,7 @@
         "Brai"
       ],
       "ligatures": true,
+      "description": "Pixel Code is a monospace pixel-art programming font designed to maximize readability and code-friendliness while sticking to a pixel grid. Its glyphs were drawn for legibility in programming contexts, with contextual alternates providing pseudo-kerning that avoids wide serifs on thin letters such as i and l. It includes a set of programming ligatures inspired by Fira Code, along with Latin, Greek, Cyrillic, and Hebrew support and box drawing, geometric shape, and dingbat characters.",
       "popularity": 605,
       "trending": 495,
       "pack": "pack-046"
@@ -44076,6 +44441,10 @@
       "script": "Latn",
       "scripts": [
         "Latn"
+      ],
+      "description": "Drawing inspiration from the unusual blend of characteristics observed in the Australian platypus, Platypi combines sharp, heavy wedge serifs usually seen in display faces with more conventional curves and proportions to achieve a practical text typeface with a unique and distinctive visual rhythm. The heavier weights push this tension further with increased stroke tapering and overall contrast. Platypi features six weights with matching italic styles. It supports Indigenous Australian and Vietnamese languages, and includes the full Google Fonts Latin Plus Character Set.\n\nThe word Platypi is commonly used as the plural of platypus; however, it is a form of pseudo-Latin. The correct plural is platypuses.\n\nTo contribute, see [github.com/d-sargent/platypi](https://github.com/d-sargent/platypi).",
+      "designers": [
+        "David Sargent"
       ],
       "popularity": 1296,
       "pack": "pack-266"
@@ -47564,6 +47933,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "PlemolJP is a Japanese programming font that combines IBM Plex Mono for ASCII letters, digits, and symbols with IBM Plex Sans JP for Japanese characters and other symbols. It comes in normal and italic styles with eight weights from Thin to Bold, and the HS variant makes full-width spaces visible to help catch accidental input. Console and 35 variants adjust symbol widths and the half-width to full-width ratio for different use cases.",
       "popularity": 216,
       "trending": 460,
       "nerdFont": "font-plemol-jp-nf",
@@ -47598,6 +47968,7 @@
         "Geor",
         "Armn"
       ],
+      "description": "PlemolJP HS is a Japanese programming typeface that combines IBM Plex Mono for ASCII letters, digits, and symbols with IBM Plex Sans JP for Japanese characters and other symbols. It comes in normal and italic styles with eight weights from Thin to Bold. The HS variant makes full-width spaces visible, which helps programmers catch accidental full-width space input.",
       "popularity": 306,
       "trending": 652,
       "pack": "font-plemol-jp-hs"
@@ -47633,6 +48004,7 @@
       ],
       "popularity": 196,
       "trending": 381,
+      "description": "PlemolJP with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nPlemolJP is a Japanese programming font that combines IBM Plex Mono for ASCII letters, digits, and symbols with IBM Plex Sans JP for Japanese characters and other symbols. It comes in normal and italic styles with eight weights from Thin to Bold, and the HS variant makes full-width spaces visible to help catch accidental input. Console and 35 variants adjust symbol widths and the half-width to full-width ratio for different use cases.",
       "pack": "font-plemol-jp-nf"
     },
     {
@@ -48345,6 +48717,7 @@
         "Kore"
       ],
       "ligatures": true,
+      "description": "Pretendard is a modern typeface made for cross-platform products and multilingual typography. Redesigned by Gil Hyeong-jin, it draws on Inter, Source Han Sans, and M PLUS 1p, and it comes in nine weights along with a variable version. Separate families target specific settings, including Pretendard JP for Japanese contexts, Pretendard Std for Latin text, and Pretendard GOV for South Korean public services.",
       "popularity": 85,
       "trending": 76,
       "pack": "font-pretendard"
@@ -48376,6 +48749,7 @@
         "Kore"
       ],
       "ligatures": true,
+      "description": "Pretendard GOV is a Korean-focused sans-serif typeface from the Pretendard family, suited to South Korean public service environments. The family was refined from Inter, Source Han Sans, and M PLUS 1p, and it was redesigned and produced by Gil Hyeong-jin.",
       "popularity": 641,
       "trending": 395,
       "pack": "font-pretendard-gov"
@@ -48407,6 +48781,7 @@
         "Kore"
       ],
       "ligatures": true,
+      "description": "Pretendard JP is a modern sans-serif typeface designed for Japanese-language environments, and it is part of the Pretendard family. It is built on Inter, Source Han Sans, and M PLUS 1p, and it adds Korean hanja support for use in Korean-character contexts. The family is offered in nine weights and as a variable font, and it was redesigned and produced by Gil Hyung-jin (길형진).",
       "popularity": 627,
       "trending": 126,
       "pack": "font-pretendard-jp"
@@ -48437,6 +48812,7 @@
         "Cyrl"
       ],
       "ligatures": true,
+      "description": "Pretendard Std is a modern sans-serif typeface designed for cross-platform products and multilingual typography, and it is intended for Latin-script environments. It is refined from Inter, Source Han Sans, and M PLUS 1p, and it is offered in nine weights along with a variable version. The font is credited to Rasmus Andersson for Inter, Adobe, Google, and Sandoll Communication with Jang Su-young and Kang Joo-yeon for Source Han Sans, and to UNDERFOREST DESIGN and Coji Morishita for M PLUS 1p, with the redesign and production by Gil Hyung-jin.",
       "popularity": 634,
       "trending": 732,
       "pack": "pack-024"
@@ -48552,6 +48928,7 @@
       ],
       "popularity": 168,
       "trending": 665,
+      "description": "ProFont with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-profont-nerd-font"
     },
     {
@@ -48578,6 +48955,7 @@
       ],
       "popularity": 172,
       "trending": 701,
+      "description": "ProggyCleanTT with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-proggy-clean-tt-nerd-font"
     },
     {
@@ -48814,6 +49192,7 @@
         "Cyrl"
       ],
       "ligatures": true,
+      "description": "psudoFont Liga Mono is a monospaced programming font family with ligatures, designed for coding and terminal use. It was based on Meslo/Menlo and IBM Plex Mono/Lilex, with many glyphs redesigned, some resembling Menlo/Meslo, some resembling IBM Plex Mono/Lilex, and others unique to the family. Its italics have rounded, smooth corners in place of Lilex's sharp ones, and it comes in Regular (400) and Bold (700) weights, each with an italic.",
       "popularity": 409,
       "trending": 727,
       "pack": "font-psudofont-liga-mono"
@@ -49928,6 +50307,7 @@
         "Latn"
       ],
       "ligatures": true,
+      "description": "Recursive Code is a monospace-focused variable typeface from Arrow Type, built for programming environments and application interfaces. It is inspired by casual script signpainting, and it includes code ligatures and stylistic sets preapplied so they work by default in most code editors. The family was used as a tool in its own production, with its designers writing Python scripts to automate type work and generate specimens.",
       "popularity": 400,
       "trending": 348,
       "pack": "font-recursive-code"
@@ -49961,6 +50341,7 @@
       "ligatures": true,
       "popularity": 182,
       "trending": 605,
+      "description": "Recursive Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-recursive-mono-nerd-font"
     },
     {
@@ -50432,6 +50813,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Red Hat is a geometric sans-serif typeface family made up of Display, Text, and Mono styles, each available in a range of weights in roman and italic. Designed by Jeremy Mickel of MCKL, it was commissioned by Paula Scher of Pentagram for the Red Hat identity and draws inspiration from American sans serifs such as Tempo and Highway Gothic. The Display styles are low contrast, tightly spaced, with a large x-height and open counters, while the Text styles have a smaller x-height, narrower width, and thinned joins for legibility at small sizes.",
       "popularity": 613,
       "trending": 492,
       "pack": "pack-329"
@@ -50665,6 +51047,10 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Rethink is one of the largest global independent creative agencies. Founded in Vancouver in 1999, it now has offices in New York, Toronto, Vancouver, and Montréal. Rethink Sans was created in 2023 by Rethink's ECD of Design Hans Thiessen. It was developed specifically to help everyone design with greater confidence and craft in Google Workspace.\n\nRethink Sans is a fork of [DM Sans](https://fonts.google.com/specimen/DM+Sans) by Colophon Foundry, which in turn is a fork of [Poppins](https://fonts.google.com/specimen/Poppins) by Indian Type Foundry. Deceptively simple, Rethink Sans is filled with thoughtfully turbocharged features, including: weight-specific tracking, two styles of circled numbers a simple keystroke away, and tabular lining figures right out-of-the-box.\n\nTo contribute, see [github.com/hans-thiessen/Rethink-Sans](https://github.com/hans-thiessen/Rethink-Sans)",
+      "designers": [
+        "Hans Thiessen"
+      ],
       "popularity": 321,
       "trending": 630,
       "pack": "pack-183"
@@ -50809,6 +51195,7 @@
         "Jpan",
         "Hans"
       ],
+      "description": "Ricty Diminished is a programming font intended for research and development in Linux environments, suited to text editors, terminal emulators, and programming and markup languages. It combines Inconsolata for Latin characters with Circle M+ 1m for other characters, with several tunings for programming use, and adjusts the width ratio of half-width to full-width characters to 1:2. Distinctive details include a visible full-width space and en and em dashes that appear broken, which helps prevent LaTeX input mistakes.",
       "popularity": 404,
       "trending": 708,
       "pack": "font-ricty-diminished"
@@ -51062,6 +51449,10 @@
       ],
       "popularity": 357,
       "trending": 235,
+      "designers": [
+        "Christian Robertson"
+      ],
+      "description": "Roboto Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nRoboto Mono is a monospaced addition to the [Roboto](https://fonts.google.com/specimen/Roboto) type family. Like the other members of the Roboto family, the fonts are optimized for readability on screens across a wide variety of devices and reading environments. While the monospaced version is related to its variable width cousin, it doesn’t hesitate to change forms to better fit the constraints of a monospaced environment. For example, narrow glyphs like ‘I’, ‘l’ and ‘i’ have added serifs for more even texture while wider glyphs are adjusted for weight. Curved caps like ‘C’ and ‘O’ take on the straighter sides from Roboto Condensed.\n\nSpecial consideration is given to glyphs important for reading and writing software source code. Letters with similar shapes are easy to tell apart. Digit ‘1’, lowercase ‘l’ and capital ‘I’ are easily differentiated as are zero and the letter ‘O’. Punctuation important for code has also been considered. For example, the curly braces ‘{ }’ have exaggerated points to clearly differentiate them from parenthesis ‘( )’ and braces ‘\\[ \\]’. Periods and commas are also exaggerated to identify them more quickly. The scale and weight of symbols commonly used as operators have also been optimized.",
       "pack": "pack-394"
     },
     {
@@ -51093,6 +51484,10 @@
       ],
       "popularity": 64,
       "trending": 619,
+      "designers": [
+        "Christian Robertson"
+      ],
+      "description": "Roboto Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nRoboto Mono is a monospaced addition to the [Roboto](https://fonts.google.com/specimen/Roboto) type family. Like the other members of the Roboto family, the fonts are optimized for readability on screens across a wide variety of devices and reading environments. While the monospaced version is related to its variable width cousin, it doesn’t hesitate to change forms to better fit the constraints of a monospaced environment. For example, narrow glyphs like ‘I’, ‘l’ and ‘i’ have added serifs for more even texture while wider glyphs are adjusted for weight. Curved caps like ‘C’ and ‘O’ take on the straighter sides from Roboto Condensed.\n\nSpecial consideration is given to glyphs important for reading and writing software source code. Letters with similar shapes are easy to tell apart. Digit ‘1’, lowercase ‘l’ and capital ‘I’ are easily differentiated as are zero and the letter ‘O’. Punctuation important for code has also been considered. For example, the curly braces ‘{ }’ have exaggerated points to clearly differentiate them from parenthesis ‘( )’ and braces ‘\\[ \\]’. Periods and commas are also exaggerated to identify them more quickly. The scale and weight of symbols commonly used as operators have also been optimized.",
       "pack": "font-roboto-mono-nerd-font"
     },
     {
@@ -53347,6 +53742,10 @@
       ],
       "popularity": 17,
       "trending": 746,
+      "designers": [
+        "Paul D. Hunt"
+      ],
+      "description": "Source Code Pro with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nSource Code was designed by Paul D. Hunt as a companion to Source Sans.This complementary family was adapted from the Source design due to a request to create a monospaced version for coding applications. Source Code preserves the design features and vertical proportions of Source Sans, but alters the glyph widths so that they are uniform across all glyphs and weights.\n\nAlthough this family was designed specifically for coding environments, for which a regular weight will typically suffice, Source Code has been made available in the same weight range as the corresponding Source Sans design.Source Code Pro currently supports a wide range of languages using the Latin script, and includes all the characters in the Adobe Latin 4 glyph set.\n\nAs an open source project, it is expected that incremental updates will be made over time to extend glyph set coverage and functionality. In 2019, we have updated the family to [Roman v2.030 and Italic v1.050](https://github.com/adobe-fonts/source-code-pro/releases/tag/2.030R-ro%2F1.050R-it). This update now supports Greek, Cyrillic, Vietnamese and Italic styles.\n\nTo contribute, see [github.com/adobe-fonts/source-code-pro](https://github.com/adobe-fonts/source-code-pro).",
       "pack": "font-sauce-code-pro-nerd-font"
     },
     {
@@ -53621,6 +54020,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Scientifica is a tall, condensed bitmap typeface aimed at programmers, largely based on the creep font with minor tweaks to improve readability. Most of its characters are 4 pixels wide, which suits low-DPI screens, and it includes bold and italic variants, box drawing characters, and Powerline symbols. It also supports ligatures in Vim and Neovim through the conceal feature.",
       "popularity": 683,
       "trending": 632,
       "pack": "pack-048"
@@ -53905,6 +54305,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Microsoft Selawik is a typeface from Microsoft designed as a replacement for Segoe UI.",
       "popularity": 570,
       "trending": 84,
       "pack": "pack-281"
@@ -53988,6 +54389,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Server Mono is a single-weight monospace typeface inspired by typewriters, Apple's San Francisco Mono, ASCII art, command-line interfaces, and programming tools. It was released in 2024 by the Internet Development Studio Company of Seattle, Washington, and created by designers Tim Vanhille and Matthieu Salvaggio, with Caidan Williams later taking ownership to add missing glyphs. The design emphasizes clear readability and uniform, predictable character widths, and it includes an oblique style.",
       "popularity": 592,
       "trending": 15,
       "pack": "pack-378"
@@ -54594,6 +54996,10 @@
       ],
       "popularity": 191,
       "trending": 711,
+      "designers": [
+        "Carrois Apostrophe"
+      ],
+      "description": "Share Tech Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nShare Tech Mono is a monospaced sans serif, based on the [Share](https://fonts.google.com/specimen/Share) family. There is also [Share Tech](https://fonts.google.com/specimen/Share+Tech), a proportionally spaced version.\n\nUpdated, July 2015:  'fi' ligature issue fixed.",
       "pack": "font-shure-tech-mono-nerd-font"
     },
     {
@@ -55168,6 +55574,7 @@
         "Jpan",
         "Hans"
       ],
+      "description": "Smiley Sans is a condensed, oblique Chinese sans-serif (黑体) that seeks a visual balance between humanist and geometric qualities. Its details draw on hand-drawn display lettering, so some strokes and structures depart from standard mainland Chinese character forms. The typeface also covers Latin, Cyrillic, Greek, Japanese kana, and Arabic numerals, and it was designed by atelierAnchor with designers including Doooooohmygosh, Nagisa Chen, Janine Sui, Heda Shi, and Jian Li.",
       "holidays": [
         "lunarNewYear"
       ],
@@ -55931,6 +56338,10 @@
       ],
       "popularity": 218,
       "trending": 476,
+      "designers": [
+        "Paul D. Hunt"
+      ],
+      "description": "Source Code Pro with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nSource Code was designed by Paul D. Hunt as a companion to Source Sans.This complementary family was adapted from the Source design due to a request to create a monospaced version for coding applications. Source Code preserves the design features and vertical proportions of Source Sans, but alters the glyph widths so that they are uniform across all glyphs and weights.\n\nAlthough this family was designed specifically for coding environments, for which a regular weight will typically suffice, Source Code has been made available in the same weight range as the corresponding Source Sans design.Source Code Pro currently supports a wide range of languages using the Latin script, and includes all the characters in the Adobe Latin 4 glyph set.\n\nAs an open source project, it is expected that incremental updates will be made over time to extend glyph set coverage and functionality. In 2019, we have updated the family to [Roman v2.030 and Italic v1.050](https://github.com/adobe-fonts/source-code-pro/releases/tag/2.030R-ro%2F1.050R-it). This update now supports Greek, Cyrillic, Vietnamese and Italic styles.\n\nTo contribute, see [github.com/adobe-fonts/source-code-pro](https://github.com/adobe-fonts/source-code-pro).",
       "pack": "pack-311"
     },
     {
@@ -55960,6 +56371,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "Source Han Code JP is a monospaced Japanese coding typeface derived from Source Han Sans, with its proportional Latin glyphs replaced by fixed-width glyphs from Source Code Pro. The Latin characters are scaled to match the Japanese kana and kanji and set at exactly two-thirds of an em, making it suited to mixed Latin and Japanese text in programming, HTML/CSS editing, and terminal use. The font was maintained by Masataka Hattori and later added Greek, Cyrillic, italic Roman, and color emoji glyphs.",
       "popularity": 339,
       "trending": 498,
       "pack": "font-source-han-code-jp"
@@ -55989,6 +56401,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Source Han Sans is a set of OpenType Pan-CJK typefaces, meaning one family intended to cover the CJK writing systems. Its design and background are documented in a separate design guide and official font readme.",
       "popularity": 207,
       "trending": 496,
       "pack": "font-source-han-sans-vf"
@@ -56018,6 +56431,7 @@
         "Hant",
         "Kore"
       ],
+      "description": "Source Han Serif is a set of OpenType Pan-CJK fonts, meaning one family spanning the CJK writing systems.",
       "popularity": 223,
       "trending": 501,
       "pack": "font-source-han-serif-vf"
@@ -56176,6 +56590,10 @@
       ],
       "popularity": 104,
       "trending": 614,
+      "designers": [
+        "Colophon Foundry"
+      ],
+      "description": "Space Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nSpace Mono is an original fixed-width type family designed by Colophon Foundry for Google Design. It supports a Latin Extended glyph set, enabling typesetting for English and other Western European languages.\n\nDeveloped for editorial use in headline and display typography, the letterforms infuse a geometric foundation and grotesque details with qualities often found in headline typefaces of the 1960s (See: [Microgramma](https://en.wikipedia.org/wiki/Microgramma_(typeface)), [Eurostile](https://en.wikipedia.org/wiki/Eurostile)), many of which have since been co-opted by science fiction films, television, and literature.\n\nTypographic features include old-style figures, superscript and subscript numerals, fractions, center-height and cap-height currency symbols, directional arrows, and multiple stylistic alternates.\n\nColophon Foundry is a London and Los Angeles-based digital type foundry established in 2009. Its members comprise Benjamin Critton (US), Edd Harrington (UK), and Anthony Sheret (UK). The foundry's commissioned work in type design is complemented by work in editorial design, publishing, curation, and pedagogy. Visit [colophon-foundry.org](https://colophon-foundry.org)\n\nTo contribute ideas and feedback, see [github.com/googlefonts/spacemono](https://github.com/googlefonts/spacemono)\n\nIntroducing [Space Mono](https://fonts.google.com/specimen/Space+Mono?query=space+mono) a monospaced typeface by Colophon Foundry for [Google Fonts](https://fonts.google.com/).\n\nAs designers of type, we most often find ourselves composing a monospaced (sometimes called a fixed-width, fixed-pitch, or non-proportional) typeface in the service of building out the styles of an accompanying proportional type family or type system. It’s about adapting the proportional type’s forms and rules, and discovering how those letterforms behave within fixed limits to give the face new texture and capability. But what if that constraint was embraced? What if we set out to create a monospaced typeface that wasn’t simply an extension, but rather something unto itself?\n\nTo learn more, read [ Introducing Space Mono a new monospaced typeface by Colophon Foundry for Google Fonts](https://medium.com/google-design/introducing-space-mono-a-new-monospaced-typeface-by-colophon-foundry-for-google-fonts-84367eac6dfb).",
       "pack": "font-space-mono-nerd-font"
     },
     {
@@ -56495,6 +56913,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Spleen is a monospaced bitmap typeface designed by Frederic Cambus in six pixel sizes, from 5x8 to 32x64. The larger sizes cover ISO/IEC 8859-1, Latin Extended-A, box drawing, block elements, Braille patterns, and Code page 437, while the smallest sizes are limited to printable ASCII, light box drawing, and Braille patterns. The font also includes Powerline symbols.",
       "popularity": 532,
       "trending": 249,
       "pack": "pack-351"
@@ -57018,6 +57437,7 @@
         "Grek",
         "Cyrl"
       ],
+      "description": "STIX is an OpenType Unicode font family for scientific, technical, and mathematical texts, combining a broad set of mathematical symbols and alphabets with text faces for professional publishing. Based on Times Roman, the STIX Two revision was undertaken by Tiro Typeworks, which adapted the proportions and spacing of metal-era 10pt and 12pt Times designs and drew a new bold matching the construction of the regular weight. The text faces cover Latin, Greek, and Cyrillic, while its sans serif, fraktur, and script alphabets are intended only as technical symbols.",
       "popularity": 559,
       "trending": 445,
       "pack": "font-stix"
@@ -57217,6 +57637,7 @@
         "Cyrl",
         "Brai"
       ],
+      "description": "Sudo is a monospaced coding typeface by Jens Kutílek, designed for terminals, programming, and user interfaces, with a proportional companion family called Sudo UI. It has no ligatures but supports Powerline glyphs, and its numbers are drawn one line width smaller than the uppercase letters, with dotted zeroes. Its distinctive \"coder's quotes\" are enlarged standalone accents that stand in for opening and closing quotes in languages that use grave and acute accents.",
       "popularity": 393,
       "trending": 327,
       "pack": "pack-066"
@@ -57302,6 +57723,7 @@
       "scripts": [
         "Kore"
       ],
+      "description": "SUIT is a Korean UI typeface from Sun Typeface, designed for interface text and built to keep a consistent, polished look without extra manual adjustment. It pairs Korean hangul based on Noto Sans with geometric Latin letters and numerals, and includes refined vertical metrics, punctuation and bracket alignment tuned to Korean, and alternate glyphs such as ss17 for clearer serial numbers. Its features also include tabular figures and nine weights, plus a variable version.",
       "popularity": 565,
       "trending": 175,
       "pack": "pack-338"
@@ -57799,6 +58221,14 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Tac One is the initial release of a single style, bold weight, sans serif typeface project that is inspired by the wordmark of one of the most significant festivals in Africa's post-colonial history, Festac '77. As a inspired revival, it expands upon the six lowercase letters, single quotes and numeral 7 in the festival's wordmark, and the result is a contemporary font with comprehensive language support for all African languages that are commonly written with the Latin writing system. Tac is the second project from Afrotype.\n\nTo contribute, see [github.com/Afrotype/tac](https://github.com/Afrotype/tac)",
+      "designers": [
+        "Afrotype",
+        "Seyi Olusanya",
+        "Eyiyemi Adegbite",
+        "David Udoh",
+        "Mirko Velimirović"
+      ],
       "popularity": 1754,
       "pack": "pack-350"
     },
@@ -57914,6 +58344,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Tamzen is a bitmap monospaced typeface and a personal fork by Sunaku of the Tamsyn font by Scott Fial, programmatically derived from Tamsyn version 1.11 with glyphs backported from older versions.",
       "popularity": 619,
       "trending": 489,
       "pack": "pack-298"
@@ -58152,6 +58583,11 @@
       "scripts": [
         "Latn"
       ],
+      "description": "The Teachers font is an educational font family created for use by publishers, teachers, students, and parents of children in grades K through 6.\n\nIt is a clean geometric sans serif font intended to represent the letterforms of the alphabet as American children are taught to draw them in grade school. The font family was thoughtfully brought to life by a team of educators, designers and editors in 2023 for use in magazines and books, but is also well suited for class worksheets, newsletters, websites and other instructional and educational purposes.\n\nThe Teachers font comes in 8 styles: Regular, SemiBold, Bold, and ExtraBold, with Italics. It is also available in variable font format with an adjustable weight axis, allowing designers more control over the font's display.\n\nThe Teachers fonts and refined character sets were assembled by font designer Chank Diesel, making edits and updates to the previously existing opensource fonts Glacial Indifference (Regular and Bold) by Alfredo Marco Pradil of Hanken Design Co.\n\nTo contribute, see [github.com/chankfonts/Teachers-fonts](https://github.com/chankfonts/Teachers-fonts).",
+      "designers": [
+        "Alfredo Marco Pradil",
+        "Chank Diesel"
+      ],
       "popularity": 1418,
       "pack": "pack-389"
     },
@@ -58334,6 +58770,7 @@
       ],
       "popularity": 108,
       "trending": 595,
+      "description": "Terminus with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nTerminus TTF is a TrueType version of Terminus Font, a fixed-width bitmap font optimized for long work with computers. It contains both the original bitmaps and scalable outlines generated automatically from those bitmaps with Potrace, and it is intended for use in Java applications and native Windows applications such as Microsoft Visual Studio. The author is credited as the maintainer of this TTF conversion, while the original Terminus Font was authored by Dimitar Zhekov.",
       "pack": "font-terminess-ttf-nerd-font"
     },
     {
@@ -58364,6 +58801,7 @@
         "Hebr",
         "Brai"
       ],
+      "description": "Terminus TTF is a TrueType version of Terminus Font, a fixed-width bitmap font optimized for long work with computers. It contains both the original bitmaps and scalable outlines generated automatically from those bitmaps with Potrace, and it is intended for use in Java applications and native Windows applications such as Microsoft Visual Studio. The author is credited as the maintainer of this TTF conversion, while the original Terminus Font was authored by Dimitar Zhekov.",
       "popularity": 249,
       "trending": 397,
       "nerdFont": "font-terminess-ttf-nerd-font",
@@ -58391,6 +58829,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Bonum Math is an OpenType math font from the GUST e-foundry, released as the math companion to the TeX Gyre Bonum serif text font. It belongs to the TeX Gyre Math project, which was launched by TeX user groups in 2009 to provide OTF math fonts with a MATH table for both TeX engines, such as XeLaTeX and LuaLaTeX, and non-TeX software, such as Microsoft Office.",
       "popularity": 823,
       "pack": "pack-443"
     },
@@ -58416,6 +58855,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Pagella Math is an OpenType math companion font to the TeX Gyre Pagella serif typeface, released by the GUST e-foundry as part of the TeX Gyre Math project. It provides the mathematical symbols and glyphs needed for typesetting formulas with the MATH table extension, and it is designed for use with both TeX engines and non-TeX software.",
       "popularity": 524,
       "trending": 663,
       "pack": "pack-156"
@@ -58442,6 +58882,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "Schola Math is an OpenType math font from the TeX Gyre project, released by the GUST e-foundry of the Polish TeX user group. It serves as the math companion to the TeX Gyre Schola serif text font and was released in 2014 with the completion of the TeX Gyre Math project. The font was created to provide mathematical typesetting using the OpenType MATH table, a format inspired by TeX and developed with input from Barbara Beeton.",
       "popularity": 656,
       "trending": 670,
       "pack": "pack-009"
@@ -58468,6 +58909,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "TeX Gyre Termes Math is a serif OpenType mathematics font and the math companion to the TeX Gyre Termes text face. It was developed by the GUST e-foundry as part of the TeX Gyre Math project, which aimed to produce OpenType math fonts for both TeX and non-TeX typesetting. The font uses the OpenType MATH table for formula layout and is designed to work with XeLaTeX and LuaLaTeX.",
       "popularity": 457,
       "trending": 688,
       "pack": "pack-148"
@@ -58890,6 +59332,10 @@
       ],
       "popularity": 193,
       "trending": 716,
+      "designers": [
+        "Steve Matteson"
+      ],
+      "description": "Tinos with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nTinos was designed by Steve Matteson as an innovative, refreshing serif design that is metrically compatible with Times New Roman™. Tinos offers improved on-screen readability characteristics and the pan-European WGL character set and solves the needs of developers looking for width-compatible fonts to address document portability across platforms.\n\nUpdated in May 2013 with improved hinting and released under the Apache 2.0 license.",
       "pack": "font-tinos-nerd-font"
     },
     {
@@ -59429,6 +59875,7 @@
         "Hebr",
         "Armn"
       ],
+      "description": "TT2020 is a typewriter typeface described by its creator as hyperrealistic, meaning it aims to closely imitate the look of real typewritten text. It is also multilingual, covering the writing systems of several languages.",
       "popularity": 1173,
       "pack": "pack-114"
     },
@@ -59548,6 +59995,7 @@
         "Latn"
       ],
       "ligatures": true,
+      "description": "Twilio Sans Mono is a monospaced programming typeface developed by the type foundry Sharp Type in collaboration with Twilio, and it is the mono member of the Twilio Sans superfamily. It is intended for developers working in any code editor, programming language, or project, and it comes in eight weights, each with roman and true italic styles. The font includes coding ligatures and arrow glyphs.",
       "popularity": 598,
       "trending": 325,
       "pack": "pack-392"
@@ -59709,6 +60157,10 @@
       ],
       "popularity": 254,
       "trending": 530,
+      "designers": [
+        "Dalton Maag"
+      ],
+      "description": "Ubuntu Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nThe [Ubuntu Font Family](http://font.ubuntu.com) are a set of matching new libre/open fonts in development during 2010-2011. The development is being funded by Canonical Ltd on behalf the wider Free Software community and the Ubuntu project. The technical font design work and implementation is being undertaken by [Dalton Maag](http://www.daltonmaag.com/).\n\nBoth the final font Truetype/OpenType files and the design files used to produce the font family are distributed under an open licence and you are expressly encouraged to experiment, modify, share and improve.\n\nThe new Ubuntu Font Family was started to enable the personality of Ubuntu to be seen and felt in every menu, button and dialog. The typeface is sans-serif, uses OpenType features and is manually hinted for clarity on desktop and mobile computing screens.\n\nThe scope of the Ubuntu Font Family includes all the languages used by the various Ubuntu users around the world in tune with Ubuntu's philosophy which states that every user should be able to use their software in the language of their choice. So the Ubuntu Font Family project will be extended to cover many more written languages.\n\nUbuntu and Canonical are registered trademarks of Canonical Ltd.",
       "pack": "pack-222"
     },
     {
@@ -59740,6 +60192,10 @@
       ],
       "popularity": 66,
       "trending": 547,
+      "designers": [
+        "Dalton Maag"
+      ],
+      "description": "Ubuntu Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nThe [Ubuntu Font Family](http://font.ubuntu.com) are a set of matching new libre/open fonts in development during 2010-2011. The development is being funded by Canonical Ltd on behalf the wider Free Software community and the Ubuntu project. The technical font design work and implementation is being undertaken by [Dalton Maag](http://www.daltonmaag.com/).\n\nBoth the final font Truetype/OpenType files and the design files used to produce the font family are distributed under an open licence and you are expressly encouraged to experiment, modify, share and improve.\n\nThe new Ubuntu Font Family was started to enable the personality of Ubuntu to be seen and felt in every menu, button and dialog. The typeface is sans-serif, uses OpenType features and is manually hinted for clarity on desktop and mobile computing screens.\n\nThe scope of the Ubuntu Font Family includes all the languages used by the various Ubuntu users around the world in tune with Ubuntu's philosophy which states that every user should be able to use their software in the language of their choice. So the Ubuntu Font Family project will be extended to cover many more written languages.\n\nUbuntu and Canonical are registered trademarks of Canonical Ltd.",
       "pack": "font-ubuntu-mono-nerd-font"
     },
     {
@@ -59770,6 +60226,10 @@
       ],
       "popularity": 26,
       "trending": 762,
+      "designers": [
+        "Dalton Maag"
+      ],
+      "description": "Ubuntu with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nThe [Ubuntu Font Family](http://font.ubuntu.com) are a set of matching new libre/open fonts in development during 2010-2011. The development is being funded by Canonical Ltd on behalf the wider Free Software community and the Ubuntu project. The technical font design work and implementation is being undertaken by [Dalton Maag](http://www.daltonmaag.com/).\n\nBoth the final font Truetype/OpenType files and the design files used to produce the font family are distributed under an open licence and you are expressly encouraged to experiment, modify, share and improve.\n\nThe new Ubuntu Font Family was started to enable the personality of Ubuntu to be seen and felt in every menu, button and dialog. The typeface is sans-serif, uses OpenType features and is manually hinted for clarity on desktop and mobile computing screens.\n\nThe scope of the Ubuntu Font Family includes all the languages used by the various Ubuntu users around the world in tune with Ubuntu's philosophy which states that every user should be able to use their software in the language of their choice. So the Ubuntu Font Family project will be extended to cover many more written languages.\n\nUbuntu and Canonical are registered trademarks of Canonical Ltd.",
       "pack": "font-ubuntu-nerd-font"
     },
     {
@@ -59865,6 +60325,10 @@
       ],
       "popularity": 178,
       "trending": 704,
+      "designers": [
+        "Dalton Maag"
+      ],
+      "description": "Ubuntu Sans with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nThe [Ubuntu Font Family](http://font.ubuntu.com) are a set of matching new libre/open fonts in development during 2010-2011, with further expansion work and bug fixing in 2015 and 2022-2023. The development is being funded by Canonical Ltd on behalf the wider Free Software community and the Ubuntu project. The technical font design work and implementation has been undertaken by [Dalton Maag](http://www.daltonmaag.com/), [Type Network](https://typenetwork.com), [DJR](https://djr.com), and [Dual Type](https://dualtype.design).\n\nBoth the final font Truetype/OpenType files and the design files used to produce the font family are distributed under an open licence and you are expressly encouraged to experiment, modify, share and improve.\n\nThe new Ubuntu Font Family was started to enable the personality of Ubuntu to be seen and felt in every menu, button and dialog.\n\nThe scope of the Ubuntu Font Family includes all the languages used by the various Ubuntu users around the world in tune with Ubuntu's philosophy which states that every user should be able to use their software in the language of their choice. So the Ubuntu Font Family project will be extended to cover many more written languages.\n\nUbuntu and Canonical are registered trademarks of Canonical Ltd.\n\nTo contribute, see [github.com/canonical/Ubuntu-Sans-fonts](http://github.com/canonical/Ubuntu-Sans-fonts).",
       "pack": "font-ubuntu-sans-nerd-font"
     },
     {
@@ -59923,6 +60387,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "UDEV Gothic is a programming typeface that combines the Japanese characters of BIZ UD Gothic, a universal design font by Morisawa, with the Latin letters of JetBrains Mono, a developer typeface by JetBrains. The Latin glyphs are adjusted to harmonize with BIZ UD Gothic, and the zero is slashed rather than dotted. Full-width spaces are displayed visibly, and variants are offered with ligatures, Nerd Font symbols, or a 3:5 half-to-full width ratio.",
       "popularity": 247,
       "trending": 252,
       "nerdFont": "font-udev-gothic-nf",
@@ -59957,6 +60422,7 @@
       ],
       "popularity": 199,
       "trending": 362,
+      "description": "UDEV Gothic with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nUDEV Gothic is a programming typeface that combines the Japanese characters of BIZ UD Gothic, a universal design font by Morisawa, with the Latin letters of JetBrains Mono, a developer typeface by JetBrains. The Latin glyphs are adjusted to harmonize with BIZ UD Gothic, and the zero is slashed rather than dotted. Full-width spaces are displayed visibly, and variants are offered with ligatures, Nerd Font symbols, or a 3:5 half-to-full width ratio.",
       "pack": "font-udev-gothic-nf"
     },
     {
@@ -60771,6 +61237,10 @@
       "ligatures": true,
       "popularity": 68,
       "trending": 560,
+      "designers": [
+        "Rune Bjørnerås"
+      ],
+      "description": "Victor Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nVictor Mono is a monospaced font with optional semi-connected cursive italics and programming symbol ligatures. The typeface is slender, crisp and narrow, with a large x-height and clear punctuation, making it legible and ideal for code.\n\nThe typeface was created to meet specific requirements for code and programming:\n\n- narrow enough to fit a lot of text\n\n- wide enough to be scannable\n\n- strict, geometric and readable regular style\n\n- more friendly and flowing italics\n\n- programming symbol ligatures\n\nTo contribute, see [github.com/rubjo/victor-mono-font](https://github.com/rubjo/victor-mono-font)",
       "pack": "font-victor-mono-nerd-font"
     },
     {
@@ -61730,6 +62200,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "xkcd is a pair of handwriting-based typefaces derived from the handwriting of webcomic author Randall Munroe. The xkcd Script variant is built from a handwriting sample Munroe provided and is far less uniform, making it more like a true script font. The xkcd font is more uniform and was originally created by Munroe for his comic \"The Pace of Modern Life\" (April 1, 2013), trading some resemblance to the comic's lettering for greater legibility.",
       "popularity": 589,
       "trending": 391,
       "pack": "pack-146"
@@ -61756,6 +62227,7 @@
         "Latn",
         "Grek"
       ],
+      "description": "xkcd Script is a script typeface derived from a handwriting sample provided by Randall Munroe, the author of the xkcd webcomic. It is far less uniform than the companion xkcd font, which gives it a more natural, true-script character.",
       "popularity": 659,
       "trending": 667,
       "pack": "pack-269"
@@ -62848,6 +63320,7 @@
       "ligatures": true,
       "popularity": 88,
       "trending": 611,
+      "description": "Zed Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
       "pack": "font-zed-mono-nerd-font"
     },
     {
@@ -63239,6 +63712,7 @@
         "Hans",
         "Hant"
       ],
+      "description": "Zhuque Fangsong is a Chinese Fangsong typeface by Trionestype (璇玑造字) that adapts Nansong, a Republic-era metal type cut in 1932 by the Baisong Type Foundry from a design by Han Youzhi and carved by Zou Genpei. It keeps Nansong's distinctive character, including a visual center set slightly toward the lower right, tightly drawn central counters, extended strokes, and strong stroke contrast, though the contrast is softened and the structures are regularized for modern text setting. Its Latin letters and symbols are drawn from Alegreya by Juan Pablo del Peral.",
       "popularity": 471,
       "trending": 439,
       "pack": "font-zhuque-fangsong"
@@ -63326,6 +63800,7 @@
       "scripts": [
         "Latn"
       ],
+      "description": "Zx Gamut is a variable sans-serif typeface, described as designed with the precision of software engineering. It combines fluid, rounded forms with sharp, calculated edges.",
       "popularity": 923,
       "pack": "pack-137"
     }
