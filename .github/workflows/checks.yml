@@ -43,6 +43,11 @@ jobs:
       - name: Licenses.deflate matches Licenses/
         run: scripts/build-catalog.py check-licenses
 
+      # A fonts pull request that adds a cask fails here until its description is drafted and reviewed,
+      # or marked null in scripts/descriptions.json when its sources have nothing to draft from.
+      - name: Every cask has a description
+        run: scripts/descriptions.py check
+
   swift:
     # SwiftLint's own Linux image, which starts in seconds where a macOS runner takes minutes to get.
     runs-on: ubuntu-26.04

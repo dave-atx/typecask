@@ -8,11 +8,14 @@ scripts/descriptions.json for review. build-catalog.py reads that file when it a
 
   gather [TOKEN ...]   fetch and clean each cask's sources into .cache/descriptions/
   draft [TOKEN ...]    summarize what gather found with Claude Haiku via claude -p, for casks the file lacks
-  list                 print the casks that still have no description and no draft
+  list [--markdown]    print the casks that still have no description and no entry here
+  check                fail, listing them, if there are any: a check on every pull request
 
-Without tokens, both work on every cask the catalog leaves undescribed that no other step covers:
-not one built from google/fonts, whose description comes from there, and not a Nerd Font or Powerline
-cask, which describe_patched() describes from its original. The file is reviewed by hand, so draft never
+Without tokens, both work on every cask the catalog ships that the file has no entry for and no other
+step covers: not one built from google/fonts, whose description comes from there, and not a Nerd Font or
+Powerline cask, which describe_patched() describes from its original. The Monday fonts run drafts this
+way after its build, and builds again when it drafted any, so a new cask's draft is in the pull request
+that adds it. The file is reviewed by hand, so draft never
 replaces an entry already in it; delete one to redraft it. An entry whose description is null had no
 usable English source and stays undescribed.
 """
@@ -154,22 +157,24 @@ def page_text(url, redirects=1):
 
 
 def undescribed():
-    """Casks the catalog leaves undescribed that no other step describes, by token."""
+    """Casks the catalog ships that no other step describes and the file has no entry for, by token. From the
+    catalog rather than the lock, which also holds the casks a build skips, like Arial and the SF fonts."""
     locked = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]}
+    drafted = load_descriptions()
     tokens = []
     for record in json.loads(CATALOG.read_text())["casks"]:
         token = record["token"]
         entry = locked.get(token, {})
-        if record.get("description") or PATCHED.search(token) or "google" in entry.get("source", {}):
+        from_google = "google" in entry.get("source", {}) or (entry.get("google") or {}).get("directory")
+        if record.get("description") or from_google or PATCHED.search(token) or token in drafted:
             continue
         tokens.append(token)
     return tokens
 
 
-def sources_of(token, locked, records):
+def sources_of(entry):
     """The cask's homepage and its GitHub repository, from its homepage or its download URL."""
-    entry = locked.get(token) or {}
-    homepage = records[token].get("homepage") or entry.get("homepage") or ""
+    homepage = entry.get("homepage") or ""
     source = entry.get("source") or {}
     repo = GITHUB_REPO.search(homepage) or GITHUB_REPO.search(source.get("url") or source.get("git") or "")
     return homepage, (repo[1], repo[2].removesuffix(".git")) if repo else None
@@ -177,10 +182,9 @@ def sources_of(token, locked, records):
 
 def gather(tokens):
     locked = {entry["token"]: entry for entry in json.loads(LOCK.read_text())["casks"]}
-    records = {record["token"]: record for record in json.loads(CATALOG.read_text())["casks"]}
     SOURCES.mkdir(parents=True, exist_ok=True)
     for token in tokens:
-        homepage, repo = sources_of(token, locked, records)
+        homepage, repo = sources_of(locked[token])
         parts, urls = [], []
         if repo and (readme := github_readme(*repo)):
             parts.append(f"README of github.com/{repo[0]}/{repo[1]}:\n\n{clean_readme(readme)}")
@@ -189,7 +193,7 @@ def gather(tokens):
             parts.append(f"Homepage {homepage}:\n\n{text}")
             urls.append(homepage)
         text = "\n\n---\n\n".join(parts)[:SOURCE_LIMIT]
-        (SOURCES / f"{token}.json").write_text(json.dumps({"name": records[token]["name"], "urls": urls, "text": text}))
+        (SOURCES / f"{token}.json").write_text(json.dumps({"name": locked[token]["name"], "urls": urls, "text": text}))
         print(f"{token}: {len(text)} characters from {', '.join(urls) or 'nothing'}")
 
 
@@ -260,11 +264,28 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     for name in ("gather", "draft"):
         commands.add_parser(name).add_argument("tokens", nargs="*", metavar="TOKEN")
-    commands.add_parser("list")
+    commands.add_parser("list").add_argument(
+        "--markdown", action="store_true", help="as a list of links to each cask's homepage, for a pull request"
+    )
+    commands.add_parser("check")
     args = parser.parse_args()
+    if args.command == "list" and args.markdown:
+        records = {record["token"]: record for record in json.loads(CATALOG.read_text())["casks"]}
+        for token in undescribed():
+            record = records[token]
+            print(f"- [{record['name']}]({record.get('homepage') or ''}) `{token}`")
+        return
     if args.command == "list":
-        drafted = load_descriptions()
-        print("\n".join(token for token in undescribed() if token not in drafted))
+        print("\n".join(undescribed()))
+        return
+    if args.command == "check":
+        if missing := undescribed():
+            sys.exit(
+                f"{len(missing)} casks have no description: {', '.join(missing)}\n"
+                "Run scripts/descriptions.py gather and draft for them, or give one a null description in "
+                "scripts/descriptions.json when its sources have nothing usable, and review the result."
+            )
+        print("Every cask has a description or a decision not to have one.")
         return
     tokens = args.tokens or undescribed()
     gather(tokens) if args.command == "gather" else draft(tokens)

@@ -13,6 +13,7 @@ uvx --from shellcheck-py shellcheck scripts/*.sh
 uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
 scripts/build-catalog.py check-licenses
+scripts/descriptions.py check
 ```
 
 ## Generated files

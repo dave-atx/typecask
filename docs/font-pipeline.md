@@ -118,7 +118,11 @@ cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badge
 sections, and `draft` has Claude Haiku summarize, through `claude -p` and Claude Code's sign-in, each into `scripts/descriptions.json`, which is reviewed by
 hand before it's committed. `draft` never replaces an entry already there, and a null description marks a
 cask with no usable English source. The catalog takes a drafted description only where google/fonts has
-none, so it costs no rebuild. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
+none, so it costs no rebuild. The Monday fonts run drafts for any new cask after its build and builds
+again when it did, so the draft arrives in the fonts pull request for review; it needs the
+`CLAUDE_CODE_OAUTH_TOKEN` secret, from `claude setup-token`, and skips drafting without it. Either way the Checks workflow runs `scripts/descriptions.py check`, which fails
+while a shipped cask has neither a description nor an entry in `scripts/descriptions.json`, and the fonts
+pull request lists any such casks under Missing descriptions. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:
