@@ -1,0 +1,14 @@
+{{ define "expect" }}style-head{{ end }}
+
+{{ define "head" }}
+  {{- /* The first rows are set before any script runs; the rest load on scroll. */ -}}
+  <style>
+    {{- range first 24 (sort .Pages "Params.popularity") }}
+      @font-face{font-family:"tc-{{ .Params.slug }}";src:url("{{ (printf "/p/%s" .Params.preview) | relURL }}");font-display:swap}
+    {{- end }}
+  </style>
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "maker-term.html" (dict "page" . "kind" "Designer" "taxonomy" "designers") }}
+{{ end }}

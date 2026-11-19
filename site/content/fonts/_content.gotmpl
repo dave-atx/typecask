@@ -19,6 +19,13 @@
     "handwriting" "Handwriting"
 }}
 
+{{/* A catalog from before scripts/makers.json lists Google's credits, people and foundries together, as
+  designers. That still names a font's designers, but not as pages of their own. */}}
+{{ $sorted := false }}
+{{ range $catalog.casks }}
+  {{ if .foundries }}{{ $sorted = true }}{{ end }}
+{{ end }}
+
 {{ range $catalog.casks }}
   {{ $slug := partial "cask-slug.html" .token }}
   {{/* A style the catalog knows and this build doesn't falls in with sans serif, as the app does. */}}
@@ -44,10 +51,14 @@
       "fontVersion" .fontVersion
       "popularity" .popularity
       "trending" .trending
-      "designers" (.designers | default slice)
+      "credits" (.descriptionBy | default (cond $sorted slice (.designers | default slice)))
+      "madeBy" (cond $sorted slice (.designers | default slice))
       "homepage" .homepage
       "styles" $terms
   }}
+  {{ if $sorted }}
+    {{ $params = merge $params (dict "designers" (.designers | default slice) "foundries" (.foundries | default slice)) }}
+  {{ end }}
 
   {{/* Google's description, which is Markdown with links, becomes the page's body. */}}
   {{ $.AddPage (dict

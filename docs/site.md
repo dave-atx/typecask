@@ -60,6 +60,14 @@ Pages come from `content/fonts/_content.gotmpl`, a content adapter that emits on
 straight out of `catalog.json`. There are no per-font Markdown files to maintain; a fonts release
 changes the catalog and the pages follow.
 
+Designers and foundries are taxonomies too, from each cask's `designers` and `foundries`, with an index
+of each at `/designers/` and `/foundries/`. A catalog from before `scripts/makers.json` lists Google's credits,
+people and foundries together, under `designers`, so the content adapter makes no maker pages for a catalog
+without `foundries` and lists the names on each font's page as before. Hugo would capitalize term titles
+(dtinth as "Dtinth"), so `capitalizeListTitles` is off and each taxonomy's index takes its title from
+`content/<taxonomy>/_index.md`. Templates find a maker's page by title through `_partials/maker-pages.html`:
+`site.GetPage` with a urlized path misses names like Łukasz Dziedzic.
+
 ## How the specimens work
 
 Every specimen on the site is the preview file the app ships: the cask's primary face subset to the

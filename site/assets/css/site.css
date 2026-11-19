@@ -558,6 +558,47 @@ img {
     padding-bottom: 40px;
 }
 
+/* Every foundry or designer, A to Z, in as many columns as fit. */
+.maker-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 48px;
+    columns: 15rem auto;
+    column-gap: 32px;
+}
+
+.maker-list li {
+    break-inside: avoid;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.95rem;
+}
+
+.maker-list a {
+    color: var(--ink);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.maker-list a:hover {
+    color: var(--hot);
+}
+
+.maker-list b {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--ink-3);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.maker-related a {
+    color: var(--ink-2);
+}
+
 .privacy-grid {
     display: grid;
     gap: 32px 48px;

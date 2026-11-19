@@ -1,0 +1,53 @@
+{{- /* A foundry's or a designer's fonts, most popular first, as a style's page lists them, and whom else
+  they credit. .kind is "Foundry" or "Designer"; .taxonomy the page's own. */ -}}
+{{- $page := .page -}}
+{{- $pages := sort $page.Pages "Params.popularity" -}}
+{{- $related := dict -}}
+{{- range $pages }}
+  {{- range .Params.foundries }}{{ $related = merge $related (dict (printf "foundries|%s" .) (add (index $related (printf "foundries|%s" .) | default 0) 1)) }}{{ end }}
+  {{- range .Params.designers }}{{ $related = merge $related (dict (printf "designers|%s" .) (add (index $related (printf "designers|%s" .) | default 0) 1)) }}{{ end }}
+{{- end }}
+{{- $self := printf "%s|%s" .taxonomy $page.Title -}}
+<div class="bar catalog-head" id="style-head">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="{{ "/fonts/" | relURL }}">Fonts</a>
+    <span aria-hidden="true">/</span>
+    <a href="{{ $page.Parent.RelPermalink }}">{{ $page.Parent.Title }}</a>
+  </nav>
+  <h1>{{ $page.Title }}</h1>
+  <p class="fine">{{ .kind }} · {{ lang.FormatNumber 0 (len $pages) }} {{ cond (eq (len $pages) 1) "family" "families" }},
+    ordered by popularity across Homebrew and Google Fonts.</p>
+  {{- $links := slice }}
+  {{- range $key, $count := $related }}
+    {{- if ne $key $self }}
+      {{- $parts := split $key "|" }}
+      {{- with index (partialCached "maker-pages.html" (index $parts 0) (index $parts 0)) (index $parts 1) }}
+        {{- $links = $links | append (dict "page" . "count" $count "foundry" (eq (index $parts 0) "foundries")) }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- with $links }}
+    <p class="fine maker-related">With
+      {{- range $i, $l := first 8 (sort (sort . "page.Title") "count" "desc") }}{{ if $i }},{{ end }}
+        <a href="{{ $l.page.RelPermalink }}">{{ $l.page.Title }}</a>{{ end }}</p>
+  {{- end }}
+</div>
+
+<div class="wall">
+  {{- range $pages }}
+    <a class="spec-row" href="{{ .RelPermalink }}" data-f="{{ .Params.slug }}" data-p="{{ .Params.preview }}">
+      <span class="spec-meta">
+        <b>{{ .Title }}</b>
+        <span>{{ .Params.styleName }}</span>
+        {{- if .Params.glyphs }}<span class="tag-nerd">Nerd Font</span>{{ end }}
+        <span class="spec-rank">#{{ lang.FormatNumber 0 .Params.popularity }}</span>
+      </span>
+      <span class="spec-line" style="font-family:'tc-{{ .Params.slug }}',var(--ui)">{{ .Params.line }}</span>
+    </a>
+  {{- end }}
+</div>
+
+{{- with resources.Get "js/catalog.js" }}
+  {{- $js := . | fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- end }}

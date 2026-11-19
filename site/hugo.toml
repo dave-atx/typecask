@@ -12,8 +12,16 @@ disableKinds = ["rss"]
 # 2,193 font pages, each carrying a licence text. Hugo warns past its default.
 timeout = "180s"
 
+# Term pages keep their names as the catalog spells them: Hugo capitalizes them by default, which made
+# dtinth "Dtinth" and blueMix "BlueMix".
+capitalizeListTitles = false
+
+# Designers and foundries have pages only once the catalog sorts its makers into them (Catalog.json's
+# foundries field); content/fonts/_content.gotmpl leaves both empty for a catalog that doesn't.
 [taxonomies]
   style = "styles"
+  designer = "designers"
+  foundry = "foundries"
 
 [params]
   tagline = "Thousands of free fonts, on your iPhone and iPad."
