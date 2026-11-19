@@ -302,6 +302,14 @@ DESCRIPTION_DIRECTORIES = {
     "font-kumar-one-outline": "ofl/kumarone",
     # The same Rounded M+ 1c, under the directory Google listed it in before.
     "font-m-plus-rounded-1c": "ofl/roundedmplus1c",
+    # Adobe and Google's Noto CJK, which Google Fonts serves by language with a description each. Its
+    # own README only links downloads. The Mono casks have no Google family to borrow from.
+    "font-noto-sans-cjk-jp": "ofl/notosansjp",
+    "font-noto-sans-cjk-kr": "ofl/notosanskr",
+    "font-noto-sans-cjk-sc": "ofl/notosanssc",
+    "font-noto-sans-cjk-tc": "ofl/notosanstc",
+    "font-noto-serif-cjk-jp": "ofl/notoserifjp",
+    "font-noto-serif-cjk-sc": "ofl/notoserifsc",
 }
 # Nerd Font and Powerline casks whose names don't give the original family, or give it badly, by token:
 # the original's name, for their description.

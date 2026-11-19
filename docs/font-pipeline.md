@@ -115,7 +115,7 @@ It runs after every other description is in place, so describing an original des
 
 Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
 cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license
-sections, and `draft` has Claude Haiku summarize each into `scripts/descriptions.json`, which is reviewed by
+sections, and `draft` has Claude Haiku summarize, through `claude -p` and Claude Code's sign-in, each into `scripts/descriptions.json`, which is reviewed by
 hand before it's committed. `draft` never replaces an entry already there, and a null description marks a
 cask with no usable English source. The catalog takes a drafted description only where google/fonts has
 none, so it costs no rebuild. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
