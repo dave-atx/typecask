@@ -27,19 +27,27 @@ order: 1
 ---
 
 A paragraph. Lines wrap freely; a blank line ends it. **Bold**, *italic*, and links to a collection
-([Serif](collection:serif)), a font ([Inter](font:font-inter)), a type term ([x-height](term:x-height)) or
-an https:// address.
+([Serif](collection:serif)), a font ([Inter](font:font-inter)), a type term ([x-height](term:x-height)),
+another article ([Workhorses](article:workhorses)), or an https:// address.
 
 ## A section heading
 
 @font-inter: The font you’ll forget you picked
 @font-fraunces {wght=900 WONK=1 +ss01 -liga}: Wonky, warm and a little goofy
 @font-inter {face=InterVariableItalic}: A face other than the cask's primary one
+
+@font-amiri: مرحبا بالعالم
+= Hello, world
 ```
 
 - `order` sets the order on the Start Here page. The articles are evergreen, so nothing rotates.
 - A specimen line is `@TOKEN: text`, on its own between blank lines. Settings in braces pick axis
   values (`wght=900`), turn features on or off (`+ss01`, `-liga`), and pick a face by its asset name.
+- A line starting `=` right under a specimen is its translation, for a line in another language. It's
+  plain text, set small under the line in the system font, so the line's font doesn't need its letters.
+- An https:// link is for the site alone: a foundry, a designer, the Wikipedia page of a classic typeface.
+  The app draws its words as plain text, so every link there stays in the app: to a font, a collection,
+  another article, or a term.
 - Collections are FontCollection's cases, spelled as in Swift: `monospaced`, `sansSerif`, `legibility`,
   `nerdFonts`, `halloween` and so on.
 - No lists, quotes, code, images or HTML. The app draws inline Markdown only, so anything more would look
@@ -53,8 +61,8 @@ hyphens for anything else, so `## Slab serif` is `term:slab-serif`. `build` writ
 `Articles.json` beside the articles, and `check` fails on a link to a term the glossary doesn't define.
 
 In the app a term link has a dotted underline, like an `<abbr>`, and shows the definition in a popover over its
-paragraph, a popover on iPhone too, so the reader stays in the article. The site should draw it as an `<abbr>`
-with the definition as its title, plus a popover a tap can open, since touch screens never show a title.
+paragraph, a popover on iPhone too, so the reader stays in the article. The site draws it as an `<abbr>`
+with the definition as its title, plus a popover a tap opens, since touch screens never show a title.
 
 `check` fails when a specimen or link names a cask the catalog doesn't have. It runs on fonts pull
 requests too, so a fonts release that drops a featured font fails Checks: swap the font in the article,
@@ -70,7 +78,8 @@ line and its settings, so editing a line recuts only its font, and a font no lin
 in `Typecask/ArticleFonts/`, a few KB each, and are checked in.
 
 `fonts` reads the full faces from `Typecask/Fonts.xcassets`, or `--from` another, such as the main
-checkout's from a worktree. It shapes each line with HarfBuzz in both the full face and the cut and fails
+checkout's from a worktree. It needs the faces of the fonts release the catalog pins: an older
+`Fonts.xcassets` lacks the casks added since. It shapes each line with HarfBuzz in both the full face and the cut and fails
 where they differ, which is a ligature or alternate the cut lost. Each cut keeps its source's version
 string, and `check` warns when the catalog's has moved on: rerun `fonts` against that fonts release.
 
@@ -83,5 +92,22 @@ far as it can still find them. The UI tests pass `-lastPage collection:allFonts`
 
 A specimen line sits in a shaded box with the font's name inside it, above the line, and the box opens the font's page.
 So does the font's first mention in the paragraph after it, which `build` links by itself (`font:` link,
-bold kept outside it, since SwiftUI drops bold inside a link), unless the paragraph already links the font. A `collection:` link shows that collection, a `font:` link pushes
-the font's page over the article, and an https:// link opens in Safari.
+bold kept outside it, since SwiftUI drops bold inside a link), unless the paragraph already links the font. A `collection:` link shows that collection, a `font:` or `article:` link pushes
+that page over the article, and an https:// link is plain text. `typecask://start/SLUG` and
+typecask.app/start/SLUG/, which the Smart App Banner hands the app, open an article over Start Here, and
+`typecask://start` opens Start Here itself; an article the app doesn't have yet opens Start Here.
+
+## On the site
+
+`scripts/site-catalog.sh` copies `Articles.json` and `ArticleFonts/` from the release tag, as it does the
+catalog, into `site/data/articles.json` and `site/static/a/`. `content/start/_content.gotmpl` makes
+`/start/` and a page per article from them, and `layouts/start/` lays them out as the app does: shaded
+boxes, the font's name above its line and a link to its page, and the translation under it. The cut fonts
+are served as they are, a few KB each. A release from before the articles has none, so `/start/` and its
+link in the header appear with the first App Store version that has them, and Open in Typecask needs no
+version check of its own.
+
+`layouts/_markup/render-link.html` turns the articles' links into the site's: `font:` to the font's page,
+`article:` to another article, `collection:` to a design style's page or Nerd Fonts (the app's other
+collections, like Legibility, have no page, so their words stay plain), and `term:` to an `<abbr>` whose
+title is the definition, which `assets/js/terms.js` shows in a popover on a tap.
