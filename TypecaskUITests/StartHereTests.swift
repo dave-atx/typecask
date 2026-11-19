@@ -22,7 +22,8 @@ final class StartHereTests: XCTestCase {
         app.launchArguments.removeAll { $0 == "-lastPage" || $0 == "start" || $0 == "collection:allFonts" }
         app.launch()
         XCTAssertTrue(app.navigationBars["Inter"].waitForExistence(timeout: 30))
-        app.navigationBars.buttons.element(boundBy: 0).tap()
+        // By its identifier: on iPhone Duo's outer display the back button isn't inside the navigation bar.
+        app.buttons["BackButton"].firstMatch.tap()
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 10))
     }
 
@@ -50,6 +51,10 @@ final class StartHereTests: XCTestCase {
         let popover = app.popovers.firstMatch
         XCTAssertTrue(popover.waitForExistence(timeout: 10))
         XCTAssertTrue(popover.staticTexts["x-height"].exists)
+        // It points at the term, just above or below it, rather than at the middle of the paragraph.
+        let term = link.frame, box = popover.frame
+        XCTAssertTrue(box.minX <= term.midX && term.midX <= box.maxX, "\(box) isn't over \(term)")
+        XCTAssertTrue(abs(box.maxY - term.minY) < 12 || abs(box.minY - term.maxY) < 12, "\(box) is far from \(term)")
         XCTAssertTrue(popover.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'The height of lowercase'"))
             .firstMatch.exists)
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].exists)

@@ -240,29 +240,90 @@ struct ArticleView: View {
     }
 }
 
-/// A paragraph of an article, whose `term:` links show the term's definition in a popover over the paragraph,
+/// A paragraph of an article, whose `term:` links show the term's definition in a popover pointing at the term,
 /// and whose other links go where the article sends them.
 private struct ArticleParagraph: View {
     let text: String
     @Bindable var model: GalleryModel
-    @State private var term: Article.Term?
+    @State private var shown: ShownTerm?
 
     var body: some View {
-        Text(Article.markdown(text))
+        paragraph
             .font(.body)
             .environment(\.openURL, OpenURLAction { url in
-                if let found = Article.term(for: url) {
-                    term = found
+                if let term = Article.term(for: url) {
+                    shown = ShownTerm(term: term, link: url)
                     return .handled
                 }
                 return model.follow(url) ? .handled : .systemAction
             })
-            .popover(item: $term) { term in
-                TermDefinition(term: term)
-                    // A popover on iPhone too: a sheet for two lines of text would cover the paragraph they explain.
-                    .presentationCompactAdaptation(.popover)
+            // Each term's popover hangs off a clear view laid over the term, found in the paragraph's text layout,
+            // so its arrow points at the word tapped; anchored to the whole Text, it pointed at the paragraph. The
+            // views are there before any tap: one moved onto the term as the popover opened kept its old frame.
+            .overlayPreferenceValue(Text.LayoutKey.self) { layouts in
+                GeometryReader { proxy in
+                    ForEach(Self.terms(in: layouts, proxy: proxy), id: \.link) { place in
+                        // The popover before the position, which fills the paragraph: after it, it pointed there.
+                        Color.clear
+                            .frame(width: place.rect.width, height: place.rect.height)
+                            .popover(item: shown(at: place.link)) { shown in
+                                TermDefinition(term: shown.term)
+                                    // A popover on iPhone too: a sheet for two lines of text would cover the
+                                    // paragraph they explain.
+                                    .presentationCompactAdaptation(.popover)
+                            }
+                            .position(x: place.rect.midX, y: place.rect.midY)
+                    }
+                }
             }
     }
+
+    /// The paragraph, with each term's link marked so its place in the text layout can be found.
+    private var paragraph: Text {
+        let string = Article.markdown(text)
+        return string.runs.reduce(Text(verbatim: "")) { text, run in
+            let piece = Text(AttributedString(string[run.range]))
+            guard let link = run.link, link.scheme == "term" else { return Text("\(text)\(piece)") }
+            return Text("\(text)\(piece.customAttribute(TermLink(url: link)))")
+        }
+    }
+
+    /// The term shown, for the view over `link` only.
+    private func shown(at link: URL) -> Binding<ShownTerm?> {
+        Binding(get: { shown?.link == link ? shown : nil }, set: { shown = $0 })
+    }
+
+    /// Where each term's link sits in the paragraph, at its first run: a term broken across lines points at its
+    /// first part, and a term linked twice at its first mention.
+    private static func terms(in layouts: [Text.LayoutKey.AnchoredLayout],
+                              proxy: GeometryProxy) -> [(link: URL, rect: CGRect)] {
+        var places: [(link: URL, rect: CGRect)] = []
+        for anchored in layouts {
+            let origin = proxy[anchored.origin]
+            for line in anchored.layout {
+                for run in line {
+                    guard let link = run[TermLink.self]?.url, !places.contains(where: { $0.link == link }) else {
+                        continue
+                    }
+                    places.append((link, run.typographicBounds.rect.offsetBy(dx: origin.x, dy: origin.y)))
+                }
+            }
+        }
+        return places
+    }
+}
+
+/// A term's link in a paragraph's text, marked so the popover can find where the term was drawn.
+private struct TermLink: TextAttribute {
+    let url: URL
+}
+
+/// The term a paragraph's popover shows, and the link tapped to show it.
+private struct ShownTerm: Identifiable {
+    let term: Article.Term
+    let link: URL
+
+    var id: URL { link }
 }
 
 /// A term and its definition, as a popover shows them.
