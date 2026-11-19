@@ -61,7 +61,7 @@ struct TryItOutView: View {
     @State private var alignment = TextAlignment.leading
     @State private var lineHeight = 1.0
     @State private var adjusting = false
-    @FocusState private var editing: Bool
+    @State private var editing = false
 
     init(cask: Cask, loader: TryOutLoader, start: TryOutStart? = nil) {
         self.cask = cask
@@ -141,15 +141,8 @@ struct TryItOutView: View {
                 }
                 .padding(.vertical, 10)
                 Divider()
-                TextEditor(text: $text)
-                    .font(Font(font(loaded)))
-                    .lineSpacing(size * (lineHeight - 1))
-                    .multilineTextAlignment(alignment)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .contentMargins(.horizontal, 12, for: .scrollContent)
-                    .accessibilityIdentifier("tryItOutText")
-                    .focused($editing)
+                TryOutEditor(text: $text, font: font(loaded), lineSpacing: size * (lineHeight - 1),
+                             alignment: alignment, isEditing: $editing)
                     // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
                     // panel is beside the text, and stays.
                     .onChange(of: editing) { _, editing in
