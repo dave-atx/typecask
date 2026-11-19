@@ -36,6 +36,7 @@ CACHE = ROOT / ".cache"
 DEFAULT_CASKS = [
     "font-departure-mono-nerd-font",  # InstallTests' default
     "font-roboto",  # variable
+    "font-shantell-sans",  # variable, with more axes than Try It Out's Adjust shows at once on iPhone
     "font-d2coding",  # a collection
     "font-fira-code",  # in a shared pack
     "font-atkinson-hyperlegible-next",

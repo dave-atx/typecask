@@ -60,6 +60,7 @@ struct TryItOutView: View {
     @Environment(FontInstaller.self) private var installer
     @Environment(\.dismiss) private var dismiss
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var text = ""
     /// What the text starts with: the line of the feature or the character the editor was opened from.
     private let insert: String?
@@ -151,30 +152,56 @@ struct TryItOutView: View {
                 Text(message)
             }
         case .loaded(let loaded):
-            VStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 10) {
-                    styleAndSize(loaded.specimen)
-                        .padding(.horizontal)
-                    chips(loaded)
+            HStack(spacing: 0) {
+                editor(loaded)
+                if adjusting, besideText {
+                    Divider()
+                    adjustments(loaded.specimen)
+                        .frame(width: 320)
                 }
-                .padding(.vertical, 10)
-                Divider()
-                TryOutEditor(text: $text, font: font(loaded), lineSpacing: size * (lineHeight - 1),
-                             alignment: alignment, isEditing: $editing)
-                    // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
-                    // panel is beside the text, and stays.
-                    .onChange(of: editing) { _, editing in
-                        if editing, sizeClass != .regular {
-                            adjusting = false
-                        }
-                    }
             }
-            .inspector(isPresented: $adjusting) {
+            // A sheet everywhere else, which in landscape on iPhone would cover the text it changes.
+            .inspector(isPresented: Binding { adjusting && !besideText } set: { isPresented in
+                // Not closed by turning to landscape, where the panel moves beside the text.
+                if !besideText {
+                    adjusting = isPresented
+                }
+            }) {
                 adjustments(loaded.specimen)
-                    .presentationDetents([.medium, .large])
+                    // Never taller than half: a face with more axes than fit, like Shantell Sans's four, scrolls
+                    // them in the half sheet rather than growing it over the text they change.
+                    .presentationDetents([.medium])
+                    .presentationContentInteraction(.scrolls)
                     // The text stays editable above the half sheet, to watch it change.
                     .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             }
+        }
+    }
+
+    /// Whether Adjust is a column beside the text that this view lays out itself: on iPhone in landscape, where a
+    /// half sheet would be the whole height of the screen. On iPad the inspector is a column of its own.
+    private var besideText: Bool {
+        verticalSizeClass == .compact && sizeClass != .regular
+    }
+
+    private func editor(_ loaded: TryOutLoader.Loaded) -> some View {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 10) {
+                styleAndSize(loaded.specimen)
+                    .padding(.horizontal)
+                chips(loaded)
+            }
+            .padding(.vertical, 10)
+            Divider()
+            TryOutEditor(text: $text, font: font(loaded), lineSpacing: size * (lineHeight - 1),
+                         alignment: alignment, isEditing: $editing)
+                // On iPhone, typing closes the half sheet, which would sit behind the keyboard; on iPad the
+                // panel is beside the text, and stays.
+                .onChange(of: editing) { _, editing in
+                    if editing, sizeClass != .regular {
+                        adjusting = false
+                    }
+                }
         }
     }
 

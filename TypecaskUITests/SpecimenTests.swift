@@ -141,6 +141,59 @@ final class SpecimenTests: XCTestCase {
         XCTAssertTrue(lineHeight.waitForNonExistence(timeout: 5), "Adjust stayed behind the keyboard")
     }
 
+    /// On iPhone in landscape, Adjust is a column beside the text rather than a sheet, which there would be the
+    /// screen's whole height and cover the text it changes.
+    @MainActor
+    func testAdjustLeavesTheTextInSightInLandscape() throws {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        app.openCask("font-roboto")
+        let button = app.controls(for: "font-roboto").buttons["tryItOut"]
+        XCTAssertTrue(button.waitForExistence(timeout: 10))
+        if app.windows.firstMatch.horizontalSizeClass == .regular {
+            throw XCTSkip("On iPad, Adjust is a panel beside the text in either orientation.")
+        }
+        button.tap()
+        let text = app.textViews["tryItOutText"]
+        XCTAssertTrue(text.waitForExistence(timeout: 60))
+        XCUIDevice.shared.orientation = .landscapeLeft
+        defer { XCUIDevice.shared.orientation = .portrait }
+        app.buttons["tryItOutAdjust"].tap()
+        XCTAssertTrue(app.sliders["Line Height"].waitForExistence(timeout: 5))
+        XCTAssertTrue(text.isHittable, "Adjust covered the text")
+    }
+
+    /// On iPhone, Adjust's half sheet scrolls to every one of Shantell Sans's four axes without growing over the text
+    /// they change.
+    @MainActor
+    func testAdjustReachesEveryAxisWithTheTextInSight() throws {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        app.openCask("font-shantell-sans")
+        let button = app.controls(for: "font-shantell-sans").buttons["tryItOut"]
+        XCTAssertTrue(button.waitForExistence(timeout: 10))
+        if app.windows.firstMatch.horizontalSizeClass == .regular {
+            throw XCTSkip("On iPad, Adjust is a panel beside the text, as tall as the screen.")
+        }
+        button.tap()
+        let text = app.textViews["tryItOutText"]
+        XCTAssertTrue(text.waitForExistence(timeout: 60))
+        app.buttons["tryItOutAdjust"].tap()
+        let lineHeight = app.sliders["Line Height"]
+        XCTAssertTrue(lineHeight.waitForExistence(timeout: 5))
+        // Below the sliders' track, so the swipe scrolls the sheet rather than moving one.
+        let sheet = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.08, dy: 0.9))
+        for axis in ["Weight", "Informality", "Bounce", "Spacing"] {
+            let slider = app.sliders[axis]
+            for _ in 0..<6 where !(slider.exists && slider.isHittable) {
+                sheet.press(forDuration: 0.05, thenDragTo: sheet.withOffset(CGVector(dx: 0, dy: -150)))
+            }
+            XCTAssertTrue(slider.isHittable, "no way to reach \(axis)")
+            XCTAssertTrue(text.isHittable, "the sheet grew over the text to reach \(axis)")
+        }
+        keep(app.screenshot(), named: "shantell-sans-adjust")
+    }
+
     /// A family built into iOS has a full specimen of its own, from the faces on the device, and opens Try It Out.
     @MainActor
     func testBuiltInAppleFamilyHasASpecimen() {
