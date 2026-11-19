@@ -26,12 +26,9 @@ struct Maker: Hashable, Identifiable, Sendable {
         var summary: LocalizedStringResource {
             switch self {
             case .foundry:
-                """
-                The type foundries, studios and companies behind the fonts, from Google Fonts and the fonts \
-                themselves.
-                """
+                "The studios and companies that made the fonts."
             case .designer:
-                "The people who drew the fonts, from Google Fonts and the fonts themselves."
+                "The people who drew the fonts."
             }
         }
     }

@@ -6,4 +6,5 @@
 • Font pages are laid out as type specimens: every style, passages at reading sizes, the full character set, the OpenType features the font draws, and the languages it can write.
 • Try It Out opens from anything on a font's page, set up for what you tapped, with any style, a switch for each OpenType feature, and controls for alignment, line height, and variable axes.
 • Fonts built into iOS get a full specimen and Try It Out too.
+• Browse by foundry or designer. A font's page links the studios and people who made it, and each has a page of their fonts.
 • {fonts}
