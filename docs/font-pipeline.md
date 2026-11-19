@@ -106,7 +106,12 @@ brackets, so its card and page show them.
 A Google family also takes its description, and its design style from Google's category, from its
 google/fonts metadata. The description is `DESCRIPTION.en_us.html`, or `article/ARTICLE.en_us.html` where
 that file is empty. A cask built from google/fonts that Google's metadata doesn't list, like Open Sans
-Hebrew, takes its description from the directory its source names. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
+Hebrew, takes its description from the directory its source names, and `DESCRIPTION_DIRECTORIES` lends a family
+with no description of its own a sibling's, as Kumar One's covers Kumar One Outline.
+
+A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
+its original with the icons added, then the original's description where the catalog has that cask.
+It runs after every other description is in place, so describing an original describes its variants too. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:
