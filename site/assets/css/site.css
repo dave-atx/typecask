@@ -807,7 +807,7 @@ img {
 
 .specimen-glyphs {
     font-size: clamp(1.1rem, 0.225rem + 2vw, 1.6rem);
-    color: var(--hot);
+    color: var(--ink-2);
     overflow-wrap: anywhere;
 }
 
@@ -1104,8 +1104,9 @@ img {
     font-weight: 650;
 }
 
-/* A specimen line in a shaded box, as the app sets it: the font's name above, and the box opens its page. */
-.art-spec-box {
+/* A specimen line in a shaded box, as the app sets it: the font's name above, and the box opens its page.
+   In ink, like the font pages' specimens, not in the orange of .prose a. */
+.prose .art-spec-box {
     display: flex;
     flex-direction: column;
     gap: 10px;
