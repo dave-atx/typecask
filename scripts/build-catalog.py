@@ -132,6 +132,26 @@ ALWAYS_INCLUDED = [
     "font-geist-serif",
     "font-comic-shanns-mono",
     "font-opendyslexic",
+    # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
+    # of the first open-source foundries; several sit near the install cutoff.
+    "font-blackout",
+    "font-chunk",
+    "font-fanwood-text",
+    "font-goudy-bookletter-1911",
+    "font-junction",
+    "font-knewave",
+    "font-league-gothic",
+    "font-league-mono",
+    "font-league-script",
+    "font-league-spartan",
+    "font-linden-hill",
+    "font-orbitron",
+    "font-ostrich-sans",
+    "font-prociono",
+    "font-raleway",
+    "font-sniglet",
+    "font-sorts-mill-goudy",
+    "font-the-neue-black",
 ]
 # Casks Homebrew doesn't have yet, or has only disabled, in its API's shape, from the upstream release.
 # Homebrew's own working cask takes over once it has one, and lock says so, for the entry to go.
@@ -178,6 +198,29 @@ EXTRA_CASKS = [
         "artifacts": [
             {"font": [f"OpenDyslexic-{style}.otf"]} for style in ("Regular", "Italic", "Bold", "Bold-Italic")
         ],
+    },
+    {
+        # The League of Moveable Type's slab, never cut as a release; pinned to the repository's last commit.
+        "token": "font-chunk",
+        "name": ["Chunk"],
+        "homepage": "https://www.theleagueofmoveabletype.com/chunk",
+        "url": "https://github.com/theleagueof/chunk/archive/12a243f3fb7c7a68844901023f7d95d6eaf14104.tar.gz",
+        "version": "2021-03-03",
+        "sha256": "78985b4effbe6e434a33e81fe544064a73f83c31a9981480b5b371d69113014f",
+        "artifacts": [
+            {"font": [f"chunk-12a243f3fb7c7a68844901023f7d95d6eaf14104/{name}.otf"]}
+            for name in ("ChunkFive-Regular", "Chunk Five Print")
+        ],
+    },
+    {
+        # Tré Seals' typeface for The League of Moveable Type, after the Chicago Freedom Movement.
+        "token": "font-the-neue-black",
+        "name": ["The Neue Black"],
+        "homepage": "https://www.theleagueofmoveabletype.com/the-neue-black",
+        "url": "https://github.com/theleagueof/the-neue-black/releases/download/1.007/TheNeueBlack-1.007.zip",
+        "version": "1.007",
+        "sha256": "8a15a7ff4c9b480bd26019d2b1d15c0d99ce2962876e345aab8431c3d6019853",
+        "artifacts": [{"font": ["TheNeueBlack-1.007/static/OTF/TheNeue-Black.otf"]}],
     },
 ]
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
@@ -437,6 +480,8 @@ CASK_STYLES = {
     "font-geist-serif": "serif",
     # Doesn't set isFixedPitch, and a few glyphs stray from its 600 advance.
     "font-comic-shanns-mono": "monospaced",
+    # PANOSE says sans serif; it's an ultra-bold slab.
+    "font-chunk": "serif",
 }
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families
@@ -518,6 +563,9 @@ LICENSE_NAME = re.compile(r"licen[cs]e|\bofl\b|copying|copyright", re.IGNORECASE
 # OFL-FAQ.txt matches \bofl\b, and is 40 KB of questions rather than a license.
 NOT_LICENSE_NAME = re.compile(r"faq", re.IGNORECASE)
 LICENSE_SUFFIXES = ("", ".txt", ".md")
+# The League of Moveable Type's older repositories name theirs "Open Font License.markdown". Read only when
+# nothing above turns up, so casks that already have a license build as before.
+FALLBACK_LICENSE_SUFFIXES = (".markdown",)
 GITHUB_REPO = re.compile(r"github\.com/([^/]+)/([^/]+?)(?:\.git)?/")
 CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 # Some hosts turn away clients that don't look like a browser or Homebrew.
@@ -528,7 +576,7 @@ PIPELINE_VERSION = 11
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
-SKIP_VERSION = 2
+SKIP_VERSION = 3
 
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
@@ -1596,16 +1644,17 @@ def google_fonts_license(directory):
 
 
 def find_license(root, url, google_directory=None):
-    paths = sorted(
-        path
-        for path in root.rglob("*")
-        if path.suffix.lower() in LICENSE_SUFFIXES
-        and LICENSE_NAME.search(path.stem)
-        and not NOT_LICENSE_NAME.search(path.stem)
-        and path.is_file()
-    )
-    if paths:
-        return "\n\n".join(path.read_text(errors="replace") for path in paths)
+    for suffixes in (LICENSE_SUFFIXES, FALLBACK_LICENSE_SUFFIXES):
+        paths = sorted(
+            path
+            for path in root.rglob("*")
+            if path.suffix.lower() in suffixes
+            and LICENSE_NAME.search(path.stem)
+            and not NOT_LICENSE_NAME.search(path.stem)
+            and path.is_file()
+        )
+        if paths:
+            return "\n\n".join(path.read_text(errors="replace") for path in paths)
     if google_directory and (license := google_fonts_license(google_directory)):
         return license
     repo = GITHUB_REPO.search((url or "") + "/")
