@@ -104,7 +104,9 @@ catalog marks such a cask `ligatures`, and a Latin one's sample ends with the se
 brackets, so its card and page show them.
 
 A Google family also takes its description, and its design style from Google's category, from its
-google/fonts metadata. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
+google/fonts metadata. The description is `DESCRIPTION.en_us.html`, or `article/ARTICLE.en_us.html` where
+that file is empty. A cask built from google/fonts that Google's metadata doesn't list, like Open Sans
+Hebrew, takes its description from the directory its source names. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:

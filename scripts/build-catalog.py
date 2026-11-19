@@ -549,7 +549,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 11
+PIPELINE_VERSION = 12
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -1704,9 +1704,11 @@ def google_primary_script(directory):
 
 
 def google_description(directory):
+    """The family's description, or its article where the description file is empty: Onest, Jaro and a
+    few others ship a 0-byte DESCRIPTION.en_us.html beside a full article."""
     for name in GOOGLE_DESCRIPTIONS:
-        if (path := CLONE / directory / name).is_file():
-            return describe(path.read_text(errors="replace"))
+        if (path := CLONE / directory / name).is_file() and (description := describe(path.read_text(errors="replace"))):
+            return description
     return None
 
 
@@ -1862,7 +1864,10 @@ def build_cask(entry, destination, mirrored=frozenset()):
         built |= {"script": scripts.script, "scripts": scripts.scripts}
         if ligatures:
             built["ligatures"] = True
-        if google.get("directory") and (description := google_description(google["directory"])):
+        # A cask built from google/fonts but missing from Google's metadata, like Open Sans Hebrew, has no
+        # google.directory, though its source names the same directory.
+        directory = google.get("directory") or entry["source"].get("google")
+        if directory and (description := google_description(directory)):
             built["description"] = description
         write_json(destination / "entry.json", built)
     finally:
