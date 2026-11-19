@@ -1,6 +1,19 @@
 import CoreText
 import SwiftUI
 
+/// What Try It Out types in: a cask's fonts, or one of the families built into iOS.
+enum TryOutFonts {
+    case cask(Cask)
+    case apple(AppleFontFamily)
+
+    var name: String {
+        switch self {
+        case .cask(let cask): cask.name
+        case .apple(let family): family.name
+        }
+    }
+}
+
 /// Opens the Try It Out editor. Opt-in, since the editor needs the cask's full fonts: an installed cask's are on
 /// the device already, but anything else downloads its On-Demand Resources tag, as Install does. On a font's own
 /// page it opens the page's editor, which zooms from the button and shares the page's fonts; a paired Nerd Font
@@ -19,7 +32,7 @@ struct TryItOutButton: View {
         } else {
             button { isPresented = true }
                 .sheet(isPresented: $isPresented) {
-                    TryItOutView(cask: cask, loader: loader)
+                    TryItOutView(fonts: .cask(cask), loader: loader)
                         // A page on iPad, not a form sheet: an editor wants the room.
                         .presentationSizing(.page)
                 }
@@ -41,8 +54,8 @@ struct TryItOutButton: View {
 /// and so is a chip for each feature, so a face's features are seen rather than found; alignment, line height and a
 /// variable face's axes are under Adjust, a side panel on iPad and a half sheet on iPhone, with the text in view.
 struct TryItOutView: View {
-    let cask: Cask
-    /// The cask's full fonts, shared with its page when opened from there, so they download once.
+    let fonts: TryOutFonts
+    /// The full fonts, shared with the font's page when opened from there, so they download once.
     let loader: TryOutLoader
     @Environment(FontInstaller.self) private var installer
     @Environment(\.dismiss) private var dismiss
@@ -63,8 +76,8 @@ struct TryItOutView: View {
     @State private var adjusting = false
     @State private var editing = false
 
-    init(cask: Cask, loader: TryOutLoader, start: TryOutStart? = nil) {
-        self.cask = cask
+    init(fonts: TryOutFonts, loader: TryOutLoader, start: TryOutStart? = nil) {
+        self.fonts = fonts
         self.loader = loader
         insert = start?.insert ?? start?.feature?.sampleLine
         _style = State(initialValue: start?.style)
@@ -75,7 +88,7 @@ struct TryItOutView: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle(cask.name)
+                .navigationTitle(fonts.name)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
@@ -101,8 +114,13 @@ struct TryItOutView: View {
                 }
         }
         .task {
-            await loader.load(cask, installed: installer.status(of: cask).isInstalled,
-                              sample: cask.sample ?? Catalog.bundled.sampleText)
+            switch fonts {
+            case .cask(let cask):
+                await loader.load(cask, installed: installer.status(of: cask).isInstalled,
+                                  sample: cask.sample ?? Catalog.bundled.sampleText)
+            case .apple(let family):
+                await loader.load(family, sample: family.sample ?? Catalog.bundled.sampleText)
+            }
         }
         .task(id: loader.isLoaded) {
             if case .loaded(let loaded) = loader.phase, text.isEmpty {
@@ -117,12 +135,12 @@ struct TryItOutView: View {
         switch loader.phase {
         case .loading:
             VStack(spacing: 12) {
-                if installer.status(of: cask).isInstalled {
-                    ProgressView("Loading…")
-                } else {
+                if case .cask(let cask) = fonts, !installer.status(of: cask).isInstalled {
                     ProgressView("Downloading \(cask.bytes.formatted(.byteCount(style: .file)))…",
                                  value: loader.progress)
                         .frame(maxWidth: 280)
+                } else {
+                    ProgressView("Loading…")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

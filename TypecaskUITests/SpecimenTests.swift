@@ -141,6 +141,23 @@ final class SpecimenTests: XCTestCase {
         XCTAssertTrue(lineHeight.waitForNonExistence(timeout: 5), "Adjust stayed behind the keyboard")
     }
 
+    /// A family built into iOS has a full specimen of its own, from the faces on the device, and opens Try It Out.
+    @MainActor
+    func testBuiltInAppleFamilyHasASpecimen() {
+        let app = XCUIApplication.typecask()
+        app.launch()
+        app.openCask("Baskerville")
+        XCTAssertTrue(app.staticTexts["section.styles"].waitForExistence(timeout: 15), "no full specimen")
+        XCTAssertGreaterThan(app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH 'specimenStyle.'")).count, 1)
+        XCTAssertTrue(scroll(to: app.staticTexts["section.characters"], in: app), "no characters")
+        let button = app.buttons["tryItOut"].firstMatch
+        XCTAssertTrue(scroll(to: button, in: app, upward: true))
+        button.tap()
+        XCTAssertTrue(app.textViews["tryItOutText"].waitForExistence(timeout: 10))
+        keep(app.screenshot(), named: "baskerville-try-it-out")
+    }
+
     /// Opens the cask's page and asks for its full specimen, waiting for the styles it adds.
     @MainActor
     private func openFullSpecimen(_ token: String) -> XCUIApplication {

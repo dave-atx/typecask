@@ -94,26 +94,70 @@ private struct AppleFontSource: View {
     }
 }
 
+/// An Apple family's page. A built-in family's faces are on the device, so its page has the full specimen a cask's
+/// has, its styles, features, setting, characters and languages, and opens Try It Out from any of them. A
+/// downloadable family's has only its preview, since resolving one through Core Text would download it.
 struct AppleFontDetailView: View {
     let family: AppleFontFamily
     let sampleText: String
+    @State private var loader = TryOutLoader()
+    /// Try It Out, while it's open, and what it opened to.
+    @State private var tryOut: TryOutStart?
+    @Namespace private var tryOutNamespace
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                AppleFontSpecimen(family: family, sampleText: sampleText, kind: .row, lineLimit: nil)
-                AppleFontStatus(builtIn: family.builtIn)
-                VStack(spacing: 8) {
-                    LabeledContent("Styles", value: family.faces, format: .number)
-                    LabeledContent("Design Style") { Text(family.style.name) }
+            // Lazy for the character grid's pinned header (see SpecimenCharacters).
+            LazyVStack(alignment: .leading, spacing: 32, pinnedViews: .sectionHeaders) {
+                VStack(alignment: .leading, spacing: 24) {
+                    AppleFontSpecimen(family: family, sampleText: sampleText, kind: .row, lineLimit: nil)
+                        .opensTryOut(TryOutStart(source: "sample"),
+                                     hint: Text("Opens Try It Out, to type in this font."))
+                    AppleFontStatus(builtIn: family.builtIn)
+                    if family.builtIn {
+                        Button("Try It Out", systemImage: "character.cursor.ibeam") {
+                            tryOut = TryOutStart(source: "button")
+                        }
+                        .buttonStyle(.glass)
+                        .accessibilityHint(Text("Type in this font."))
+                        .matchedTransitionSource(id: "button", in: tryOutNamespace)
+                        .accessibilityIdentifier("tryItOut")
+                    }
+                    VStack(spacing: 8) {
+                        LabeledContent("Styles", value: family.faces, format: .number)
+                        LabeledContent("Design Style") { Text(family.style.name) }
+                    }
+                    .labeledContentStyle(.detailRow)
                 }
-                .labeledContentStyle(.detailRow)
+                if case .loaded(let loaded) = loader.phase {
+                    let specimen = loaded.specimen
+                    SpecimenStyles(specimen: specimen, sample: sample, ligatures: true)
+                    SpecimenFeatures(specimen: specimen)
+                    SpecimenSetting(specimen: specimen, ligatures: true)
+                    SpecimenCharacters(specimen: specimen)
+                    SpecimenLanguages(specimen: specimen)
+                }
             }
             .padding()
         }
         .navigationTitle(family.name)
         .navigationBarTitleDisplayMode(.inline)
+        .environment(\.tryOut, family.builtIn ? TryOutOpener(token: "apple/\(family.name)", namespace: tryOutNamespace,
+                                                             open: { tryOut = $0 }) : nil)
+        .sheet(item: $tryOut) { start in
+            TryItOutView(fonts: .apple(family), loader: loader, start: start)
+                // A page on iPad, not a form sheet: an editor wants the room.
+                .presentationSizing(.page)
+                .navigationTransition(.zoom(sourceID: start.source, in: tryOutNamespace))
+        }
+        .task {
+            if family.builtIn {
+                await loader.load(family, sample: sample)
+            }
+        }
     }
+
+    private var sample: String { family.sample ?? sampleText }
 }
 
 /// What someone can do with an Apple family: nothing for a built-in one, which every app already has,

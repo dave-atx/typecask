@@ -94,7 +94,7 @@ struct CaskDetailView: View {
                                                         open: openTryOut) : nil)
         .sheet(item: $tryOut) { start in
             if let loader {
-                TryItOutView(cask: cask, loader: loader, start: start)
+                TryItOutView(fonts: .cask(cask), loader: loader, start: start)
                     // A page on iPad, not a form sheet: an editor wants the room.
                     .presentationSizing(.page)
                     .navigationTransition(.zoom(sourceID: start.source, in: tryOutNamespace))
