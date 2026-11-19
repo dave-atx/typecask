@@ -82,7 +82,7 @@ struct StartHereView: View {
                         NavigationLink(value: GalleryPage.article(article)) {
                             ArticleCard(article: article)
                         }
-                        .buttonStyle(.card)
+                        .buttonStyle(CardButtonStyle(minHeight: 0))
                         .accessibilityIdentifier("article-\(article.slug)")
                     }
                 }
@@ -103,12 +103,12 @@ struct StartHereView: View {
     }
 }
 
+/// An article's title and summary. Its fonts wait for the article itself.
 private struct ArticleCard: View {
     let article: Article
-    @ScaledMetric(relativeTo: .title2) private var lineSize = 26.0
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(article.title)
                 .font(.title3.weight(.semibold))
                 .multilineTextAlignment(.leading)
@@ -116,15 +116,6 @@ private struct ArticleCard: View {
                 .font(.callout)
                 .foregroundStyle(Color(.captionText))
                 .multilineTextAlignment(.leading)
-            VStack(alignment: .leading, spacing: 4) {
-                ForEach(article.specimens.prefix(3), id: \.self) { line in
-                    Text(line.text)
-                        .font(PreviewFonts.font(line.font, size: lineSize, features: line.features ?? [:]))
-                        .lineLimit(1)
-                }
-            }
-            .accessibilityHidden(true)
-            .padding(.top, 4)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)

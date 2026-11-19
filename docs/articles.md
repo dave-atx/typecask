@@ -64,7 +64,7 @@ string, and `check` warns when the catalog's has moved on: rerun `fonts` against
 
 ## In the app
 
-The app opens on Start Here the first time: the articles as cards, each showing its first few lines. On
+The app opens on Start Here the first time: the articles as cards, each its title and summary. On
 iPad it's the sidebar's first row. After that the app reopens where it was, the root and every page
 pushed over it, saved as `lastPage` in user defaults (`start|article:start-here|font:font-inter`), as
 far as it can still find them. The UI tests pass `-lastPage collection:allFonts` so they begin on All Fonts.
