@@ -26,6 +26,18 @@ final class StartHereTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 10))
     }
 
+    /// The font's name in the paragraph after its line opens its page, as the line's box does.
+    @MainActor
+    func testFontsNameInTheParagraphOpensItsPage() {
+        let app = XCUIApplication.typecask()
+        app.launchArguments += ["-lastPage", "start|article:start-here"]
+        app.launch()
+        let link = app.links["Inter"]
+        XCTAssertTrue(link.waitForExistence(timeout: 30))
+        link.tap()
+        XCTAssertTrue(app.navigationBars["Inter"].waitForExistence(timeout: 10))
+    }
+
     /// A collection named in an article opens that collection.
     @MainActor
     func testCollectionLinkOpensTheCollection() {

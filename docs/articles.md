@@ -69,5 +69,7 @@ iPad it's the sidebar's first row. After that the app reopens where it was, the 
 pushed over it, saved as `lastPage` in user defaults (`start|article:start-here|font:font-inter`), as
 far as it can still find them. The UI tests pass `-lastPage collection:allFonts` so they begin on All Fonts.
 
-A specimen line opens its font's page. A `collection:` link shows that collection, a `font:` link pushes
+A specimen line sits in a shaded box with the font's name inside it, and the box opens the font's page.
+So does the font's first mention in the paragraph after it, which `build` links by itself (`font:` link,
+bold kept outside it, since SwiftUI drops bold inside a link), unless the paragraph already links the font. A `collection:` link shows that collection, a `font:` link pushes
 the font's page over the article, and an https:// link opens in Safari.

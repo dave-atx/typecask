@@ -26,7 +26,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Inter** was drawn by Rasmus Andersson for screens, with a tall x-height that keeps small text readable. It's the one to reach for when you don't want to think about the font at all. Look in its features for a slashed zero and tabular numbers, which line figures up in a column."
+          "text": "**[Inter](font:font-inter)** was drawn by Rasmus Andersson for screens, with a tall x-height that keeps small text readable. It's the one to reach for when you don't want to think about the font at all. Look in its features for a slashed zero and tabular numbers, which line figures up in a column."
         },
         {
           "kind": "specimen",
@@ -36,7 +36,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**IBM Plex Sans** is IBM's own typeface, designed by Mike Abbink with the Dutch foundry Bold Monday. It's neutral but warmer than Inter, and its italics have more character than you'd expect. Plex also comes as Serif, Mono and Condensed, so one family can cover a whole document."
+          "text": "**[IBM Plex Sans](font:font-ibm-plex-sans)** is IBM's own typeface, designed by Mike Abbink with the Dutch foundry Bold Monday. It's neutral but warmer than Inter, and its italics have more character than you'd expect. Plex also comes as Serif, Mono and Condensed, so one family can cover a whole document."
         },
         {
           "kind": "heading",
@@ -50,7 +50,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**EB Garamond** is a close revival of Claude Garamont's 16th-century type, drawn from a specimen printed in 1592. Garamond may be the most revived typeface there is, and this is the best free one. Set a long essay or a wedding invitation in it."
+          "text": "**[EB Garamond](font:font-eb-garamond)** is a close revival of Claude Garamont's 16th-century type, drawn from a specimen printed in 1592. Garamond may be the most revived typeface there is, and this is the best free one. Set a long essay or a wedding invitation in it."
         },
         {
           "kind": "specimen",
@@ -60,7 +60,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Source Serif 4** is Adobe's, designed by Frank Grießhammer after the French typefounder Pierre Simon Fournier. It's sturdier than Garamond and holds up better at small sizes and on screen. It was made as a partner for Source Sans 3, so the two pair without any fuss."
+          "text": "**[Source Serif 4](font:font-source-serif-4)** is Adobe's, designed by Frank Grießhammer after the French typefounder Pierre Simon Fournier. It's sturdier than Garamond and holds up better at small sizes and on screen. It was made as a partner for Source Sans 3, so the two pair without any fuss."
         },
         {
           "kind": "heading",
@@ -74,7 +74,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**JetBrains Mono** is about as popular as coding fonts get. JetBrains made it for their code editors: every character is the same width, so columns line up, and pairs like -> and != join into a single symbol (ligatures you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find more like it under [Fixed Width](collection:monospaced)."
+          "text": "**[JetBrains Mono](font:font-jetbrains-mono)** is about as popular as coding fonts get. JetBrains made it for their code editors: every character is the same width, so columns line up, and pairs like -> and != join into a single symbol (ligatures you can switch off in Try It Out). It's just as good for a table of numbers in Numbers. You'll find more like it under [Fixed Width](collection:monospaced)."
         },
         {
           "kind": "heading",
@@ -88,7 +88,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Bebas Neue** is tall, narrow and all capitals, by Ryoichi Tsunekawa. It fits a lot of words across a slide or a poster and still reads from the back of the room. Keep it big; it isn't meant for paragraphs."
+          "text": "**[Bebas Neue](font:font-bebas-neue)** is tall, narrow and all capitals, by Ryoichi Tsunekawa. It fits a lot of words across a slide or a poster and still reads from the back of the room. Keep it big; it isn't meant for paragraphs."
         },
         {
           "kind": "specimen",
@@ -98,7 +98,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Fraunces** is a soft, slightly goofy serif from Undercase Type, inspired by early 20th-century faces like Windsor and Cooper. Its \"wonky\" letters lean a little, so a title in it looks friendly rather than formal. Try it heavy and large."
+          "text": "**[Fraunces](font:font-fraunces)** is a soft, slightly goofy serif from Undercase Type, inspired by early 20th-century faces like Windsor and Cooper. Its \"wonky\" letters lean a little, so a title in it looks friendly rather than formal. Try it heavy and large."
         },
         {
           "kind": "heading",
@@ -112,7 +112,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Shantell Sans** comes from the handwriting of the artist Shantell Martin, whose drawings have covered the Oculus at the World Trade Center and the screens of Times Square. She made it with Stephen Nixon of Arrow Type to get people having fun with words. It's bouncy without being hard to read, which makes it good for notes, invitations and kids' worksheets."
+          "text": "**[Shantell Sans](font:font-shantell-sans)** comes from the handwriting of the artist Shantell Martin, whose drawings have covered the Oculus at the World Trade Center and the screens of Times Square. She made it with Stephen Nixon of Arrow Type to get people having fun with words. It's bouncy without being hard to read, which makes it good for notes, invitations and kids' worksheets."
         },
         {
           "kind": "specimen",
@@ -122,7 +122,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Recursive**, also from Arrow Type, takes its shapes from the single-stroke brush lettering of sign painters. It's relaxed enough for a flyer and tidy enough for a document."
+          "text": "**[Recursive](font:font-recursive)**, also from Arrow Type, takes its shapes from the single-stroke brush lettering of sign painters. It's relaxed enough for a flyer and tidy enough for a document."
         },
         {
           "kind": "specimen",
@@ -132,7 +132,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Caveat**, from Impallari Type, looks like quick, neat handwriting. It's the place to start in the [Handwriting](collection:handwriting) category."
+          "text": "**[Caveat](font:font-caveat)**, from Impallari Type, looks like quick, neat handwriting. It's the place to start in the [Handwriting](collection:handwriting) category."
         },
         {
           "kind": "heading",
@@ -146,7 +146,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**Atkinson Hyperlegible Next** was made for the Braille Institute, to help readers with low vision. Letters that are easy to mix up, like I, l and 1, or O and 0, are drawn to look clearly different. It's a refined version of the original Atkinson Hyperlegible, with more weights and languages. It's in the [Legibility](collection:legibility) collection, with other fonts designed to be easy to read."
+          "text": "**[Atkinson Hyperlegible Next](font:font-atkinson-hyperlegible-next)** was made for the Braille Institute, to help readers with low vision. Letters that are easy to mix up, like I, l and 1, or O and 0, are drawn to look clearly different. It's a refined version of the original Atkinson Hyperlegible, with more weights and languages. It's in the [Legibility](collection:legibility) collection, with other fonts designed to be easy to read."
         },
         {
           "kind": "heading",

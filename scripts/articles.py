@@ -48,6 +48,7 @@ a fonts release can change a face; rerun `fonts` against that release to bring t
 
 import argparse
 import hashlib
+import itertools
 import json
 import pathlib
 import re
@@ -219,7 +220,41 @@ def read_articles(catalog):
     problems += [f"two articles have order {order}" for order in sorted(set(orders)) if orders.count(order) > 1]
     if problems:
         raise ArticleError("\n".join(problems))
+    for article in articles:
+        link_first_mentions(article, catalog)
     return sorted(articles, key=lambda article: (article["order"], article["slug"]))
+
+
+def link_first_mentions(article, catalog):
+    """Links the font's first mention in the paragraph after its specimen line to the font, so its name
+    opens its page as the line does, in the app and on the site. A paragraph that already links the font,
+    or doesn't name it, is left alone."""
+    blocks = article["blocks"]
+    for item, following in itertools.pairwise(blocks):
+        if item["kind"] != "specimen" or following["kind"] != "paragraph":
+            continue
+        name, target, text = catalog[item["token"]]["name"], f"font:{item['token']}", following["text"]
+        if f"({target})" in text:
+            continue
+        links = [match.span() for match in LINK.finditer(text)]
+        for mention in (f"**{name}**", name):
+            start = next(
+                (i for i in find_all(text, mention) if not any(a <= i < b for a, b in links)),
+                None,
+            )
+            if start is not None:
+                end = start + len(mention)
+                # Bold outside the link: SwiftUI drops bold inside a link's text.
+                link = f"**[{name}]({target})**" if mention.startswith("**") else f"[{name}]({target})"
+                following["text"] = f"{text[:start]}{link}{text[end:]}"
+                break
+
+
+def find_all(text, part):
+    start = text.find(part)
+    while start >= 0:
+        yield start
+        start = text.find(part, start + 1)
 
 
 def specimens(articles):

@@ -176,7 +176,8 @@ struct ArticleView: View {
     private func specimen(_ line: Article.SpecimenLine) -> some View {
         if let cask = model.catalog.casks.first(where: { $0.token == line.token }) {
             NavigationLink(value: GalleryPage.item(.cask(model.catalog.shown(cask)))) {
-                VStack(alignment: .leading, spacing: 6) {
+                // A shaded box, as the cards in the gallery, with the font's name inside it under the line.
+                VStack(alignment: .leading, spacing: 12) {
                     Text(line.text)
                         .font(PreviewFonts.font(line.font, size: sampleSize(sizeClass) * min(scale, 1.6),
                                                 features: line.features ?? [:]))
@@ -188,11 +189,12 @@ struct ArticleView: View {
                             .imageScale(.small)
                     }
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(Color(.captionText))
                 }
-                .padding(.vertical, 8)
+                .padding(4)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(CardButtonStyle(minHeight: 0))
+            .padding(.vertical, 6)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text("\(line.text), set in \(cask.name)"))
             .accessibilityHint(Text("Opens the font's page"))

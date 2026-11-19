@@ -54,13 +54,15 @@ struct CollectionSummary: View {
 /// The gallery's cards. Content rather than controls, so a plain fill instead of glass, with the
 /// pointer lifting them on iPad and a press shrinking them slightly.
 struct CardButtonStyle: ButtonStyle {
+    /// A gallery card's, which keeps a row of cards even; an article's specimen box takes its line's height.
+    var minHeight: CGFloat = 170
     private let shape = RoundedRectangle(cornerRadius: 22, style: .continuous)
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .frame(maxWidth: .infinity, minHeight: 170, alignment: .topLeading)
+            .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .topLeading)
             .background(.fill.tertiary, in: shape)
             .contentShape(.hoverEffect, shape)
             .hoverEffect(.lift)
