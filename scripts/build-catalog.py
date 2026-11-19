@@ -581,7 +581,7 @@ CATALOG_INFO = {"info": {"author": "xcode", "version": 1}}
 USER_AGENT = "Homebrew/4.6 (Macintosh; arm64 Mac OS X 26.0) curl/8.7.1"
 # Part of every built cask's cache key. Bump it when a change here alters what a cask builds into,
 # such as the preview's text or which files are selected, so cached casks are rebuilt.
-PIPELINE_VERSION = 12
+PIPELINE_VERSION = 13
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
@@ -604,6 +604,8 @@ LOCK = ROOT / "fonts.lock.json"
 # Descriptions drafted from READMEs and homepages by scripts/descriptions.py and reviewed by hand, for
 # casks with none from google/fonts.
 DRAFTED_DESCRIPTIONS = ROOT / "scripts" / "descriptions.json"
+# Which makers are foundries, their spellings, and the makers of casks Google doesn't list, for makers().
+MAKERS = ROOT / "scripts" / "makers.json"
 # Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
 LICENSE_TEXTS = ROOT / "scripts" / "licenses"
 CACHE = ROOT / ".cache"
@@ -1597,6 +1599,21 @@ def cjk_script(family, code_pages, counts, covered):
     return next(script for script in order if script in covered)
 
 
+def font_credits(face):
+    """Who the face says made it, raw from its name table: the manufacturer (name 8), the designer (9), the
+    vendor's URL (11), and the OS/2 vendor ID. The catalog sorts these into foundries and designers through
+    scripts/makers.json, so curating them costs no rebuild."""
+    with TTFont(face.path, fontNumber=face.number, lazy=True, recalcTimestamp=False) as font:
+        names = font["name"]
+        credits = {
+            "manufacturer": (names.getDebugName(8) or "").strip(),
+            "designer": (names.getDebugName(9) or "").strip(),
+            "vendorURL": (names.getDebugName(11) or "").strip(),
+            "vendorID": font["OS/2"].achVendID.strip(" \0") if "OS/2" in font else "",
+        }
+    return {key: value for key, value in credits.items() if value}
+
+
 def font_version_of(font):
     return (font["name"].getDebugName(5) or "").strip()
 
@@ -1910,6 +1927,8 @@ def build_cask(entry, destination, mirrored=frozenset()):
         built |= {"script": scripts.script, "scripts": scripts.scripts}
         if ligatures:
             built["ligatures"] = True
+        if credits := font_credits(primary):
+            built["credits"] = credits
         # A cask built from google/fonts but missing from Google's metadata, like Open Sans Hebrew, has no
         # google.directory, though its source names the same directory.
         directory = DESCRIPTION_DIRECTORIES.get(token) or google.get("directory") or entry["source"].get("google")
@@ -2108,9 +2127,83 @@ def describe_patched(catalog):
         description = template.format(original=original)
         if plain and plain is not record and plain.get("description"):
             description += "\n\n" + plain["description"]
-            if designers := plain.get("designers"):
-                record["designers"] = designers
+            if credit := plain.get("descriptionBy"):
+                record["descriptionBy"] = credit
+        # A patched font is its original's design, whatever the patcher left in its name table.
+        if plain and plain is not record and (plain.get("foundries") or plain.get("designers")):
+            for key in ("foundries", "designers"):
+                if plain.get(key):
+                    record[key] = plain[key]
+                else:
+                    record.pop(key, None)
         record["description"] = description
+
+
+@functools.cache
+def maker_curation():
+    return json.loads(MAKERS.read_text())
+
+
+# Joins between the names in a name table's designer or manufacturer, "A, B & C" and "A and B".
+CREDIT_SEPARATORS = re.compile(r"\s*(?:,|;|/|&|\band\b|\bwith\b|\+)\s*", re.IGNORECASE)
+# What a name table credits besides a maker: an address, a copyright line, a tool.
+NOT_A_MAKER = re.compile(
+    r"https?:|www\.|@|\.(com|org|net|io)\b|copyright|©|\(c\)|fontforge|glyphs|^unknown$", re.IGNORECASE
+)
+
+
+# The legal form after a company's name, which the app and the site leave off.
+CORPORATE_SUFFIX = re.compile(
+    r"[,\s]+(inc\.?|incorporated|corporation|corp\.?|llc|ltd\.?|limited|gmbh|gbr|ab|co\.?|s\.a\.|b\.v\.)$",
+    re.IGNORECASE,
+)
+
+
+def credit_names(text):
+    """The makers a name table names, "Designed by A and B" as A and B. Splitting on "and" leaves a foundry
+    like Bakken & Bæck in pieces, so a name makers.json knows whole is kept whole."""
+    curation = maker_curation()
+    text = re.sub(r"^(designed|created|drawn|made)\s+by\s+|\s*\(.*?\)\s*$", "", text.strip(), flags=re.IGNORECASE)
+    known = set(curation["foundries"]) | set(curation["aliases"])
+    if text in known:
+        return [text]
+    return [name for name in CREDIT_SEPARATORS.split(text) if name and len(name) <= 40 and not NOT_A_MAKER.search(name)]
+
+
+def makers(token, google, credits):
+    """The cask's foundries and designers, each in the order given and without repeats.
+
+    makers.json's own entry for the cask comes first. Otherwise Google's list, which mixes people and
+    foundries: a name makers.json lists under foundries is one, any other a person. The manufacturer a
+    font names adds a foundry where makers.json knows it, which credits Roboto to Google. A cask Google
+    doesn't list takes its designer and manufacturer from the name table, a manufacturer that isn't one
+    of its designers as a foundry, to be checked by hand from the fonts pull request's new makers.
+    """
+    curation = maker_curation()
+    foundries = set(curation["foundries"])
+
+    def canonical(name):
+        name = " ".join(name.split())
+        name = curation["aliases"].get(name, name)
+        if name in foundries:
+            return name
+        # "Adobe Systems Incorporated" and "Bitstream Inc." as the foundries they are, but LY Corporation, listed
+        # whole, stays itself.
+        bare = CORPORATE_SUFFIX.sub("", name) or name
+        return curation["aliases"].get(bare, bare)
+
+    if entry := curation["casks"].get(token):
+        return entry.get("foundries", []), entry.get("designers", [])
+    named = [canonical(name) for name in google.get("designers") or []]
+    manufacturers = [canonical(name) for name in credit_names(credits.get("manufacturer", ""))]
+    if named:
+        found = [name for name in named if name in foundries] + [name for name in manufacturers if name in foundries]
+        people = [name for name in named if name not in foundries]
+    else:
+        credited = [canonical(name) for name in credit_names(credits.get("designer", ""))]
+        people = [name for name in credited if name not in foundries]
+        found = [name for name in credited + manufacturers if name in foundries or name not in people]
+    return list(dict.fromkeys(found)), list(dict.fromkeys(people))
 
 
 def fold_name(name):
@@ -2462,11 +2555,17 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         record |= {"script": built["script"], "scripts": filtered_scripts(built["script"], built["scripts"], token)}
         if built.get("ligatures"):
             record["ligatures"] = True
+        foundries, designers = makers(token, google, built.get("credits") or {})
+        if foundries:
+            record["foundries"] = foundries
+        if designers:
+            record["designers"] = designers
         if "description" in built:
             record["description"] = built["description"]
-            # Google's descriptions are often the designer's own words, in the first person.
-            if designers := google.get("designers"):
-                record["designers"] = designers
+            # Google's descriptions are often the designer's own words, in the first person, so they're
+            # credited to Google's list of them, people and foundries as Google orders them.
+            if credit := google.get("designers"):
+                record["descriptionBy"] = credit
         elif description := drafted_descriptions().get(token, {}).get("description"):
             record["description"] = description
         seasons = google.get("seasons") or {}

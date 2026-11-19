@@ -125,6 +125,22 @@ while a shipped cask has neither a description nor an entry in `scripts/descript
 pull request lists any such casks under Missing descriptions. Google's metadata still lists six old Edu names, like Edu VIC WA NT Hand, with no
 files behind them; those families are in the catalog under their current names.
 
+### Foundries and designers
+
+Each cask's `foundries` and `designers`, which the app and the site browse by, come from `scripts/makers.json`
+as the catalog is assembled, so curating them costs no rebuild. Google Fonts credits its families with one list
+of people and foundries together; a name `makers.json` lists under `foundries` is a foundry, and any other is a
+person. `aliases` folds one maker's spellings together (Botio and Botjo Nikoltchev, AsiaSoft Inc and AsiaSoft
+Inc.). The manufacturer a family's font names adds a foundry `makers.json` already knows, which credits Roboto
+to Google. Google's own list, in its order, stays in the record as `descriptionBy`, which credits a Google
+description.
+
+Every other cask has an entry of its own under `casks`, checked by hand: the license's copyright line, the
+README, and the name table are the evidence, and `{}` gives no credit where none of them says. A cask with no
+entry yet takes its makers from its primary face's name table, which each build records as `credits`, and the
+fonts pull request lists it under Makers to review (`scripts/makers.py list`) until it has one. A Nerd Font or
+Powerline version takes the makers of the cask it patches.
+
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:
 
 ```sh
