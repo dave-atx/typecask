@@ -78,6 +78,13 @@
       "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/"
     ]
   },
+  "font-blackout": {
+    "description": "Blackout is a solid, reversed, and stroked sans-serif display typeface designed by Tyler Finck and published by The League of Moveable Type. It was inspired by the filled-in sans-serif headlines of newspapers and comes in three styles: Midnight (solid), 2AM (reversed), and Sunrise (stroked).",
+    "sources": [
+      "https://github.com/theleagueof/blackout",
+      "https://www.theleagueofmoveabletype.com/blackout"
+    ]
+  },
   "font-brass-mono": {
     "description": "Brass Mono is a retro monospaced typeface inspired by 20th century electrical and mechanical design, such as typewritten service manuals, stamped electrical components, molded steel, and concrete. The font was built by tracing and modifying other typefaces, and it comes in two versions: Brass Mono, without ligatures, and Brass Mono Code, which adds code ligatures.",
     "sources": [
@@ -88,6 +95,13 @@
     "description": "Charis is a Unicode-based, extended Latin font family from SIL that also supports Cyrillic script, covering the many languages that use these scripts. It was designed to make long texts pleasant and easy to read, even in less than ideal reproduction and display conditions, and it has an extended Latin inventory of letter variants with hooks, diacritics, or 180° rotations that act as separate letters. The family also includes alternate letterforms for certain language communities and OpenType features suited to multilingual publishing.",
     "sources": [
       "https://software.sil.org/charis/"
+    ]
+  },
+  "font-chunk": {
+    "description": "Chunk is an ultra-bold slab serif typeface designed by Meredith Mandel and published by The League of Moveable Type. It is reminiscent of old American Western woodcuts, broadsides, and newspaper headlines, with fat block lettering intended mainly for display use. A textured companion, Chunk Five Print, was created by Tyler Finck in 2014 and contains the same glyphs as the original.",
+    "sources": [
+      "https://github.com/theleagueof/chunk",
+      "https://www.theleagueofmoveabletype.com/chunk"
     ]
   },
   "font-cica": {
@@ -101,6 +115,12 @@
     "sources": [
       "https://github.com/dtinth/comic-mono-font",
       "https://dtinth.github.io/comic-mono-font/"
+    ]
+  },
+  "font-comic-shanns-mono": {
+    "description": "Comic Shanns Mono is a monospaced typeface inspired by Comic Sans, created for users who want that informal handwritten look in terminals and code editors. It includes extended glyph coverage beyond basic Latin, with diacritics, math symbols, box drawing characters, and Braille patterns that are commonly used for terminal progress indicators.",
+    "sources": [
+      "https://github.com/jesusmgg/comic-shanns-mono"
     ]
   },
   "font-commit-mono": {
@@ -150,6 +170,12 @@
     "description": "Departure Mono is a monospaced pixel typeface with a lo-fi, technical look. It draws on the constraints of early command-line and graphical user interfaces, the tiny pixel fonts of the late 1990s and early 2000s, and science fiction concepts from film and television.",
     "sources": [
       "https://github.com/rektdeckard/departure-mono"
+    ]
+  },
+  "font-dinish": {
+    "description": "DINish is a sans-serif typeface inspired by the lettering of German Autobahn road signs and the DIN 1451 standard from 1931, drawn with the human reader in mind rather than a rigid technical-drawing grid. It is offered in standard, Condensed, and Expanded widths, with a variable font covering a range of weights and widths, and it includes old style and tabular numerals as well as language-specific forms for Polish, Romanian, Dutch, and Bulgarian.",
+    "sources": [
+      "https://github.com/playbeing/dinish"
     ]
   },
   "font-doulos-sil": {
@@ -316,6 +342,13 @@
       "https://juliamono.netlify.app/"
     ]
   },
+  "font-junction": {
+    "description": "Junction is a humanist sans-serif designed by Caroline Hadilaksono and Tyler Finck for The League of Moveable Type. It was updated in 2014 to add light and bold weights alongside the regular, and to expand its international support. The family supports 81 languages and includes OpenType features such as access to all alternates, standard ligatures, and lining figures.",
+    "sources": [
+      "https://github.com/theleagueof/junction",
+      "https://www.theleagueofmoveabletype.com/junction"
+    ]
+  },
   "font-junicode": {
     "description": "Junicode is a typeface for medievalists, linguists, and scholars in many academic disciplines, designed to comply with the Medieval Unicode Font Initiative recommendation.",
     "sources": [
@@ -383,6 +416,12 @@
     "description": "Linux Libertine is a libre multilingual font family covering Western Latin, Greek, Cyrillic, Hebrew, and IPA, among many other character sets. Its design includes true small capitals, ligatures such as historic ſi and tz forms, several numeral sets, and marked zeros, along with a short-necked f that avoids collisions with following characters. It also provides optimized superior and inferior glyphs, which are adjusted to match the optical weight of the regular letterforms.",
     "sources": [
       "https://libertine-fonts.org/"
+    ]
+  },
+  "font-luciole": {
+    "description": "Luciole is a typeface developed explicitly for visually impaired readers through a two-year collaboration between the Regional Technical Center for Visual Impairment and the type-design studio typographies.fr. Its letterforms, word spacing, and figures, mathematical signs, and punctuation were drawn with a dozen specific design criteria to support reading for people with visual impairment. Each style contains over seven hundred characters and covers almost all European languages, along with Greek and mathematical symbols; the typeface was designed by Laurent Bourcellier and Daniel Flipo.",
+    "sources": [
+      "https://luciole-vision.com/en/"
     ]
   },
   "font-lxgw-neoxihei": {
@@ -484,6 +523,12 @@
       "https://monaspace.githubnext.com/"
     ]
   },
+  "font-monocraft": {
+    "description": "Monocraft is a monospaced pixel typeface based on the typeface used in the Minecraft user interface, with each glyph redrawn for better readability and spacing. Thin characters such as \"i\" and \"l\" were reworked with tails and serifs to suit a monospaced layout. The font also includes programming ligatures for arrows and comparison operators, along with glyphs for the Minecraft enchantment table's standard galactic alphabet.",
+    "sources": [
+      "https://github.com/IdreesInc/Monocraft"
+    ]
+  },
   "font-mononoki": {
     "description": "Mononoki is a monospaced typeface by Matthias Tellen, created to support code formatting and code review. It is designed to stay legible when squashed into a grid of a few pixels while retaining enough detail for print and high-resolution displays, with each character drawn to be clearly distinguishable from similar-looking ones. An alternate stylistic set, selectable with ss01, adds a dotted zero.",
     "sources": [
@@ -568,6 +613,20 @@
       "https://github.com/notofonts/noto-cjk"
     ],
     "note": "described from google/fonts ofl/notoserifsc through DESCRIPTION_DIRECTORIES"
+  },
+  "font-opendyslexic": {
+    "description": "OpenDyslexic is a typeface designed to counter some common symptoms of dyslexia.",
+    "sources": [
+      "https://github.com/antijingoist/opendyslexic",
+      "https://opendyslexic.org/"
+    ]
+  },
+  "font-ostrich-sans": {
+    "description": "Ostrich Sans is a modern sans-serif typeface designed by Tyler Finck and published by The League of Moveable Type. It comes in many styles and weights, including dashed, rounded, ultra light, bold with race-track style double lines, black, heavy, and an inline version with italics. Its distinctive feature is a very long neck.",
+    "sources": [
+      "https://github.com/theleagueof/ostrich-sans",
+      "https://www.theleagueofmoveabletype.com/ostrich-sans"
+    ]
   },
   "font-overused-grotesk": {
     "description": "Overused Grotesk is a quirky grotesque sans-serif that began as a playful parody of overused Swiss-style type and imitates the most distinctive features of Helvetica. It is designed as a multipurpose, multilingual workhorse, with Vietnamese and Cyrillic letters including localised forms, and it spans weights from ExtraLight to Black. Its stylistic sets, character variants, and alternate figures add further detail to its otherwise Helvetica-like letterforms.",
