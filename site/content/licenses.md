@@ -18,11 +18,9 @@ The great majority are under the
 ## The previews on this site
 
 The specimens on this site are the same preview files the app ships: each font's main face, cut down
-to the sample text and renamed `TypecaskPreview-<font>`, which is roughly fifty glyphs. They're
-there to show you the face, not to be used as webfonts — the lowercase alphabet and the digits are
-most of what's in them. Each one stays under the license on its font's page.
-
-If you want the real thing, every font's page links to where it came from.
+to the sample text and renamed `TypecaskPreview-<font>`, which is roughly fifty glyphs. They hold
+little more than the lowercase alphabet and the digits, so they won't work as webfonts. Each one stays
+under the license on its font's page, and every font's page links to where it came from.
 
 ## Typecask itself
 
