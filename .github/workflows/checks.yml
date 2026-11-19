@@ -43,6 +43,10 @@ jobs:
       - name: Licenses.deflate matches Licenses/
         run: scripts/build-catalog.py check-licenses
 
+      # On a fonts pull request too, so a release that drops a cask an article shows fails here.
+      - name: Articles.json matches articles/, and names only fonts in the catalog
+        run: scripts/articles.py check
+
   swift:
     # SwiftLint's own Linux image, which starts in seconds where a macOS runner takes minutes to get.
     runs-on: ubuntu-26.04

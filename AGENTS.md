@@ -13,6 +13,7 @@ uvx --from shellcheck-py shellcheck scripts/*.sh
 uvx --from shfmt-py shfmt -d scripts
 uvx --from actionlint-py actionlint
 scripts/build-catalog.py check-licenses
+scripts/articles.py check
 ```
 
 ## Generated files
@@ -20,6 +21,8 @@ scripts/build-catalog.py check-licenses
 - Never hand-edit `Typecask/Catalog.json`, `Previews/`, `Licenses.deflate`, `AppleFonts.json`,
   `ApplePreviews/` or `Fonts.xcassets`, or the root `Licenses/`; change `scripts/build-catalog.py`
   and rebuild.
+- `Typecask/Articles.json` comes from `articles/*.md` through `scripts/articles.py build`; the drafts in
+  Claude Docs aren't the source. See [docs/articles.md](docs/articles.md).
 - `Typecask/Languages.json` comes from `scripts/languages.py` (CLDR's exemplar characters, pinned); rerun it,
   don't edit it. Language data from hyperglot is GPL and can't ship.
 - Look before deleting or overwriting anything generated: a full rebuild is hours of downloads.
