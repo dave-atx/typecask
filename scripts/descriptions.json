@@ -198,7 +198,7 @@
     ]
   },
   "font-gentium": {
-    "description": "Gentium is a free, open typeface family for Latin, Cyrillic, and Greek scripts, intended to support the writing systems of the many ethnic groups and nations that use them. Its design is highly readable and slightly calligraphic, with generous counters, modest and slightly compressed capitals, and careful letterspacing. The family supports almost the complete range of Unicode characters for these scripts, including extensive diacritics, linguistic symbols, monotonic and polytonic Greek, and smart diacritic positioning.",
+    "description": "Gentium is a typeface family for Latin, Cyrillic, and Greek scripts, intended to support the writing systems of the many ethnic groups and nations that use them. Its design is highly readable and slightly calligraphic, with generous counters, modest and slightly compressed capitals, and careful letterspacing. The family supports almost the complete range of Unicode characters for these scripts, including extensive diacritics, linguistic symbols, monotonic and polytonic Greek, and smart diacritic positioning.",
     "sources": [
       "https://github.com/silnrsi/font-gentium",
       "https://software.sil.org/gentium/"
@@ -317,7 +317,7 @@
     ]
   },
   "font-junicode": {
-    "description": "Junicode is a free typeface for medievalists, linguists, and scholars in many academic disciplines, designed to comply with the Medieval Unicode Font Initiative recommendation.",
+    "description": "Junicode is a typeface for medievalists, linguists, and scholars in many academic disciplines, designed to comply with the Medieval Unicode Font Initiative recommendation.",
     "sources": [
       "https://github.com/psb1558/Junicode-font"
     ]
@@ -404,7 +404,7 @@
     ]
   },
   "font-maple-mono": {
-    "description": "Maple Mono is an open source monospace typeface designed to smooth the coding experience, with rounded corners and a variable font format offering infinite weights. Its distinctive features include brand-new glyphs for @, $, %, &, Q, and ->, cursive-style italics for f, i, j, k, l, x, and y, and a large set of smart ligatures. The family also includes built-in Nerd Font icons and a Chinese, Japanese, and Traditional Chinese variant that uses a 2:1 width ratio with Latin text.",
+    "description": "Maple Mono is a monospace typeface designed to smooth the coding experience, with rounded corners and a variable font format offering infinite weights. Its distinctive features include brand-new glyphs for @, $, %, &, Q, and ->, cursive-style italics for f, i, j, k, l, x, and y, and a large set of smart ligatures. The family also includes built-in Nerd Font icons and a Chinese, Japanese, and Traditional Chinese variant that uses a 2:1 width ratio with Latin text.",
     "sources": [
       "https://github.com/subframe7536/Maple-font",
       "https://font.subf.dev/en/"
