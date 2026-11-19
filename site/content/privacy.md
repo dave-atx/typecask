@@ -1,12 +1,10 @@
 ---
 title: Privacy
 updated: 2026-10-28
-description: Typecask collects nothing. The website counts page views without cookies. This page says exactly what that means.
+description: Typecask collects nothing. The website counts page views without cookies.
 ---
 
-Typecask collects nothing about you, and the app has no way to send anything anywhere. This page
-covers the app and this website separately, because they're different things with different
-behaviour.
+Typecask collects nothing about you, and the app has no way to send anything anywhere.
 
 ## The app
 
