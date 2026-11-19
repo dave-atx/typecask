@@ -63,7 +63,10 @@ scripts/articles.py check
 
 - `site/` reads the catalog of the latest `testflight-N` tag, not main's: `scripts/site-catalog.sh`
   writes `site/data/`, `site/static/p/` and `site/licenses/`, all gitignored. Run it before `hugo`.
-- Previews hold about fifty glyphs, so nothing on the site can be set in a font but the sample line.
+- Previews hold about fifty glyphs, so nothing on the site can be set in a font but the sample line,
+  except an article's specimen lines, each with a font of its own from `scripts/articles.py`.
+- `layouts/_markup/render-link.html` renders every Markdown link on the site, the catalog's descriptions
+  too: it turns the articles' `font:`, `article:`, `collection:` and `term:` links into the site's.
 - Apple's fonts stay off the site; `apple-previews` subsets Apple's own files.
 - A `define` in a page template reaches a `block` in `baseof.html` only, never one inside a partial.
 - Hugo's taxonomy map keys multi-word terms with spaces, so look a term page up with `site.GetPage`

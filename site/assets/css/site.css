@@ -1092,3 +1092,125 @@ img {
     line-height: 1.35;
     white-space: pre-wrap;
 }
+
+/* ---------- articles, under /start/ ---------- */
+
+.start .prose {
+    color: var(--ink);
+    font-size: 1.0625rem;
+}
+
+.start .prose strong {
+    font-weight: 650;
+}
+
+/* A specimen line in a shaded box, as the app sets it: the font's name above, and the box opens its page. */
+.art-spec-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block: 6px;
+    padding: 18px 20px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--ground-2);
+    color: var(--ink);
+    text-decoration: none !important;
+}
+
+.art-spec-box:hover {
+    border-color: var(--hot);
+}
+
+.art-spec-name {
+    color: var(--ink-3);
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.art-spec-line {
+    font-size: clamp(1.5rem, 0.9rem + 2.4vw, 2.3rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.art-spec-gloss {
+    color: var(--ink-2);
+    font-size: 0.92rem;
+}
+
+/* A type term, dotted as an <abbr> is, which shows its definition when tapped (assets/js/terms.js). */
+abbr.term {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+    cursor: help;
+}
+
+.term-pop {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    max-width: min(340px, calc(100vw - 16px));
+    padding: 14px 16px;
+    border: 1px solid var(--rule-2);
+    border-radius: 12px;
+    background: var(--ground-3);
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 45%);
+}
+
+.term-pop strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.start .get {
+    margin-top: 12px;
+}
+
+.start .next a {
+    color: var(--hot);
+}
+
+.start-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    max-width: none !important;
+}
+
+/* .doc a colors and underlines every link in a document; a card is one link, and its words say so already. */
+.doc .start-card {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.start-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 18px 20px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--ground-2);
+}
+
+.start-card:hover {
+    border-color: var(--hot);
+}
+
+.start-card-title {
+    font-size: 1.15rem;
+    font-weight: 650;
+}
+
+.start-card-summary {
+    color: var(--ink-2);
+    font-size: 0.95rem;
+}

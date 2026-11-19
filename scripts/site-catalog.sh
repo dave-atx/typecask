@@ -94,8 +94,8 @@ fi
 git archive "$tag" Typecask/Catalog.json Typecask/Previews Licenses "$icon" | tar -x -C "$tmp"
 
 rm -rf site/data/catalog.json site/data/release.json site/data/notes.json site/data/webfonts.json \
-    site/static/release.json \
-    site/static/p site/licenses \
+    site/data/articles.json site/static/release.json \
+    site/static/p site/static/a site/licenses \
     site/assets/icon.png
 mkdir -p site/data site/static site/licenses site/assets
 
@@ -103,6 +103,18 @@ mv "$tmp/Typecask/Catalog.json" site/data/catalog.json
 mv "$tmp/Typecask/Previews" site/static/p
 mv "$tmp/Licenses"/*.txt site/licenses/
 mv "$tmp/$icon" site/assets/icon.png
+
+# The getting-started articles and their specimen lines' fonts, which content/start/ makes pages of: the
+# version's own, so the site has the articles the App Store's app has. A tag from before them has none, and
+# the site leaves /start/ out.
+if git cat-file -e "$tag:Typecask/Articles.json" 2> /dev/null; then
+    git archive "$tag" Typecask/Articles.json Typecask/ArticleFonts | tar -x -C "$tmp"
+    mv "$tmp/Typecask/Articles.json" site/data/articles.json
+    mv "$tmp/Typecask/ArticleFonts" site/static/a
+    echo "site-catalog.sh: $(python3 -c 'import json, sys; print(len(json.load(sys.stdin)["articles"]))' < site/data/articles.json) articles"
+else
+    echo "site-catalog.sh: $tag has no articles; /start/ is left out"
+fi
 
 # release.json is what the footer cites, so a visitor can tell which version of the app the catalog
 # belongs to, and what pages gated on a version (deep links) compare with. The build is the

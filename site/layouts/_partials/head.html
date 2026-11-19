@@ -12,8 +12,8 @@
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="theme-color" content="#141318">
 {{- if site.Params.appStoreLive }}
-{{- /* Safari's Smart App Banner. app-argument hands the app this page's URL when it opens; the app
-  doesn't read it yet, and opens where it was. */}}
+{{- /* Safari's Smart App Banner. app-argument hands the app this page's URL when it opens: Typecask/DeepLink.swift
+  opens a font's page or an article from it, and anything else opens the app where it was. */}}
 <meta name="apple-itunes-app" content="app-id={{ site.Params.appStoreID }}, app-argument={{ .Permalink }}">
 {{- end }}
 

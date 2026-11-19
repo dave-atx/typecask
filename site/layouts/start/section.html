@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{- /* Start Here, as the app opens on it: each article's title and summary, in the articles' order. */}}
+  <div class="bar doc start">
+    <h1>Start here</h1>
+    <p class="lede">More than {{ lang.FormatNumber 0 (mul (div (len hugo.Data.catalog.casks) 1000) 1000) }} free
+      fonts. Here are some to start with, each set in its own face.</p>
+    <ul class="start-cards">
+      {{- range .Pages.ByWeight }}
+        <li>
+          <a class="start-card" href="{{ .RelPermalink }}">
+            <span class="start-card-title">{{ .Title }}</span>
+            <span class="start-card-summary">{{ .Params.summary | markdownify | plainify }}</span>
+          </a>
+        </li>
+      {{- end }}
+    </ul>
+    <div class="get">
+      {{ partial "download-button.html" (dict "page" . "small" false) }}
+      <a class="btn btn-big btn-quiet open-app" href="typecask://start">Open in Typecask</a>
+    </div>
+  </div>
+{{ end }}

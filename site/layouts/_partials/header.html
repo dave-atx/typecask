@@ -4,6 +4,10 @@
       type<em>cask</em>
     </a>
     <nav aria-label="Primary">
+      {{- /* Only once the App Store's version has the articles: content/start/_content.gotmpl. */}}
+      {{- with site.GetPage "/start" }}
+      <a href="{{ .RelPermalink }}"{{ if hasPrefix $.RelPermalink "/start/" }} aria-current="true"{{ end }}>Start here</a>
+      {{- end }}
       <a href="{{ "/fonts/" | relURL }}"{{ if hasPrefix .RelPermalink "/fonts/" }} aria-current="true"{{ end }}>Fonts</a>
       <a href="{{ "/privacy/" | relURL }}"{{ if eq .RelPermalink "/privacy/" }} aria-current="true"{{ end }}>Privacy</a>
       <a href="{{ "/support/" | relURL }}"{{ if eq .RelPermalink "/support/" }} aria-current="true"{{ end }}>Support</a>

@@ -1,0 +1,48 @@
+{{- /*
+  Every Markdown link on the site, the catalog's descriptions included. The articles (data/articles.json)
+  link with schemes of their own, which the app follows in place and this turns into the site's pages:
+    font:TOKEN        the font's page
+    article:SLUG      another article, under /start/
+    collection:KEY    a design style's page, or Nerd Fonts; the app's other collections, like Legibility,
+                      have no page here, so the words stay plain
+    term:SLUG         an <abbr> holding the glossary's definition, which assets/js/terms.js shows in a
+                      popover on a tap, since a touch screen never shows a title
+  Anything else is an ordinary link. Links to the web are the site's alone: the app draws them as text.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $scheme := index (split $dest ":") 0 -}}
+{{- $rest := strings.TrimPrefix (printf "%s:" $scheme) $dest -}}
+{{- if eq $scheme "font" -}}
+  {{- if where hugo.Data.catalog.casks "token" $rest -}}
+    <a href="{{ (printf "/fonts/%s/" (partial "cask-slug.html" $rest)) | relURL }}">{{ .Text }}</a>
+  {{- else -}}
+    {{ .Text }}
+  {{- end -}}
+{{- else if eq $scheme "article" -}}
+  <a href="{{ (printf "/start/%s/" $rest) | relURL }}">{{ .Text }}</a>
+{{- else if eq $scheme "collection" -}}
+  {{- /* The app's names for them, as content/fonts/_content.gotmpl's terms. */ -}}
+  {{- $names := dict
+      "monospaced" "Fixed Width"
+      "serif" "Serif"
+      "sansSerif" "Sans Serif"
+      "display" "Display"
+      "handwriting" "Handwriting"
+      "nerdFonts" "Nerd Fonts"
+  -}}
+  {{- with index $names $rest -}}
+    <a href="{{ (printf "/styles/%s/" (urlize .)) | relURL }}">{{ $.Text }}</a>
+  {{- else -}}
+    {{ .Text }}
+  {{- end -}}
+{{- else if eq $scheme "term" -}}
+  {{- with index ((hugo.Data.articles | default dict).terms | default dict) $rest -}}
+    <abbr class="term" title="{{ .definition | markdownify | plainify }}" data-term="{{ .term }}"
+      tabindex="0" role="button">{{ $.Text }}</abbr>
+  {{- else -}}
+    {{ .Text }}
+  {{- end -}}
+{{- else -}}
+  <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}
+    {{- if strings.HasPrefix $dest "http" }} rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- end -}}

@@ -28,6 +28,7 @@ which GitHub tells everyone watching the repository about. From the tag it copie
 | `site/data/release.json` | the tag, version, build number (the `testflight-N` on the same commit), fonts release, commit and date |
 | `site/data/notes.json` | release notes of every version up to the tag's, from main's `docs/release-notes/` so a line can be fixed after a release, for What's New |
 | `site/data/webfonts.json` | Try It Out's manifest for the tag's fonts release, from R2 rather than the tag |
+| `site/data/articles.json`, `site/static/a/` | `Typecask/Articles.json` and `Typecask/ArticleFonts/`, the getting-started articles under `/start/` (see [articles.md](articles.md#on-the-site)), when the tag has them |
 
 All of it is gitignored. The script runs `git archive` against the tag, so it works from a checkout
 of any revision, and it fetches the tag itself when the clone doesn't have one, which is what CI

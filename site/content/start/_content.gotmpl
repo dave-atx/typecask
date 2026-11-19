@@ -1,0 +1,29 @@
+{{/*
+  The getting-started articles, one page each under /start/, from data/articles.json, which
+  scripts/site-catalog.sh copies from the release tag's Typecask/Articles.json, the same file the app
+  bundles. The source is articles/*.md; scripts/articles.py writes the JSON. A version from before the
+  articles has none, and then neither /start/ nor its link in the header exists, so the site never
+  describes articles the App Store's version doesn't have, nor opens one in an app that can't.
+*/}}
+{{ with (hugo.Data.articles | default dict).articles }}
+  {{ $.AddPage (dict
+      "path" "."
+      "kind" "section"
+      "title" "Start here"
+      "params" (dict "description" "Getting-started guides to Typecask's free fonts, each set in its own face.")
+  ) }}
+  {{ range . }}
+    {{ $.AddPage (dict
+        "path" .slug
+        "kind" "page"
+        "title" .title
+        "weight" (int .order)
+        "params" (dict
+            "slug" .slug
+            "summary" .summary
+            "blocks" .blocks
+            "description" (.summary | replaceRE `\[([^\]]+)\]\([^)]+\)` "$1" | replaceRE `[*_]` "")
+        )
+    ) }}
+  {{ end }}
+{{ end }}

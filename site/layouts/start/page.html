@@ -1,0 +1,76 @@
+{{ define "expect" }}article{{ end }}
+
+{{ define "head" }}
+  {{- /* Each specimen line's font, cut by scripts/articles.py to the line's characters and instanced at its
+    axis values: a few KB each, where the font's preview holds only its sample. */}}
+  {{- $css := "" }}
+  {{- range $index, $block := .Params.blocks }}
+    {{- if eq .kind "specimen" }}
+      {{- $css = printf "%s@font-face{font-family:\"tc-a%d\";src:url(\"%s\");font-display:swap}\n" $css $index
+          ((printf "/a/%s" .font) | relURL) }}
+    {{- end }}
+  {{- end }}
+  <style>{{ $css | safeCSS }}</style>
+{{ end }}
+
+{{ define "main" }}
+  {{- $catalog := hugo.Data.catalog -}}
+  <article class="bar doc start" id="article">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/start/" | relURL }}">Start here</a></nav>
+    <h1>{{ .Title }}</h1>
+    <div class="prose">
+      {{- range $index, $block := .Params.blocks }}
+        {{- if eq .kind "heading" }}
+          <h2>{{ .text | markdownify }}</h2>
+        {{- else if eq .kind "paragraph" }}
+          <p>{{ .text | markdownify }}</p>
+        {{- else if eq .kind "specimen" }}
+          {{- $cask := index (where $catalog.casks "token" .token) 0 }}
+          {{- $features := slice }}
+          {{- range $tag, $on := .features }}
+            {{- $features = $features | append (printf "%q %d" $tag (cond $on 1 0)) }}
+          {{- end }}
+          {{- /* The box opens the font's page, as it does in the app, with the font's name above its line. */}}
+          <a class="art-spec-box" href="{{ (printf "/fonts/%s/" (partial "cask-slug.html" .token)) | relURL }}">
+            <span class="art-spec-name">{{ $cask.name }} <span aria-hidden="true">→</span></span>
+            <span class="art-spec-line" dir="auto" style="font-family:'tc-a{{ $index }}',var(--ui)
+              {{- with $features }};font-feature-settings:{{ delimit . ", " | safeCSS }}{{ end }}">{{ .text }}</span>
+            {{- with .gloss }}
+              <span class="art-spec-gloss">{{ . }}</span>
+            {{- end }}
+          </a>
+        {{- end }}
+      {{- end }}
+    </div>
+
+    <div class="get">
+      {{ partial "download-button.html" (dict "page" . "small" false) }}
+      {{- /* Only where there's an iPhone or iPad to open it on (site.css): elsewhere the link goes nowhere.
+        No version check, as the font pages need: an article is here only once the App Store's version
+        carries it, and that version opens typecask://start/ links. */}}
+      <a class="btn btn-big btn-quiet open-app" href="typecask://start/{{ .Params.slug }}">Open in Typecask</a>
+      <p class="fine open-app">Opens this article in Typecask, with every font in it a tap away.</p>
+    </div>
+
+    {{- /* The next article in Start Here's order, by hand: Hugo's NextInSection runs the other way. */}}
+    {{- $next := false }}
+    {{- $here := false }}
+    {{- range .CurrentSection.Pages.ByWeight }}
+      {{- if and $here (not $next) }}{{ $next = . }}{{ end }}
+      {{- if eq .RelPermalink $.RelPermalink }}{{ $here = true }}{{ end }}
+    {{- end }}
+    {{- with $next }}
+      <p class="next">Next: <a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+    {{- end }}
+  </article>
+
+  {{- /* A term's definition, for a tap on its <abbr>. One for the page, filled by assets/js/terms.js. */}}
+  <div id="term-pop" class="term-pop" popover>
+    <strong></strong>
+    <p></p>
+  </div>
+  {{- with resources.Get "js/terms.js" }}
+    {{- $js := . | minify | fingerprint }}
+    <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{- end }}
+{{ end }}

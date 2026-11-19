@@ -17,8 +17,10 @@ site/data/catalog.json
 site/data/release.json
 site/data/notes.json
 site/data/webfonts.json
+site/data/articles.json
 site/static/release.json
 site/static/p/
+site/static/a/
 site/licenses/
 site/assets/icon.png
 site/.hugo_build.lock
