@@ -40,7 +40,12 @@ final class AccessibilityAuditTests: XCTestCase {
         try audit(app)
         app.buttons["Grid"].tap()
 
-        app.openCask(token)
+        // An article, with its specimen boxes and its term and font links, then the font's page from its link, since
+        // Start Here, under the article, has no search field to find it with.
+        app.open(URL(string: "typecask://start/start-here")!)
+        XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 10))
+        try audit(app)
+        app.open(URL(string: "typecask://font/\(token)")!)
         // The page's buttons, under its masthead: the tester can be a screen or more below at the largest sizes, where
         // the lazy page hasn't built it yet.
         XCTAssertTrue(app.controls(for: token).waitForExistence(timeout: 10))

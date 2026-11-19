@@ -41,6 +41,8 @@ nonisolated struct Article: Decodable, Hashable, Identifiable, Sendable {
         let font: String
         /// OpenType features turned on or off, by tag.
         var features: [String: Bool]?
+        /// The line's meaning, for a line in another language, set under it in the system font.
+        var gloss: String?
     }
 
     /// A type term from articles/glossary.md, which a `term:` link in an article shows in a popover.
@@ -82,13 +84,19 @@ nonisolated struct Article: Decodable, Hashable, Identifiable, Sendable {
 
     /// Paragraph text as the app draws it: bold, italic and links, which the site draws the same way. A term's
     /// link takes a dotted underline, as an <abbr> on the site does, so it reads as a definition rather than a
-    /// place to go.
+    /// place to go. A link to the web, a foundry's site or a typeface's history, is the site's alone: in the app
+    /// it's plain text, so every link stays in the app.
     static func markdown(_ text: String) -> AttributedString {
         var string = (try? AttributedString(markdown: text,
                                             options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
             ?? AttributedString(text)
-        for run in string.runs where run.link?.scheme == "term" {
-            string[run.range].underlineStyle = Text.LineStyle(pattern: .dot)
+        let runs = string.runs.compactMap { run in run.link.map { (run.range, $0.scheme) } }
+        for (range, scheme) in runs {
+            switch scheme {
+            case "term": string[range].underlineStyle = Text.LineStyle(pattern: .dot)
+            case "http", "https": string[range].link = nil
+            default: break
+            }
         }
         return string
     }
@@ -212,13 +220,19 @@ struct ArticleView: View {
                                                 features: line.features ?? [:]))
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    if let gloss = line.gloss {
+                        Text(gloss)
+                            .font(.callout)
+                            .foregroundStyle(Color(.captionText))
+                            .multilineTextAlignment(.leading)
+                    }
                 }
                 .padding(4)
             }
             .buttonStyle(CardButtonStyle(minHeight: 0))
             .padding(.vertical, 6)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text("\(line.text), set in \(cask.name)"))
+            .accessibilityLabel(Text("\(line.text), set in \(cask.name)" + (line.gloss.map { ". \($0)" } ?? "")))
             .accessibilityHint(Text("Opens the font's page"))
             .accessibilityAddTraits(.isLink)
             .accessibilityIdentifier("specimen-\(line.token)")

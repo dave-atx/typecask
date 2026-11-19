@@ -22,10 +22,12 @@ struct TypecaskApp: App {
         QuickActions.update()
     }
 
-    /// Shows the font a link names; any other link just brings the app up as it was.
+    /// Shows the font or article a link names; any other link just brings the app up as it was.
     private func open(_ url: URL) {
         if let cask = DeepLink.cask(for: url, in: model.catalog) {
             model.show(cask)
+        } else if let start = DeepLink.start(for: url, in: model.articles) {
+            model.showStart(start)
         }
     }
 

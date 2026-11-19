@@ -55,6 +55,23 @@ final class StartHereTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].exists)
     }
 
+    /// Another article named in an article opens it over the first, and a link to the web, which the site has,
+    /// is plain text in the app.
+    @MainActor
+    func testArticleLinkOpensTheArticle() {
+        let app = XCUIApplication.typecask()
+        app.launchArguments += ["-lastPage", "start|article:workhorses"]
+        app.launch()
+        XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 30))
+        XCTAssertFalse(app.links["Rasmus Andersson"].exists)
+        let link = app.links["Inspired by the classics"].firstMatch
+        for _ in 0..<12 where !link.isHittable {
+            app.swipeUp()
+        }
+        link.tap()
+        XCTAssertTrue(app.navigationBars["Inspired by the classics"].waitForExistence(timeout: 10))
+    }
+
     /// A collection named in an article opens that collection.
     @MainActor
     func testCollectionLinkOpensTheCollection() {

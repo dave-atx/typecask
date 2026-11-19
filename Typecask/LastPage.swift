@@ -2,8 +2,8 @@ import Foundation
 
 /// Following an article's links, and reopening where the app was last time.
 extension GalleryModel {
-    /// Follows a link in an article: to a collection, which it shows, or to a font, whose page it pushes. False
-    /// for any other link, which opens in Safari.
+    /// Follows a link in an article: to a collection, which it shows, or to a font or another article, whose page
+    /// it pushes. False for any other link, which opens in Safari.
     func follow(_ url: URL) -> Bool {
         switch url.scheme {
         case "collection":
@@ -16,9 +16,28 @@ extension GalleryModel {
             guard let cask = catalog.casks.first(where: { $0.token == token }) else { return false }
             path.append(.item(.cask(catalog.shown(cask))))
             return true
+        case "article":
+            let slug = url.absoluteString.trimmingPrefix("article:")
+            guard let article = articles.first(where: { $0.slug == slug }) else { return false }
+            path.append(.article(article))
+            return true
         default:
             return false
         }
+    }
+
+    /// Start Here, or an article over it, as a link from the site opens them, over whatever was showing.
+    func showStart(_ start: DeepLink.Start) {
+        showsAbout = false
+        let pages: [GalleryPage] = if case .article(let article) = start { [.article(article)] } else { [] }
+        guard root != .start else {
+            path = pages
+            return
+        }
+        root = .start
+        path = []
+        // A new root resets the split view's stack once it shows, which dropped an article pushed with it.
+        Task { @MainActor in path = pages }
     }
 
     // MARK: The last page
