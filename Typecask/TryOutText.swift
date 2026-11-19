@@ -46,6 +46,18 @@ nonisolated enum TryOutText {
     static let otherScripts: [ClosedRange<UInt32>] = [
         0x0530...0x1DFF, 0x2E80...0xDFFF, 0xF900...0xFDFF, 0x10000...0x2FFFF
     ]
+    /// Blocks inside those ranges that extend Latin, Greek or Cyrillic, which the lines above already cover: a Latin
+    /// face's ready-made ﬁ and ﬂ and its modifier colon read as a stray line of another script.
+    static let otherScriptExclusions: [ClosedRange<UInt32>] = [
+        0x1C80...0x1C8F, // Cyrillic Extended-C
+        0x1D00...0x1DFF, // Phonetic Extensions and combining marks
+        0xA640...0xA69F, // Cyrillic Extended-B
+        0xA700...0xA7FF, // Modifier Tone Letters and Latin Extended-D
+        0xAB30...0xAB6F, // Latin Extended-E
+        0xFB00...0xFB06, // Latin ligatures, ﬀ to ﬆ
+        0x10780...0x107BF, // Latin Extended-F
+        0x1DF00...0x1DFFF // Latin Extended-G
+    ]
     static let otherScriptCharacters = 240
 
     struct Result {
@@ -78,7 +90,9 @@ nonisolated enum TryOutText {
             let icons = iconRanges.map { sampled($0, covered, count: iconsPerSet) }.filter { !$0.isEmpty }
             sections.append(icons.map { $0.joined(separator: " ") }.joined(separator: "\n"))
         }
-        let letters = otherScripts.flatMap { range in scalars(in: range, covered) }.prefix(otherScriptCharacters)
+        let letters = otherScripts.flatMap { range in scalars(in: range, covered) }
+            .filter { scalar in !otherScriptExclusions.contains { $0.contains(scalar.value) } }
+            .prefix(otherScriptCharacters)
         if !letters.isEmpty {
             // Twenty to a line, spaced, so each shows on its own, as a joining script's isolated forms do.
             let rows = stride(from: 0, to: letters.count, by: 20).map { start in

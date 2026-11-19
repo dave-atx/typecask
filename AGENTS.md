@@ -20,6 +20,8 @@ scripts/build-catalog.py check-licenses
 - Never hand-edit `Typecask/Catalog.json`, `Previews/`, `Licenses.deflate`, `AppleFonts.json`,
   `ApplePreviews/` or `Fonts.xcassets`, or the root `Licenses/`; change `scripts/build-catalog.py`
   and rebuild.
+- `Typecask/Languages.json` comes from `scripts/languages.py` (CLDR's exemplar characters, pinned); rerun it,
+  don't edit it. Language data from hyperglot is GPL and can't ship.
 - Look before deleting or overwriting anything generated: a full rebuild is hours of downloads.
 - The boot volume is case-insensitive. For a case-only rename, write to a distinct temp name and
   `os.replace` it, never save-new-then-delete-old, and check the stored names after.

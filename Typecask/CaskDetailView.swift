@@ -1,116 +1,152 @@
 import AppIntents
 import SwiftUI
 
+/// A font's page, laid out as a type specimen: a masthead of its letters, name, Install and facts, a type tester,
+/// then, from the full fonts, each style, passages at reading sizes, the character set and the languages it covers.
+/// The full fonts are the installed copies, or the cask's On-Demand Resources tag downloaded when asked, as Try It
+/// Out does; until then the page has only the preview's few dozen glyphs.
 struct CaskDetailView: View {
     let cask: Cask
     let catalog: Catalog
+    @Environment(FontInstaller.self) private var installer
     /// Whether the samples draw a coding face's ligatures, which the page can turn off to show what they join.
     @State private var ligatures = true
+    /// The full fonts, once installed or asked for, which Try It Out shares.
+    @State private var loader: TryOutLoader?
+    /// Try It Out, while it's open, and what it opened to.
+    @State private var tryOut: TryOutStart?
+    @Namespace private var tryOutNamespace
+    /// Whether the page's Install and Try It Out are on screen; once they aren't, the navigation bar has them.
+    @State private var actionsVisible = true
+    /// Whether the full specimen was asked for, so VoiceOver hears when it's ready; an installed cask's loads unasked.
+    @State private var announcesSpecimen = false
+    private var size = SpecimenSize()
+
+    init(cask: Cask, catalog: Catalog) {
+        self.cask = cask
+        self.catalog = catalog
+    }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading, spacing: 16) {
-                    SizedSpecimen(cask: cask, catalog: catalog, ligatures: ligatures)
-                    // The same line again, smaller, which VoiceOver needn't read twice.
-                    CaskSpecimen(cask: cask, catalog: catalog, size: 17, relativeTo: .body, lineLimit: nil,
-                                 ligatures: ligatures)
-                        .accessibilityHidden(true)
-                    if cask.ligatures == true {
-                        LigaturesToggle(isOn: $ligatures)
-                    }
+            // Lazy for the character grid's pinned header (see SpecimenCharacters).
+            LazyVStack(alignment: .leading, spacing: 32, pinnedViews: .sectionHeaders) {
+                VStack(alignment: .leading, spacing: 20) {
+                    SpecimenMasthead(cask: cask, catalog: catalog)
+                    CaskActions(cask: cask)
+                        .onScrollVisibilityChange(threshold: 0.3) { visible in
+                            withAnimation { actionsVisible = visible }
+                        }
+                    SpecimenFacts(cask: cask)
                 }
-                CaskActions(cask: cask)
                 if let nerdVersion = catalog.nerdVersions[cask.token] {
                     NerdFontVersion(cask: nerdVersion, catalog: catalog)
                 }
+                SpecimenSection("Tester") {
+                    TypeTester(cask: cask, catalog: catalog, ligatures: $ligatures)
+                }
+                if let specimen {
+                    SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)
+                    SpecimenFeatures(specimen: specimen)
+                    SpecimenSetting(specimen: specimen, ligatures: ligatures)
+                    SpecimenCharacters(specimen: specimen)
+                    SpecimenLanguages(specimen: specimen)
+                } else if cask.isBundled || installer.status(of: cask).isInstalled {
+                    FullSpecimenPrompt(cask: cask, loader: loader) {
+                        announcesSpecimen = true
+                        loadSpecimen()
+                    }
+                }
                 if let description = cask.description {
-                    CaskDescription(markdown: description, designers: cask.designers ?? [])
-                }
-                VStack(spacing: 8) {
-                    if let version = cask.version {
-                        LabeledContent("Version", value: version)
-                    }
-                    if let updated = cask.updatedDate {
-                        // In UTC, the zone the date was written in, so it doesn't read as the day before west of it.
-                        LabeledContent("Updated") {
-                            Text(updated.formatted(Date.FormatStyle(date: .abbreviated, time: .omitted,
-                                                                    timeZone: .gmt)))
-                        }
-                    }
-                    if let designers = cask.designers, !designers.isEmpty {
-                        LabeledContent("Designer") { Text(designers, format: .list(type: .and)) }
-                    }
-                    LabeledContent("Fonts", value: cask.fonts, format: .number)
-                    LabeledContent("Design Style") { Text(cask.style.name) }
-                    LabeledContent("Download", value: cask.bytes, format: .byteCount(style: .file))
-                    if let popularity = cask.popularity {
-                        LabeledContent("Popularity") { PopularityRank(rank: popularity) }
+                    SpecimenSection("About") {
+                        CaskDescription(markdown: description, designers: cask.designers ?? [])
                     }
                 }
-                .labeledContentStyle(.detailRow)
                 // Every cask in the catalog has a license; build-catalog.py skips those without one.
-                DisclosureGroup("License") {
-                    LicenseText(token: cask.token)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 8)
+                VStack(alignment: .leading, spacing: 8) {
+                    Divider()
+                    DisclosureGroup("License") {
+                        LicenseText(token: cask.token)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 8)
+                    }
                 }
             }
             .padding()
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if !actionsVisible {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    PageToolbarActions(cask: cask)
+                }
+                // Not into the overflow menu on a narrow bar, as on iPhone Duo's outer display.
+                .visibilityPriority(.high)
+            }
+        }
+        // The bar holds Install and Try It Out while their own buttons are scrolled away, so it mustn't minimize
+        // on scroll, which on iPhone Duo's outer display hid them until scrolling back up.
+        .toolbarMinimizationBehavior(.never, for: .navigationBar)
+        // The sample, each style and feature, the character shown large and the Try It Out button all open the
+        // editor, set up for what was tapped, zooming from it.
+        .environment(\.tryOut, canTryOut ? TryOutOpener(token: cask.token, namespace: tryOutNamespace,
+                                                        open: openTryOut) : nil)
+        .sheet(item: $tryOut) { start in
+            if let loader {
+                TryItOutView(cask: cask, loader: loader, start: start)
+                    // A page on iPad, not a form sheet: an editor wants the room.
+                    .presentationSizing(.page)
+                    .navigationTransition(.zoom(sourceID: start.source, in: tryOutNamespace))
+            }
+        }
+        // An installed cask's fonts are on the device already, so its full specimen needs no asking.
+        .task(id: installer.status(of: cask).isInstalled) {
+            if installer.status(of: cask).isInstalled, loader == nil {
+                loadSpecimen()
+            }
+        }
+        .onChange(of: specimen != nil) { _, loaded in
+            if loaded, announcesSpecimen {
+                AccessibilityNotification.Announcement(String(localized: "Full specimen loaded.")).post()
+            }
+        }
         .promptsForReview(after: cask)
         // So Siri and Apple Intelligence take "this" to mean this font, as in "install this".
         .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
         .focusedSceneValue(\.cask, cask)
         .onAppear { QuickActions.remember(cask) }
     }
-}
 
-/// The sample line at a size of the reader's choosing, to judge a face at the size they'd read it. The size
-/// carries over to every font's page; until it's moved, the line follows the text size.
-private struct SizedSpecimen: View {
-    let cask: Cask
-    let catalog: Catalog
-    let ligatures: Bool
-    @AppStorage("specimenSize") private var chosenSize: Double = 0
-    @ScaledMetric(relativeTo: .largeTitle) private var standardSize: CGFloat = 40
-    private static let sizes: ClosedRange<Double> = 12...144
+    private var sample: String { cask.sample ?? catalog.sampleText }
 
-    var body: some View {
-        let size = chosenSize > 0 ? chosenSize : min(max(standardSize, Self.sizes.lowerBound), Self.sizes.upperBound)
-        VStack(alignment: .leading, spacing: 8) {
-            CaskSpecimenText(cask: cask, catalog: catalog, size: size, lineLimit: nil, ligatures: ligatures)
-            // Rounded rather than stepped: a step draws a dot for every stop along the track.
-            Slider(value: Binding { size } set: { chosenSize = $0.rounded() }, in: Self.sizes) {
-                Text("Sample Size")
-            } minimumValueLabel: {
-                Image(systemName: "textformat.size.smaller")
-                    .accessibilityHidden(true)
-            } maximumValueLabel: {
-                Image(systemName: "textformat.size.larger")
-                    .accessibilityHidden(true)
-            }
-            .accessibilityValue(Text("\(Int(size)) points"))
-            .accessibilityIdentifier("specimenSize")
-        }
+    private var specimen: Specimen? {
+        guard case .loaded(let loaded) = loader?.phase else { return nil }
+        return loaded.specimen
     }
-}
 
-/// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
-/// signs and back.
-private struct LigaturesToggle: View {
-    @Binding var isOn: Bool
+    /// Whether Try It Out can open: as for its button, a cask this build carries or that's installed, and not one iOS
+    /// has built in.
+    private var canTryOut: Bool {
+        let status = installer.status(of: cask)
+        return (cask.isBundled || status.isInstalled) && status != .builtIn
+    }
 
-    var body: some View {
-        Toggle(isOn: $isOn) {
-            Text("Ligatures")
-            Text("Joins sequences like -> and != into single symbols, in editors that support them.")
-                // Darker than the system's secondary gray, which is 3.5:1 on white where text needs 4.5:1.
-                .foregroundStyle(Color(.captionText))
+    /// Opens Try It Out at the page's sample size, starting the download the page's specimen shares if it hasn't.
+    private func openTryOut(_ start: TryOutStart) {
+        if loader == nil {
+            loadSpecimen()
         }
-        .accessibilityIdentifier("ligatures")
+        var start = start
+        start.size = start.size ?? size.wrappedValue
+        tryOut = start
+    }
+
+    private func loadSpecimen() {
+        let loader = TryOutLoader()
+        self.loader = loader
+        let installed = installer.status(of: cask).isInstalled
+        Task { await loader.load(cask, installed: installed, sample: sample) }
     }
 }
 
@@ -136,52 +172,6 @@ struct DetailRowStyle: LabeledContentStyle {
 
 extension LabeledContentStyle where Self == DetailRowStyle {
     static var detailRow: DetailRowStyle { DetailRowStyle() }
-}
-
-/// A cask's license, read when the disclosure group first opens: a collapsed group doesn't build its
-/// content, so the detail page never pays for unpacking the licenses unless someone asks.
-struct LicenseText: View {
-    let token: String
-    @State private var text: AttributedString?
-    @State private var loaded = false
-
-    var body: some View {
-        Group {
-            if let text {
-                Text(text)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-                    .accessibilityIdentifier("licenseText")
-            } else if loaded {
-                Text("The license couldn't be read.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            } else {
-                ProgressView()
-            }
-        }
-        .task(id: token) {
-            text = await Licenses.text(for: token).map(Self.linkified)
-            loaded = true
-        }
-    }
-
-    /// The license with its URLs as links, like the OFL's FAQ at https://scripts.sil.org/OFL.
-    private static func linkified(_ string: String) -> AttributedString {
-        var attributed = AttributedString(string)
-        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
-            return attributed
-        }
-        for match in detector.matches(in: string, range: NSRange(string.startIndex..., in: string)) {
-            guard let url = match.url,
-                  let range = Range(match.range, in: string),
-                  let start = AttributedString.Index(range.lowerBound, within: attributed),
-                  let end = AttributedString.Index(range.upperBound, within: attributed) else { continue }
-            attributed[start..<end].link = url
-        }
-        return attributed
-    }
 }
 
 /// Google Fonts' description, which comes as paragraphs of Markdown with links. Often the designer's

@@ -41,7 +41,28 @@ final class AccessibilityAuditTests: XCTestCase {
         app.buttons["Grid"].tap()
 
         app.openCask(token)
-        XCTAssertTrue(app.sliders["specimenSize"].waitForExistence(timeout: 10))
+        // The page's buttons, under its masthead: the tester can be a screen or more below at the largest sizes, where
+        // the lazy page hasn't built it yet.
+        XCTAssertTrue(app.controls(for: token).waitForExistence(timeout: 10))
+        try audit(app)
+
+        // The full specimen, at its styles, then Try It Out with its chips, then its Adjust panel.
+        let fullSpecimen = app.buttons["fullSpecimen"]
+        for _ in 0..<10 where !(fullSpecimen.exists && fullSpecimen.isHittable) {
+            app.swipeUp(velocity: .slow)
+        }
+        fullSpecimen.tap()
+        XCTAssertTrue(app.staticTexts["section.styles"].waitForExistence(timeout: 60))
+        try audit(app)
+
+        // From the navigation bar, which has Try It Out once the page's own buttons have scrolled away, as they have at
+        // the largest sizes; otherwise the page's.
+        let barButton = app.buttons["toolbarTryItOut"]
+        (barButton.exists ? barButton : app.controls(for: token).buttons["tryItOut"]).tap()
+        XCTAssertTrue(app.textViews["tryItOutText"].waitForExistence(timeout: 10))
+        try audit(app)
+        app.buttons["tryItOutAdjust"].tap()
+        XCTAssertTrue(app.sliders["Line Height"].waitForExistence(timeout: 5))
         try audit(app)
     }
 
@@ -53,17 +74,37 @@ final class AccessibilityAuditTests: XCTestCase {
         // matched across, as its rows run on below what's on screen.
         let sidebar = app.collectionViews["sidebar"]
         let sidebarColumn = sidebar.exists ? sidebar.frame.minX...sidebar.frame.maxX : nil
-        let buttonFrames = ["install", "update", "uninstall", "homepage", "tryItOut"]
+        // The navigation bar's are glass too: Try It Out and Install once a page's own scroll away, and Done.
+        let buttonFrames = ["install", "update", "uninstall", "homepage", "tryItOut", "toolbarTryItOut",
+                            "toolbarInstall", "toolbarUpdate", "Done"]
             // Homepage is a link, the rest buttons.
             .map { app.descendants(matching: .any).matching(identifier: $0).firstMatch }
             .filter(\.exists)
             .map(\.frame)
         let window = app.windows.firstMatch.frame
+        // The navigation bar: its title, which iOS shortens to fit beside its buttons and VoiceOver reads in full, and
+        // whatever has scrolled under its glass, which the audit measures contrast against.
+        let navigationBar = app.navigationBars.firstMatch
+        let barBottom = navigationBar.exists ? navigationBar.frame.maxY : window.minY
         try app.performAccessibilityAudit { issue in
             // An issue the audit can't tie to an element has nothing to look up or exempt.
             guard let element = issue.element else { return true }
             let center = CGPoint(x: element.frame.midX, y: element.frame.midY)
             if sidebarColumn?.contains(center.x) ?? false || buttonFrames.contains(where: { $0.contains(center) }) {
+                return true
+            }
+            // Try It Out's feature chips are glass buttons too, which the audit measures against the glass itself.
+            if element.identifier.hasPrefix("tryItOutFeature.") || element.identifier == "tryItOutLigatures" {
+                return true
+            }
+            if center.y < barBottom {
+                return true
+            }
+            // The full specimen's section titles and style names are the system's text styles, which do scale: the
+            // largest-size audit passes them drawn at that size, and the same title higher up the page passes here.
+            // Grown in place in the screen's lower half, though, they run off its bottom, which the audit reports as
+            // partly unsupported, as it does the gallery's rows below.
+            if issue.auditType == .dynamicType, element.frame.minY > window.midY {
                 return true
             }
             // Specimens, names and the detail line under them on cards and rows are cut to fit the card;

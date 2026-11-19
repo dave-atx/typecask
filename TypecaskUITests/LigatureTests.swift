@@ -10,6 +10,14 @@ final class LigatureTests: XCTestCase {
         app.openCask("font-fira-code")
         let toggle = app.switches["ligatures"]
         XCTAssertTrue(toggle.waitForExistence(timeout: 10))
+        // Under the page's masthead, below the screen on an iPhone, or under its bottom bar, which takes the tap. Short
+        // drags bring it into the screen's top part without overshooting it.
+        let window = app.windows.firstMatch
+        for _ in 0..<12 where !(toggle.isHittable && toggle.frame.maxY < window.frame.height * 0.6) {
+            let start = window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7))
+            let end = window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.45))
+            start.press(forDuration: 0.05, thenDragTo: end)
+        }
         XCTAssertEqual(toggle.value as? String, "1")
         keep(app.screenshot(), named: "ligatures-on")
 
@@ -27,7 +35,8 @@ final class LigatureTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask("font-roboto")
-        XCTAssertTrue(app.staticTexts["specimen"].firstMatch.waitForExistence(timeout: 10))
+        // Text, or a button where it opens Try It Out.
+        XCTAssertTrue(app.descendants(matching: .any)["specimen"].firstMatch.waitForExistence(timeout: 10))
         XCTAssertFalse(app.switches["ligatures"].exists)
     }
 
