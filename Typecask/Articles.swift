@@ -176,13 +176,8 @@ struct ArticleView: View {
     private func specimen(_ line: Article.SpecimenLine) -> some View {
         if let cask = model.catalog.casks.first(where: { $0.token == line.token }) {
             NavigationLink(value: GalleryPage.item(.cask(model.catalog.shown(cask)))) {
-                // A shaded box, as the cards in the gallery, with the font's name inside it under the line.
+                // A shaded box, as the cards in the gallery, with the font's name inside it above the line.
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(line.text)
-                        .font(PreviewFonts.font(line.font, size: sampleSize(sizeClass) * min(scale, 1.6),
-                                                features: line.features ?? [:]))
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                     HStack(spacing: 4) {
                         Text(cask.name)
                         Image(systemName: "chevron.forward")
@@ -190,6 +185,11 @@ struct ArticleView: View {
                     }
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(Color(.captionText))
+                    Text(line.text)
+                        .font(PreviewFonts.font(line.font, size: sampleSize(sizeClass) * min(scale, 1.6),
+                                                features: line.features ?? [:]))
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(4)
             }
