@@ -100,6 +100,36 @@
           {{- end }}
         </div>
 
+        {{- /* Homebrew installs font casks on macOS, and on Linux since Homebrew 4.5. A catalog from before
+          googleFamily knows a Google family only by a homepage on fonts.google.com. */}}
+        {{- $google := "" }}
+        {{- with $p.googleFamily }}
+          {{- $google = printf "https://fonts.google.com/specimen/%s" (replace . " " "+") }}
+        {{- else }}{{ if hasPrefix $p.homepage "https://fonts.google.com/specimen/" }}
+          {{- $google = $p.homepage }}
+        {{- end }}{{ end }}
+        {{- if or $p.homebrew $google }}
+          <section class="desktop" aria-labelledby="desktop-title">
+            <h2 id="desktop-title">On a Mac or Linux</h2>
+            {{- if $p.homebrew }}
+              <p class="fine">Install it with <a href="https://brew.sh" rel="noopener">Homebrew</a>:</p>
+              <div class="command">
+                <code>brew install --cask {{ $p.token }}</code>
+                <button type="button" class="btn btn-quiet copy" hidden
+                  data-copy="brew install --cask {{ $p.token }}">Copy</button>
+              </div>
+            {{- end }}
+            {{- with $google }}
+              <p class="fine">{{ if $p.homebrew }}Or download{{ else }}Download{{ end }} it from
+                <a href="{{ . }}" rel="noopener">Google Fonts</a>.</p>
+            {{- end }}
+          </section>
+          {{- with resources.Get "js/copy.js" }}
+            {{- $js := . | minify | fingerprint }}
+            <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+          {{- end }}
+        {{- end }}
+
         <details class="license">
           <summary>License</summary>
           {{- $path := printf "licenses/%s.txt" $p.token }}

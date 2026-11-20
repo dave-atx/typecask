@@ -902,6 +902,40 @@ img {
     background: var(--ground-2);
 }
 
+.desktop {
+    margin: 24px 0;
+}
+
+.desktop h2 {
+    font-size: 1rem;
+    margin: 0 0 6px;
+}
+
+.command {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0 12px;
+    padding: 10px 10px 10px 14px;
+    border: 1px solid var(--rule-2);
+    border-radius: 10px;
+    background: var(--ground-2);
+}
+
+.command code {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+}
+
+.command .copy {
+    flex: none;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
 .license summary {
     cursor: pointer;
     font-weight: 650;
