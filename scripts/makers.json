@@ -226,9 +226,6 @@
     "font-adwaita-mono-nerd-font": {
       "foundries": [
         "GNOME"
-      ],
-      "designers": [
-        "Belleve Invis"
       ]
     },
     "font-agave": {
@@ -248,7 +245,6 @@
     },
     "font-aporetic": {
       "designers": [
-        "Belleve Invis",
         "Protesilaos Stavrou"
       ]
     },
@@ -721,13 +717,11 @@
     },
     "font-ioskeley-mono": {
       "designers": [
-        "Belleve Invis",
         "Ahmed Hatem"
       ]
     },
     "font-ioskeley-mono-term-nerd-font": {
       "designers": [
-        "Belleve Invis",
         "Ahmed Hatem"
       ]
     },
@@ -1316,9 +1310,6 @@
     "font-zed-mono-nerd-font": {
       "foundries": [
         "Zed Industries"
-      ],
-      "designers": [
-        "Belleve Invis"
       ]
     },
     "font-zhuque-fangsong": {

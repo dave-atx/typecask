@@ -171,7 +171,7 @@ compact, geometric, slightly retro-technical look.
 
 @font-ioskeley-mono: const total = values.reduce((a, b) => a + b, 0)
 
-**Ioskeley Mono** began when [Ahmed Hatem](designer:ahmed-hatem) admired Berkeley Mono but couldn't justify buying it. He built his
-own on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by
-letter, and tuned it until it became its own typeface rather than a clone. It comes in ten weights and two
-widths, and if you like Berkeley Mono, the designer suggests supporting the original too.
+**Ioskeley Mono** is [Ahmed Hatem](designer:ahmed-hatem)'s font in that spirit. He built it on
+[Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by letter, and
+tuned it toward Berkeley Mono's compact, geometric feel. It comes in ten weights and two widths, and if you like
+Berkeley Mono, Hatem suggests supporting the original too.

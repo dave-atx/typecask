@@ -109,5 +109,5 @@ makes it great for splitting a screen.
 
 [Intel One Mono](font:font-intel-one-mono), made with low-vision developers, is in
 [Easy on the eyes](article:easy-on-the-eyes). [Monocraft](font:font-monocraft), the Minecraft coding font, is
-in [Screens of the past](article:screens-of-the-past), and [Ioskeley Mono](font:font-ioskeley-mono), a free
-take on Berkeley Mono, is in [Inspired by the classics](article:inspired-by-the-classics).
+in [Screens of the past](article:screens-of-the-past), and [Ioskeley Mono](font:font-ioskeley-mono), inspired
+by Berkeley Mono, is in [Inspired by the classics](article:inspired-by-the-classics).

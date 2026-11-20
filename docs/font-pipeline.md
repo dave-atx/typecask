@@ -136,8 +136,10 @@ to Google. Google's own list, in its order, stays in the record as `descriptionB
 description.
 
 Every other cask has an entry of its own under `casks`, checked by hand: the license's copyright line, the
-README, and the name table are the evidence, and `{}` gives no credit where none of them says. A cask with no
-entry yet takes its makers from its primary face's name table, which each build records as `credits`, and the
+README, and the name table are the evidence, and `{}` gives no credit where none of them says. A build of
+another font credits whoever made the build, not the original's designer: Aporetic and Adwaita Mono don't credit
+Belleve Invis, who made the Iosevka they're built on. A cask with no entry yet takes its makers from its primary
+face's name table, which each build records as `credits`, and the
 fonts pull request lists it under Makers to review (`scripts/makers.py list`) until it has one. A Nerd Font or
 Powerline version takes the makers of the cask it patches.
 
