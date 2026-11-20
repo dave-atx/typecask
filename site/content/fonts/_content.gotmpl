@@ -54,6 +54,8 @@
       "credits" (.descriptionBy | default (cond $sorted slice (.designers | default slice)))
       "madeBy" (cond $sorted slice (.designers | default slice))
       "homepage" .homepage
+      "googleFamily" .googleFamily
+      "homebrew" (ne .homebrew false)
       "styles" $terms
   }}
   {{ if $sorted }}

@@ -201,6 +201,7 @@ EXTRA_CASKS = [
         ],
     },
 ]
+EXTRA_TOKENS = frozenset(cask["token"] for cask in EXTRA_CASKS)
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
@@ -2557,6 +2558,12 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         record |= {"script": built["script"], "scripts": filtered_scripts(built["script"], built["scripts"], token)}
         if built.get("ligatures"):
             record["ligatures"] = True
+        # The site offers a download from Google Fonts for a Google family, and `brew install` for any cask
+        # Homebrew has: all but EXTRA_CASKS.
+        if family := google.get("family"):
+            record["googleFamily"] = family
+        if token in EXTRA_TOKENS:
+            record["homebrew"] = False
         foundries, designers = makers(token, google, built.get("credits") or {})
         if foundries:
             record["foundries"] = foundries
