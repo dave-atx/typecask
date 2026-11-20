@@ -83,7 +83,7 @@
           <p class="prose">{{ .Title }} ships {{ $faces }}
             {{ cond (eq $faces 1) "face" "faces" }}
             {{- if $p.glyphs }}, patched with Nerd Fonts' icon set{{ end }}.
-            {{ if and $p.homepage (not $credit) }}Its own site has the detail its designers wrote.{{ end }}</p>
+            {{ if and $p.homepage (not $credit) }}Its home page has the detail its designers wrote.{{ end }}</p>
           {{- with $credit }}
             <p class="attrib">— {{ .creator }}{{ with .note }}, {{ . }}{{ end }}</p>
           {{- end }}
@@ -167,7 +167,7 @@
           <dt>Cask</dt><dd class="cask-token">{{ $p.token }}</dd>
         </dl>
         {{- with $p.homepage }}
-          <p><a class="more" href="{{ . }}" rel="noopener">The font's own site →</a></p>
+          <p><a class="more" href="{{ . }}" rel="noopener">Home page →</a></p>
         {{- end }}
       </aside>
     </div>
