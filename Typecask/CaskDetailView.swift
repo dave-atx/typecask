@@ -262,13 +262,7 @@ struct CaskActions: View {
             TryItOutButton(cask: cask)
         }
         if cask.isBundled {
-            // The share sheet, for AirDrop to a Mac, where Font Book installs the fonts: iOS can't install them there.
-            ShareLink(item: FontArchive(cask, tag: cask.pack ?? cask.token), preview: SharePreview(cask.name)) {
-                Label("Install on Mac", systemImage: "laptopcomputer.and.arrow.down")
-            }
-            .buttonStyle(.glass)
-            .accessibilityLabel(isNerdVersion ? "Install Nerd Font on Mac" : "Install on Mac")
-            .accessibilityIdentifier("installOnMac")
+            InstallOnMacButton(cask: cask, isNerdVersion: isNerdVersion)
         }
         if !isNerdVersion {
             Link(destination: cask.homepage) {

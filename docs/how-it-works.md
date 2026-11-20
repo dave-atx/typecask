@@ -64,9 +64,10 @@ other.
 
 ## Install on Mac
 
-iOS can't install a font on a Mac, but it can send one. Install on Mac, with a font's buttons, gives the
-share sheet a zip of the cask's files and its license (`FontArchive`), made only once a destination is
-picked: AirDropped to a Mac, it opens to a folder whose fonts Font Book installs. The files are this build's
+iOS can't install a font on a Mac, but it can send one. Install on Mac, with a font's buttons, opens a sheet
+(`InstallOnMacSheet`) that says what will happen here and on the Mac, then downloads the cask's tag with the
+same progress bar as Try It Out, and writes a zip of the cask's files and its license (`MacArchive`) for the
+share sheet: AirDropped to a Mac, it opens to a folder whose fonts Font Book installs. The files are this build's
 copies, from the cask's On-Demand Resources tag, named after each file's first face, with the extension
 from the file's first bytes. A Mac goes by the extension.
 

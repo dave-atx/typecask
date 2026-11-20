@@ -32,13 +32,21 @@ final class ShareTests: XCTestCase {
         let send = app.controls(for: "font-fira-code").buttons["installOnMac"]
         XCTAssertTrue(send.waitForExistence(timeout: 30))
         send.tap()
+        let download = app.buttons["downloadForMac"]
+        XCTAssertTrue(download.waitForExistence(timeout: 10))
+        download.tap()
+        let ready = app.buttons["sendToMac"]
+        XCTAssertTrue(ready.waitForExistence(timeout: 60))
+        ready.tap()
         let saveToFiles = app.cells["Save to Files"]
         XCTAssertTrue(saveToFiles.waitForExistence(timeout: 10))
         saveToFiles.tap()
         let save = app.buttons["Save"]
         XCTAssertTrue(save.waitForExistence(timeout: 30))
         save.tap()
-        // Back on the font's page once the zip is made and saved.
-        XCTAssertTrue(send.waitForExistence(timeout: 30))
+        // Back on the sheet once the zip is saved, and then the font's page.
+        XCTAssertTrue(ready.waitForExistence(timeout: 30))
+        app.buttons["installOnMacDone"].tap()
+        XCTAssertTrue(send.waitForExistence(timeout: 10))
     }
 }
