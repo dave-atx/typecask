@@ -164,7 +164,9 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. The primary face's
   file always ships, though Terminus calls its Regular "Medium". Nerd Fonts' Mono and
   Propo spacing variants are left out, and so is any file over 100 MB (CJK collections and Iosevka
-  SuperTTCs), so a cask made only of those is left out of the catalog.
+  SuperTTCs), so a cask made only of those is left out of the catalog. `REPACKAGED` locks such a cask
+  from an upstream package of the same release with each style in a file of its own, as plain Iosevka
+  is locked from its PkgTTF zip rather than Homebrew's SuperTTC.
 - **The primary face** is the one the gallery previews and the app checks to see whether a cask is
   installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
   width, not a family named Mono beside others (Liberation Mono), then the shortest family name.

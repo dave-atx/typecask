@@ -310,6 +310,13 @@
       "https://github.com/MihailJP/Inconsolata-LGC"
     ]
   },
+  "font-iosevka": {
+    "description": "Iosevka is a narrow monospaced typeface for code and terminals by Belleve Invis, who draws its letters in code so that anyone can choose among their alternates and build a version of their own; this is the standard build. Its Italic is a true cursive italic, with a single-storey a and an f that descends below the baseline, and its Oblique slants the upright letters instead. Ligatures join sequences such as -> and != for programming.",
+    "sources": [
+      "https://github.com/be5invis/Iosevka",
+      "https://typeof.net/Iosevka/"
+    ]
+  },
   "font-ioskeley-mono": {
     "description": "Ioskeley Mono is a compact, geometric monospaced programming typeface built on Iosevka and designed for long sessions in editors and terminals. It comes in ten weights, Normal and SemiCondensed widths, and upright and italic styles, with a Term variant tuned for terminal cells and an NL variant without programming ligatures. Its letterforms include a single-storey g, a dotted zero, and open 6 and 9 glyphs, with programming punctuation that stays distinct at small sizes.",
     "sources": [

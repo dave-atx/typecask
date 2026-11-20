@@ -201,6 +201,17 @@ EXTRA_CASKS = [
         ],
     },
 ]
+# Casks whose Homebrew download holds only files past MAX_FILE_BYTES, and the upstream package of the
+# same release with the styles as files of their own; the cask's version fills in {version}. Iosevka's
+# cask installs a 134 MB SuperTTC of all 54 styles, so plain Iosevka shipped nothing.
+REPACKAGED = {
+    "font-iosevka": {
+        "url": "https://github.com/be5invis/Iosevka/releases/download/v{version}/PkgTTF-Iosevka-{version}.zip",
+        "artifacts": [
+            f"Iosevka-{style}.ttf" for style in ("Regular", "Italic", "Oblique", "Bold", "BoldItalic", "BoldOblique")
+        ],
+    },
+}
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
@@ -883,6 +894,18 @@ def upstream_matches(source):
     return True
 
 
+def repackaged(cask):
+    """The cask as it installs from its REPACKAGED download, unpinned, or the cask itself."""
+    if not (package := REPACKAGED.get(cask["token"])):
+        return cask
+    return cask | {
+        "url": package["url"].format(version=cask["version"]),
+        "sha256": "no_check",
+        "url_specs": {},
+        "artifacts": [{"font": [name]} for name in package["artifacts"]],
+    }
+
+
 def lock_source(cask, trees, commit):
     """Where a cask's files come from, pinned. None for a source this pipeline can't pin."""
     url = cask["url"]
@@ -997,7 +1020,7 @@ def lock(count, google_top):
 
     planned = []
     for token in tokens:
-        cask = casks_by_token[token]
+        cask = repackaged(casks_by_token[token])
         family = google_by_token.get(token)
         directory = family and google_directory_of(family, cask, family_directories)
         planned.append((token, cask, family, directory, lock_source(cask, trees, commit)))
@@ -2298,6 +2321,15 @@ def try_casks(tokens, apply=False):
     by_token = {entry["token"]: entry for entry in locked["casks"]}
     for cask in EXTRA_CASKS:
         by_token.setdefault(cask["token"], extra_entry(cask))
+    # A REPACKAGED cask locked before its entry was added is tried from the new download.
+    for token in set(tokens) & REPACKAGED.keys() & by_token.keys():
+        entry = by_token[token]
+        if Path(entry["artifacts"][0]).name not in REPACKAGED[token]["artifacts"]:
+            cask = repackaged({"token": token, "version": entry["version"]})
+            by_token[token] = entry | {
+                "artifacts": [artifact["font"][0] for artifact in cask["artifacts"]],
+                "source": lock_source(cask, {}, None),
+            }
     if unknown := [token for token in tokens if token not in by_token]:
         sys.exit(f"not in {LOCK.name} or EXTRA_CASKS: {', '.join(unknown)}")
     entries = [by_token[token] for token in tokens]
