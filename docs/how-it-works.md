@@ -55,6 +55,21 @@ site's pages aren't universal links: those need the Associated Domains entitleme
 profile, and an `apple-app-site-association` file on the site, and a link on typecask.app to itself would
 still open in Safari.
 
+Share, in the bar of every page the site has a counterpart for, sends that page's typecask.app link
+(`SiteLink`): a font, an article or Start Here, a foundry or designer and their indexes, All Fonts, a design
+style, and Nerd Fonts. Installed, Ligatures, Legibility, Symbols, the holidays, and Apple's fonts have no page
+on the site, so no Share. A maker's page on the site is at `Maker.slug(of:)`, the slug the articles link it
+by, which the site sets for each one (`site/layouts/_partials/maker-slug.html`); change one and change the
+other.
+
+## Install on Mac
+
+iOS can't install a font on a Mac, but it can send one. Install on Mac, with a font's buttons, gives the
+share sheet a zip of the cask's files and its license (`FontArchive`), made only once a destination is
+picked: AirDropped to a Mac, it opens to a folder whose fonts Font Book installs. The files are this build's
+copies, from the cask's On-Demand Resources tag, named after each file's first face, with the extension
+from the file's first bytes. A Mac goes by the extension.
+
 ## A font's page
 
 A font's page is laid out like a printed type specimen: a masthead of a few of the face's letters, large,

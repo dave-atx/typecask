@@ -108,26 +108,42 @@
         {{- else }}{{ if hasPrefix $p.homepage "https://fonts.google.com/specimen/" }}
           {{- $google = $p.homepage }}
         {{- end }}{{ end }}
-        {{- if or $p.homebrew $google }}
-          <section class="desktop" aria-labelledby="desktop-title">
-            <h2 id="desktop-title">On a Mac or Linux</h2>
-            {{- if $p.homebrew }}
-              <p class="fine">Install it with <a href="https://brew.sh" rel="noopener">Homebrew</a>:</p>
-              <div class="command">
-                <code>brew install --cask {{ $p.token }}</code>
-                <button type="button" class="btn btn-quiet copy" hidden
-                  data-copy="brew install --cask {{ $p.token }}">Copy</button>
-              </div>
-            {{- end }}
-            {{- with $google }}
-              <p class="fine">{{ if $p.homebrew }}Or download{{ else }}Download{{ end }} it from
-                <a href="{{ . }}" rel="noopener">Google Fonts</a>.</p>
-            {{- end }}
-          </section>
-          {{- with resources.Get "js/copy.js" }}
-            {{- $js := . | minify | fingerprint }}
-            <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+        <section class="desktop" aria-labelledby="desktop-title">
+          <h2 id="desktop-title">On your computer</h2>
+          {{- if $p.homebrew }}
+            <h3>With Homebrew</h3>
+            <p class="fine">On a Mac or on Linux, <a href="https://brew.sh" rel="noopener">Homebrew</a> installs
+              it and keeps it up to date:</p>
+            <div class="command">
+              <code>brew install --cask {{ $p.token }}</code>
+              <button type="button" class="btn btn-quiet copy" hidden
+                data-copy="brew install --cask {{ $p.token }}">Copy</button>
+            </div>
+            <h3>Without Homebrew</h3>
           {{- end }}
+          <ol class="steps fine">
+            {{- if $google }}
+              <li>Download it from <a href="{{ $google }}" rel="noopener">Google Fonts</a>: choose Get font, then
+                Download all, and open the zip file.</li>
+            {{- else if $p.download }}
+              {{- $file := path.Base $p.download }}
+              <li>Download <a href="{{ $p.download }}" rel="noopener"><code>{{ $file }}</code></a>
+                {{- if not (findRE `(?i)\.(ttf|otf|ttc)$` $file) }} and open it{{ end }}.</li>
+            {{- else }}
+              <li>Download it from its <a href="{{ $p.homepage }}" rel="noopener">home page</a>.</li>
+            {{- end }}
+            <li>Install the font files, the ones ending in .ttf, .otf, or .ttc:
+              <ul>
+                <li>On a Mac, open each one and click Install, or drag them all into Font Book.</li>
+                <li>On Windows, select them, right-click, and choose Install.</li>
+                <li>On Linux, copy them to <code>~/.local/share/fonts</code>, then run <code>fc-cache -f</code>.</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+        {{- with resources.Get "js/copy.js" }}
+          {{- $js := . | minify | fingerprint }}
+          <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
         {{- end }}
 
         <details class="license">

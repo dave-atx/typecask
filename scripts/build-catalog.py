@@ -428,6 +428,8 @@ FAMILY_CASKS = {
 }
 # Casks `brew install` can't install: the site offers a download instead.
 NOT_IN_HOMEBREW = frozenset(cask["token"] for cask in EXTRA_CASKS) | FAMILY_CASKS.keys()
+# The archives and font files the site links as a font's download: what macOS, Windows and Linux open as they come.
+DOWNLOADABLE = (".zip", ".ttf", ".otf", ".ttc", ".tar.gz", ".tgz", ".tar.xz", ".tar.bz2")
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
@@ -2889,6 +2891,10 @@ def build(only=None, max_mb_per_install=None, jobs=1):
             record["googleFamily"] = family
         if token in NOT_IN_HOMEBREW:
             record["homebrew"] = False
+        # And, for anyone without Homebrew, the cask's own download when it's something a computer opens
+        # without help: not an installer, a disk image or a 7-Zip archive. A Google family has Google Fonts.
+        if (url := (entry.get("source") or {}).get("url")) and url.lower().endswith(DOWNLOADABLE):
+            record["download"] = url
         foundries, designers = makers(token, google, built.get("credits") or {})
         if foundries:
             record["foundries"] = foundries

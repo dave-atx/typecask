@@ -1286,3 +1286,28 @@ abbr.term {
     color: var(--ink-2);
     font-size: 0.95rem;
 }
+
+.desktop h3 {
+    font-size: 0.9rem;
+    margin: 14px 0 4px;
+}
+
+.steps {
+    margin: 6px 0 0;
+    padding-left: 1.4em;
+}
+
+.steps li + li {
+    margin-top: 6px;
+}
+
+.steps ul {
+    margin: 4px 0 0;
+    padding-left: 1.2em;
+}
+
+.steps code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+}

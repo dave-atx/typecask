@@ -40,8 +40,24 @@ struct Maker: Hashable, Identifiable, Sendable {
 
     /// The name as an article's link spells it, "foundry:the-league-of-moveable-type": lower case, with each run of
     /// anything but letters and digits a hyphen, as scripts/articles.py's maker_slug() makes it.
+    /// Character by character, as Python's and Hugo's regular expressions go, so a combining accent splits a word
+    /// there as it does for them, and lowercased as Go does it, which makes İ plain i: the site keeps the maker's page
+    /// at this slug, and the app shares it by it.
     static func slug(of name: String) -> String {
-        name.lowercased().split { !($0.isLetter || $0.isNumber) }.joined(separator: "-")
+        var slug = String.UnicodeScalarView()
+        var gap = false
+        for scalar in name.unicodeScalars {
+            switch scalar.properties.generalCategory {
+            case .uppercaseLetter, .lowercaseLetter, .titlecaseLetter, .modifierLetter, .otherLetter,
+                 .decimalNumber, .letterNumber, .otherNumber:
+                if gap, !slug.isEmpty { slug.append("-") }
+                gap = false
+                slug.append(scalar.properties.lowercaseMapping.unicodeScalars.first ?? scalar)
+            default:
+                gap = true
+            }
+        }
+        return String(slug)
     }
 
     /// The names a cask credits as this kind of maker.
@@ -115,6 +131,9 @@ struct MakerIndex: View {
                 }
                 .accessibilityIdentifier("makerOrder")
             }
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.makers(kind), title: String(localized: kind.title))
+            }
         }
         .accessibilityIdentifier("makers")
     }
@@ -148,6 +167,11 @@ struct MakerPage: View {
         }
         .navigationTitle(maker.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.maker(maker), title: maker.name)
+            }
+        }
         .accessibilityIdentifier("makerPage")
     }
 }
@@ -187,7 +211,7 @@ private struct MakerHeader: View {
 }
 
 /// Its subviews left to right, onto a new row where the next doesn't fit.
-private struct WrappingRows: Layout {
+struct WrappingRows: Layout {
     let spacing: CGFloat
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {

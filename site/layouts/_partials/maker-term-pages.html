@@ -1,0 +1,13 @@
+{{- /* Called from content/designers/ and content/foundries/: gives each of a taxonomy's terms the slug the app
+  shares its page by. Only for a catalog that sorts its makers (see content/fonts/_content.gotmpl); an older one
+  has no maker pages at all. */ -}}
+{{- $casks := hugo.Data.catalog.casks | default slice -}}
+{{- if where $casks "foundries" "!=" nil -}}
+  {{- $names := dict -}}
+  {{- range $casks -}}
+    {{- range index . $.field -}}{{- $names = merge $names (dict . .) -}}{{- end -}}
+  {{- end -}}
+  {{- range $path, $name := $names -}}
+    {{- $.adapter.AddPage (dict "path" $path "kind" "term" "title" $name "slug" (partial "maker-slug.html" $name)) -}}
+  {{- end -}}
+{{- end -}}

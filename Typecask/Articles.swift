@@ -139,6 +139,9 @@ struct StartHereView: View {
                 }
                 .accessibilityIdentifier("startSearch")
             }
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.startHere, title: String(localized: "Start Here"))
+            }
         }
     }
 }
@@ -197,6 +200,11 @@ struct ArticleView: View {
         }
         .navigationTitle(article.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.article(article), title: article.title)
+            }
+        }
         .environment(\.openURL, OpenURLAction { url in
             model.follow(url) ? .handled : .systemAction
         })

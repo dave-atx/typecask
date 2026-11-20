@@ -77,6 +77,9 @@ struct CaskDetailView: View {
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                PageShareLink(url: SiteLink.cask(cask), title: cask.name)
+            }
             if !actionsVisible {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     PageToolbarActions(cask: cask)
@@ -224,12 +227,10 @@ struct CaskActions: View {
     }
 
     @ViewBuilder private var content: some View {
-        // In a row when they fit, stacked when they don't, as on a narrow screen at an accessibility text
-        // size, where a row broke every label mid-word. Stacking keeps the labels, which icons alone wouldn't.
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 12) { buttons }
-            VStack(alignment: .leading, spacing: 12) { buttons }
-        }
+        // In rows, each button onto the next where it doesn't fit, rather than squeezed: at an accessibility text
+        // size a single row broke every label mid-word. Wrapping keeps the labels, which icons alone wouldn't, and
+        // with Install on Mac there are four, which no iPhone fits in one row.
+        WrappingRows(spacing: 12) { buttons }
         if !cask.isBundled, installer.status(of: cask) != .builtIn {
             // The release left this cask's fonts out (see README), or this is a debug build carrying a few
             // casks', so there is no On-Demand Resources tag to download, and offering Install would just fail.
@@ -259,6 +260,15 @@ struct CaskActions: View {
         }
         if (cask.isBundled || status.isInstalled) && status != .builtIn {
             TryItOutButton(cask: cask)
+        }
+        if cask.isBundled {
+            // The share sheet, for AirDrop to a Mac, where Font Book installs the fonts: iOS can't install them there.
+            ShareLink(item: FontArchive(cask, tag: cask.pack ?? cask.token), preview: SharePreview(cask.name)) {
+                Label("Install on Mac", systemImage: "laptopcomputer.and.arrow.down")
+            }
+            .buttonStyle(.glass)
+            .accessibilityLabel(isNerdVersion ? "Install Nerd Font on Mac" : "Install on Mac")
+            .accessibilityIdentifier("installOnMac")
         }
         if !isNerdVersion {
             Link(destination: cask.homepage) {
