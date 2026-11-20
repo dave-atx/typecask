@@ -1460,6 +1460,120 @@
           "text": "**[Gentium Plus](font:font-gentium-plus)**, by [Victor Gaultney](designer:victor-gaultney) at [SIL International](foundry:sil-global), is made for linguists and scholars: it covers Latin, Cyrillic, modern and ancient Greek, and the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet). Gentium is Latin for \"of the nations.\""
         }
       ]
+    },
+    {
+      "slug": "a-font-you-build-yourself",
+      "title": "A font you build yourself",
+      "summary": "Iosevka, and the fonts other people have built from it.",
+      "order": 11,
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "text": "Iosevka ships as a font and as the code that draws it. Every letter has alternates, a short config file picks among them, and anyone can build a version of their own: a dotted or slashed zero, a different lowercase g, wider letters, ligatures or none. A lot of people have, and some of their builds have become fonts with names of their own."
+        },
+        {
+          "kind": "heading",
+          "text": "Iosevka"
+        },
+        {
+          "kind": "specimen",
+          "token": "font-iosevka",
+          "text": "const fits = columns.filter(c => c.width <= 80)",
+          "font": "TypecaskArticle-e08422cb32d2.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**[Iosevka](font:font-iosevka)** is [Belleve Invis](designer:belleve-invis)'s coding font, started in 2015. It's narrow, so more columns fit across a screen, and it comes in sans and slab versions, plus quasi-proportional ones, Aile and Etoile, for prose. Its stylistic sets echo other coding fonts, Menlo, Consolas, and JetBrains Mono among them."
+        },
+        {
+          "kind": "heading",
+          "text": "Italic or oblique"
+        },
+        {
+          "kind": "specimen",
+          "token": "font-iosevka",
+          "text": "a fine office of affable folk",
+          "face": "Iosevka-Italic",
+          "font": "TypecaskArticle-1df0e953f793.ttf"
+        },
+        {
+          "kind": "specimen",
+          "token": "font-iosevka",
+          "text": "a fine office of affable folk",
+          "face": "Iosevka-Oblique",
+          "font": "TypecaskArticle-752b3869c6ba.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "[Iosevka](font:font-iosevka) comes with two kinds of slanted letters, which makes it a good place to see the difference. Its **Italic** is drawn as a different set of letters, closer to handwriting: the a loses its top storey, the f drops below the baseline, and the i and l finish with a curl. Its **Oblique** is the upright letters, slanted. Many sans serifs have only an oblique, even when they call it italic, while nearly every serif has a true italic. In code, an italic sets comments or keywords apart more clearly; an oblique keeps them looking like the rest of the line."
+        },
+        {
+          "kind": "heading",
+          "text": "Builds of their own"
+        },
+        {
+          "kind": "specimen",
+          "token": "font-aporetic",
+          "text": "(load-theme 'modus-operandi t)",
+          "font": "TypecaskArticle-bd2ca6fd4a31.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**[Aporetic](font:font-aporetic)** is [Protesilaos Stavrou](designer:protesilaos-stavrou)'s build, the successor to his Iosevka Comfy. He replaced almost every letter with a rounder one, then made the italics a little sturdier so they don't look rounder than the upright. Stavrou also wrote the Modus themes that come with Emacs, and Aporetic is popular there."
+        },
+        {
+          "kind": "specimen",
+          "token": "font-ioskeley-mono",
+          "text": "SELECT name FROM fonts WHERE width = 'compact';",
+          "font": "TypecaskArticle-a1791da28f28.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**[Ioskeley Mono](font:font-ioskeley-mono)**, by [Ahmed Hatem](designer:ahmed-hatem), tunes Iosevka toward Berkeley Mono's compact, geometric look (there's more in [Inspired by the classics](article:inspired-by-the-classics)). It comes in ten weights and two widths, with a Term version sized for terminal cells."
+        },
+        {
+          "kind": "specimen",
+          "token": "font-iosevka-charon",
+          "text": "Charon ferries text across the river; Charon Mono ferries code.",
+          "font": "TypecaskArticle-12b6447be1db.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**[Iosevka Charon](font:font-iosevka-charon)** and **[Iosevka Charon Mono](font:font-iosevka-charon-mono)**, by [Juliette Pluto](designer:juliette-pluto), are built to Google Fonts' rules, which put them on Google Fonts. Charon is quasi-proportional, for technical writing and dense interfaces, and Charon Mono is for code."
+        },
+        {
+          "kind": "heading",
+          "text": "In an editor and a desktop"
+        },
+        {
+          "kind": "specimen",
+          "token": "font-zed-mono-nerd-font",
+          "text": "zed --new ~/notes/todo.md",
+          "font": "TypecaskArticle-70ef50d71ebc.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**Zed Mono** is the font of the Zed code editor, a build [Zed Industries](foundry:zed-industries) made for it. The catalog has [its Nerd Font version](font:font-zed-mono-nerd-font)."
+        },
+        {
+          "kind": "specimen",
+          "token": "font-adwaita-mono-nerd-font",
+          "text": "$ gsettings get org.gnome.desktop.interface monospace-font-name",
+          "font": "TypecaskArticle-f6c075fa69a4.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**Adwaita Mono** has been [GNOME](foundry:gnome)'s monospace font since GNOME 48 in 2025, next to Adwaita Sans, which is based on Inter. The catalog has [its Nerd Font version](font:font-adwaita-mono-nerd-font) too."
+        },
+        {
+          "kind": "heading",
+          "text": "Build your own"
+        },
+        {
+          "kind": "paragraph",
+          "text": "Iosevka's website has a customizer that writes the config file for you, letter by letter. Building the font takes a computer with Node.js, and a few minutes."
+        }
+      ]
     }
   ],
   "terms": {
