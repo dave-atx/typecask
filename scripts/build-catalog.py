@@ -139,6 +139,24 @@ ALWAYS_INCLUDED = [
     "font-dinish",
     "font-comic-shanns-mono",
     "font-opendyslexic",
+    # The plain fonts behind the catalog's Nerd Fonts that sit below the install cutoff or have no Homebrew
+    # cask of their own, so each Nerd Font has its original beside it.
+    "font-adwaita-mono",
+    "font-aurulent-sans-mono",
+    "font-bitstream-vera-sans-mono",
+    "font-code-new-roman",
+    "font-daddy-time-mono",
+    "font-dejavu-sans-mono",
+    "font-droid-sans-mono",
+    "font-go-mono",
+    "font-gohufont",
+    "font-inconsolata-go",
+    "font-iosevka-term",
+    "font-iosevka-term-slab",
+    "font-monofur",
+    "font-profont",
+    "font-proggy-clean-tt",
+    "font-zed-mono",
     # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
     # of the first open-source foundries; several sit near the install cutoff. All but The Neue Black,
     # whose 1.007 release is corrupt.
@@ -160,9 +178,121 @@ ALWAYS_INCLUDED = [
     "font-sniglet",
     "font-sorts-mill-goudy",
 ]
+NERD_FONTS_GIT = "https://github.com/ryanoasis/nerd-fonts.git"
+
+
+def unpatched(token, name, homepage, directory, version, fonts):
+    """An EXTRA_CASKS entry for a font Homebrew has only as a Nerd Font, from the original Nerd Fonts keeps
+    unpatched, beside its license, in src/unpatched-fonts: a sparse checkout of that one directory."""
+    return {
+        "token": token,
+        "name": [name],
+        "homepage": homepage,
+        "url": NERD_FONTS_GIT,
+        "url_specs": {"only_path": f"src/unpatched-fonts/{directory}"},
+        "version": version,
+        "artifacts": [{"font": [font]} for font in fonts],
+    }
+
+
 # Casks Homebrew doesn't have yet, or has only disabled, in its API's shape, from the upstream release.
 # Homebrew's own working cask takes over once it has one, and lock says so, for the entry to go.
 EXTRA_CASKS = [
+    unpatched(
+        "font-aurulent-sans-mono",
+        "Aurulent Sans Mono",
+        "https://www.fontsquirrel.com/fonts/aurulent-sans-mono",
+        "AurulentSansMono",
+        "latest",
+        ["AurulentSansMono-Regular.otf"],
+    ),
+    unpatched(
+        "font-code-new-roman",
+        "Code New Roman",
+        "https://fontlibrary.org/en/font/code-new-roman",
+        "CodeNewRoman",
+        "2.0",
+        [f"Code New Roman-{style}.otf" for style in ("Regular", "Italic", "Bold")],
+    ),
+    unpatched(
+        "font-go-mono",
+        "Go Mono",
+        "https://go.dev/blog/go-fonts",
+        "Go-Mono",
+        "2.010",
+        [f"Go-Mono{style}.ttf" for style in ("", "-Italic", "-Bold", "-Bold-Italic")],
+    ),
+    # GohuFont's uni-11 cut, the one font-gohufont-nerd-font ships: the 11 px design with more of Unicode.
+    unpatched("font-gohufont", "GohuFont", "https://font.gohu.org/", "Gohu", "2.0", ["uni-11/gohufont-uni-11.ttf"]),
+    # Raph Levien's Inconsolata with straight quotes, the same files as levien.com/type/myfonts/inconsolata/.
+    unpatched(
+        "font-inconsolata-go",
+        "InconsolataGo",
+        "https://levien.com/type/myfonts/inconsolata.html",
+        "InconsolataGo",
+        "1.013",
+        ["InconsolataGo-Regular.ttf", "InconsolataGo-Bold.ttf"],
+    ),
+    unpatched(
+        "font-profont",
+        "ProFont",
+        "https://tobiasjung.name/profont/",
+        "ProFont/ProFontWinTweaked",
+        "2.3",
+        ["ProFontWindows.ttf"],
+    ),
+    unpatched(
+        "font-proggy-clean-tt",
+        "ProggyCleanTT",
+        "https://github.com/bluescan/proggyfonts",
+        "ProggyClean",
+        "2004-04-15",
+        ["Regular/ProggyClean.ttf"],
+    ),
+    {
+        "token": "font-daddy-time-mono",
+        "name": ["DaddyTimeMono"],
+        "homepage": "https://github.com/BourgeoisBear/DaddyTimeMono",
+        "url": "https://github.com/BourgeoisBear/DaddyTimeMono.git",
+        "version": "latest",
+        "artifacts": [{"font": ["build/DaddyTimeMono.otf"]}],
+    },
+    {
+        # Droid Sans Mono left google/fonts in 2017; this is its last commit there. Its directory records the
+        # license only in METADATA.pb, so scripts/licenses/casks has it.
+        "token": "font-droid-sans-mono",
+        "name": ["Droid Sans Mono"],
+        "homepage": "https://www.fontsquirrel.com/fonts/droid-sans-mono",
+        "url": "https://github.com/google/fonts.git",
+        "url_specs": {"revision": "bfd28d000f58ed495f01bf5a3c07197413ea84bf", "only_path": "apache/droidsansmono"},
+        "version": "1.001",
+        "artifacts": [{"font": ["DroidSansMono-Regular.ttf"]}],
+    },
+    {
+        # The original release, Regular and Italic; its license is monof_tt.txt, a name find_license() doesn't
+        # look for, so scripts/licenses/casks has it.
+        "token": "font-monofur",
+        "name": ["Monofur"],
+        "homepage": "https://www.dafont.com/monofur.font",
+        "url": "https://dl.dafont.com/dl/?f=monofur",
+        "version": "1.0",
+        "sha256": "2d41ca991f342f9b74bc01433fba6c371fa7abcd5eaa45d8e71c9b8a2049055a",
+        "artifacts": [{"font": ["monof55.ttf"]}, {"font": ["monof56.ttf"]}],
+    },
+    {
+        # Homebrew deprecated its cask when Zed stopped publishing the fonts, which leaves it out of the line-up;
+        # 1.2.0 is the last release. Its zip carries no license, so scripts/licenses/casks has the repository's.
+        "token": "font-zed-mono",
+        "name": ["Zed Mono"],
+        "homepage": "https://github.com/zed-industries/zed-fonts",
+        "url": "https://github.com/zed-industries/zed-fonts/releases/download/1.2.0/zed-mono-1.2.0.zip",
+        "version": "1.2.0",
+        "sha256": "eb673b39528927d21c0b12eaf05e50babc486bc99e724b55c88e529a5dae76c9",
+        "artifacts": [
+            {"font": [f"zed-mono-{style}.ttf"]}
+            for style in ("regular", "italic", "oblique", "bold", "bolditalic", "boldoblique")
+        ],
+    },
     {
         # Homebrew has only font-comic-shanns-mono-nerd-font. Upstream ships the Regular alone; the Bold
         # in Nerd Fonts' copy is their own addition.
@@ -201,18 +331,46 @@ EXTRA_CASKS = [
         ],
     },
 ]
+
+
 # Casks whose Homebrew download holds only files past MAX_FILE_BYTES, and the upstream package of the
 # same release with the styles as files of their own; the cask's version fills in {version}. Iosevka's
 # cask installs a 134 MB SuperTTC of all 54 styles, so plain Iosevka shipped nothing.
-REPACKAGED = {
-    "font-iosevka": {
-        "url": "https://github.com/be5invis/Iosevka/releases/download/v{version}/PkgTTF-Iosevka-{version}.zip",
+def iosevka_package(family):
+    """The PkgTTF package of an Iosevka family's release, each style a file of its own."""
+    return {
+        "url": f"https://github.com/be5invis/Iosevka/releases/download/v{{version}}/PkgTTF-{family}-{{version}}.zip",
         "artifacts": [
-            f"Iosevka-{style}.ttf" for style in ("Regular", "Italic", "Oblique", "Bold", "BoldItalic", "BoldOblique")
+            f"{family}-{style}.ttf" for style in ("Regular", "Italic", "Oblique", "Bold", "BoldItalic", "BoldOblique")
         ],
+    }
+
+
+REPACKAGED = {
+    "font-iosevka": iosevka_package("Iosevka"),
+    "font-iosevka-slab": iosevka_package("IosevkaSlab"),
+}
+# A cask ships one family, the primary face's, so a cask that installs several leaves the rest out. Each of
+# these is another family as a cask of its own, by token, made at lock time from the Homebrew cask it comes
+# from (`from`), so it follows that cask's version: its files whose names start with `files`, or the
+# upstream package of the same release (`url`, with `artifacts`), as for REPACKAGED.
+FAMILY_CASKS = {
+    "font-adwaita-mono": {"from": "font-adwaita", "name": "Adwaita Mono", "files": "AdwaitaMono"},
+    "font-bitstream-vera-sans-mono": {
+        "from": "font-bitstream-vera",
+        "name": "Bitstream Vera Sans Mono",
+        "files": "VeraMo",
+    },
+    "font-dejavu-sans-mono": {"from": "font-dejavu", "name": "DejaVu Sans Mono", "files": "DejaVuSansMono"},
+    "font-iosevka-term": {"from": "font-iosevka", "name": "Iosevka Term", **iosevka_package("IosevkaTerm")},
+    "font-iosevka-term-slab": {
+        "from": "font-iosevka",
+        "name": "Iosevka Term Slab",
+        **iosevka_package("IosevkaTermSlab"),
     },
 }
-EXTRA_TOKENS = frozenset(cask["token"] for cask in EXTRA_CASKS)
+# Casks `brew install` can't install: the site offers a download instead.
+NOT_IN_HOMEBREW = frozenset(cask["token"] for cask in EXTRA_CASKS) | FAMILY_CASKS.keys()
 # A file past this is a CJK collection or an Iosevka SuperTTC: hundreds of MB for one face, which
 # dwarfs an asset pack and the CI download. Casks made only of these ship nothing and read as
 # "not included in this build".
@@ -317,30 +475,12 @@ NERD_FONT_PAIRS = {
 }
 # Every Nerd Fonts cask gives the patcher's repository as its homepage. A font page links the original's
 # instead: the paired or same-named plain cask's homepage, or else this one, by token, for an original the
-# catalog doesn't ship on its own. Each is the link Nerd Fonts' README for the font gives, where it gives one.
+# catalog doesn't ship: BigBlue Terminal is CC BY-SA, whose ban on technical restrictions conflicts with the
+# App Store as the GPL does, and Heavy Data is freeware that doesn't say it may be redistributed.
 NERD_FONTS_HOMEPAGE = "https://github.com/ryanoasis/nerd-fonts"
 PATCHED_HOMEPAGES = {
-    "font-adwaita-mono-nerd-font": "https://gitlab.gnome.org/GNOME/adwaita-fonts",
-    "font-aurulent-sans-mono-nerd-font": "https://www.fontsquirrel.com/fonts/aurulent-sans-mono",
     "font-bigblue-terminal-nerd-font": "https://int10h.org/blog/2015/12/bigblue-terminal-oldschool-fixed-width-font/",
-    "font-bitstream-vera-sans-mono-nerd-font": "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/",
-    "font-code-new-roman-nerd-font": "https://fontlibrary.org/en/font/code-new-roman",
-    "font-daddy-time-mono-nerd-font": "https://github.com/BourgeoisBear/DaddyTimeMono",
-    "font-dejavu-sans-mono-nerd-font": "https://github.com/dejavu-fonts/dejavu-fonts",
-    "font-droid-sans-mono-nerd-font": "https://www.fontsquirrel.com/fonts/droid-sans-mono",
-    "font-envy-code-r-nerd-font": "https://github.com/damieng/envy-code-r",
-    "font-go-mono-nerd-font": "https://go.dev/blog/go-fonts",
-    "font-gohufont-nerd-font": "https://font.gohu.org/",
     "font-heavy-data-nerd-font": "https://vicfieger.com/",
-    "font-inconsolata-go-nerd-font": "https://levien.com/type/myfonts/inconsolata.html",
-    "font-iosevka-term-nerd-font": "https://github.com/be5invis/Iosevka",
-    "font-iosevka-term-slab-nerd-font": "https://github.com/be5invis/Iosevka",
-    "font-meslo-lg-nerd-font": "https://github.com/andreberg/Meslo-Font",
-    "font-monofur-nerd-font": "https://www.dafont.com/monofur.font",
-    "font-monoid-nerd-font": "https://larsenwork.com/monoid/",
-    "font-profont-nerd-font": "https://tobiasjung.name/profont/",
-    "font-proggy-clean-tt-nerd-font": "https://github.com/bluescan/proggyfonts",
-    "font-zed-mono-nerd-font": "https://github.com/zed-industries/zed-fonts",
 }
 # Google families with no description of their own, by token: the google/fonts directory of a family
 # whose description covers them too.
@@ -632,7 +772,7 @@ PIPELINE_VERSION = 13
 # A cask skipped for want of a license or usable fonts is remembered rather than rebuilt every run.
 # Bump this when a change might rescue some of them, such as a new place to find licenses: only the
 # skipped casks are retried, not the whole line-up.
-SKIP_VERSION = 3
+SKIP_VERSION = 4
 
 ROOT = Path(__file__).resolve().parent.parent
 APP = ROOT / "Typecask"
@@ -655,6 +795,10 @@ DRAFTED_DESCRIPTIONS = ROOT / "scripts" / "descriptions.json"
 MAKERS = ROOT / "scripts" / "makers.json"
 # Standard license texts, for google/fonts families that record theirs only in METADATA.pb.
 LICENSE_TEXTS = ROOT / "scripts" / "licenses"
+# Licenses kept by hand, by token, for casks whose download carries none find_license() can find, each read from
+# the font's own project and saying where from. The GitHub API would answer with the repository's license, which
+# for a font kept in another project's repository isn't the font's.
+KEPT_LICENSES = LICENSE_TEXTS / "casks"
 CACHE = ROOT / ".cache"
 CLONE = CACHE / "google-fonts"
 # One directory per cask and cache key: the GitHub Actions cache keeps it between runs.
@@ -930,9 +1074,9 @@ def upstream_matches(source):
     return True
 
 
-def repackaged(cask):
-    """The cask as it installs from its REPACKAGED download, unpinned, or the cask itself."""
-    if not (package := REPACKAGED.get(cask["token"])):
+def repackaged(cask, package=None):
+    """The cask as it installs from its REPACKAGED download, or `package`'s, unpinned, or the cask itself."""
+    if not (package := package or REPACKAGED.get(cask["token"])):
         return cask
     return cask | {
         "url": package["url"].format(version=cask["version"]),
@@ -942,10 +1086,28 @@ def repackaged(cask):
     }
 
 
+def family_cask(token, cask):
+    """FAMILY_CASKS' `token` as a cask of its own, from `cask`, the Homebrew cask it comes from."""
+    family = FAMILY_CASKS[token]
+    if "url" in family:
+        cask = repackaged(cask, family)
+    else:
+        fonts = [
+            artifact
+            for artifact in cask["artifacts"]
+            if "font" in artifact and Path(artifact["font"][0]).name.startswith(family["files"])
+        ]
+        cask = cask | {"artifacts": fonts}
+    return cask | {"token": token, "name": [family["name"]]}
+
+
 def lock_source(cask, trees, commit):
     """Where a cask's files come from, pinned. None for a source this pipeline can't pin."""
     url = cask["url"]
     specs = cask.get("url_specs") or {}
+    # A commit named outright, as Droid Sans Mono's last one in google/fonts: no branch to resolve.
+    if url.endswith(".git") and (revision := specs.get("revision")):
+        return {"git": url, "commit": revision, "path": specs.get("only_path", "")}
     if url == GOOGLE_FONTS_URL:
         directory = specs.get("only_path", "")
         return {"google": directory, "tree": trees[directory]} if directory in trees else None
@@ -985,6 +1147,11 @@ def lock(count, google_top):
             print(f"{cask['token']}: Homebrew has a working cask now; take it out of EXTRA_CASKS")
         else:
             casks_by_token[cask["token"]] = cask
+    for token, family in FAMILY_CASKS.items():
+        if token in casks_by_token:
+            print(f"{token}: Homebrew has a cask of its own now; take it out of FAMILY_CASKS")
+        elif family["from"] in casks_by_token:
+            casks_by_token[token] = family_cask(token, casks_by_token[family["from"]])
     ranked = rank_casks(fetch_json(ANALYTICS_URL), casks_by_token)
     families = google_families(casks_by_token)
     commit = update_clone()
@@ -1742,7 +1909,9 @@ def google_fonts_license(directory):
     )
 
 
-def find_license(root, url, google_directory=None):
+def find_license(root, url, google_directory=None, token=None):
+    """The cask's license: its download's own license files, else one kept by hand in KEPT_LICENSES for a
+    download that has none, else its google/fonts directory's, else its GitHub repository's."""
     for suffixes in (LICENSE_SUFFIXES, FALLBACK_LICENSE_SUFFIXES):
         paths = sorted(
             path
@@ -1754,6 +1923,8 @@ def find_license(root, url, google_directory=None):
         )
         if paths:
             return "\n\n".join(path.read_text(errors="replace") for path in paths)
+    if token and (kept := KEPT_LICENSES / f"{token}.txt").is_file():
+        return kept.read_text()
     if google_directory and (license := google_fonts_license(google_directory)):
         return license
     repo = GITHUB_REPO.search((url or "") + "/")
@@ -1879,9 +2050,15 @@ def stage(entry, work, mirrored=frozenset()):
     if "git" in source:
         repository = work / "repository"
         subprocess.run(["git", "init", "--quiet", repository], check=True)
+        # Only the cask's own directory, where it names one: Nerd Fonts' repository is gigabytes of patched
+        # fonts around the originals it keeps unpatched. The checkout fetches just that directory's files.
+        partial = ["--filter=blob:none"] if source["path"] else []
         subprocess.run(
-            ["git", "-C", repository, "fetch", "--depth", "1", "--quiet", source["git"], source["commit"]], check=True
+            ["git", "-C", repository, "fetch", "--depth", "1", "--quiet", *partial, source["git"], source["commit"]],
+            check=True,
         )
+        if source["path"]:
+            subprocess.run(["git", "-C", repository, "sparse-checkout", "set", "--no-cone", source["path"]], check=True)
         subprocess.run(["git", "-C", repository, "checkout", "--quiet", "FETCH_HEAD"], check=True)
         return repository / source["path"]
     name = urllib.parse.unquote(urllib.parse.urlparse(source["url"]).path.rsplit("/", 1)[-1]) or "download"
@@ -1925,7 +2102,7 @@ def build_cask(entry, destination, mirrored=frozenset()):
         root = stage(entry, work, mirrored)
         google = entry.get("google") or {}
         url = entry["source"].get("url") or entry["source"].get("git")
-        if not (license := find_license(root, url, google.get("directory"))):
+        if not (license := find_license(root, url, google.get("directory"), entry["token"])):
             # Without a license to ship alongside the fonts, there's no basis for redistributing them.
             raise Skip("no license found")
         left_out = tuple(LEFT_OUT_FILES.get(token, ()))
@@ -2186,7 +2363,7 @@ def describe_patched(catalog):
         if plain is record:
             plain = None
         if record["homepage"].rstrip("/") == NERD_FONTS_HOMEPAGE:
-            if homepage := PATCHED_HOMEPAGES.get(token) or (plain and plain["homepage"]):
+            if homepage := (plain and plain["homepage"]) or PATCHED_HOMEPAGES.get(token):
                 record["homepage"] = homepage
             else:
                 print(f"warning: {token} gives Nerd Fonts as its homepage; set PATCHED_HOMEPAGES")
@@ -2346,7 +2523,7 @@ def extra_entry(cask):
         "recentInstalls": 0,
         "exempt": True,
         "artifacts": [artifact["font"][0] for artifact in cask["artifacts"] if "font" in artifact],
-        "source": {"url": cask["url"], "sha256": cask["sha256"]},
+        "source": lock_source(cask, {}, None),
     }
 
 
@@ -2354,8 +2531,8 @@ def try_casks(tokens, apply=False):
     """`try`: builds just these casks from fonts.lock.json into .cache/try/, to see what a pipeline change
     makes of them without the hours a full build takes, and prints what each built into.
 
-    A cask in EXTRA_CASKS that the lock doesn't have yet is built from that entry, so one can be tried
-    before `lock` runs.
+    A cask in EXTRA_CASKS or FAMILY_CASKS that the lock doesn't have yet is built from that entry, so one can
+    be tried before `lock` runs.
 
     With `apply`, also copies their previews into Typecask/Previews and their built fields into
     Catalog.json, for a look in the simulator. A cask the catalog doesn't have is added, with its license,
@@ -2367,6 +2544,26 @@ def try_casks(tokens, apply=False):
     by_token = {entry["token"]: entry for entry in locked["casks"]}
     for cask in EXTRA_CASKS:
         by_token.setdefault(cask["token"], extra_entry(cask))
+    # A FAMILY_CASKS cask the lock doesn't have yet, from the lock's entry for the cask it comes from.
+    for token in set(tokens) & FAMILY_CASKS.keys() - by_token.keys():
+        family = FAMILY_CASKS[token]
+        if not (base := by_token.get(family["from"])):
+            continue
+        if "url" in family:
+            cask = repackaged({"token": token, "version": base["version"]}, family)
+            artifacts, source = [artifact["font"][0] for artifact in cask["artifacts"]], lock_source(cask, {}, None)
+        else:
+            artifacts = [path for path in base["artifacts"] if Path(path).name.startswith(family["files"])]
+            source = base["source"]
+        by_token[token] = base | {
+            "token": token,
+            "name": family["name"],
+            "installs": 0,
+            "recentInstalls": 0,
+            "exempt": True,
+            "artifacts": artifacts,
+            "source": source,
+        }
     # A REPACKAGED cask locked before its entry was added is tried from the new download.
     for token in set(tokens) & REPACKAGED.keys() & by_token.keys():
         entry = by_token[token]
@@ -2639,7 +2836,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         # Homebrew has: all but EXTRA_CASKS.
         if family := google.get("family"):
             record["googleFamily"] = family
-        if token in EXTRA_TOKENS:
+        if token in NOT_IN_HOMEBREW:
             record["homebrew"] = False
         foundries, designers = makers(token, google, built.get("credits") or {})
         if foundries:
