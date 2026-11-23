@@ -97,6 +97,12 @@ EXCLUDED = {
     "font-nimbus-sans-l",
     "font-urw-base35",
     "font-urw-core35",
+    # BigBlue Terminal is CC BY-SA 4.0, which bars applying technical measures that restrict what the license
+    # allows: the App Store's DRM, the same conflict as the GPL's. Nerd Fonts' patch carries the same license.
+    "font-bigblue-terminal-nerd-font",
+    # Vic Fieger's freeware notice lets anyone download and use Heavy Data but never says it may be
+    # redistributed, which shipping it in the app is.
+    "font-heavy-data-nerd-font",
     # Fontshare's fonts, under ITF's Free Font License, which doesn't allow redistributing them through
     # an app. EXCLUDED_HOSTS keeps out any other cask that downloads from Fontshare.
     "font-satoshi",
@@ -474,14 +480,8 @@ NERD_FONT_PAIRS = {
     "font-ioskeley-mono-term-nerd-font": "font-ioskeley-mono",
 }
 # Every Nerd Fonts cask gives the patcher's repository as its homepage. A font page links the original's
-# instead: the paired or same-named plain cask's homepage, or else this one, by token, for an original the
-# catalog doesn't ship: BigBlue Terminal is CC BY-SA, whose ban on technical restrictions conflicts with the
-# App Store as the GPL does, and Heavy Data is freeware that doesn't say it may be redistributed.
+# instead: the paired or same-named plain cask's homepage.
 NERD_FONTS_HOMEPAGE = "https://github.com/ryanoasis/nerd-fonts"
-PATCHED_HOMEPAGES = {
-    "font-bigblue-terminal-nerd-font": "https://int10h.org/blog/2015/12/bigblue-terminal-oldschool-fixed-width-font/",
-    "font-heavy-data-nerd-font": "https://vicfieger.com/",
-}
 # Google families with no description of their own, by token: the google/fonts directory of a family
 # whose description covers them too.
 DESCRIPTION_DIRECTORIES = {
@@ -2363,10 +2363,10 @@ def describe_patched(catalog):
         if plain is record:
             plain = None
         if record["homepage"].rstrip("/") == NERD_FONTS_HOMEPAGE:
-            if homepage := (plain and plain["homepage"]) or PATCHED_HOMEPAGES.get(token):
-                record["homepage"] = homepage
+            if plain:
+                record["homepage"] = plain["homepage"]
             else:
-                print(f"warning: {token} gives Nerd Fonts as its homepage; set PATCHED_HOMEPAGES")
+                print(f"warning: {token} gives Nerd Fonts as its homepage, and has no plain cask to take one from")
         if record.get("description"):
             continue
         template = POWERLINE_DESCRIPTION if powerline else NERD_FONTS_DESCRIPTION

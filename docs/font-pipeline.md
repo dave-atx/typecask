@@ -118,8 +118,7 @@ A Nerd Font or Powerline cask with no description gets one from `describe_patche
 its original with the icons added, then the original's description where the catalog has that cask.
 It runs after every other description is in place, so describing an original describes its variants too.
 Every Nerd Fonts cask names the patcher's repository as its homepage, so `describe_patched()` gives it the
-original's instead: the paired or same-named plain cask's, or `PATCHED_HOMEPAGES` for an original the catalog
-doesn't ship, and the build warns about one with neither.
+original's instead, the paired or same-named plain cask's, and the build warns about one without a plain cask.
 
 Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
 cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license
@@ -218,8 +217,9 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   files beside it. A download with no license file `build` can find takes one kept by hand in
   `scripts/licenses/casks/TOKEN.txt`, copied from the font's own project and saying where from, ahead of
   google/fonts and the GitHub API: Meslo LG, Monoid, Envy Code R, Monofur, Zed Mono, and Droid Sans Mono.
-  BigBlue Terminal stays out, as CC BY-SA, whose ban on technical restrictions conflicts with the App
-  Store as the GPL does, and so does Heavy Data, freeware that doesn't say it may be redistributed.
+  `EXCLUDED` holds BigBlue Terminal's Nerd Font, which is CC BY-SA, whose ban on technical restrictions
+  conflicts with the App Store as the GPL does, and Heavy Data's, freeware that doesn't say it may be
+  redistributed.
 - **Fonts the App Store rejects.** `LEFT_OUT_FILES` leaves out a cask's files by name prefix where
   the App Store's font validation fails them and re-saving doesn't help, which moves the primary face
   to one that passes: GohuFont Nerd Font ships its uni11 face, since its GohuFont 11's bitmap strike
