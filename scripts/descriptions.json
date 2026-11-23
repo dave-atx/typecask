@@ -311,7 +311,7 @@
     ]
   },
   "font-iosevka": {
-    "description": "Iosevka is a narrow monospaced typeface for code and terminals by Belleve Invis, who draws its letters in code so that anyone can choose among their alternates and build a version of their own; this is the standard build. Its Italic is a true cursive italic, with a single-storey a and an f that descends below the baseline, and its Oblique slants the upright letters instead. Ligatures join sequences such as -> and != for programming.",
+    "description": "Iosevka is a narrow monospaced typeface for code and terminals by Renzhi Li, who draws its letters in code so that anyone can choose among their alternates and build a version of their own; this is the standard build. Its Italic is a true cursive italic, with a single-storey a and an f that descends below the baseline, and its Oblique slants the upright letters instead. Ligatures join sequences such as -> and != for programming.",
     "sources": [
       "https://github.com/be5invis/Iosevka",
       "https://typeof.net/Iosevka/"
