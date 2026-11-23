@@ -640,6 +640,7 @@
       "foundries": [
         "GNOME"
       ],
+      "description": "Adwaita Mono is the monospaced member of GNOME's Adwaita fonts, a customized build of Iosevka, beside Adwaita Sans, a customized Inter. It comes in Regular, Italic, Bold, and Bold Italic.",
       "nerdFont": "font-adwaita-mono-nerd-font",
       "pack": "font-adwaita-mono"
     },
@@ -676,7 +677,7 @@
       ],
       "popularity": 124,
       "trending": 566,
-      "description": "Adwaita Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Adwaita Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAdwaita Mono is the monospaced member of GNOME's Adwaita fonts, a customized build of Iosevka, beside Adwaita Sans, a customized Inter. It comes in Regular, Italic, Bold, and Bold Italic.",
       "pack": "font-adwaita-mono-nerd-font"
     },
     {
@@ -5481,6 +5482,7 @@
       "designers": [
         "Stephen G. Hartke"
       ],
+      "description": "Aurulent Sans Mono is a monospaced sans serif by Stephen G. Hartke, who also drew Verily Serif. It comes in a single Regular style.",
       "nerdFont": "font-aurulent-sans-mono-nerd-font",
       "pack": "pack-153"
     },
@@ -5511,7 +5513,7 @@
       ],
       "popularity": 163,
       "trending": 647,
-      "description": "Aurulent Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Aurulent Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nAurulent Sans Mono is a monospaced sans serif by Stephen G. Hartke, who also drew Verily Serif. It comes in a single Regular style.",
       "pack": "font-aurulent-sans-mono-nerd-font"
     },
     {
@@ -8516,6 +8518,7 @@
       "designers": [
         "Jim Lyles"
       ],
+      "description": "Bitstream Vera Sans Mono is a monospaced sans-serif typeface from Bitstream, offered in normal, oblique, bold, and bold oblique styles. Jim Lyles redesigned its accents to bring the line spacing closer to that of other fonts. The monospace design makes the characters 0 and O, and 1 and l, more clearly distinguishable from one another.",
       "nerdFont": "font-bitstream-vera-sans-mono-nerd-font",
       "pack": "pack-008"
     },
@@ -8552,7 +8555,7 @@
       ],
       "popularity": 132,
       "trending": 617,
-      "description": "Bitstream Vera Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Bitstream Vera Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nBitstream Vera Sans Mono is a monospaced sans-serif typeface from Bitstream, offered in normal, oblique, bold, and bold oblique styles. Jim Lyles redesigned its accents to bring the line spacing closer to that of other fonts. The monospace design makes the characters 0 and O, and 1 and l, more clearly distinguishable from one another.",
       "pack": "font-bitstream-vera-sans-mono-nerd-font"
     },
     {
@@ -13156,6 +13159,7 @@
       "designers": [
         "Sam Radian"
       ],
+      "description": "Code New Roman is a monospaced typeface by Sam Radian, every character the same width like an old typewriter's. It comes in Regular, Italic, and Bold.",
       "nerdFont": "font-code-new-roman-nerd-font",
       "pack": "font-code-new-roman"
     },
@@ -13190,7 +13194,7 @@
       ],
       "popularity": 113,
       "trending": 615,
-      "description": "Code New Roman with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Code New Roman with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nCode New Roman is a monospaced typeface by Sam Radian, every character the same width like an old typewriter's. It comes in Regular, Italic, and Bold.",
       "pack": "font-code-new-roman-nerd-font"
     },
     {
@@ -15173,6 +15177,7 @@
       "designers": [
         "Jason Stewart"
       ],
+      "description": "DaddyTimeMono is a monospaced typeface made for programmers and terminal users. It covers ASCII, most Latin characters, numerals, punctuation, and box-drawing characters, including CP437/ANSI line-drawing and box-fill characters. Its design is inspired by the Cordata PPC-400 BIOS font, and it was hinted with ttfautohint to stay usable at lower resolutions.",
       "nerdFont": "font-daddy-time-mono-nerd-font",
       "pack": "pack-237"
     },
@@ -15203,7 +15208,7 @@
       ],
       "popularity": 145,
       "trending": 629,
-      "description": "DaddyTimeMono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "DaddyTimeMono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nDaddyTimeMono is a monospaced typeface made for programmers and terminal users. It covers ASCII, most Latin characters, numerals, punctuation, and box-drawing characters, including CP437/ANSI line-drawing and box-fill characters. Its design is inspired by the Cordata PPC-400 BIOS font, and it was hinted with ttfautohint to stay usable at lower resolutions.",
       "pack": "font-daddy-time-mono-nerd-font"
     },
     {
@@ -15666,6 +15671,7 @@
       "foundries": [
         "DejaVu Fonts"
       ],
+      "description": "DejaVu Sans Mono is a monospaced sans serif typeface in the DejaVu family, which is based on the Bitstream Vera Fonts. The family was developed by the DejaVu project to cover a wider range of characters while keeping the original look and feel of Vera.",
       "nerdFont": "font-dejavu-sans-mono-nerd-font",
       "pack": "font-dejavu-sans-mono"
     },
@@ -15704,7 +15710,7 @@
       ],
       "popularity": 320,
       "trending": 540,
-      "description": "DejaVu Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
+      "description": "DejaVu Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nDejaVu Sans Mono is a monospaced sans serif typeface in the DejaVu family, which is based on the Bitstream Vera Fonts. The family was developed by the DejaVu project to cover a wider range of characters while keeping the original look and feel of Vera.",
       "pack": "font-dejavu-sans-mono-for-powerline"
     },
     {
@@ -15743,7 +15749,7 @@
       ],
       "popularity": 80,
       "trending": 607,
-      "description": "DejaVu Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "DejaVu Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nDejaVu Sans Mono is a monospaced sans serif typeface in the DejaVu family, which is based on the Bitstream Vera Fonts. The family was developed by the DejaVu project to cover a wider range of characters while keeping the original look and feel of Vera.",
       "pack": "font-dejavu-sans-mono-nerd-font"
     },
     {
@@ -16974,6 +16980,7 @@
       "designers": [
         "Steve Matteson"
       ],
+      "description": "Droid Sans Mono is the monospaced member of the Droid family, which Steve Matteson of Ascender designed for Android. Like Droid Sans, it is drawn for comfortable reading on small screens and slightly condensed to fit more text.",
       "nerdFont": "font-droid-sans-mono-nerd-font",
       "pack": "pack-044"
     },
@@ -17008,7 +17015,7 @@
       ],
       "popularity": 422,
       "trending": 301,
-      "description": "Droid Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
+      "description": "Droid Sans Mono with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nDroid Sans Mono is the monospaced member of the Droid family, which Steve Matteson of Ascender designed for Android. Like Droid Sans, it is drawn for comfortable reading on small screens and slightly condensed to fit more text.",
       "pack": "pack-037"
     },
     {
@@ -17043,7 +17050,7 @@
       ],
       "popularity": 24,
       "trending": 769,
-      "description": "Droid Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Droid Sans Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nDroid Sans Mono is the monospaced member of the Droid family, which Steve Matteson of Ascender designed for Android. Like Droid Sans, it is drawn for comfortable reading on small screens and slightly condensed to fit more text.",
       "pack": "font-droid-sans-mono-nerd-font"
     },
     {
@@ -18296,6 +18303,7 @@
       "designers": [
         "Damien Guard"
       ],
+      "description": "Envy Code R is a monospaced coding font by Damien Guard. It includes box-drawing, block element, and symbol characters, so it suits the Windows command prompt, and it covers DOS, Windows, and Mac code pages for US, Western, Central European, Turkish, Baltic, Icelandic, and Nordic text, with an italic.",
       "popularity": 719,
       "trending": 690,
       "nerdFont": "font-envy-code-r-nerd-font",
@@ -18330,7 +18338,7 @@
       ],
       "popularity": 178,
       "trending": 650,
-      "description": "Envy Code R with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Envy Code R with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nEnvy Code R is a monospaced coding font by Damien Guard. It includes box-drawing, block element, and symbol characters, so it suits the Windows command prompt, and it covers DOS, Windows, and Mac code pages for US, Western, Central European, Turkish, Baltic, Icelandic, and Nordic text, with an italic.",
       "pack": "font-envy-code-r-nerd-font"
     },
     {
@@ -22900,6 +22908,7 @@
         "Charles Bigelow",
         "Kris Holmes"
       ],
+      "description": "Go Mono is the fixed-width face of the Go fonts, which the Bigelow & Holmes foundry made for the Go programming language. Where the proportional Go faces are a humanist sans serif, Go Mono is a slab serif, drawn so punctuation is easy to tell apart and operators line up in code. It covers the WGL4 character set in Regular, Italic, Bold, and Bold Italic.",
       "nerdFont": "font-go-mono-nerd-font",
       "pack": "pack-023"
     },
@@ -22939,7 +22948,7 @@
       ],
       "popularity": 28,
       "trending": 767,
-      "description": "Go Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Go Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nGo Mono is the fixed-width face of the Go fonts, which the Bigelow & Holmes foundry made for the Go programming language. Where the proportional Go faces are a humanist sans serif, Go Mono is a slab serif, drawn so punctuation is easy to tell apart and operators line up in code. It covers the WGL4 character set in Regular, Italic, Bold, and Bold Italic.",
       "pack": "font-go-mono-nerd-font"
     },
     {
@@ -23039,6 +23048,7 @@
       "designers": [
         "Hugo Chargois"
       ],
+      "description": "GohuFont is a bitmap font for programming and terminals by Hugo Chargois, drawn to be as legible as possible: tall capitals and ascenders, a dashed zero, and an l, I, and 1 that share nothing. This is its Unicode cut at 11 pixels, sized to fit more text on a small screen.",
       "nerdFont": "font-gohufont-nerd-font",
       "pack": "pack-144"
     },
@@ -23072,7 +23082,7 @@
       ],
       "popularity": 131,
       "trending": 635,
-      "description": "Gohu with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Gohu with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nGohuFont is a bitmap font for programming and terminals by Hugo Chargois, drawn to be as legible as possible: tall capitals and ascenders, a dashed zero, and an l, I, and 1 that share nothing. This is its Unicode cut at 11 pixels, sized to fit more text on a small screen.",
       "pack": "font-gohufont-nerd-font"
     },
     {
@@ -27279,6 +27289,7 @@
       "designers": [
         "Raph Levien"
       ],
+      "description": "InconsolataGo is Raph Levien's Inconsolata, a monospaced font for code, with straight single and double quotes in place of the curly ones. It comes in Regular and Bold.",
       "nerdFont": "font-inconsolata-go-nerd-font",
       "pack": "pack-383"
     },
@@ -27310,7 +27321,7 @@
       ],
       "popularity": 138,
       "trending": 612,
-      "description": "InconsolataGo with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "InconsolataGo with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nInconsolataGo is Raph Levien's Inconsolata, a monospaced font for code, with straight single and double quotes in place of the curly ones. It comes in Regular and Bold.",
       "pack": "font-inconsolata-go-nerd-font"
     },
     {
@@ -28126,6 +28137,7 @@
       "designers": [
         "Renzhi Li"
       ],
+      "description": "Iosevka Term is Iosevka with its arrows and geometric symbols narrowed to a single cell, for terminals that expect every character to be the same width. Like Iosevka, it is a narrow monospaced font for code with coding ligatures, in Regular, Italic, and Oblique, each with its Bold.",
       "nerdFont": "font-iosevka-term-nerd-font",
       "pack": "font-iosevka-term"
     },
@@ -28166,7 +28178,7 @@
       ],
       "popularity": 46,
       "trending": 513,
-      "description": "Iosevka Term with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Iosevka Term with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIosevka Term is Iosevka with its arrows and geometric symbols narrowed to a single cell, for terminals that expect every character to be the same width. Like Iosevka, it is a narrow monospaced font for code with coding ligatures, in Regular, Italic, and Oblique, each with its Bold.",
       "pack": "font-iosevka-term-nerd-font"
     },
     {
@@ -28205,6 +28217,7 @@
       "designers": [
         "Renzhi Li"
       ],
+      "description": "Iosevka Term Slab is Iosevka Term with slab serifs: a narrow monospaced font for code whose arrows and geometric symbols fit a single cell, for terminals. It comes in Regular, Italic, and Oblique, each with its Bold.",
       "nerdFont": "font-iosevka-term-slab-nerd-font",
       "pack": "font-iosevka-term-slab"
     },
@@ -28245,7 +28258,7 @@
       ],
       "popularity": 150,
       "trending": 574,
-      "description": "Iosevka Term Slab with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Iosevka Term Slab with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nIosevka Term Slab is Iosevka Term with slab serifs: a narrow monospaced font for code whose arrows and geometric symbols fit a single cell, for terminals. It comes in Regular, Italic, and Oblique, each with its Bold.",
       "pack": "font-iosevka-term-slab-nerd-font"
     },
     {
@@ -37672,6 +37685,7 @@
       "designers": [
         "André Berg"
       ],
+      "description": "Meslo LG is a monospaced typeface by André Berg, a customized version of Apple's Menlo-Regular, which itself is derived from Bitstream Vera Sans Mono. It comes in three line gap variants, small, medium, and large, that let users adjust vertical line spacing, and the font also tweaks the asterisk's baseline alignment and adds slanted italic and bold italic styles. A dotted zero variant, Meslo LG DZ, is also available.",
       "popularity": 305,
       "trending": 669,
       "nerdFont": "font-meslo-lg-nerd-font",
@@ -37710,7 +37724,7 @@
       ],
       "popularity": 3,
       "trending": 479,
-      "description": "Meslo LG with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Meslo LG with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMeslo LG is a monospaced typeface by André Berg, a customized version of Apple's Menlo-Regular, which itself is derived from Bitstream Vera Sans Mono. It comes in three line gap variants, small, medium, and large, that let users adjust vertical line spacing, and the font also tweaks the asterisk's baseline alignment and adds slanted italic and bold italic styles. A dotted zero variant, Meslo LG DZ, is also available.",
       "pack": "font-meslo-lg-nerd-font"
     },
     {
@@ -39207,6 +39221,7 @@
       "designers": [
         "Tobias Benjamin Köhler"
       ],
+      "description": "Monofur is a monospaced, geometric, rounded sans serif by Tobias Benjamin Köhler, based on his Eurofurence family. Its character set covers Latin, Greek, and Cyrillic, with box-drawing characters, in Regular and Italic.",
       "nerdFont": "font-monofur-nerd-font",
       "pack": "pack-208"
     },
@@ -39240,7 +39255,7 @@
       ],
       "popularity": 573,
       "trending": 463,
-      "description": "monofur with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.",
+      "description": "monofur with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor status lines draw with.\n\nMonofur is a monospaced, geometric, rounded sans serif by Tobias Benjamin Köhler, based on his Eurofurence family. Its character set covers Latin, Greek, and Cyrillic, with box-drawing characters, in Regular and Italic.",
       "pack": "pack-290"
     },
     {
@@ -39274,7 +39289,7 @@
       ],
       "popularity": 154,
       "trending": 586,
-      "description": "Monofur with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Monofur with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMonofur is a monospaced, geometric, rounded sans serif by Tobias Benjamin Köhler, based on his Eurofurence family. Its character set covers Latin, Greek, and Cyrillic, with box-drawing characters, in Regular and Italic.",
       "pack": "font-monofur-nerd-font"
     },
     {
@@ -39306,6 +39321,7 @@
       "designers": [
         "Andreas Larsen"
       ],
+      "description": "Monoid is a semi-condensed monospaced typeface designed for coding, optimized for bitmap-like sharpness at 12px/9pt even on low-resolution displays. It has short ascenders and descenders, big apertures, and supersized operators and punctuation, with programming ligatures for combinations such as =>, !==, and ::.",
       "popularity": 459,
       "trending": 714,
       "nerdFont": "font-monoid-nerd-font",
@@ -39344,7 +39360,7 @@
       ],
       "popularity": 147,
       "trending": 603,
-      "description": "Monoid with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Monoid with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nMonoid is a semi-condensed monospaced typeface designed for coding, optimized for bitmap-like sharpness at 12px/9pt even on low-resolution displays. It has short ascenders and descenders, big apertures, and supersized operators and punctuation, with programming ligatures for combinations such as =>, !==, and ::.",
       "pack": "font-monoid-nerd-font"
     },
     {
@@ -57411,6 +57427,7 @@
         "Carl Osterwald",
         "Stephen C. Gilardi"
       ],
+      "description": "ProFont is a monospaced font for programming by Andrew Welch, Carl Osterwald, and Stephen C. Gilardi, first made as bitmaps for the classic Mac OS. It stays legible at very small sizes, so more lines of code fit in a window, with a slashed zero and distinct forms of I, l, and 1. This is its TrueType version for Windows.",
       "nerdFont": "font-profont-nerd-font",
       "pack": "pack-271"
     },
@@ -57443,7 +57460,7 @@
         "Carl Osterwald",
         "Stephen C. Gilardi"
       ],
-      "description": "ProFont with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "ProFont with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nProFont is a monospaced font for programming by Andrew Welch, Carl Osterwald, and Stephen C. Gilardi, first made as bitmaps for the classic Mac OS. It stays legible at very small sizes, so more lines of code fit in a window, with a slashed zero and distinct forms of I, l, and 1. This is its TrueType version for Windows.",
       "pack": "font-profont-nerd-font"
     },
     {
@@ -57471,6 +57488,7 @@
       "designers": [
         "Tristan Grimmer"
       ],
+      "description": "ProggyCleanTT is a fixed-width typeface from the Proggy family, designed for programming and optimized while writing C or C++. Its letterforms center the asterisk vertically and the braces horizontally, and the zero looks different from a capital O. The ones, ells, and eyes are clearly distinct, and the arithmetic operators are axis-aligned.",
       "nerdFont": "font-proggy-clean-tt-nerd-font",
       "pack": "pack-426"
     },
@@ -57501,7 +57519,7 @@
       ],
       "popularity": 171,
       "trending": 692,
-      "description": "ProggyCleanTT with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "ProggyCleanTT with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nProggyCleanTT is a fixed-width typeface from the Proggy family, designed for programming and optimized while writing C or C++. Its letterforms center the asterisk vertically and the braces horizontally, and the zero looks different from a capital O. The ones, ells, and eyes are clearly distinct, and the arithmetic operators are axis-aligned.",
       "pack": "font-proggy-clean-tt-nerd-font"
     },
     {
@@ -74118,6 +74136,7 @@
       "foundries": [
         "Zed Industries"
       ],
+      "description": "Zed Mono is a monospaced custom build of Iosevka that the Zed code editor once used as its default, beside the quasi-proportional Zed Sans.",
       "popularity": 351,
       "trending": 599,
       "nerdFont": "font-zed-mono-nerd-font",
@@ -74159,7 +74178,7 @@
       ],
       "popularity": 90,
       "trending": 583,
-      "description": "Zed Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.",
+      "description": "Zed Mono with Nerd Fonts' icons added, for prompts, status lines, and file trees in a terminal: thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with the Powerline symbols.\n\nZed Mono is a monospaced custom build of Iosevka that the Zed code editor once used as its default, beside the quasi-proportional Zed Sans.",
       "pack": "font-zed-mono-nerd-font"
     },
     {
