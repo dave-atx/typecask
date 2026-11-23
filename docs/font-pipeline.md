@@ -112,6 +112,9 @@ with no description of its own a sibling's, as Kumar One's covers Kumar One Outl
 A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
 its original with the icons added, then the original's description where the catalog has that cask.
 It runs after every other description is in place, so describing an original describes its variants too.
+Every Nerd Fonts cask names the patcher's repository as its homepage, so `describe_patched()` gives it the
+original's instead: the paired or same-named plain cask's, or `PATCHED_HOMEPAGES` for an original the catalog
+doesn't ship, and the build warns about one with neither.
 
 Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
 cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license

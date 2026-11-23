@@ -306,6 +306,41 @@ NERD_FONT_PAIRS = {
     "font-caskaydia-cove-nerd-font": None,
     "font-caskaydia-mono-nerd-font": None,
     "font-monaspice-nerd-font": None,
+    # Nerd Fonts patches one member of a superfamily and names the cask after the whole: iA Writer's Duo,
+    # M+'s M+ 1, Noto's Noto Sans, and Recursive's Rec Mono Casual, which the catalog ships as Recursive Code.
+    "font-im-writing-nerd-font": "font-ia-writer-duo",
+    "font-m+-nerd-font": "font-m-plus-1",
+    "font-noto-nerd-font": "font-noto-sans",
+    "font-recursive-mono-nerd-font": "font-recursive-code",
+    # Ioskeley Mono's own Nerd Font build, of its Term variant, the same letters with arrows kept to one cell.
+    "font-ioskeley-mono-term-nerd-font": "font-ioskeley-mono",
+}
+# Every Nerd Fonts cask gives the patcher's repository as its homepage. A font page links the original's
+# instead: the paired or same-named plain cask's homepage, or else this one, by token, for an original the
+# catalog doesn't ship on its own. Each is the link Nerd Fonts' README for the font gives, where it gives one.
+NERD_FONTS_HOMEPAGE = "https://github.com/ryanoasis/nerd-fonts"
+PATCHED_HOMEPAGES = {
+    "font-adwaita-mono-nerd-font": "https://gitlab.gnome.org/GNOME/adwaita-fonts",
+    "font-aurulent-sans-mono-nerd-font": "https://www.fontsquirrel.com/fonts/aurulent-sans-mono",
+    "font-bigblue-terminal-nerd-font": "https://int10h.org/blog/2015/12/bigblue-terminal-oldschool-fixed-width-font/",
+    "font-bitstream-vera-sans-mono-nerd-font": "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/",
+    "font-code-new-roman-nerd-font": "https://fontlibrary.org/en/font/code-new-roman",
+    "font-daddy-time-mono-nerd-font": "https://github.com/BourgeoisBear/DaddyTimeMono",
+    "font-dejavu-sans-mono-nerd-font": "https://github.com/dejavu-fonts/dejavu-fonts",
+    "font-droid-sans-mono-nerd-font": "https://www.fontsquirrel.com/fonts/droid-sans-mono",
+    "font-envy-code-r-nerd-font": "https://github.com/damieng/envy-code-r",
+    "font-go-mono-nerd-font": "https://go.dev/blog/go-fonts",
+    "font-gohufont-nerd-font": "https://font.gohu.org/",
+    "font-heavy-data-nerd-font": "https://vicfieger.com/",
+    "font-inconsolata-go-nerd-font": "https://levien.com/type/myfonts/inconsolata.html",
+    "font-iosevka-term-nerd-font": "https://github.com/be5invis/Iosevka",
+    "font-iosevka-term-slab-nerd-font": "https://github.com/be5invis/Iosevka",
+    "font-meslo-lg-nerd-font": "https://github.com/andreberg/Meslo-Font",
+    "font-monofur-nerd-font": "https://www.dafont.com/monofur.font",
+    "font-monoid-nerd-font": "https://larsenwork.com/monoid/",
+    "font-profont-nerd-font": "https://tobiasjung.name/profont/",
+    "font-proggy-clean-tt-nerd-font": "https://github.com/bluescan/proggyfonts",
+    "font-zed-mono-nerd-font": "https://github.com/zed-industries/zed-fonts",
 }
 # Google families with no description of their own, by token: the google/fonts directory of a family
 # whose description covers them too.
@@ -2129,6 +2164,7 @@ def describe_patched(catalog):
 
     The original is the plain cask pair_nerd_fonts() paired it with, or else the family the cask's name
     gives, in parentheses as Nerd Fonts writes it or with "NF", "Nerd Font" or "for Powerline" taken out.
+    A cask that gives Nerd Fonts' repository as its homepage takes its original's, described or not.
     """
     records = {record["token"]: record for record in catalog}
     plain_of = {record["nerdFont"]: record["token"] for record in catalog if record.get("nerdFont")}
@@ -2138,7 +2174,7 @@ def describe_patched(catalog):
         powerline = "powerline" in token or token in ("font-cascadia-code-pl", "font-cascadia-mono-pl")
         # Not every cask with icons is a patch: Cica and Cozette draw their own, beside the letters.
         nerd = re.search(r"nerd|-nf(-|$)", token)
-        if record.get("description") or not (nerd or powerline):
+        if not (nerd or powerline):
             continue
         if token in PATCHED_ORIGINALS:
             original = PATCHED_ORIGINALS[token]
@@ -2147,14 +2183,23 @@ def describe_patched(catalog):
         else:
             original = re.sub(r"\s+(Nerd Font( families)?|NF|PL|for Powerline|Powerline)\b", "", record["name"])
         plain = records.get(plain_of.get(token)) or by_name.get(fold_name(original))
+        if plain is record:
+            plain = None
+        if record["homepage"].rstrip("/") == NERD_FONTS_HOMEPAGE:
+            if homepage := PATCHED_HOMEPAGES.get(token) or (plain and plain["homepage"]):
+                record["homepage"] = homepage
+            else:
+                print(f"warning: {token} gives Nerd Fonts as its homepage; set PATCHED_HOMEPAGES")
+        if record.get("description"):
+            continue
         template = POWERLINE_DESCRIPTION if powerline else NERD_FONTS_DESCRIPTION
         description = template.format(original=original)
-        if plain and plain is not record and plain.get("description"):
+        if plain and plain.get("description"):
             description += "\n\n" + plain["description"]
             if credit := plain.get("descriptionBy"):
                 record["descriptionBy"] = credit
         # A patched font is its original's design, whatever the patcher left in its name table.
-        if plain and plain is not record and (plain.get("foundries") or plain.get("designers")):
+        if plain and (plain.get("foundries") or plain.get("designers")):
             for key in ("foundries", "designers"):
                 if plain.get(key):
                     record[key] = plain[key]
