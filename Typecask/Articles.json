@@ -576,7 +576,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Ioskeley Mono](font:font-ioskeley-mono)** began when [Ahmed Hatem](designer:ahmed-hatem) admired Berkeley Mono but couldn't justify buying it. He built his own on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by letter, and tuned it until it became its own typeface rather than a clone. It comes in ten weights and two widths, and if you like Berkeley Mono, the designer suggests supporting the original too."
+          "text": "**[Ioskeley Mono](font:font-ioskeley-mono)** is [Ahmed Hatem](designer:ahmed-hatem)'s font in that spirit. He built it on [Iosevka](https://typeof.net/Iosevka/), an open-source coding font that can be reshaped letter by letter, and tuned it toward Berkeley Mono's compact, geometric feel. It comes in ten weights and two widths, and if you like Berkeley Mono, Hatem suggests supporting the original too."
         }
       ]
     },
@@ -1003,7 +1003,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "[Intel One Mono](font:font-intel-one-mono), made with low-vision developers, is in [Easy on the eyes](article:easy-on-the-eyes). [Monocraft](font:font-monocraft), the Minecraft coding font, is in [Screens of the past](article:screens-of-the-past), and [Ioskeley Mono](font:font-ioskeley-mono), a free take on Berkeley Mono, is in [Inspired by the classics](article:inspired-by-the-classics)."
+          "text": "[Intel One Mono](font:font-intel-one-mono), made with low-vision developers, is in [Easy on the eyes](article:easy-on-the-eyes). [Monocraft](font:font-monocraft), the Minecraft coding font, is in [Screens of the past](article:screens-of-the-past), and [Ioskeley Mono](font:font-ioskeley-mono), inspired by Berkeley Mono, is in [Inspired by the classics](article:inspired-by-the-classics)."
         }
       ]
     },

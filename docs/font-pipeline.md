@@ -38,7 +38,12 @@ and needs no API key. Each Google family is matched to a cask by its specimen ho
 google/fonts directory the cask checks out, then by name, since fonts that began elsewhere, like Inter
 and JetBrains Mono, keep their upstream homepage. `EXTRA_CASKS` adds a font Homebrew has no cask for
 yet, as Geist Serif was the day it came out, in the shape of Homebrew's API, and `lock` says when
-Homebrew has one of its own, for the entry to go.
+Homebrew has one of its own, for the entry to go. Several are the originals behind Nerd Fonts casks, from
+the copies Nerd Fonts keeps unpatched beside their licenses in `src/unpatched-fonts`: a `.git` source with
+an `only_path` is fetched as a partial, sparse checkout of that directory, so the gigabytes of patched fonts
+around it never download. A `revision` in `url_specs` pins a commit outright, as Droid Sans Mono's last one
+in google/fonts. `FAMILY_CASKS` makes a cask of another family a Homebrew cask installs, as DejaVu Sans Mono
+from `font-dejavu`, at lock time from that cask, so it follows its version.
 
 Most casks are files in github.com/google/fonts, so the lock pins those by the git tree of their
 family's directory at one google/fonts commit, and builds read them from a single sparse clone. The rest
@@ -112,6 +117,8 @@ with no description of its own a sibling's, as Kumar One's covers Kumar One Outl
 A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
 its original with the icons added, then the original's description where the catalog has that cask.
 It runs after every other description is in place, so describing an original describes its variants too.
+Every Nerd Fonts cask names the patcher's repository as its homepage, so `describe_patched()` gives it the
+original's instead, the paired or same-named plain cask's, and the build warns about one without a plain cask.
 
 Every other cask's description is drafted by `scripts/descriptions.py`: `gather` fetches each undescribed
 cask's GitHub README and homepage into `.cache/descriptions/`, minus code, badges, and install and license
@@ -136,8 +143,10 @@ to Google. Google's own list, in its order, stays in the record as `descriptionB
 description.
 
 Every other cask has an entry of its own under `casks`, checked by hand: the license's copyright line, the
-README, and the name table are the evidence, and `{}` gives no credit where none of them says. A cask with no
-entry yet takes its makers from its primary face's name table, which each build records as `credits`, and the
+README, and the name table are the evidence, and `{}` gives no credit where none of them says. A build of
+another font credits whoever made the build, not the original's designer: Aporetic and Adwaita Mono don't credit
+Belleve Invis, who made the Iosevka they're built on. A cask with no entry yet takes its makers from its primary
+face's name table, which each build records as `credits`, and the
 fonts pull request lists it under Makers to review (`scripts/makers.py list`) until it has one. A Nerd Font or
 Powerline version takes the makers of the cask it patches.
 
@@ -162,7 +171,11 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   Charter's `Charter Bold.otf` and Linux Libertine's `LinLibertine_RBah.ttf`. The primary face's
   file always ships, though Terminus calls its Regular "Medium". Nerd Fonts' Mono and
   Propo spacing variants are left out, and so is any file over 100 MB (CJK collections and Iosevka
-  SuperTTCs), so a cask made only of those is left out of the catalog.
+  SuperTTCs), so a cask made only of those is left out of the catalog. `REPACKAGED` locks such a cask
+  from an upstream package of the same release with each style in a file of its own, as plain Iosevka
+  is locked from its PkgTTF zip rather than Homebrew's SuperTTC. A cask's other families ship only as
+  casks of their own, from `FAMILY_CASKS`: DejaVu Sans Mono, Bitstream Vera Sans Mono, Adwaita Mono, and
+  Iosevka Term and Term Slab.
 - **The primary face** is the one the gallery previews and the app checks to see whether a cask is
   installed: a text face rather than a math one, upright, Regular, nearest 400 in weight, normal
   width, not a family named Mono beside others (Liberation Mono), then the shortest family name.
@@ -201,7 +214,12 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   fonts through an app. `build` skips them too, so a cask added to
   `EXCLUDED` stops shipping at the next build even from a lock written before. Watch casks whose license came from the
   GitHub API, since that reports the repository's license and can't say whether it covers the font
-  files beside it.
+  files beside it. A download with no license file `build` can find takes one kept by hand in
+  `scripts/licenses/casks/TOKEN.txt`, copied from the font's own project and saying where from, ahead of
+  google/fonts and the GitHub API: Meslo LG, Monoid, Envy Code R, Monofur, Zed Mono, and Droid Sans Mono.
+  `EXCLUDED` holds BigBlue Terminal's Nerd Font, which is CC BY-SA, whose ban on technical restrictions
+  conflicts with the App Store as the GPL does, and Heavy Data's, freeware that doesn't say it may be
+  redistributed.
 - **Fonts the App Store rejects.** `LEFT_OUT_FILES` leaves out a cask's files by name prefix where
   the App Store's font validation fails them and re-saving doesn't help, which moves the primary face
   to one that passes: GohuFont Nerd Font ships its uni11 face, since its GohuFont 11's bitmap strike

@@ -171,6 +171,7 @@
     "Andres Torresi": "Andrés Torresi",
     "AsiaSoft Inc": "AsiaSoft",
     "AsiaSoft Inc.": "AsiaSoft",
+    "Belleve Invis": "Renzhi Li",
     "Botio Nikoltchev": "Botjo Nikoltchev",
     "Cal.com Inc.": "Cal.com",
     "Constanza Artigas Preller": "Constanza Artigas",
@@ -223,12 +224,14 @@
         "Rasmus Andersson"
       ]
     },
+    "font-adwaita-mono": {
+      "foundries": [
+        "GNOME"
+      ]
+    },
     "font-adwaita-mono-nerd-font": {
       "foundries": [
         "GNOME"
-      ],
-      "designers": [
-        "Belleve Invis"
       ]
     },
     "font-agave": {
@@ -248,7 +251,6 @@
     },
     "font-aporetic": {
       "designers": [
-        "Belleve Invis",
         "Protesilaos Stavrou"
       ]
     },
@@ -265,6 +267,11 @@
     "font-ark-pixel-12px-proportional": {
       "designers": [
         "TakWolf"
+      ]
+    },
+    "font-aurulent-sans-mono": {
+      "designers": [
+        "Stephen G. Hartke"
       ]
     },
     "font-aurulent-sans-mono-nerd-font": {
@@ -305,6 +312,14 @@
       ]
     },
     "font-bitstream-vera": {
+      "foundries": [
+        "Bitstream"
+      ],
+      "designers": [
+        "Jim Lyles"
+      ]
+    },
+    "font-bitstream-vera-sans-mono": {
       "foundries": [
         "Bitstream"
       ],
@@ -354,6 +369,11 @@
     "font-cica": {
       "designers": [
         "miiton"
+      ]
+    },
+    "font-code-new-roman": {
+      "designers": [
+        "Sam Radian"
       ]
     },
     "font-code-new-roman-nerd-font": {
@@ -415,12 +435,22 @@
         "Sang-Min Lee"
       ]
     },
+    "font-daddy-time-mono": {
+      "designers": [
+        "Jason Stewart"
+      ]
+    },
     "font-daddy-time-mono-nerd-font": {
       "designers": [
         "Jason Stewart"
       ]
     },
     "font-dejavu": {
+      "foundries": [
+        "DejaVu Fonts"
+      ]
+    },
+    "font-dejavu-sans-mono": {
       "foundries": [
         "DejaVu Fonts"
       ]
@@ -458,6 +488,14 @@
         "SIL Global"
       ]
     },
+    "font-droid-sans-mono": {
+      "foundries": [
+        "Ascender"
+      ],
+      "designers": [
+        "Steve Matteson"
+      ]
+    },
     "font-droid-sans-mono-for-powerline": {
       "foundries": [
         "Ascender"
@@ -472,6 +510,11 @@
       ],
       "designers": [
         "Steve Matteson"
+      ]
+    },
+    "font-envy-code-r": {
+      "designers": [
+        "Damien Guard"
       ]
     },
     "font-envy-code-r-nerd-font": {
@@ -554,6 +597,15 @@
         "Paul Hardy"
       ]
     },
+    "font-go-mono": {
+      "foundries": [
+        "Bigelow & Holmes"
+      ],
+      "designers": [
+        "Charles Bigelow",
+        "Kris Holmes"
+      ]
+    },
     "font-go-mono-nerd-font": {
       "foundries": [
         "Bigelow & Holmes"
@@ -561,6 +613,11 @@
       "designers": [
         "Charles Bigelow",
         "Kris Holmes"
+      ]
+    },
+    "font-gohufont": {
+      "designers": [
+        "Hugo Chargois"
       ]
     },
     "font-gohufont-nerd-font": {
@@ -692,6 +749,11 @@
         "Raph Levien"
       ]
     },
+    "font-inconsolata-go": {
+      "designers": [
+        "Raph Levien"
+      ]
+    },
     "font-inconsolata-go-nerd-font": {
       "designers": [
         "Raph Levien"
@@ -704,30 +766,48 @@
         "MihailJP"
       ]
     },
+    "font-iosevka": {
+      "designers": [
+        "Renzhi Li"
+      ]
+    },
     "font-iosevka-nerd-font": {
       "designers": [
-        "Belleve Invis"
+        "Renzhi Li"
+      ]
+    },
+    "font-iosevka-slab": {
+      "designers": [
+        "Renzhi Li"
+      ]
+    },
+    "font-iosevka-term": {
+      "designers": [
+        "Renzhi Li"
       ]
     },
     "font-iosevka-term-nerd-font": {
       "designers": [
-        "Belleve Invis"
+        "Renzhi Li"
+      ]
+    },
+    "font-iosevka-term-slab": {
+      "designers": [
+        "Renzhi Li"
       ]
     },
     "font-iosevka-term-slab-nerd-font": {
       "designers": [
-        "Belleve Invis"
+        "Renzhi Li"
       ]
     },
     "font-ioskeley-mono": {
       "designers": [
-        "Belleve Invis",
         "Ahmed Hatem"
       ]
     },
     "font-ioskeley-mono-term-nerd-font": {
       "designers": [
-        "Belleve Invis",
         "Ahmed Hatem"
       ]
     },
@@ -894,6 +974,11 @@
         "André Berg"
       ]
     },
+    "font-meslo-lg": {
+      "designers": [
+        "André Berg"
+      ]
+    },
     "font-meslo-lg-nerd-font": {
       "designers": [
         "André Berg"
@@ -948,6 +1033,11 @@
         "Idrees Hassan"
       ]
     },
+    "font-monofur": {
+      "designers": [
+        "Tobias Benjamin Köhler"
+      ]
+    },
     "font-monofur-for-powerline": {
       "designers": [
         "Tobias Benjamin Köhler"
@@ -956,6 +1046,11 @@
     "font-monofur-nerd-font": {
       "designers": [
         "Tobias Benjamin Köhler"
+      ]
+    },
+    "font-monoid": {
+      "designers": [
+        "Andreas Larsen"
       ]
     },
     "font-monoid-nerd-font": {
@@ -1151,7 +1246,19 @@
         "Kil Hyung-jin"
       ]
     },
+    "font-profont": {
+      "designers": [
+        "Andrew Welch",
+        "Carl Osterwald",
+        "Stephen C. Gilardi"
+      ]
+    },
     "font-profont-nerd-font": {},
+    "font-proggy-clean-tt": {
+      "designers": [
+        "Tristan Grimmer"
+      ]
+    },
     "font-proggy-clean-tt-nerd-font": {
       "designers": [
         "Tristan Grimmer"
@@ -1313,12 +1420,14 @@
         "Randall Munroe"
       ]
     },
+    "font-zed-mono": {
+      "foundries": [
+        "Zed Industries"
+      ]
+    },
     "font-zed-mono-nerd-font": {
       "foundries": [
         "Zed Industries"
-      ],
-      "designers": [
-        "Belleve Invis"
       ]
     },
     "font-zhuque-fangsong": {
