@@ -2833,7 +2833,7 @@ def build(only=None, max_mb_per_install=None, jobs=1):
         if built.get("ligatures"):
             record["ligatures"] = True
         # The site offers a download from Google Fonts for a Google family, and `brew install` for any cask
-        # Homebrew has: all but EXTRA_CASKS.
+        # Homebrew has: all but NOT_IN_HOMEBREW.
         if family := google.get("family"):
             record["googleFamily"] = family
         if token in NOT_IN_HOMEBREW:
