@@ -23,6 +23,12 @@
       "https://gitlab.gnome.org/GNOME/adwaita-fonts"
     ]
   },
+  "font-adwaita-mono": {
+    "description": "Adwaita Mono is the monospaced member of GNOME's Adwaita fonts, a customized build of Iosevka, beside Adwaita Sans, a customized Inter. It comes in Regular, Italic, Bold, and Bold Italic.",
+    "sources": [
+      "https://gitlab.gnome.org/GNOME/adwaita-fonts"
+    ]
+  },
   "font-agave": {
     "description": "Agave is a fixed-width outline typeface family designed by type agaric, begun as an educational and experimental project. It aims to bring a geometrically regular and simple style to development environments and terminals. Its variants include a slashed zero and bulged parentheses, available in Regular and Bold weights.",
     "sources": [
@@ -66,6 +72,12 @@
       "https://github.com/TakWolf/ark-pixel-font"
     ]
   },
+  "font-aurulent-sans-mono": {
+    "description": "Aurulent Sans Mono is a monospaced sans serif by Stephen G. Hartke, who also drew Verily Serif. It comes in a single Regular style.",
+    "sources": [
+      "https://github.com/ryanoasis/nerd-fonts/tree/master/src/unpatched-fonts/AurulentSansMono"
+    ]
+  },
   "font-awesome-terminal-fonts": {
     "description": "Awesome Terminal Fonts is a collection of symbol fonts meant to be used alongside a monospace font in a terminal, adding icons for prompts and status lines. It bundles Font Awesome, Devicons, Octicons, and Pomicons symbol fonts, and it provides font maps that let scripts refer to glyphs by name rather than by codepoint. The project was heavily inspired by a patch script from Kim Silkebækken and is maintained by Gabriele Lana.",
     "sources": [
@@ -74,6 +86,12 @@
   },
   "font-bitstream-vera": {
     "description": "Bitstream Vera is a family of sans and serif typefaces with monospace variants, released by Bitstream and distributed through the GNOME Foundation. The sans and monospace faces come in normal, oblique, bold, and bold oblique styles, while the serif faces come in normal and bold. Jim Lyles redesigned the accents of the family to tighten its line spacing to match other fonts, and the release was intended to be used as default system fonts in fontconfig-based desktops.",
+    "sources": [
+      "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/"
+    ]
+  },
+  "font-bitstream-vera-sans-mono": {
+    "description": "Bitstream Vera Sans Mono is a monospaced sans-serif typeface from Bitstream, offered in normal, oblique, bold, and bold oblique styles. Jim Lyles redesigned its accents to bring the line spacing closer to that of other fonts. The monospace design makes the characters 0 and O, and 1 and l, more clearly distinguishable from one another.",
     "sources": [
       "https://web.archive.org/web/20210314185159/https://www.gnome.org/fonts/"
     ]
@@ -108,6 +126,12 @@
     "description": "Cica is a monospaced Japanese typeface for programming, composed from Hack and DejaVu Sans Mono for Latin letters, numerals, and symbols, Rounded Mgen+ for other characters, and Nerd Fonts, Noto Emoji, and Icons for Devs glyphs, with adjustments forked from the Ricty generator. Its distinctive letterform detail is a shortened middle bar on the lowercase m, which makes it easier to tell apart from \"rn.\" The design also considers the legibility of subscript and superscript characters, with JuliaLang use in mind.",
     "sources": [
       "https://github.com/miiton/Cica"
+    ]
+  },
+  "font-code-new-roman": {
+    "description": "Code New Roman is a monospaced typeface by Sam Radian, every character the same width like an old typewriter's. It comes in Regular, Italic, and Bold.",
+    "sources": [
+      "https://github.com/ryanoasis/nerd-fonts/tree/master/src/unpatched-fonts/CodeNewRoman"
     ]
   },
   "font-comic-mono": {
@@ -160,8 +184,20 @@
       "https://github.com/naver/d2codingfont"
     ]
   },
+  "font-daddy-time-mono": {
+    "description": "DaddyTimeMono is a monospaced typeface made for programmers and terminal users. It covers ASCII, most Latin characters, numerals, punctuation, and box-drawing characters, including CP437/ANSI line-drawing and box-fill characters. Its design is inspired by the Cordata PPC-400 BIOS font, and it was hinted with ttfautohint to stay usable at lower resolutions.",
+    "sources": [
+      "https://github.com/BourgeoisBear/DaddyTimeMono"
+    ]
+  },
   "font-dejavu": {
     "description": "DejaVu is a font family based on the Bitstream Vera Fonts, created to cover a wider range of characters while keeping the original look and feel. The fonts are maintained by a group of contributors, listed on the project page as ben_laenen, dsegan, moyogo, ogi, and src.",
+    "sources": [
+      "https://sourceforge.net/projects/dejavu/"
+    ]
+  },
+  "font-dejavu-sans-mono": {
+    "description": "DejaVu Sans Mono is a monospaced sans serif typeface in the DejaVu family, which is based on the Bitstream Vera Fonts. The family was developed by the DejaVu project to cover a wider range of characters while keeping the original look and feel of Vera.",
     "sources": [
       "https://sourceforge.net/projects/dejavu/"
     ]
@@ -182,6 +218,18 @@
     "description": "Doulos SIL is a Unicode-based serif font family from SIL that supports the Latin and Cyrillic scripts, along with the complete International Phonetic Alphabet. It is essentially the same design as the original SIL Doulos released in 1992, scaled down to better match contemporary digital fonts such as Times New Roman. It includes OpenType features such as careful diacritic positioning and small caps, and is intended for linguists and literacy work.",
     "sources": [
       "https://software.sil.org/doulos/"
+    ]
+  },
+  "font-droid-sans-mono": {
+    "description": "Droid Sans Mono is the monospaced member of the Droid family, which Steve Matteson of Ascender designed for Android. Like Droid Sans, it is drawn for comfortable reading on small screens and slightly condensed to fit more text.",
+    "sources": [
+      "https://github.com/ryanoasis/nerd-fonts/tree/master/src/unpatched-fonts/DroidSansMono"
+    ]
+  },
+  "font-envy-code-r": {
+    "description": "Envy Code R is a monospaced coding font by Damien Guard. It includes box-drawing, block element, and symbol characters, so it suits the Windows command prompt, and it covers DOS, Windows, and Mac code pages for US, Western, Central European, Turkish, Baltic, Icelandic, and Nordic text, with an italic.",
+    "sources": [
+      "https://damieng.com/blog/2008/envy-code-r-preview-7-coding-font-released/"
     ]
   },
   "font-et-book": {
@@ -241,6 +289,18 @@
     "description": "GNU Unifont is a Unicode-based, dual-width monochrome font with glyphs on a grid of 8 or 16 pixels wide by 16 pixels tall. It was designed to render a meaningful glyph for every printable code point in the Unicode Basic Multilingual Plane rather than a blank box for missing characters, and it also covers parts of the Supplementary Multilingual Plane, including ConScript Unicode Registry and Under-CSUR symbols. The font is part of the GNU Project and was built through contributions from many volunteers.",
     "sources": [
       "https://unifoundry.com/unifont.html"
+    ]
+  },
+  "font-go-mono": {
+    "description": "Go Mono is the fixed-width face of the Go fonts, which the Bigelow & Holmes foundry made for the Go programming language. Where the proportional Go faces are a humanist sans serif, Go Mono is a slab serif, drawn so punctuation is easy to tell apart and operators line up in code. It covers the WGL4 character set in Regular, Italic, Bold, and Bold Italic.",
+    "sources": [
+      "https://go.dev/blog/go-fonts"
+    ]
+  },
+  "font-gohufont": {
+    "description": "GohuFont is a bitmap font for programming and terminals by Hugo Chargois, drawn to be as legible as possible: tall capitals and ascenders, a dashed zero, and an l, I, and 1 that share nothing. This is its Unicode cut at 11 pixels, sized to fit more text on a small screen.",
+    "sources": [
+      "https://font.gohu.org/"
     ]
   },
   "font-hack": {
@@ -304,6 +364,12 @@
       "https://github.com/IBM/plex"
     ]
   },
+  "font-inconsolata-go": {
+    "description": "InconsolataGo is Raph Levien's Inconsolata, a monospaced font for code, with straight single and double quotes in place of the curly ones. It comes in Regular and Bold.",
+    "sources": [
+      "https://levien.com/type/myfonts/inconsolata.html"
+    ]
+  },
   "font-inconsolata-lgc": {
     "description": "Inconsolata LGC is a monospaced programming typeface and a modified version of Inconsolata by Raph Levien, extended with Cyrillic glyphs, italic and bold styles, and Greek glyphs inherited from Inconsolata Hellenic. It adds regional letterforms through the OpenType locl feature for languages such as Polish, Romanian, Bulgarian, and Serbian, along with alternates like a dotted or slashed zero and a reversed-sigma Ezh.",
     "sources": [
@@ -315,6 +381,18 @@
     "sources": [
       "https://github.com/be5invis/Iosevka",
       "https://typeof.net/Iosevka/"
+    ]
+  },
+  "font-iosevka-term": {
+    "description": "Iosevka Term is Iosevka with its arrows and geometric symbols narrowed to a single cell, for terminals that expect every character to be the same width. Like Iosevka, it is a narrow monospaced font for code with coding ligatures, in Regular, Italic, and Oblique, each with its Bold.",
+    "sources": [
+      "https://github.com/be5invis/Iosevka"
+    ]
+  },
+  "font-iosevka-term-slab": {
+    "description": "Iosevka Term Slab is Iosevka Term with slab serifs: a narrow monospaced font for code whose arrows and geometric symbols fit a single cell, for terminals. It comes in Regular, Italic, and Oblique, each with its Bold.",
+    "sources": [
+      "https://github.com/be5invis/Iosevka"
     ]
   },
   "font-ioskeley-mono": {
@@ -484,6 +562,12 @@
       "https://font.subf.dev/en/"
     ]
   },
+  "font-meslo-lg": {
+    "description": "Meslo LG is a monospaced typeface by André Berg, a customized version of Apple's Menlo-Regular, which itself is derived from Bitstream Vera Sans Mono. It comes in three line gap variants, small, medium, and large, that let users adjust vertical line spacing, and the font also tweaks the asterisk's baseline alignment and adds slanted italic and bold italic styles. A dotted zero variant, Meslo LG DZ, is also available.",
+    "sources": [
+      "https://github.com/andreberg/Meslo-Font"
+    ]
+  },
   "font-metropolis": {
     "description": "Metropolis is a modern geometric sans-serif typeface by Chris Simpson. It was designed for readability at small point sizes and is influenced by geometric, minimalist sans-serif typefaces of the new millennium. The family includes italics and covers 43 languages, mostly in Latin-script.",
     "sources": [
@@ -534,6 +618,19 @@
     "description": "Monocraft is a monospaced pixel typeface based on the typeface used in the Minecraft user interface, with each glyph redrawn for better readability and spacing. Thin characters such as \"i\" and \"l\" were reworked with tails and serifs to suit a monospaced layout. The font also includes programming ligatures for arrows and comparison operators, along with glyphs for the Minecraft enchantment table's standard galactic alphabet.",
     "sources": [
       "https://github.com/IdreesInc/Monocraft"
+    ]
+  },
+  "font-monofur": {
+    "description": "Monofur is a monospaced, geometric, rounded sans serif by Tobias Benjamin Köhler, based on his Eurofurence family. Its character set covers Latin, Greek, and Cyrillic, with box-drawing characters, in Regular and Italic.",
+    "sources": [
+      "https://www.dafont.com/monofur.font"
+    ]
+  },
+  "font-monoid": {
+    "description": "Monoid is a semi-condensed monospaced typeface designed for coding, optimized for bitmap-like sharpness at 12px/9pt even on low-resolution displays. It has short ascenders and descenders, big apertures, and supersized operators and punctuation, with programming ligatures for combinations such as =>, !==, and ::.",
+    "sources": [
+      "https://github.com/larsenwork/monoid",
+      "https://larsenwork.com/monoid/"
     ]
   },
   "font-mononoki": {
@@ -694,6 +791,18 @@
     "description": "Pretendard Std is a modern sans-serif typeface designed for cross-platform products and multilingual typography, and it is intended for Latin-script environments. It is refined from Inter, Source Han Sans, and M PLUS 1p, and it is offered in nine weights along with a variable version. The font is credited to Rasmus Andersson for Inter, Adobe, Google, and Sandoll Communication with Jang Su-young and Kang Joo-yeon for Source Han Sans, and to UNDERFOREST DESIGN and Coji Morishita for M PLUS 1p, with the redesign and production by Gil Hyung-jin.",
     "sources": [
       "https://github.com/orioncactus/pretendard"
+    ]
+  },
+  "font-profont": {
+    "description": "ProFont is a monospaced font for programming by Andrew Welch, Carl Osterwald, and Stephen C. Gilardi, first made as bitmaps for the classic Mac OS. It stays legible at very small sizes, so more lines of code fit in a window, with a slashed zero and distinct forms of I, l, and 1. This is its TrueType version for Windows.",
+    "sources": [
+      "https://tobiasjung.name/profont/"
+    ]
+  },
+  "font-proggy-clean-tt": {
+    "description": "ProggyCleanTT is a fixed-width typeface from the Proggy family, designed for programming and optimized while writing C or C++. Its letterforms center the asterisk vertically and the braces horizontally, and the zero looks different from a capital O. The ones, ells, and eyes are clearly distinct, and the arithmetic operators are axis-aligned.",
+    "sources": [
+      "https://github.com/bluescan/proggyfonts"
     ]
   },
   "font-psudofont-liga-mono": {
@@ -862,6 +971,12 @@
     "description": "xkcd Script is a script typeface derived from a handwriting sample provided by Randall Munroe, the author of the xkcd webcomic. It is far less uniform than the companion xkcd font, which gives it a more natural, true-script character.",
     "sources": [
       "https://github.com/ipython/xkcd-font"
+    ]
+  },
+  "font-zed-mono": {
+    "description": "Zed Mono is a monospaced custom build of Iosevka that the Zed code editor once used as its default, beside the quasi-proportional Zed Sans.",
+    "sources": [
+      "https://github.com/zed-industries/zed-fonts"
     ]
   },
   "font-zhuque-fangsong": {
