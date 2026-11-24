@@ -163,6 +163,8 @@ ALWAYS_INCLUDED = [
     "font-profont",
     "font-proggy-clean-tt",
     "font-zed-mono",
+    # An Iosevka build a Typecask article covers, below the cutoff since Homebrew has no cask for it.
+    "font-pragmasevka",
     # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
     # of the first open-source foundries; several sit near the install cutoff. All but The Neue Black,
     # whose 1.007 release is corrupt.
@@ -284,6 +286,17 @@ EXTRA_CASKS = [
         "version": "1.0",
         "sha256": "2d41ca991f342f9b74bc01433fba6c371fa7abcd5eaa45d8e71c9b8a2049055a",
         "artifacts": [{"font": ["monof55.ttf"]}, {"font": ["monof56.ttf"]}],
+    },
+    {
+        # Homebrew has never had a cask for it. Its zip carries no license, so scripts/licenses/casks has the
+        # repository's.
+        "token": "font-pragmasevka",
+        "name": ["Pragmasevka"],
+        "homepage": "https://github.com/shytikov/pragmasevka",
+        "url": "https://github.com/shytikov/pragmasevka/releases/download/v1.7.0/Pragmasevka.zip",
+        "version": "1.7.0",
+        "sha256": "7e039e1a482620dc4699c41ee224b7e9cf4e37fd8a66a32187a60e2a9f779e81",
+        "artifacts": [{"font": [f"pragmasevka-{style}.ttf"]} for style in ("regular", "italic", "bold", "bolditalic")],
     },
     {
         # Homebrew deprecated its cask when Zed stopped publishing the fonts, which leaves it out of the line-up;
