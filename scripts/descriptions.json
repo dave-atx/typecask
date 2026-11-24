@@ -769,6 +769,12 @@
       "https://github.com/yuru7/PlemolJP"
     ]
   },
+  "font-pragmasevka": {
+    "description": "Pragmasevka is a custom build of Iosevka by Oleksii Shytikov that sets out to look as much like PragmataPro, Fabrizio Schiavi's commercial coding font, as Iosevka can. It starts from Iosevka's PragmataPro-style stylistic set, SS08, then raises the x-height, tightens the line spacing, and makes the bold and the punctuation heavier. It comes in regular, italic, bold, and bold italic.",
+    "sources": [
+      "https://github.com/shytikov/pragmasevka"
+    ]
+  },
   "font-pretendard": {
     "description": "Pretendard is a modern typeface made for cross-platform products and multilingual typography. Redesigned by Gil Hyeong-jin, it draws on Inter, Source Han Sans, and M PLUS 1p, and it comes in nine weights along with a variable version. Separate families target specific settings, including Pretendard JP for Japanese contexts, Pretendard Std for Latin text, and Pretendard GOV for South Korean public services.",
     "sources": [
