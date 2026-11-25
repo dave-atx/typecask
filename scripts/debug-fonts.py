@@ -109,10 +109,20 @@ def main():
             if not shutil.which("zstd"):
                 sys.exit("tar needs zstd to unpack the archive: brew install zstd")
             archive = arguments.archive or pinned_archive()
-            subprocess.run(
-                ["tar", "--zstd", "-xf", archive, "-C", temporary, *(f"Fonts.xcassets/{group}" for group in groups)],
-                check=True,
+            # zstd into tar rather than tar --zstd: bsdtar stops reading once it has every member named, and its
+            # own zstd then fails writing to the closed pipe, which bsdtar reports as its failure. Whether it
+            # happens depends on where the groups fall in the archive, which each build orders differently. tar's
+            # status is the one that counts: a stream that really breaks leaves it a truncated archive.
+            unzstd = subprocess.Popen(["zstd", "-dqc", "--long=27", archive], stdout=subprocess.PIPE)
+            tar = subprocess.run(
+                ["tar", "-xf", "-", "-C", temporary, *(f"Fonts.xcassets/{group}" for group in groups)],
+                stdin=unzstd.stdout,
+                check=False,
             )
+            unzstd.stdout.close()
+            unzstd.wait()
+            if tar.returncode:
+                sys.exit(f"tar couldn't unpack {', '.join(groups)} from {archive} (zstd exited {unzstd.returncode})")
             (pathlib.Path(temporary) / "Fonts.xcassets").rename(staging)
         # Every asset catalog group needs its own Contents.json, or actool ships an empty pack.
         (staging / "Contents.json").write_text(json.dumps(ROOT_CONTENTS, indent=2) + "\n")
