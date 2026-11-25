@@ -201,27 +201,47 @@ jobs:
 
       - name: Install, uninstall and update
         run: |
+          # Each attempt keeps its log and result bundle, which a failed job uploads. The bundles left in
+          # DerivedData went missing for failed tests.
+          mkdir results
           attempt() {
             TEST_RUNNER_TYPECASK_CASK="$2" xcodebuild test-without-building -project Typecask.xcodeproj \
               -scheme Typecask -destination "$DESTINATION" -derivedDataPath DerivedData \
-              -only-testing:"TypecaskUITests/InstallTests/$1" > "test-$1-$2.log" 2>&1
+              -resultBundlePath "results/$1-$2-$3.xcresult" \
+              -only-testing:"TypecaskUITests/InstallTests/$1" > "results/$1-$2-$3.log" 2>&1
           }
-          # A runner that dies before the test starts, or an app XCTest can't read at all, is the simulator,
-          # not the fonts: try once more. A missing element fails an assertion instead; a snapshot timeout
-          # is a cold simulator's first launch, and an app that really hangs fails again.
-          simulator_failure() {
-            grep -qE "never finished bootstrapping|Failed to get matching snapshots: Timed out" "test-$1-$2.log"
+          # Erases the simulator for a retried install, since the first try's font stays installed.
+          fresh_simulator() {
+            xcrun simctl shutdown "$SIMULATOR"
+            xcrun simctl erase "$SIMULATOR"
+            xcrun simctl boot "$SIMULATOR"
+            xcrun simctl bootstatus "$SIMULATOR" -b > /dev/null
           }
           run_test() {
-            if attempt "$1" "$2" || { simulator_failure "$1" "$2" && attempt "$1" "$2"; }; then
+            log="results/$1-$2-1.log"
+            if attempt "$1" "$2" 1; then
               echo "passed: $1 $2"
-            else
-              echo "FAILED: $1 $2"
-              # XCTest carries on after a failed assertion, so the error can be far above the tail.
-              grep ': error: ' "test-$1-$2.log"
-              tail -40 "test-$1-$2.log"
-              return 1
+              return
             fi
+            # A runner that dies before the test starts, or an app XCTest can't read at all, is the
+            # simulator, not the fonts: try once more. A missing element fails an assertion instead; a
+            # snapshot timeout is a cold simulator's first launch, and an app that really hangs fails again.
+            if grep -qE "never finished bootstrapping|Failed to get matching snapshots: Timed out" "$log"; then
+              log="results/$1-$2-2.log"
+              attempt "$1" "$2" 2 && { echo "passed on a second try: $1 $2"; return; }
+            # An install that outlasts waitForInstall has shown as installed after the relaunch each time,
+            # and a different cask stalls on each run: try once more on an erased simulator, and say so.
+            elif grep -qF "Timed out waiting for $2 to install" "$log"; then
+              echo "::warning::$1 $2: the install timed out, so it's trying again on an erased simulator"
+              fresh_simulator
+              log="results/$1-$2-2.log"
+              attempt "$1" "$2" 2 && { echo "passed on a second try: $1 $2"; return; }
+            fi
+            echo "FAILED: $1 $2"
+            # XCTest carries on after a failed assertion, so the error can be far above the tail.
+            grep ': error: ' "$log"
+            tail -40 "$log"
+            return 1
           }
           status=0
           for token in $INSTALL; do
@@ -239,7 +259,7 @@ jobs:
         with:
           name: test-results
           retention-days: 7
-          path: DerivedData/Logs/Test/*.xcresult
+          path: results
 
   publish:
     needs: [build, verify]

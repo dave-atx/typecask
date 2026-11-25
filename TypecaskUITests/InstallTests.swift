@@ -12,7 +12,7 @@ final class InstallTests: XCTestCase {
         app.launch()
         app.openCask(token)
         app.controls(for: token).buttons["install"].tap()
-        XCTAssertTrue(waitForInstall(of: token, in: app))
+        waitForInstall(of: token, in: app)
 
         app.terminate()
         app.launch()
@@ -29,7 +29,7 @@ final class InstallTests: XCTestCase {
         app.openCask(token)
         if app.controls(for: token).buttons["install"].waitForExistence(timeout: 10) {
             app.controls(for: token).buttons["install"].tap()
-            XCTAssertTrue(waitForInstall(of: token, in: app))
+            waitForInstall(of: token, in: app)
         }
         app.controls(for: token).buttons["uninstall"].tap()
         XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
@@ -49,7 +49,7 @@ final class InstallTests: XCTestCase {
         app.openCask(token)
         if app.controls(for: token).buttons["install"].waitForExistence(timeout: 10) {
             app.controls(for: token).buttons["install"].tap()
-            XCTAssertTrue(waitForInstall(of: token, in: app))
+            waitForInstall(of: token, in: app)
         }
 
         app.terminate()
@@ -58,7 +58,7 @@ final class InstallTests: XCTestCase {
         app.openCask(token)
         XCTAssertTrue(app.controls(for: token).buttons["update"].waitForExistence(timeout: 10))
         app.controls(for: token).buttons["update"].tap()
-        XCTAssertTrue(waitForInstall(of: token, in: app))
+        waitForInstall(of: token, in: app)
         XCTAssertFalse(app.controls(for: token).buttons["update"].exists)
     }
 
@@ -81,7 +81,7 @@ final class InstallTests: XCTestCase {
         let fonts = definitions.entities["FontEntity"]
         let intent = definitions.intents["InstallFontIntent"].makeIntent(font: fonts.makeReference(identifier: token))
         let run = Task.detached { try await intent.run() }
-        XCTAssertTrue(waitForInstall(of: token, in: app))
+        waitForInstall(of: token, in: app)
         // A returned entity carries its properties but not its ID, so it's checked by name.
         let installed: String = try await run.value.value.name
         let found = try await fonts.entities(identifiers: [token])
@@ -108,7 +108,7 @@ final class InstallTests: XCTestCase {
 
         card.press(forDuration: 1)
         app.buttons[install].tap()
-        XCTAssertTrue(waitForInstall(of: token, in: app) { card.value as? String == "Installed" })
+        waitForInstall(of: token, in: app) { card.value as? String == "Installed" }
 
         card.press(forDuration: 1)
         XCTAssertFalse(app.buttons[install].exists)
@@ -134,7 +134,7 @@ final class InstallTests: XCTestCase {
         let plainInstalled = app.controls(for: "font-departure-mono").buttons["uninstall"].exists
 
         nerdControls.buttons["install"].tap()
-        XCTAssertTrue(waitForInstall(of: nerdVersion, in: app))
+        waitForInstall(of: nerdVersion, in: app)
         XCTAssertEqual(app.controls(for: "font-departure-mono").buttons["uninstall"].exists, plainInstalled)
 
         app.terminate()
@@ -158,7 +158,7 @@ final class InstallTests: XCTestCase {
             XCTAssertTrue(app.controls(for: token).buttons["install"].waitForExistence(timeout: 30))
         }
         app.typeKey("d", modifierFlags: .command)
-        XCTAssertTrue(waitForInstall(of: token, in: app))
+        waitForInstall(of: token, in: app)
         app.typeKey("d", modifierFlags: .command)
         XCTAssertFalse(app.controls(for: token).buttons["uninstall"].waitForNonExistence(timeout: 3))
     }
@@ -177,7 +177,7 @@ final class InstallTests: XCTestCase {
         let definitions = IntentDefinitions(bundleIdentifier: "org.marquard.Typecask")
         let intent = definitions.intents["InstallFontIntent"].makeIntent()
         let run = Task.detached { try await intent.run() }
-        XCTAssertTrue(waitForInstall(of: token, in: app))
+        waitForInstall(of: token, in: app)
         let installed: String = try await run.value.value.name
         let found = try await definitions.entities["FontEntity"].entities(identifiers: [token])
         let expected: String = try XCTUnwrap(found.first).name
@@ -216,10 +216,11 @@ final class InstallTests: XCTestCase {
     /// Waits for `installed`, by default the Uninstall button, which only an installed cask's page has; with an
     /// Installed collection in the sidebar, the word alone proves nothing. Accepts the system's font consent
     /// sheet if it appears. The system asks only once per app, remembering the answer even across reinstalls,
-    /// and the sheet ignores taps while animating in.
+    /// and the sheet ignores taps while animating in. Fails the test at the caller's line if the install doesn't
+    /// finish, with a message the fonts workflow looks for to retry the test on an erased simulator.
     @MainActor
-    private func waitForInstall(of token: String, in app: XCUIApplication,
-                                until installed: (() -> Bool)? = nil) -> Bool {
+    private func waitForInstall(of token: String, in app: XCUIApplication, file: StaticString = #filePath,
+                                line: UInt = #line, until installed: (() -> Bool)? = nil) {
         let installed = installed ?? { app.controls(for: token).buttons["uninstall"].exists }
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         // Excludes the app's own Install button, which can linger for a moment after being tapped.
@@ -230,14 +231,14 @@ final class InstallTests: XCTestCase {
         let deadline = Date.now.addingTimeInterval(240)
         while Date.now < deadline {
             if installed() {
-                return true
+                return
             }
             if let button = buttons.first(where: { $0.exists && $0.isHittable }) {
                 button.tap()
                 _ = button.waitForNonExistence(timeout: 3)
             }
         }
-        return false
+        XCTFail("Timed out waiting for \(token) to install", file: file, line: line)
     }
 
     /// Waits for a card's status, which VoiceOver reads as its value: nil, or empty, for an available cask.
