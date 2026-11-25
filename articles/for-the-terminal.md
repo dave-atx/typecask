@@ -101,9 +101,10 @@ made [Hack](font:font-hack) and who helped get the project going.
 
 @font-iosevka-charon-mono: fn main() { println!("narrow and proud"); }
 
-**Iosevka Charon Mono** is a ready-made version of [Iosevka](https://typeof.net/Iosevka/), a famously narrow
+**Iosevka Charon Mono** is a ready-made version of [Iosevka](font:font-iosevka), a famously narrow
 coding font that people customize letter by letter. It fits a lot of columns into a small window, which
-makes it great for splitting a screen.
+makes it great for splitting a screen. Iosevka and the fonts other people have built from it have an article
+of their own, [A font you build yourself](article:a-font-you-build-yourself).
 
 ## Also check out
 

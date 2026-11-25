@@ -4,7 +4,7 @@ summary: Iosevka, and the fonts other people have built from it.
 order: 11
 ---
 
-Iosevka ships as a font and as the code that draws it. Every letter has alternates, a short config file picks
+Iosevka is unique in that it's both a font and the code that makes it. Every letter has alternates, a short config file picks
 among them, and anyone can build a version of their own: a dotted or slashed zero, a different lowercase g,
 wider letters, ligatures or none. A lot of people have, and some of their builds have become fonts with names of
 their own.
@@ -13,7 +13,7 @@ their own.
 
 @font-iosevka: const fits = columns.filter(c => c.width <= 80)
 
-**[Iosevka](font:font-iosevka)** is [Belleve Invis](designer:belleve-invis)'s coding font, started in 2015.
+**[Iosevka](font:font-iosevka)** is [Renzhi Li](designer:renzhi-li)'s coding font, started in 2015.
 It's narrow, so more columns fit across a screen, and it comes in sans and slab versions, plus
 quasi-proportional ones, Aile and Etoile, for prose. Its stylistic sets echo other coding fonts, Menlo,
 Consolas, and JetBrains Mono among them.
@@ -52,17 +52,24 @@ It comes in ten weights and two widths, with a Term version sized for terminal c
 [Juliette Pluto](designer:juliette-pluto), are built to Google Fonts' rules, which put them on Google Fonts.
 Charon is quasi-proportional, for technical writing and dense interfaces, and Charon Mono is for code.
 
+@font-pragmasevka: if (rows * cols > limit) return truncate(buf);
+
+**[Pragmasevka](font:font-pragmasevka)**, by [Oleksii Shytikov](designer:oleksii-shytikov), chases PragmataPro,
+Fabrizio Schiavi's condensed coding font, which isn't free. Iosevka already has a
+stylistic set modeled on PragmataPro, SS08; Shytikov started there, then raised the x-height, tightened the line
+spacing, and made the bold and the punctuation heavier to get closer still.
+
 ## In an editor and a desktop
 
-@font-zed-mono-nerd-font: zed --new ~/notes/todo.md
+@font-zed-mono: zed --new ~/notes/todo.md
 
-**Zed Mono** is the font of the Zed code editor, a build [Zed Industries](foundry:zed-industries) made for it.
-The catalog has [its Nerd Font version](font:font-zed-mono-nerd-font).
+**Zed Mono** is the font of the Zed code editor, a build [Zed Industries](foundry:zed-industries) made for it,
+with a quasi-proportional sibling, [Zed Sans](font:font-zed-sans).
 
-@font-adwaita-mono-nerd-font: $ gsettings get org.gnome.desktop.interface monospace-font-name
+@font-adwaita-mono: $ gsettings get org.gnome.desktop.interface monospace-font-name
 
 **Adwaita Mono** has been [GNOME](foundry:gnome)'s monospace font since GNOME 48 in 2025, next to Adwaita Sans,
-which is based on Inter. The catalog has [its Nerd Font version](font:font-adwaita-mono-nerd-font) too.
+which is based on Inter.
 
 ## Build your own
 
