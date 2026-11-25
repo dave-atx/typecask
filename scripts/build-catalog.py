@@ -169,8 +169,13 @@ ALWAYS_INCLUDED = [
     # Siblings that the descriptions of Meslo LG and Zed Mono mention, below the cutoff.
     "font-meslo-lg-dz",
     "font-zed-sans",
-    # An Iosevka build a Typecask article covers, below the cutoff since Homebrew has no cask for it.
+    # An Iosevka build a Typecask article covers, below the cutoff since Homebrew has no cask for it, and its
+    # Nerd Font build.
     "font-pragmasevka",
+    "font-pragmasevka-nerd-font",
+    # Iosevka's quasi-proportional builds for prose, sans and slab, which the Iosevka article mentions.
+    "font-iosevka-aile",
+    "font-iosevka-etoile",
     # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
     # of the first open-source foundries; several sit near the install cutoff. All but The Neue Black,
     # whose 1.007 release is corrupt.
@@ -305,6 +310,18 @@ EXTRA_CASKS = [
         "artifacts": [{"font": [f"pragmasevka-{style}.ttf"]} for style in ("regular", "italic", "bold", "bolditalic")],
     },
     {
+        # Pragmasevka's own Nerd Font build, from the same release. Its zip carries no license either.
+        "token": "font-pragmasevka-nerd-font",
+        "name": ["Pragmasevka Nerd Font"],
+        "homepage": "https://github.com/shytikov/pragmasevka",
+        "url": "https://github.com/shytikov/pragmasevka/releases/download/v1.7.0/Pragmasevka_NF.zip",
+        "version": "1.7.0",
+        "sha256": "eeab758eff562d1caed761244488e56545be25e81a6b40cd84b31b032a37615c",
+        "artifacts": [
+            {"font": [f"pragmasevka-nf-{style}.ttf"]} for style in ("regular", "italic", "bold", "bolditalic")
+        ],
+    },
+    {
         # Homebrew deprecated its cask when Zed stopped publishing the fonts, which leaves it out of the line-up;
         # 1.2.0 is the last release. Its zip carries no license, so scripts/licenses/casks has the repository's.
         "token": "font-zed-mono",
@@ -387,6 +404,8 @@ def iosevka_package(family):
 REPACKAGED = {
     "font-iosevka": iosevka_package("Iosevka"),
     "font-iosevka-slab": iosevka_package("IosevkaSlab"),
+    "font-iosevka-aile": iosevka_package("IosevkaAile"),
+    "font-iosevka-etoile": iosevka_package("IosevkaEtoile"),
 }
 # A cask ships one family, the primary face's, so a cask that installs several leaves the rest out. Each of
 # these is another family as a cask of its own, by token, made at lock time from the Homebrew cask it comes
@@ -705,6 +724,8 @@ CASK_STYLES = {
     "font-comic-shanns-mono": "monospaced",
     # PANOSE says sans serif; it's an ultra-bold slab.
     "font-chunk": "serif",
+    # PANOSE says sans serif; it's Iosevka's quasi-proportional slab.
+    "font-iosevka-etoile": "serif",
 }
 # Apple's fonts, from AppleFonts.json, whose style the generator's PANOSE reading gets wrong: older
 # script and decorative faces leave PANOSE empty, and CJK faces often claim fixed pitch. Families

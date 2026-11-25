@@ -383,6 +383,18 @@
       "https://typeof.net/Iosevka/"
     ]
   },
+  "font-iosevka-aile": {
+    "description": "Iosevka Aile is Renzhi Li's Iosevka made quasi-proportional for prose: the same narrow, technical letters, but wide ones like m and w get more room than narrow ones like i and l, so text reads evenly. It's the sans of the pair; Iosevka Etoile is the slab. It comes in upright, italic, and oblique, in regular and bold.",
+    "sources": [
+      "https://github.com/be5invis/Iosevka"
+    ]
+  },
+  "font-iosevka-etoile": {
+    "description": "Iosevka Etoile is Renzhi Li's Iosevka made quasi-proportional for prose, with slab serifs: wide letters like m and w get more room than narrow ones like i and l, and the serifs give it the look of a typewritten page. It's the slab of the pair; Iosevka Aile is the sans. It comes in upright, italic, and oblique, in regular and bold.",
+    "sources": [
+      "https://github.com/be5invis/Iosevka"
+    ]
+  },
   "font-iosevka-term": {
     "description": "Iosevka Term is Iosevka with its arrows and geometric symbols narrowed to a single cell, for terminals that expect every character to be the same width. Like Iosevka, it is a narrow monospaced font for code with coding ligatures, in Regular, Italic, and Oblique, each with its Bold.",
     "sources": [
