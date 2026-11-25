@@ -138,6 +138,9 @@ LEFT_OUT_FILES = {
 }
 # Hosts whose fonts don't allow redistribution, so no cask that downloads from one ships.
 EXCLUDED_HOSTS = {"fontshare.com"}
+# Fonts with the Powerline symbols patched in, including Microsoft's own Cascadia PL. Nerd Fonts took over that
+# patching and adds the same symbols, so each original's Nerd Font, or Cascadia's NF, covers them.
+POWERLINE = re.compile(r"powerline|^font-cascadia-(code|mono)-pl$")
 ALWAYS_INCLUDED = [
     "font-ioskeley-mono",
     "font-ioskeley-mono-term-nerd-font",
@@ -163,6 +166,9 @@ ALWAYS_INCLUDED = [
     "font-profont",
     "font-proggy-clean-tt",
     "font-zed-mono",
+    # Siblings that the descriptions of Meslo LG and Zed Mono mention, below the cutoff.
+    "font-meslo-lg-dz",
+    "font-zed-sans",
     # An Iosevka build a Typecask article covers, below the cutoff since Homebrew has no cask for it.
     "font-pragmasevka",
     # Every font The League of Moveable Type publishes on GitHub, which a Typecask article holds up as one
@@ -309,6 +315,19 @@ EXTRA_CASKS = [
         "sha256": "eb673b39528927d21c0b12eaf05e50babc486bc99e724b55c88e529a5dae76c9",
         "artifacts": [
             {"font": [f"zed-mono-{style}.ttf"]}
+            for style in ("regular", "italic", "oblique", "bold", "bolditalic", "boldoblique")
+        ],
+    },
+    {
+        # Zed Mono's quasi-proportional sibling, deprecated and licensed the same way.
+        "token": "font-zed-sans",
+        "name": ["Zed Sans"],
+        "homepage": "https://github.com/zed-industries/zed-fonts",
+        "url": "https://github.com/zed-industries/zed-fonts/releases/download/1.2.0/zed-sans-1.2.0.zip",
+        "version": "1.2.0",
+        "sha256": "eb861c35c6f1639a674793f71135b1370ffefc9bd6e69a5ff5fffa2659f150c1",
+        "artifacts": [
+            {"font": [f"zed-sans-{style}.ttf"]}
             for style in ("regular", "italic", "oblique", "bold", "bolditalic", "boldoblique")
         ],
     },
@@ -511,20 +530,15 @@ DESCRIPTION_DIRECTORIES = {
     "font-noto-serif-cjk-jp": "ofl/notoserifjp",
     "font-noto-serif-cjk-sc": "ofl/notoserifsc",
 }
-# Nerd Font and Powerline casks whose names don't give the original family, or give it badly, by token:
+# Nerd Font casks whose names don't give the original family, or give it badly, by token:
 # the original's name, for their description.
 PATCHED_ORIGINALS = {
-    "font-anonymice-powerline": "Anonymous Pro",
-    "font-delugia-mono-powerline": "Cascadia Mono",
-    "font-delugia-powerline": "Cascadia Code",
     "font-fira-mono-nerd-font": "Fira Mono",
     "font-hackgen-nerd": "HackGen",
     "font-ioskeley-mono-term-nerd-font": "Ioskeley Mono",
-    "font-liberation-mono-for-powerline": "Liberation Mono",
     "font-m+-nerd-font": "M+",
     "font-martian-mono-nerd-font": "Martian Mono",
     "font-monocraft-nerd-font": "Monocraft",
-    "font-ubuntu-mono-derivative-powerline": "Ubuntu Mono",
 }
 # The app's Symbols collection: fonts typed on an ordinary keyboard that draw something other than
 # letters. Redacted's scribbles and Flow's blocks stand in for text in wireframes, Yarndings draws
@@ -863,9 +877,14 @@ def git(*arguments, **options):
 
 
 def is_excluded(token, url):
-    """Whether a cask is in EXCLUDED, or downloads from one of EXCLUDED_HOSTS or a subdomain of one."""
+    """Whether a cask is in EXCLUDED, is a Powerline version, or downloads from one of EXCLUDED_HOSTS or a
+    subdomain of one."""
     host = urllib.parse.urlparse(url or "").hostname or ""
-    return token in EXCLUDED or any(host == name or host.endswith("." + name) for name in EXCLUDED_HOSTS)
+    return (
+        token in EXCLUDED
+        or bool(POWERLINE.search(token))
+        or any(host == name or host.endswith("." + name) for name in EXCLUDED_HOSTS)
+    )
 
 
 def is_retired(cask):
@@ -1435,6 +1454,8 @@ def departure(token, casks_by_token, installs, cutoff, symbols):
         return "Google classifies it as a symbols font, not text"
     if token in EXCLUDED:
         return "excluded by hand (see `EXCLUDED`)"
+    if POWERLINE.search(token):
+        return "a Powerline version, which a Nerd Font covers (see `POWERLINE`)"
     if is_excluded(token, cask["url"]):
         return f"downloads from {urllib.parse.urlparse(cask['url']).hostname}, which is excluded"
     if token not in installs:
@@ -2336,10 +2357,6 @@ NERD_FONTS_DESCRIPTION = (
     "thousands of glyphs from Font Awesome, Material Design, Devicons, Octicons, and other sets, along with "
     "the Powerline symbols."
 )
-POWERLINE_DESCRIPTION = (
-    "{original} with the Powerline symbols added: the arrows and branch glyphs that shell prompts and editor "
-    "status lines draw with."
-)
 
 
 @functools.cache
@@ -2348,12 +2365,12 @@ def drafted_descriptions():
 
 
 def describe_patched(catalog):
-    """Describes each Nerd Font or Powerline cask that has no description of its own as its original with
+    """Describes each Nerd Font cask that has no description of its own as its original with
     the icons added, followed by the original's description where the catalog has one. Runs after every
     other description is in place, so an original described later carries over to its variants.
 
     The original is the plain cask pair_nerd_fonts() paired it with, or else the family the cask's name
-    gives, in parentheses as Nerd Fonts writes it or with "NF", "Nerd Font" or "for Powerline" taken out.
+    gives, in parentheses as Nerd Fonts writes it or with "NF" or "Nerd Font" taken out.
     A cask that gives Nerd Fonts' repository as its homepage takes its original's, described or not.
     """
     records = {record["token"]: record for record in catalog}
@@ -2361,17 +2378,15 @@ def describe_patched(catalog):
     by_name = {fold_name(record["name"]): record for record in catalog if not record["glyphs"]}
     for record in catalog:
         token = record["token"]
-        powerline = "powerline" in token or token in ("font-cascadia-code-pl", "font-cascadia-mono-pl")
         # Not every cask with icons is a patch: Cica and Cozette draw their own, beside the letters.
-        nerd = re.search(r"nerd|-nf(-|$)", token)
-        if not (nerd or powerline):
+        if not re.search(r"nerd|-nf(-|$)", token):
             continue
         if token in PATCHED_ORIGINALS:
             original = PATCHED_ORIGINALS[token]
         elif original := re.search(r"\(([^)]+)\)\s*$", record["name"]):
             original = original[1]
         else:
-            original = re.sub(r"\s+(Nerd Font( families)?|NF|PL|for Powerline|Powerline)\b", "", record["name"])
+            original = re.sub(r"\s+(Nerd Font( families)?|NF)\b", "", record["name"])
         plain = records.get(plain_of.get(token)) or by_name.get(fold_name(original))
         if plain is record:
             plain = None
@@ -2382,8 +2397,7 @@ def describe_patched(catalog):
                 print(f"warning: {token} gives Nerd Fonts as its homepage, and has no plain cask to take one from")
         if record.get("description"):
             continue
-        template = POWERLINE_DESCRIPTION if powerline else NERD_FONTS_DESCRIPTION
-        description = template.format(original=original)
+        description = NERD_FONTS_DESCRIPTION.format(original=original)
         if plain and plain.get("description"):
             description += "\n\n" + plain["description"]
             if credit := plain.get("descriptionBy"):

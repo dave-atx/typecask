@@ -114,7 +114,7 @@ that file is empty. A cask built from google/fonts that Google's metadata doesn'
 Hebrew, takes its description from the directory its source names, and `DESCRIPTION_DIRECTORIES` lends a family
 with no description of its own a sibling's, as Kumar One's covers Kumar One Outline.
 
-A Nerd Font or Powerline cask with no description gets one from `describe_patched()`: a line saying it's
+A Nerd Font cask with no description gets one from `describe_patched()`: a line saying it's
 its original with the icons added, then the original's description where the catalog has that cask.
 It runs after every other description is in place, so describing an original describes its variants too.
 Every Nerd Fonts cask names the patcher's repository as its homepage, so `describe_patched()` gives it the
@@ -147,8 +147,8 @@ README, and the name table are the evidence, and `{}` gives no credit where none
 another font credits whoever made the build, not the original's designer: Aporetic and Adwaita Mono don't credit
 Belleve Invis, who made the Iosevka they're built on. A cask with no entry yet takes its makers from its primary
 face's name table, which each build records as `credits`, and the
-fonts pull request lists it under Makers to review (`scripts/makers.py list`) until it has one. A Nerd Font or
-Powerline version takes the makers of the cask it patches.
+fonts pull request lists it under Makers to review (`scripts/makers.py list`) until it has one. A Nerd Font
+version takes the makers of the cask it patches.
 
 A full build loads thousands of fonts and has used over 20 GB of memory. Run it under the memory cap:
 
@@ -216,10 +216,14 @@ explicit tie-break, don't let set iteration order reach the output, open fonts w
   GitHub API, since that reports the repository's license and can't say whether it covers the font
   files beside it. A download with no license file `build` can find takes one kept by hand in
   `scripts/licenses/casks/TOKEN.txt`, copied from the font's own project and saying where from, ahead of
-  google/fonts and the GitHub API: Meslo LG, Monoid, Envy Code R, Monofur, Zed Mono, and Droid Sans Mono.
+  google/fonts and the GitHub API: Meslo LG and Meslo LG DZ, Monoid, Envy Code R, Monofur, Zed Mono and Zed Sans,
+  and Droid Sans Mono.
   `EXCLUDED` holds BigBlue Terminal's Nerd Font, which is CC BY-SA, whose ban on technical restrictions
   conflicts with the App Store as the GPL does, and Heavy Data's, freeware that doesn't say it may be
   redistributed.
+- **Powerline versions.** `POWERLINE` keeps out every cask with the Powerline symbols patched in, Microsoft's
+  Cascadia Code PL and Cascadia Mono PL among them: Nerd Fonts took over that patching, so each original's
+  Nerd Font, or Cascadia's NF, has the same symbols and more.
 - **Fonts the App Store rejects.** `LEFT_OUT_FILES` leaves out a cask's files by name prefix where
   the App Store's font validation fails them and re-saving doesn't help, which moves the primary face
   to one that passes: GohuFont Nerd Font ships its uni11 face, since its GohuFont 11's bitmap strike

@@ -9,7 +9,7 @@ the name table of its primary face, which is as often a URL, a tool, or a team's
 fonts pull request lists those casks with what was drafted for each: copy a draft into makers.json as it is,
 correct it, or give the cask {} for no credit at all.
 
-A Nerd Font or Powerline version takes the makers of the cask it patches, where the catalog has that cask: one
+A Nerd Font version takes the makers of the cask it patches, where the catalog has that cask: one
 paired with it, or one whose Google description, credited in descriptionBy, it carries. It isn't listed.
 """
 
