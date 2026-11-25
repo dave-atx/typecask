@@ -10,7 +10,7 @@ final class QuickActionTests: XCTestCase {
         app.openCask("font-roboto")
         choose("Installed")
         XCTAssertTrue(app.navigationBars["Installed"].waitForExistence(timeout: 10))
-        XCTAssertFalse(app.sliders["specimenSize"].exists)
+        XCTAssertFalse(app.controls(for: "font-roboto").exists)
     }
 
     /// The last font viewed reopens its page, here launching the app to do it.
@@ -19,10 +19,10 @@ final class QuickActionTests: XCTestCase {
         let app = XCUIApplication.typecask()
         app.launch()
         app.openCask("font-roboto")
-        XCTAssertTrue(app.sliders["specimenSize"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.controls(for: "font-roboto").waitForExistence(timeout: 10))
         app.terminate()
         choose("Roboto")
-        XCTAssertTrue(app.sliders["specimenSize"].waitForExistence(timeout: 30))
+        XCTAssertTrue(app.controls(for: "font-roboto").waitForExistence(timeout: 30))
         XCTAssertTrue(app.navigationBars["Roboto"].exists)
     }
 

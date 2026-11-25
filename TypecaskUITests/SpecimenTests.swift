@@ -1,16 +1,14 @@
 import XCTest
 
-/// A font's page as a type specimen: the full fonts it loads when asked, the sections they add below the tester, the
+/// A font's page as a type specimen: the full fonts it loads when asked, the sections they add below its facts, the
 /// ways into Try It Out from it, and the navigation bar's buttons once the page's own scroll away. Roboto for its
 /// styles, a variable font's named instances; Fira Code for its features. Both are in the debug build's fonts.
 final class SpecimenTests: XCTestCase {
-    /// Asking for the full specimen adds its sections and leaves the tester as it was.
+    /// Asking for the full specimen adds its sections, and the actions row stops offering it.
     @MainActor
     func testFullSpecimenAddsItsSections() {
         let app = openFullSpecimen("font-roboto")
-        // Text, or a button where it opens Try It Out.
-        XCTAssertTrue(app.descendants(matching: .any)["specimen"].exists, "the tester's sample went")
-        XCTAssertTrue(app.sliders["specimenSize"].exists, "the tester's size went")
+        XCTAssertFalse(app.buttons["fullSpecimen"].exists, "the actions row still offers the full specimen")
         let styles = app.descendants(matching: .any)
             .matching(NSPredicate(format: "identifier BEGINSWITH 'specimenStyle.'"))
         XCTAssertGreaterThan(styles.count, 1, "a variable font lists its named instances")
@@ -18,16 +16,6 @@ final class SpecimenTests: XCTestCase {
             XCTAssertTrue(scroll(to: app.staticTexts[section], in: app), "no \(section)")
         }
         keep(app.screenshot(), named: "roboto-full-specimen")
-    }
-
-    /// Tapping the sample opens Try It Out.
-    @MainActor
-    func testSampleOpensTryItOut() {
-        let app = openFullSpecimen("font-roboto")
-        let sample = app.descendants(matching: .any)["specimen"]
-        XCTAssertTrue(scroll(to: sample, in: app, upward: true))
-        sample.tap()
-        XCTAssertTrue(app.textViews["tryItOutText"].waitForExistence(timeout: 10))
     }
 
     /// Tapping a style opens Try It Out in that style.
