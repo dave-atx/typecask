@@ -223,10 +223,12 @@ jobs:
               echo "passed: $1 $2"
               return
             fi
-            # A runner that dies before the test starts, or an app XCTest can't read at all, is the
-            # simulator, not the fonts: try once more. A missing element fails an assertion instead; a
-            # snapshot timeout is a cold simulator's first launch, and an app that really hangs fails again.
-            if grep -qE "never finished bootstrapping|Failed to get matching snapshots: Timed out" "$log"; then
+            # A runner that dies before the test starts, an app that never launches ("does not have a process
+            # ID"), or one XCTest can't read at all, is the simulator, not the fonts: try once more. A missing
+            # element fails an assertion instead; a snapshot timeout is a cold simulator's first launch, and an
+            # app that really hangs fails again.
+            failures="never finished bootstrapping|does not have a process ID|Failed to get matching snapshots: Timed out"
+            if grep -qE "$failures" "$log"; then
               log="results/$1-$2-2.log"
               attempt "$1" "$2" 2 && { echo "passed on a second try: $1 $2"; return; }
             # An install that outlasts waitForInstall has shown as installed after the relaunch each time,
