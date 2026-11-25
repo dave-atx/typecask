@@ -753,6 +753,16 @@
         "Renzhi Li"
       ]
     },
+    "font-iosevka-aile": {
+      "designers": [
+        "Renzhi Li"
+      ]
+    },
+    "font-iosevka-etoile": {
+      "designers": [
+        "Renzhi Li"
+      ]
+    },
     "font-iosevka-nerd-font": {
       "designers": [
         "Renzhi Li"
@@ -1191,6 +1201,11 @@
       ]
     },
     "font-pragmasevka": {
+      "designers": [
+        "Oleksii Shytikov"
+      ]
+    },
+    "font-pragmasevka-nerd-font": {
       "designers": [
         "Oleksii Shytikov"
       ]
