@@ -6,7 +6,7 @@
     release's cuts into WOFF2. */}}
   {{- $css := "" }}
   {{- range $index, $block := .Params.blocks }}
-    {{- if eq .kind "specimen" }}
+    {{- if and (eq .kind "specimen") .font }}
       {{- $file := replaceRE `\.(ttf|otf)$` ".woff2" .font }}
       {{- $css = printf "%s@font-face{font-family:\"tc-a%d\";src:url(\"%s\") format(\"woff2\");font-display:swap}\n"
           $css $index ((printf "/a/%s" $file) | relURL) }}
@@ -26,6 +26,16 @@
           <h2>{{ .text | markdownify }}</h2>
         {{- else if eq .kind "paragraph" }}
           <p>{{ .text | markdownify }}</p>
+        {{- else if and (eq .kind "specimen") .apple }}
+          {{- /* A line in an Apple family built into iOS. Apple's fonts stay off the site, so there's no font
+            file and no page to link: the line asks for the reader's own copy, as iPhones and Macs have. */}}
+          <div class="art-spec-box">
+            <span class="art-spec-name">{{ .apple }}</span>
+            <span class="art-spec-line" dir="auto" style="font-family:'{{ .apple }}',var(--ui)">{{ .text }}</span>
+            {{- with .gloss }}
+              <span class="art-spec-gloss">{{ . }}</span>
+            {{- end }}
+          </div>
         {{- else if eq .kind "specimen" }}
           {{- $cask := index (where $catalog.casks "token" .token) 0 }}
           {{- $features := slice }}
