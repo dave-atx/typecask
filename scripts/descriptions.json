@@ -185,7 +185,7 @@
     ]
   },
   "font-daddy-time-mono": {
-    "description": "DaddyTimeMono is a monospaced typeface made for programmers and terminal users. It covers ASCII, most Latin characters, numerals, punctuation, and box-drawing characters, including CP437/ANSI line-drawing and box-fill characters. Its design is inspired by the Cordata PPC-400 BIOS font, and it was hinted with ttfautohint to stay usable at lower resolutions.",
+    "description": "DaddyTimeMono is a monospaced typeface made for programmers and terminal users. It covers ASCII, most Latin characters, numerals, punctuation, and box-drawing characters, including CP437/ANSI line-drawing and box-fill characters. Its design is inspired by the Cordata PPC-400 BIOS font.",
     "sources": [
       "https://github.com/BourgeoisBear/DaddyTimeMono"
     ]
@@ -227,7 +227,7 @@
     ]
   },
   "font-envy-code-r": {
-    "description": "Envy Code R is a monospaced coding font by Damien Guard. It includes box-drawing, block element, and symbol characters, so it suits the Windows command prompt, and it covers DOS, Windows, and Mac code pages for US, Western, Central European, Turkish, Baltic, Icelandic, and Nordic text, with an italic.",
+    "description": "Envy Code R is a monospaced coding font by Damien Guard, with an italic. Its box-drawing, block element, and symbol characters suit the Windows command prompt. It covers the DOS, Windows, and Mac code pages for US, Western, Central European, Turkish, Baltic, Icelandic, and Nordic text.",
     "sources": [
       "https://damieng.com/blog/2008/envy-code-r-preview-7-coding-font-released/"
     ]
@@ -563,7 +563,13 @@
     ]
   },
   "font-meslo-lg": {
-    "description": "Meslo LG is a monospaced typeface by André Berg, a customized version of Apple's Menlo-Regular, which itself is derived from Bitstream Vera Sans Mono. It comes in three line gap variants, small, medium, and large, that let users adjust vertical line spacing, and the font also tweaks the asterisk's baseline alignment and adds slanted italic and bold italic styles. A dotted zero variant, Meslo LG DZ, is also available.",
+    "description": "Meslo LG is a monospaced typeface by André Berg, a customized version of Apple's Menlo-Regular, which itself is derived from Bitstream Vera Sans Mono. It comes in three line gap variants, small, medium, and large, that let users adjust vertical line spacing, and the font also tweaks the asterisk's baseline alignment and adds slanted italic and bold italic styles. Meslo LG DZ is the same design with a dotted zero.",
+    "sources": [
+      "https://github.com/andreberg/Meslo-Font"
+    ]
+  },
+  "font-meslo-lg-dz": {
+    "description": "Meslo LG DZ is André Berg's Meslo LG with a dotted zero in place of the slashed one. Like Meslo LG, a customized version of Apple's Menlo, it comes in small, medium, and large line gaps, with regular, bold, italic, and bold italic styles.",
     "sources": [
       "https://github.com/andreberg/Meslo-Font"
     ]
@@ -800,7 +806,7 @@
     ]
   },
   "font-profont": {
-    "description": "ProFont is a monospaced font for programming by Andrew Welch, Carl Osterwald, and Stephen C. Gilardi, first made as bitmaps for the classic Mac OS. It stays legible at very small sizes, so more lines of code fit in a window, with a slashed zero and distinct forms of I, l, and 1. This is its TrueType version for Windows.",
+    "description": "ProFont is a monospaced font for programming by Andrew Welch, Carl Osterwald, and Stephen C. Gilardi, first made as bitmaps for the classic Mac OS. It stays legible at very small sizes, so more lines of code fit in a window, with a slashed zero and distinct forms of I, l, and 1.",
     "sources": [
       "https://tobiasjung.name/profont/"
     ]
@@ -981,6 +987,12 @@
   },
   "font-zed-mono": {
     "description": "Zed Mono is a monospaced custom build of Iosevka that the Zed code editor once used as its default, beside the quasi-proportional Zed Sans.",
+    "sources": [
+      "https://github.com/zed-industries/zed-fonts"
+    ]
+  },
+  "font-zed-sans": {
+    "description": "Zed Sans is a quasi-proportional custom build of Iosevka that the Zed code editor used for its interface, beside the monospaced Zed Mono. Its letters keep Iosevka's narrow, technical shapes, but wide ones like m and w get more room than narrow ones like i and l.",
     "sources": [
       "https://github.com/zed-industries/zed-fonts"
     ]

@@ -455,11 +455,6 @@
         "DejaVu Fonts"
       ]
     },
-    "font-dejavu-sans-mono-for-powerline": {
-      "foundries": [
-        "DejaVu Fonts"
-      ]
-    },
     "font-dejavu-sans-mono-nerd-font": {
       "foundries": [
         "DejaVu Fonts"
@@ -489,14 +484,6 @@
       ]
     },
     "font-droid-sans-mono": {
-      "foundries": [
-        "Ascender"
-      ],
-      "designers": [
-        "Steve Matteson"
-      ]
-    },
-    "font-droid-sans-mono-for-powerline": {
       "foundries": [
         "Ascender"
       ],
@@ -744,11 +731,6 @@
         "Pieter van Rosmalen"
       ]
     },
-    "font-inconsolata-g-for-powerline": {
-      "designers": [
-        "Raph Levien"
-      ]
-    },
     "font-inconsolata-go": {
       "designers": [
         "Raph Levien"
@@ -878,14 +860,6 @@
         "Steve Matteson"
       ]
     },
-    "font-liberation-mono-for-powerline": {
-      "foundries": [
-        "Red Hat"
-      ],
-      "designers": [
-        "Steve Matteson"
-      ]
-    },
     "font-libertinus": {
       "designers": [
         "Philipp H. Poll",
@@ -969,12 +943,12 @@
         "subframe7536"
       ]
     },
-    "font-meslo-for-powerline": {
+    "font-meslo-lg": {
       "designers": [
         "André Berg"
       ]
     },
-    "font-meslo-lg": {
+    "font-meslo-lg-dz": {
       "designers": [
         "André Berg"
       ]
@@ -1038,11 +1012,6 @@
         "Tobias Benjamin Köhler"
       ]
     },
-    "font-monofur-for-powerline": {
-      "designers": [
-        "Tobias Benjamin Köhler"
-      ]
-    },
     "font-monofur-nerd-font": {
       "designers": [
         "Tobias Benjamin Köhler"
@@ -1082,11 +1051,6 @@
     "font-nordwand-mono": {
       "designers": [
         "Tanguy Vivier"
-      ]
-    },
-    "font-noto-mono-for-powerline": {
-      "foundries": [
-        "Google"
       ]
     },
     "font-noto-naskh-arabic-ui": {
@@ -1431,6 +1395,11 @@
       ]
     },
     "font-zed-mono-nerd-font": {
+      "foundries": [
+        "Zed Industries"
+      ]
+    },
+    "font-zed-sans": {
       "foundries": [
         "Zed Industries"
       ]

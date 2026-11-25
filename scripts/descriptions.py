@@ -12,8 +12,8 @@ scripts/descriptions.json for review. build-catalog.py reads that file when it a
   check                fail, listing them, if there are any: a check on every pull request
 
 Without tokens, both work on every cask the catalog ships that the file has no entry for and no other
-step covers: not one built from google/fonts, whose description comes from there, and not a Nerd Font or
-Powerline cask, which describe_patched() describes from its original. The Monday fonts run drafts this
+step covers: not one built from google/fonts, whose description comes from there, and not a Nerd Font
+cask, which describe_patched() describes from its original. The Monday fonts run drafts this
 way after its build, and builds again when it drafted any, so a new cask's draft is in the pull request
 that adds it. The file is reviewed by hand, so draft never
 replaces an entry already in it; delete one to redraft it. An entry whose description is null had no
@@ -40,7 +40,7 @@ SOURCES = ROOT / ".cache" / "descriptions"
 MODEL = "haiku"
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)"
 GITHUB_REPO = re.compile(r"github\.com/([^/]+)/([^/#?]+)")
-PATCHED = re.compile(r"nerd|-nf(-|$)|powerline|^font-cascadia-(code|mono)-pl$")
+PATCHED = re.compile(r"nerd|-nf(-|$)")
 # Enough of a README for its opening and any design notes; the rest is install and build steps.
 SOURCE_LIMIT = 12000
 # README sections that never describe the design.
