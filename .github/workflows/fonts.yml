@@ -223,11 +223,12 @@ jobs:
               echo "passed: $1 $2"
               return
             fi
-            # A runner that dies before the test starts, an app that never launches ("does not have a process
-            # ID"), or one XCTest can't read at all, is the simulator, not the fonts: try once more. A missing
-            # element fails an assertion instead; a snapshot timeout is a cold simulator's first launch, and an
-            # app that really hangs fails again.
-            failures="never finished bootstrapping|does not have a process ID|Failed to get matching snapshots: Timed out"
+            # A runner that dies before the test starts, an app the simulator never launches ("does not have a
+            # process ID", "Failed to get launch progress"), or one XCTest can't read at all, is the simulator,
+            # not the fonts: try once more. A missing element fails an assertion instead; a snapshot timeout is a
+            # cold simulator's first launch, and an app that really hangs fails again.
+            failures="never finished bootstrapping|does not have a process ID|Failed to get launch progress"
+            failures="$failures|Failed to get matching snapshots: Timed out"
             if grep -qE "$failures" "$log"; then
               log="results/$1-$2-2.log"
               attempt "$1" "$2" 2 && { echo "passed on a second try: $1 $2"; return; }
