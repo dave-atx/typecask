@@ -1,16 +1,16 @@
 import AppIntents
 import SwiftUI
 
-/// A font's page, laid out as a type specimen: a masthead of its letters, name, Install and facts, a type tester,
-/// then, from the full fonts, each style, passages at reading sizes, the character set and the languages it covers.
+/// A font's page, laid out as a type specimen: a masthead of its letters, name, Install and facts, then, from the
+/// full fonts, each style, passages at reading sizes, the character set and the languages it covers.
 /// The full fonts are the installed copies, or the cask's On-Demand Resources tag downloaded when asked, as Try It
 /// Out does; until then the page has only the preview's few dozen glyphs.
 struct CaskDetailView: View {
     let cask: Cask
     let catalog: Catalog
     @Environment(FontInstaller.self) private var installer
-    /// Whether the samples draw a coding face's ligatures, which the page can turn off to show what they join.
-    @State private var ligatures = true
+    /// Whether the samples draw a coding face's ligatures. Try It Out has the switch for them.
+    private let ligatures = true
     /// The full fonts, once installed or asked for, which Try It Out shares.
     @State private var loader: TryOutLoader?
     /// Try It Out, while it's open, and what it opened to.
@@ -20,6 +20,10 @@ struct CaskDetailView: View {
     @State private var actionsVisible = true
     /// Whether the full specimen was asked for, so VoiceOver hears when it's ready; an installed cask's loads unasked.
     @State private var announcesSpecimen = false
+    /// Where each section starts, relative to the top of the scroll view, for the index to mark the one in view.
+    @State private var offsets: [PageSection: CGFloat] = [:]
+    /// The page's width, index included, which decides whether there's room for the index.
+    @State private var width: CGFloat = 0
     private var size = SpecimenSize()
 
     init(cask: Cask, catalog: Catalog) {
@@ -28,55 +32,31 @@ struct CaskDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            // Lazy for the character grid's pinned header (see SpecimenCharacters).
-            LazyVStack(alignment: .leading, spacing: 32, pinnedViews: .sectionHeaders) {
-                VStack(alignment: .leading, spacing: 20) {
-                    SpecimenMasthead(cask: cask, catalog: catalog)
-                    CaskActions(cask: cask)
-                        .onScrollVisibilityChange(threshold: 0.3) { visible in
-                            withAnimation { actionsVisible = visible }
-                        }
-                    SpecimenFacts(cask: cask)
-                }
-                if let nerdVersion = catalog.nerdVersions[cask.token] {
-                    NerdFontVersion(cask: nerdVersion, catalog: catalog)
-                }
-                SpecimenSection("Tester") {
-                    TypeTester(cask: cask, catalog: catalog, ligatures: $ligatures)
-                }
-                if let specimen {
-                    SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)
-                    SpecimenFeatures(specimen: specimen)
-                    SpecimenSetting(specimen: specimen, ligatures: ligatures)
-                    SpecimenCharacters(specimen: specimen)
-                    SpecimenLanguages(specimen: specimen)
-                } else if cask.isBundled || installer.status(of: cask).isInstalled {
-                    FullSpecimenPrompt(cask: cask, loader: loader) {
-                        announcesSpecimen = true
-                        loadSpecimen()
-                    }
-                }
-                if let description = cask.description {
-                    SpecimenSection("About") {
-                        CaskDescription(markdown: description, designers: cask.descriptionBy ?? [])
-                    }
-                }
-                // Every cask in the catalog has a license; build-catalog.py skips those without one.
-                VStack(alignment: .leading, spacing: 8) {
-                    Divider()
-                    DisclosureGroup("License") {
-                        LicenseText(token: cask.token)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 8)
+        ScrollViewReader { proxy in
+            HStack(alignment: .top, spacing: 0) {
+                page
+                // Beside the page where there's room for it, as on an iPad in landscape or with the sidebar hidden. A
+                // narrower page keeps its width, since the character grid and passages need it more.
+                if width >= 760 {
+                    SectionIndex(sections: sections, current: currentSection) { section in
+                        withAnimation { proxy.scrollTo(section, anchor: .top) }
                     }
                 }
             }
-            .padding()
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width = $0 }
+            // The full specimen asked for from the actions row arrives below the fold, so the page goes to it.
+            .onChange(of: specimen != nil) { _, loaded in
+                if loaded, announcesSpecimen {
+                    withAnimation { proxy.scrollTo(PageSection.styles, anchor: .top) }
+                }
+            }
         }
         .navigationTitle(cask.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                PageShareLink(url: SiteLink.cask(cask), title: cask.name)
+            }
             if !actionsVisible {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     PageToolbarActions(cask: cask)
@@ -116,6 +96,110 @@ struct CaskDetailView: View {
         .appEntityIdentifier(EntityIdentifier(for: FontEntity.self, identifier: cask.token))
         .focusedSceneValue(\.cask, cask)
         .onAppear { QuickActions.remember(cask) }
+    }
+
+    private var page: some View {
+        ScrollView {
+            // Lazy for the character grid's pinned header (see SpecimenCharacters).
+            LazyVStack(alignment: .leading, spacing: 32, pinnedViews: .sectionHeaders) {
+                VStack(alignment: .leading, spacing: 20) {
+                    SpecimenMasthead(cask: cask, catalog: catalog)
+                    CaskActions(cask: cask, fullSpecimen: fullSpecimenAction)
+                        .onScrollVisibilityChange(threshold: 0.3) { visible in
+                            withAnimation { actionsVisible = visible }
+                        }
+                    SpecimenFacts(cask: cask)
+                }
+                if let nerdVersion = catalog.nerdVersions[cask.token] {
+                    anchor(.nerdFont)
+                    NerdFontVersion(cask: nerdVersion, catalog: catalog)
+                }
+                if let specimen {
+                    anchor(.styles)
+                    SpecimenStyles(specimen: specimen, sample: sample, ligatures: ligatures)
+                    anchor(.features)
+                    SpecimenFeatures(specimen: specimen)
+                    anchor(.setting)
+                    SpecimenSetting(specimen: specimen, ligatures: ligatures)
+                    anchor(.characters)
+                    SpecimenCharacters(specimen: specimen)
+                    anchor(.languages)
+                    SpecimenLanguages(specimen: specimen)
+                } else if loader != nil {
+                    // Its download's progress, or why it failed, once asked for from the actions row.
+                    FullSpecimenPrompt(cask: cask, loader: loader) { showFullSpecimen() }
+                }
+                if let description = cask.description {
+                    anchor(.about)
+                    SpecimenSection("About") {
+                        CaskDescription(markdown: description, designers: cask.descriptionBy ?? [])
+                    }
+                }
+                // Every cask in the catalog has a license; build-catalog.py skips those without one.
+                anchor(.license)
+                VStack(alignment: .leading, spacing: 8) {
+                    Divider()
+                    DisclosureGroup("License") {
+                        LicenseText(token: cask.token)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 8)
+                    }
+                }
+            }
+            .padding()
+        }
+    }
+
+    /// Where a section starts, for the index to scroll to and to tell which section is in view. A view of its own
+    /// rather than a modifier on the section, which would break the character grid's pinned header.
+    private func anchor(_ section: PageSection) -> some View {
+        Color.clear
+            .frame(height: 0)
+            .id(section)
+            .onGeometryChange(for: CGFloat.self) { $0.frame(in: .scrollView).minY } action: { offsets[section] = $0 }
+    }
+
+    /// The sections this page has, in order, for the index beside it.
+    private var sections: [PageSection] {
+        var sections: [PageSection] = catalog.nerdVersions[cask.token] == nil ? [] : [.nerdFont]
+        if let specimen {
+            sections.append(.styles)
+            if !specimen.features.isEmpty {
+                sections.append(.features)
+            }
+            if TryOutText.draws(SpecimenSetting.paragraphs.joined(), specimen.covered) {
+                sections.append(.setting)
+            }
+            sections.append(.characters)
+            if !specimen.languages.isEmpty {
+                sections.append(.languages)
+            }
+        }
+        if cask.description != nil {
+            sections.append(.about)
+        }
+        return sections + [.license]
+    }
+
+    /// The last section whose start has scrolled to near the top, or the first while none has.
+    private var currentSection: PageSection? {
+        sections.last { (offsets[$0] ?? .infinity) <= 120 } ?? sections.first
+    }
+
+    /// Whether the actions row offers the full specimen: for a cask this build carries, until it's asked for. An
+    /// installed cask's loads by itself.
+    private var canShowFullSpecimen: Bool {
+        cask.isBundled && loader == nil && installer.status(of: cask) != .builtIn
+    }
+
+    private var fullSpecimenAction: (() -> Void)? {
+        guard canShowFullSpecimen else { return nil }
+        return { showFullSpecimen() }
+    }
+
+    private func showFullSpecimen() {
+        announcesSpecimen = true
+        loadSpecimen()
     }
 
     private var sample: String { cask.sample ?? catalog.sampleText }
@@ -202,186 +286,3 @@ private struct CaskDescription: View {
         .accessibilityElement(children: .combine)
     }
 }
-
-/// Install or Uninstall, and the homepage, as glass buttons. Not in a GlassEffectContainer: inside one,
-/// the buttons dropped out of the accessibility tree once the cask was installed, Uninstall included.
-/// Identified by the cask's token, so the UI tests can tell a page's two sets apart, the plain cask's and its
-/// Nerd Font version's, which share their buttons' identifiers.
-struct CaskActions: View {
-    let cask: Cask
-    /// Whether these are a paired page's Nerd Font version's, which leave out the homepage and name the
-    /// version to VoiceOver, so the page's two Install buttons don't sound alike.
-    var isNerdVersion = false
-    @Environment(FontInstaller.self) private var installer
-
-    var body: some View {
-        // The same spacing as the page's own, which these were part of before they were grouped.
-        VStack(alignment: .leading, spacing: 24) {
-            content
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("controls.\(cask.token)")
-    }
-
-    @ViewBuilder private var content: some View {
-        // In a row when they fit, stacked when they don't, as on a narrow screen at an accessibility text
-        // size, where a row broke every label mid-word. Stacking keeps the labels, which icons alone wouldn't.
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 12) { buttons }
-            VStack(alignment: .leading, spacing: 12) { buttons }
-        }
-        if !cask.isBundled, installer.status(of: cask) != .builtIn {
-            // The release left this cask's fonts out (see README), or this is a debug build carrying a few
-            // casks', so there is no On-Demand Resources tag to download, and offering Install would just fail.
-            Label("Fonts not included in this build", systemImage: "arrow.down.circle.dotted")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-        }
-        if case .failed(let message) = installer.status(of: cask) {
-            // Red on the icon alone: red text is 3.5:1 on white, short of the 4.5:1 text needs.
-            Label {
-                Text(message)
-            } icon: {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.red)
-            }
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-        }
-    }
-
-    @ViewBuilder private var buttons: some View {
-        // An installed cask can be removed even when this build no longer ships it, and one iOS has built in
-        // says so whatever the build carries.
-        let status = installer.status(of: cask)
-        if cask.isBundled || status.isInstalled || status == .builtIn {
-            InstallControl(cask: cask, isNerdVersion: isNerdVersion)
-        }
-        if (cask.isBundled || status.isInstalled) && status != .builtIn {
-            TryItOutButton(cask: cask)
-        }
-        if !isNerdVersion {
-            Link(destination: cask.homepage) {
-                Label("Homepage", systemImage: "safari")
-            }
-            .buttonStyle(.glass)
-            .accessibilityIdentifier("homepage")
-        }
-    }
-}
-
-/// The control for the cask's status. When an install or uninstall finishes, VoiceOver's focus moves to
-/// whatever replaced the button it was on, rather than being lost with that button.
-private struct InstallControl: View {
-    let cask: Cask
-    var isNerdVersion = false
-    @Environment(FontInstaller.self) private var installer
-    @AccessibilityFocusState private var focus: Control?
-
-    private enum Control: Hashable {
-        case install
-        case uninstall
-    }
-
-    var body: some View {
-        content
-            .onChange(of: installer.status(of: cask)) { old, new in
-                guard old.isBusy else { return }
-                switch new {
-                case .installed: focus = .uninstall
-                case .available, .failed: focus = .install
-                default: break
-                }
-            }
-    }
-
-    @ViewBuilder private var content: some View {
-        switch installer.status(of: cask) {
-        case .available:
-            installButton("Install")
-        case .failed:
-            installButton("Try Again")
-        case .downloading:
-            ProgressView("Downloading…", value: installer.progress(of: cask))
-                .frame(maxWidth: 220)
-        case .installing:
-            ProgressView("Installing…")
-        case .uninstalling:
-            ProgressView("Uninstalling…")
-        case .updating:
-            ProgressView("Updating…")
-        case .updateAvailable:
-            Button("Update", systemImage: "arrow.down.circle") {
-                Task { await installer.run(.update, on: cask) }
-            }
-            .buttonStyle(.glassProminent)
-            .disabled(!cask.isBundled)
-            .accessibilityLabel(isNerdVersion ? "Update Nerd Font" : "Update")
-            .accessibilityIdentifier("update")
-            uninstallButton
-        case .builtIn:
-            Label("Built into iOS", systemImage: "checkmark.seal")
-                .foregroundStyle(.secondary)
-        case .installed:
-            // Green on the icon alone: green text is about 2:1 on white.
-            Label {
-                Text("Installed")
-            } icon: {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(Color(.installedBadge))
-            }
-            uninstallButton
-        }
-    }
-
-    private var uninstallButton: some View {
-        Button("Uninstall", systemImage: "trash", role: .destructive) {
-            Task { await installer.run(.uninstall, on: cask) }
-        }
-        .buttonStyle(.glass)
-        .accessibilityLabel(isNerdVersion ? "Uninstall Nerd Font" : "Uninstall")
-        .accessibilityFocused($focus, equals: .uninstall)
-        .accessibilityIdentifier("uninstall")
-    }
-
-    private func installButton(_ title: LocalizedStringKey) -> some View {
-        Button(title, systemImage: "arrow.down.circle") {
-            Task { await installer.run(.install, on: cask) }
-        }
-        .buttonStyle(.glassProminent)
-        // The visible title, or which version it installs on a paired page. Try Again stays as it is.
-        .accessibilityLabel(isNerdVersion && title == "Install" ? "Install Nerd Font" : title)
-        .accessibilityFocused($focus, equals: .install)
-        .accessibilityIdentifier("install")
-    }
-}
-
-#Preview {
-    let catalog = Catalog.bundled
-    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
-    NavigationStack {
-        CaskDetailView(cask: cask, catalog: catalog)
-    }
-    .environment(FontInstaller())
-}
-
-#if DEBUG
-#Preview("Installed") {
-    let catalog = Catalog.bundled
-    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
-    NavigationStack {
-        CaskDetailView(cask: cask, catalog: catalog)
-    }
-    .environment(FontInstaller(previewing: .installed, for: cask))
-}
-
-#Preview("Installed, AX1") {
-    let catalog = Catalog.bundled
-    let cask = catalog.casks.first { $0.token == "font-aboreto" } ?? catalog.casks[0]
-    NavigationStack {
-        CaskDetailView(cask: cask, catalog: catalog)
-    }
-    .environment(FontInstaller(previewing: .installed, for: cask))
-    .dynamicTypeSize(.accessibility1)
-}
-#endif

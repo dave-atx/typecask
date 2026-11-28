@@ -38,7 +38,7 @@ final class ShortcutTests: XCTestCase {
 
         let lexend = fonts.makeReference(identifier: "font-lexend")
         try await definitions.intents["OpenFontIntent"].makeIntent(target: lexend).run()
-        XCTAssertTrue(app.sliders["specimenSize"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.controls(for: "font-lexend").waitForExistence(timeout: 10))
         XCTAssertTrue(app.navigationBars["Lexend"].exists)
         XCTAssertFalse(app.buttons["Close"].exists)
 

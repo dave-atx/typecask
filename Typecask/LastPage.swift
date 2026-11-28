@@ -11,10 +11,9 @@ extension GalleryModel {
             else { return false }
             browse(collection)
             return true
-        case "font":
-            let token = url.absoluteString.trimmingPrefix("font:")
-            guard let cask = catalog.casks.first(where: { $0.token == token }) else { return false }
-            path.append(.item(.cask(catalog.shown(cask))))
+        case "font", "apple":
+            guard let item = item(for: url) else { return false }
+            path.append(.item(item))
             return true
         case "foundry", "designer":
             let kind: Maker.Kind = url.scheme == "foundry" ? .foundry : .designer
@@ -30,6 +29,15 @@ extension GalleryModel {
         default:
             return false
         }
+    }
+
+    /// The font a `font:TOKEN` link names, or the Apple family an `apple:NAME` link does.
+    private func item(for url: URL) -> GalleryItem? {
+        let name = String(url.absoluteString.drop { $0 != ":" }.dropFirst())
+        if url.scheme == "apple" {
+            return catalog.appleFonts.first { $0.name == name }.map(GalleryItem.apple)
+        }
+        return catalog.casks.first { $0.token == name }.map { .cask(catalog.shown($0)) }
     }
 
     /// Start Here, or an article over it, as a link from the site opens them, over whatever was showing.

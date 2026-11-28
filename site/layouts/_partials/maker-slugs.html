@@ -4,7 +4,7 @@
 {{- $pages := dict -}}
 {{- with site.GetPage (printf "/%s" .) -}}
   {{- range .Pages -}}
-    {{- $slug := strings.Trim (.Title | lower | replaceRE `[^\p{L}\p{N}]+` "-") "-" -}}
+    {{- $slug := partial "maker-slug.html" .Title -}}
     {{- $pages = merge $pages (dict $slug .) -}}
   {{- end -}}
 {{- end -}}

@@ -39,11 +39,17 @@ another article ([Workhorses](article:workhorses)), a foundry or a designer
 
 @font-amiri: مرحبا بالعالم
 = Hello, world
+
+@apple:Papyrus: A line in a family built into iOS
 ```
 
 - `order` sets the order on the Start Here page. The articles are evergreen, so nothing rotates.
 - A specimen line is `@TOKEN: text`, on its own between blank lines. Settings in braces pick axis
   values (`wght=900`), turn features on or off (`+ss01`, `-liga`), and pick a face by its asset name.
+- `@apple:NAME:` sets a line in one of Apple's families built into iOS, by its name in `AppleFonts.json`, and
+  `[Papyrus](apple:Papyrus)` links one. The device has the face, so nothing is cut and the line takes no
+  settings. The app draws it in that face and opens the family's page; the site, which keeps Apple's fonts
+  off, asks for the reader's own copy and links nothing.
 - A line starting `=` right under a specimen is its translation, for a line in another language. It's
   plain text, set small under the line in the system font, so the line's font doesn't need its letters.
 - A foundry or designer link names the maker as the catalog does, by a slug: the name in lower case, with

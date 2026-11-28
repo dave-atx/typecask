@@ -169,6 +169,12 @@ private struct GalleryBrowser: View {
                 ViewModePicker(model: model)
             }
             .visibilityPriority(.high)
+            // Only for a collection the site has a page for: Installed, say, is yours alone.
+            if let url = SiteLink.collection(model.collection) {
+                ToolbarItem(placement: .primaryAction) {
+                    PageShareLink(url: url, title: String(localized: model.collection.name))
+                }
+            }
         }
     }
 

@@ -147,64 +147,7 @@ struct SpecimenSize: DynamicProperty {
     }
 }
 
-/// The slider for `SpecimenSize`.
-struct SpecimenSizeSlider: View {
-    let size: Binding<Double>
-
-    var body: some View {
-        Slider(value: size, in: SpecimenSize.sizes) {
-            Text("Sample Size")
-        } minimumValueLabel: {
-            Image(systemName: "textformat.size.smaller")
-                .accessibilityHidden(true)
-        } maximumValueLabel: {
-            Image(systemName: "textformat.size.larger")
-                .accessibilityHidden(true)
-        }
-        .accessibilityValue(Text("\(Int(size.wrappedValue)) points"))
-        .accessibilityIdentifier("specimenSize")
-    }
-}
-
-/// The type tester: the sample at a size of the reader's choosing, to judge a face at the size they'd read it. Its
-/// one control is the size; the rest, style, alignment, line height, axes and features, are Try It Out's.
-struct TypeTester: View {
-    let cask: Cask
-    let catalog: Catalog
-    @Binding var ligatures: Bool
-    private var size = SpecimenSize()
-    @Environment(\.tryOut) private var opener
-
-    init(cask: Cask, catalog: Catalog, ligatures: Binding<Bool>) {
-        self.cask = cask
-        self.catalog = catalog
-        _ligatures = ligatures
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 12) {
-                CaskSpecimenText(cask: cask, catalog: catalog, size: size.wrappedValue, lineLimit: nil,
-                                 ligatures: ligatures)
-                    .opensTryOut(TryOutStart(source: "sample"), hint: Text("Opens Try It Out, to type in this font."))
-                    // Kept on the one element the sample becomes, for the UI tests and the audit.
-                    .accessibilityIdentifier("specimen")
-                SpecimenSizeSlider(size: size.binding)
-                if opener != nil {
-                    Label("Tap the sample, a style or a feature to type in it.", systemImage: "character.cursor.ibeam")
-                        .font(.footnote)
-                        .foregroundStyle(Color(.captionText))
-                }
-            }
-            if cask.ligatures == true {
-                LigaturesToggle(isOn: $ligatures)
-            }
-        }
-    }
-}
-
-/// Offers the full specimen, which needs the cask's full fonts: shown for one that isn't installed, with what it
-/// downloads, then its progress, or why it failed.
+/// The full specimen's download, once the actions row's Full Specimen asks for it: its progress, or why it failed.
 struct FullSpecimenPrompt: View {
     let cask: Cask
     let loader: TryOutLoader?
@@ -214,15 +157,7 @@ struct FullSpecimenPrompt: View {
         SpecimenSection("Full Specimen") {
             switch loader?.phase {
             case nil:
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Every style, set in passages, the whole character set and the languages it covers.")
-                        .font(.callout)
-                        .foregroundStyle(Color(.captionText))
-                    Button("Show Full Specimen", systemImage: "text.book.closed", action: start)
-                        .buttonStyle(.glass)
-                        .accessibilityHint(Text("Downloads \(cask.bytes.formatted(.byteCount(style: .file)))."))
-                        .accessibilityIdentifier("fullSpecimen")
-                }
+                EmptyView()
             case .loading:
                 ProgressView("Downloading \(cask.bytes.formatted(.byteCount(style: .file)))…",
                              value: loader?.progress ?? 0)
@@ -248,22 +183,6 @@ struct FullSpecimenPrompt: View {
     }
 }
 
-/// Turns a coding face's ligatures off and on in the samples above, so you can see -> and != become arrows and
-/// signs and back.
-struct LigaturesToggle: View {
-    @Binding var isOn: Bool
-
-    var body: some View {
-        Toggle(isOn: $isOn) {
-            Text("Ligatures")
-            Text("Joins sequences like -> and != into single symbols, in editors that support them.")
-                // Darker than the system's secondary gray, which is 3.5:1 on white where text needs 4.5:1.
-                .foregroundStyle(Color(.captionText))
-        }
-        .accessibilityIdentifier("ligatures")
-    }
-}
-
 /// The facts in as many columns as fit at `minimumWidth`, two on an iPhone and more on an iPad, filled row by row,
 /// each row as tall as its tallest fact.
 private struct FactColumns: Layout {
@@ -271,7 +190,9 @@ private struct FactColumns: Layout {
     let spacing: CGFloat
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let width = proposal.width ?? minimumWidth * 2 + spacing
+        // An unbounded proposal, as a stack beside the page asks while working out how much room to give it, gets
+        // two columns' width, as no proposal does.
+        let width = proposal.width.flatMap { $0.isFinite ? $0 : nil } ?? minimumWidth * 2 + spacing
         let heights = rowHeights(subviews, width: width)
         return CGSize(width: width, height: heights.reduce(0, +) + spacing * CGFloat(max(heights.count - 1, 0)))
     }

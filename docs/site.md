@@ -41,10 +41,14 @@ from `webFontsURL`, fonts.typecask.app, only once someone presses the button (`a
 release with no manifest yet leaves the section out. The bucket's CORS rule lets typecask.app, and the
 preview URLs (below), load them.
 
-A font page's On a Mac or Linux section gives the cask's `brew install --cask` command, which Homebrew runs
+A font page's On your computer section gives the cask's `brew install --cask` command, which Homebrew runs
 on Linux too since 4.5, unless the catalog marks the cask `homebrew: false` (the `EXTRA_CASKS` Homebrew
-doesn't have), and links a Google family's Google Fonts page, from `googleFamily`. A catalog from before
-those fields offers the command for every cask and knows a Google family only by its homepage.
+doesn't have). Then, without Homebrew, where to download it, and how to install the files on a Mac, on
+Windows, and on Linux. The download is a Google family's Google Fonts page, from `googleFamily`, else the
+cask's own archive or font file, from `download`: `build-catalog.py` sets it only for a zip, a tarball, or a
+font file, not an installer, a disk image, or a 7-Zip archive. Anything else gets the font's home page. A
+catalog from before those fields offers the command for every cask, knows a Google family only by its
+homepage, and has no downloads.
 
 What depends on the version follows it too. What's New (`content/_content.gotmpl`) exists only once the
 live version has notes. `_partials/released.html` says whether the live version is at least a given one,
@@ -71,7 +75,10 @@ people and foundries together, under `designers`, so the content adapter makes n
 without `foundries` and lists the names on each font's page as before. Hugo would capitalize term titles
 (dtinth as "Dtinth"), so `capitalizeListTitles` is off and each taxonomy's index takes its title from
 `content/<taxonomy>/_index.md`. Templates find a maker's page by title through `_partials/maker-pages.html`:
-`site.GetPage` with a urlized path misses names like Łukasz Dziedzic.
+`site.GetPage` with a urlized path misses names like Łukasz Dziedzic. A content adapter in each of
+`content/designers/` and `content/foundries/` (`_partials/maker-term-pages.html`) sets every maker's page
+at the slug the articles link it by, `_partials/maker-slug.html`, rather than Hugo's, which keeps the dot in
+andrey-v.-panov and the + in M+: the app's Share sends a maker's page by that slug.
 
 ## How the specimens work
 

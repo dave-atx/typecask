@@ -27,6 +27,25 @@ final class StartHereTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 10))
     }
 
+    /// Start Here in the sidebar goes back to Start Here from a font opened in an article, rather than leaving the
+    /// font showing because Start Here was already the sidebar's choice. iPad only: on iPhone the sidebar is behind
+    /// every page pushed over it.
+    @MainActor
+    func testStartHereInTheSidebarLeavesTheFont() throws {
+        try XCTSkipUnless(UIDevice.current.userInterfaceIdiom == .pad, "The sidebar shows beside a page only on iPad.")
+        XCUIDevice.shared.orientation = .landscapeLeft
+        let app = XCUIApplication.typecask()
+        app.launchArguments += ["-lastPage", "start|article:start-here"]
+        app.launch()
+        let link = app.links["Inter"]
+        XCTAssertTrue(link.waitForExistence(timeout: 30))
+        link.tap()
+        XCTAssertTrue(app.navigationBars["Inter"].waitForExistence(timeout: 10))
+        app.descendants(matching: .any)["startHere"].firstMatch.tap()
+        XCTAssertTrue(app.buttons["article-start-here"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.navigationBars["Inter"].exists)
+    }
+
     /// The font's name in the paragraph after its line opens its page, as the line's box does.
     @MainActor
     func testFontsNameInTheParagraphOpensItsPage() {
@@ -68,7 +87,7 @@ final class StartHereTests: XCTestCase {
         app.launchArguments += ["-lastPage", "start|article:workhorses"]
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any)["specimen-font-inter"].waitForExistence(timeout: 30))
-        XCTAssertFalse(app.links["Rasmus Andersson"].exists)
+        XCTAssertFalse(app.links["Android's system font since 2011"].exists)
         let link = app.links["Inspired by the classics"].firstMatch
         for _ in 0..<12 where !link.isHittable {
             app.swipeUp()

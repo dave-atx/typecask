@@ -1,0 +1,5 @@
+{{- /* A foundry's or a designer's name as the articles link it and as its page's URL spells it,
+  "the-league-of-moveable-type": the name in lower case with each run of anything but letters and digits a
+  hyphen, as scripts/articles.py's maker_slug() and the app's Maker.slug(of:) make it. The app shares a maker's
+  page by this URL, which Hugo's own would miss: Hugo keeps the dot in "andrey-v.-panov" and the + in M+. */ -}}
+{{- return strings.Trim (. | lower | replaceRE `[^\p{L}\p{N}]+` "-") "-" -}}

@@ -80,10 +80,16 @@ final class GalleryModel {
     /// `List` selection is optional on iOS. The tags themselves are never nil — that was the bug: a row
     /// tagged `nil` reads as "nothing selected" and can never be picked — so nil here only means deselect,
     /// which an iPhone's back button to the sidebar does. That keeps the root: taking nil for Start Here
-    /// changed the selection, and the split view pushed Start Here straight back over the sidebar.
+    /// changed the selection, and the split view pushed Start Here straight back over the sidebar. Picking a row
+    /// shows its page, not what was pushed over it: Start Here, picked from a font opened in an article, left
+    /// the font showing, since the root was already Start Here.
     var selectedRoot: Root? {
         get { root }
-        set { if let newValue { root = newValue } }
+        set {
+            guard let newValue else { return }
+            root = newValue
+            path = []
+        }
     }
 
     let articles: [Article]

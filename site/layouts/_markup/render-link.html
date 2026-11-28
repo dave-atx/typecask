@@ -2,6 +2,7 @@
   Every Markdown link on the site, the catalog's descriptions included. The articles (data/articles.json)
   link with schemes of their own, which the app follows in place and this turns into the site's pages:
     font:TOKEN        the font's page
+    apple:NAME        plain words: Apple's fonts have no pages here
     article:SLUG      another article, under /start/
     collection:KEY    a design style's page, or Nerd Fonts; the app's other collections, like Legibility,
                       have no page here, so the words stay plain
@@ -20,6 +21,8 @@
   {{- else -}}
     {{ .Text }}
   {{- end -}}
+{{- else if eq $scheme "apple" -}}
+  {{ .Text }}
 {{- else if eq $scheme "article" -}}
   <a href="{{ (printf "/start/%s/" $rest) | relURL }}">{{ .Text }}</a>
 {{- else if eq $scheme "collection" -}}

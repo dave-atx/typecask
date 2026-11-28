@@ -33,12 +33,15 @@ nonisolated struct Article: Decodable, Hashable, Identifiable, Sendable {
         }
     }
 
-    /// A line set in a cask's face. `font` is a file of its own, cut to the line's characters, since a
-    /// preview font holds only the gallery's sample; it's already instanced at the line's axis values.
+    /// A line set in a cask's face, or in an Apple family built into iOS. A cask's `font` is a file of its own,
+    /// cut to the line's characters, since a preview font holds only the gallery's sample; it's already
+    /// instanced at the line's axis values. An Apple family's line has no file: the device has the face.
     nonisolated struct SpecimenLine: Decodable, Hashable, Sendable {
         let token: String
         let text: String
-        let font: String
+        var font: String?
+        /// The Apple family the line is set in, by name, for a token of `apple:NAME`.
+        var apple: String?
         /// OpenType features turned on or off, by tag.
         var features: [String: Bool]?
         /// The line's meaning, for a line in another language, set under it in the system font.
@@ -139,6 +142,9 @@ struct StartHereView: View {
                 }
                 .accessibilityIdentifier("startSearch")
             }
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.startHere, title: String(localized: "Start Here"))
+            }
         }
     }
 }
@@ -197,6 +203,11 @@ struct ArticleView: View {
         }
         .navigationTitle(article.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                PageShareLink(url: SiteLink.article(article), title: article.title)
+            }
+        }
         .environment(\.openURL, OpenURLAction { url in
             model.follow(url) ? .handled : .systemAction
         })
@@ -204,39 +215,46 @@ struct ArticleView: View {
 
     @ViewBuilder
     private func specimen(_ line: Article.SpecimenLine) -> some View {
-        if let cask = model.catalog.casks.first(where: { $0.token == line.token }) {
-            NavigationLink(value: GalleryPage.item(.cask(model.catalog.shown(cask)))) {
-                // A shaded box, as the cards in the gallery, with the font's name inside it above the line.
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack(spacing: 4) {
-                        Text(cask.name)
-                        Image(systemName: "chevron.forward")
-                            .imageScale(.small)
-                    }
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(Color(.captionText))
-                    Text(line.text)
-                        .font(PreviewFonts.font(line.font, size: sampleSize(sizeClass) * min(scale, 1.6),
-                                                features: line.features ?? [:]))
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    if let gloss = line.gloss {
-                        Text(gloss)
-                            .font(.callout)
-                            .foregroundStyle(Color(.captionText))
-                            .multilineTextAlignment(.leading)
-                    }
-                }
-                .padding(4)
-            }
-            .buttonStyle(CardButtonStyle(minHeight: 0))
-            .padding(.vertical, 6)
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text("\(line.text), set in \(cask.name)" + (line.gloss.map { ". \($0)" } ?? "")))
-            .accessibilityHint(Text("Opens the font's page"))
-            .accessibilityAddTraits(.isLink)
-            .accessibilityIdentifier("specimen-\(line.token)")
+        let size = sampleSize(sizeClass) * min(scale, 1.6)
+        if let name = line.apple, let family = model.catalog.appleFonts.first(where: { $0.name == name }) {
+            specimenBox(line, name: family.name, page: .item(.apple(family)), font: family.font(size: size))
+        } else if let cask = model.catalog.casks.first(where: { $0.token == line.token }), let font = line.font {
+            specimenBox(line, name: cask.name, page: .item(.cask(model.catalog.shown(cask))),
+                        font: PreviewFonts.font(font, size: size, features: line.features ?? [:]))
         }
+    }
+
+    private func specimenBox(_ line: Article.SpecimenLine, name: String, page: GalleryPage, font: Font) -> some View {
+        NavigationLink(value: page) {
+            // A shaded box, as the cards in the gallery, with the font's name inside it above the line.
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 4) {
+                    Text(name)
+                    Image(systemName: "chevron.forward")
+                        .imageScale(.small)
+                }
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(Color(.captionText))
+                Text(line.text)
+                    .font(font)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                if let gloss = line.gloss {
+                    Text(gloss)
+                        .font(.callout)
+                        .foregroundStyle(Color(.captionText))
+                        .multilineTextAlignment(.leading)
+                }
+            }
+            .padding(4)
+        }
+        .buttonStyle(CardButtonStyle(minHeight: 0))
+        .padding(.vertical, 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("\(line.text), set in \(name)" + (line.gloss.map { ". \($0)" } ?? "")))
+        .accessibilityHint(Text("Opens the font's page"))
+        .accessibilityAddTraits(.isLink)
+        .accessibilityIdentifier("specimen-\(line.token)")
     }
 }
 

@@ -32,6 +32,7 @@ Each article is one file, articles/SLUG.md: front matter, then blocks separated 
     or off (-), and a face other than the cask's primary one, by its asset name
     @font-amiri: مرحبا بالعالم
     = Hello, world (a line under a specimen, starting =, is its translation, set small in the system font)
+    @apple:Papyrus: A line in an Apple family built into iOS, which isn't cut, and links as apple:Papyrus
 
 articles/glossary.md isn't an article: it defines the type terms the articles link with term:, which the app
 shows in a popover and the site in an <abbr>. Each term is a ## heading and one paragraph; the link names it
@@ -71,6 +72,7 @@ OUTPUT = ROOT / "Typecask" / "Articles.json"
 CATALOG = ROOT / "Typecask" / "Catalog.json"
 FONTS = ROOT / "Typecask" / "ArticleFonts"
 XCASSETS = ROOT / "Typecask" / "Fonts.xcassets"
+APPLE_FONTS = ROOT / "Typecask" / "AppleFonts.json"
 FONT_SUFFIXES = (".ttf", ".otf")
 
 # FontCollection's cases, by the raw values of DesignStyle and Holiday for the ones that take them.
@@ -95,6 +97,13 @@ class ArticleError(Exception):
 
 def load_catalog():
     return {cask["token"]: cask for cask in json.loads(CATALOG.read_text(encoding="utf-8"))["casks"]}
+
+
+@functools.cache
+def apple_families():
+    """The names of the Apple families built into iOS, which an article can set a line in or link with
+    apple:NAME. A downloadable one isn't on the reader's device to draw with."""
+    return frozenset(family["name"] for family in json.loads(APPLE_FONTS.read_text()) if family["builtIn"])
 
 
 def maker_slug(name):
@@ -240,6 +249,14 @@ def specimen(line, tokens):
     if not match:
         raise ArticleError("a specimen reads @TOKEN: text, or @TOKEN {settings}: text")
     token, text = match["token"], match["text"].strip()
+    if token.startswith("apple:"):
+        # Set in the family's own face, which the device already has: nothing to cut, and no settings.
+        family = token.removeprefix("apple:")
+        if family not in apple_families():
+            raise ArticleError(f"{family} isn't one of the Apple families built into iOS")
+        if match["settings"]:
+            raise ArticleError("an Apple family's line takes no settings")
+        return {"kind": "specimen", "token": token, "apple": family, "text": text}
     if token not in tokens:
         raise ArticleError(f"{token} isn't in the catalog")
     result = {"kind": "specimen", "token": token, "text": text}
@@ -272,15 +289,18 @@ def inline(text, tokens, terms, slugs=frozenset()):
             raise ArticleError(f"no collection {rest!r}; collections are {', '.join(sorted(COLLECTIONS))}")
         if scheme == "font" and rest not in tokens:
             raise ArticleError(f"{rest} isn't in the catalog")
+        if scheme == "apple" and rest not in apple_families():
+            raise ArticleError(f"{rest} isn't one of the Apple families built into iOS")
         if scheme == "term" and rest not in terms:
             raise ArticleError(f"no term {rest!r} in {GLOSSARY.name}")
         if scheme == "article" and rest not in slugs:
             raise ArticleError(f"no article {rest!r} in {SOURCE.name}/")
         if scheme in {"foundry", "designer"} and rest not in maker_slugs()[scheme]:
             raise ArticleError(f"no {scheme} {rest!r} in the catalog")
-        if scheme not in {"collection", "font", "term", "article", "foundry", "designer", "https"}:
+        if scheme not in {"collection", "font", "apple", "term", "article", "foundry", "designer", "https"}:
             raise ArticleError(
-                f"link to {target}: links go to collection:, font:, term:, article:, foundry:, designer: or https://"
+                f"link to {target}: links go to collection:, font:, apple:, term:, article:, foundry:, designer: "
+                "or https://"
             )
     bare = LINK.sub(r"\g<text>", text)
     if "](" in bare or "![" in text:
@@ -318,7 +338,11 @@ def link_first_mentions(article, catalog):
     for item, following in itertools.pairwise(blocks):
         if item["kind"] != "specimen" or following["kind"] != "paragraph":
             continue
-        name, target, text = catalog[item["token"]]["name"], f"font:{item['token']}", following["text"]
+        if "apple" in item:
+            name, target = item["apple"], f"apple:{item['apple']}"
+        else:
+            name, target = catalog[item["token"]]["name"], f"font:{item['token']}"
+        text = following["text"]
         if f"({target})" in text:
             continue
         links = [match.span() for match in LINK.finditer(text)]
@@ -343,7 +367,8 @@ def find_all(text, part):
 
 
 def specimens(articles):
-    return [b for article in articles for b in article["blocks"] if b["kind"] == "specimen"]
+    """The specimen lines that have a cut font of their own: all but those set in an Apple family."""
+    return [b for article in articles for b in article["blocks"] if b["kind"] == "specimen" and "apple" not in b]
 
 
 def font_file(name):
