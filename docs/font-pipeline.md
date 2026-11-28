@@ -90,8 +90,9 @@ and its fonts in `DebugFonts.xcassets`, so it can be installed in a debug build 
 it. Run `scripts/debug-fonts.py` first, since it replaces that catalog.
 
 Each cask builds into `.cache/built/<token>/<key>`, keyed by its locked source and `PIPELINE_VERSION`,
-so a cask whose source hasn't changed isn't downloaded and subset again. Bump
-`PIPELINE_VERSION` when a change alters what a cask builds into, and `SKIP_VERSION` when a change could
+so a cask whose source hasn't changed isn't downloaded and subset again. The key includes a license kept
+by hand, too, so adding one retries the cask it's for. Bump `PIPELINE_VERSION` when a change alters what a
+cask builds into, and `SKIP_VERSION` when a change could
 rescue skipped casks. Downloads already in Homebrew's cache are used, checked against the locked hash.
 
 A download comes from what `lock` kept, then the mirror (below), then its host. curl retries every

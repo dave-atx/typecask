@@ -2074,6 +2074,9 @@ def cache_key(entry):
         material["leftOut"] = left_out
     if description_directory := DESCRIPTION_DIRECTORIES.get(entry["token"]):
         material["descriptionDirectory"] = description_directory
+    # A license kept by hand can rescue a cask skipped for want of one, which a cached skip would hide.
+    if (kept := KEPT_LICENSES / f"{entry['token']}.txt").is_file():
+        material["keptLicense"] = hashlib.sha256(kept.read_bytes()).hexdigest()
     return hashlib.sha256(json.dumps(material, sort_keys=True).encode()).hexdigest()[:20]
 
 
