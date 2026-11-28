@@ -1542,6 +1542,16 @@
           "text": "**[Iosevka Charon](font:font-iosevka-charon)** and **[Iosevka Charon Mono](font:font-iosevka-charon-mono)**, by [Juliette Pluto](designer:juliette-pluto), are built to Google Fonts' rules, which put them on Google Fonts. Charon is quasi-proportional, for technical writing and dense interfaces, and Charon Mono is for code."
         },
         {
+          "kind": "specimen",
+          "token": "font-pragmasevka",
+          "text": "if (rows * cols > limit) return truncate(buf);",
+          "font": "TypecaskArticle-50ad1eb7b1e7.ttf"
+        },
+        {
+          "kind": "paragraph",
+          "text": "**[Pragmasevka](font:font-pragmasevka)**, by [Oleksii Shytikov](designer:oleksii-shytikov), chases PragmataPro, Fabrizio Schiavi's condensed coding font, which isn't free. Iosevka already has a stylistic set modeled on PragmataPro, SS08; Shytikov started there, then raised the x-height, tightened the line spacing, and made the bold and the punctuation heavier to get closer still."
+        },
+        {
           "kind": "heading",
           "text": "In an editor and a desktop"
         },
@@ -1553,7 +1563,7 @@
         },
         {
           "kind": "paragraph",
-          "text": "**[Zed Mono](font:font-zed-mono)** is the font of the Zed code editor, a build [Zed Industries](foundry:zed-industries) made for it, with a quasi-proportional sibling, Zed Sans."
+          "text": "**[Zed Mono](font:font-zed-mono)** is the font of the Zed code editor, a build [Zed Industries](foundry:zed-industries) made for it, with a quasi-proportional sibling, [Zed Sans](font:font-zed-sans)."
         },
         {
           "kind": "specimen",
